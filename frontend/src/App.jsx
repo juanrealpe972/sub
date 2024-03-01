@@ -23,10 +23,10 @@ function App() {
               <Route path="/subcoffee" element={<SubastaPage />} />
               <Route path="/subform" element={<SubastaForm />} />
               <Route path="/editmess/:id" element={<SubastaForm />} />
-              <Route path="/" element={<ProtectedRoute />}></Route>
               <Route path="*" element={<NotFound />} />
               <Route path="/login" element={<LoginUser />} />
               <Route path="/register" element={<RegisterUser />} />
+              <Route path="/" element={<ProtectedRoute />}></Route>
             </Routes>
           </Layout>
         </BrowserRouter>

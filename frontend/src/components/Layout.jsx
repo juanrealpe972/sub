@@ -1,9 +1,10 @@
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import { useState } from "react";
+import Dashboard from "../pages/Dashboard";
 
 function Layout({ children }) {
-  const [isAuthenticated] = useState(true);
+  const [isAuthenticated] = useState(false);
   return (
     <>
       {isAuthenticated ? (

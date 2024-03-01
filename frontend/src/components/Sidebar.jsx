@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import React, { useState } from "react";
-import { MdOutlineDashboard } from "react-icons/md";
 import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
@@ -11,14 +10,13 @@ const Sidebar = () => {
   const location = useLocation()
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    { title: "dashboard", link: "/", icon: MdOutlineDashboard },
     { title: "user", link: "/d", icon: AiOutlineUser },
     { title: "messages", link: "/e", icon: FiMessageSquare },
-    { title: "analytics", link: "/subform", icon: TbReportAnalytics, gap: true },
-    { title: "File Manager", link: "/logvin", icon: FiFolder },
+    { title: "Subastas", link: "/subcoffee", icon: TbReportAnalytics, gap: true },
+    { title: "Crear una subasta", link: "/subform", icon: FiFolder },
     { title: "Cart", link: "/lobgin", icon: FiShoppingCart },
-    { title: "Saved", link: "/lognin", icon: AiOutlineHeart, gap: true },
-    { title: "Setting", link: "/login", icon: RiSettings4Line },
+    { title: "Ayuda", link: "/lognin", icon: AiOutlineHeart, gap: true },
+    { title: "Configuración", link: "/login", icon: RiSettings4Line },
   ];
 
   return (
