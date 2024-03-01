@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 const LoginUser = () => {
-  const [] = useState("");
 
   const handleLogin = () => {
     //evitar recarga de pagina
@@ -10,8 +9,8 @@ const LoginUser = () => {
   };
 
   return (
-    <div className=" flex justify-center items-center">
-      <div className="flex justify-center items-center mt-16 p-10 bg-slate-400 rounded-xl drop-shadow-lg">
+    <div className=" flex justify-center items-center fixed">
+      <div className="flex justify-center items-center mt-16 p-10 bg-green-400 rounded-xl drop-shadow-lg">
         <form onSubmit={handleLogin} className=" space-y-5">
           <h1 className="text-center text-3xl font-roboto-medium">
             Iniciar Sesión

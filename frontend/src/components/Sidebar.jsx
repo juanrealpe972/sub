@@ -21,11 +21,11 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex min-h-screen">
         <div
           className={`${
             open ? "w-64" : "w-20"
-          } bg-green-600 h-screen p-5 pt-5 relative duration-300`}
+          } bg-green-600 max-h-full p-5 pt-5 relative duration-300`}
         >
           <img
             src="./src/assets/control.png"

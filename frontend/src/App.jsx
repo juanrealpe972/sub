@@ -11,6 +11,7 @@ import LoginUser from "./pages/LoginUser";
 import RegisterUser from "./pages/RegisterUser";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
+import ProfileUser from "./pages/ProfileUser";
 
 function App() {
   return (
@@ -24,9 +25,10 @@ function App() {
               <Route path="/subform" element={<SubastaForm />} />
               <Route path="/editmess/:id" element={<SubastaForm />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/" element={<ProtectedRoute />}></Route>
               <Route path="/login" element={<LoginUser />} />
               <Route path="/register" element={<RegisterUser />} />
-              <Route path="/" element={<ProtectedRoute />}></Route>
+              <Route path="/profile" element={<ProfileUser />} />
             </Routes>
           </Layout>
         </BrowserRouter>

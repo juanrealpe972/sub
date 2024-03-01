@@ -8,7 +8,7 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full flex justify-center items-center fixed">
       <div className=" flex w-auto justify-center items-center p-8 bg-slate-400 rounded-xl drop-shadow-lg">
         <form onSubmit={handleRegister}>
           <h1 className="text-center text-3xl font-roboto-medium">

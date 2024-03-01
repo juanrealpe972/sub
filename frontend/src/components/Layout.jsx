@@ -1,14 +1,13 @@
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import { useState } from "react";
-import Dashboard from "../pages/Dashboard";
 
 function Layout({ children }) {
-  const [isAuthenticated] = useState(false);
+  const [isAuthenticated] = useState(true);
   return (
     <>
       {isAuthenticated ? (
-        <div className="flex flex-auto h-screen">
+        <div className="flex flex-auto h-auto">
           <Sidebar />
           <div className="grow">
             <Navbar />
