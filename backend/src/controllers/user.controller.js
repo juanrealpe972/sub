@@ -70,8 +70,8 @@ export const getUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const id = req.params.id
-    let sql = `DELETE FROM usuarios WHERE pk_cedula_user = ?`
-    const [result] = await pool.query(sql, [id])
+    let sql = `DELETE FROM usuarios WHERE pk_cedula_user = '${id}'`
+    const [result] = await pool.query(sql)
     if(result.affectedRows > 0){
       res.status(200).json({message:"Usuario eliminado con exito"})
     }else {

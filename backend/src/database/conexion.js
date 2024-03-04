@@ -14,7 +14,7 @@ export const pool = createPool({
 pool
   .getConnection()
   .then((connect) => {
-    console.log("Conexión a la database subasta_web exitosa");
+    console.log("Conexión a la database coffee_offer exitosa");
     connect.release();
   })
   .catch((error) => {

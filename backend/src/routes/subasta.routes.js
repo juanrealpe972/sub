@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { createSub, deleteSub, getSub, getSubs, updateSub } from '../controllers/subasta.controllers.js';
 
-const router = Router()
+const routerSubasta = Router()
 
-router.get("/sub", getSubs)
-router.get("/sub/:id", getSub)
-router.post("/sub", createSub)
-router.put("/sub/:id", updateSub)
-router.delete("/sub/:id", deleteSub)
+routerSubasta.get("/sub", getSubs)
+routerSubasta.get("/sub/:id", getSub)
+routerSubasta.post("/formsub", createSub)
+routerSubasta.put("/formsub/:id", updateSub)
+routerSubasta.delete("/sub/:id", deleteSub)
 
-export default router;
+export default routerSubasta;
