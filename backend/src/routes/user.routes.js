@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { getUsers } from "../controllers/auth.controllers.js";
+import { createUser, deleteUser, getUser, getUsers, updateUser } from "../controllers/user.controller.js";
 
 const routerUser = Router();
 
-routerUser.get("/user", getUsers);
+routerUser.get("/users", getUsers);
+routerUser.get("/users/:id", getUser);
+routerUser.post("/formuser", createUser);
+routerUser.put("/formuser/:id", updateUser);
+routerUser.delete("/users/:id", deleteUser);
 
 export default routerUser;

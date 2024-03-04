@@ -3,7 +3,7 @@ import { pool } from "../database/conexion.js";
 export const getSubs = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM subasta "
+      "SELECT * FROM subasta"
     );
     if (result.length > 0) {
       res.status(204).json({ message: "Subasta encontrada", data: result });
