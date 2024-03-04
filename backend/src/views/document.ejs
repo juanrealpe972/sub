@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentación de la api</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <h1>Documentación de la api</h1>
+    <hr />
+    <table>
+      <h2>Documentación del ENDPOINT USUARIOS</h2>
+      <tr>
+        <td>NUMERO</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>NOMBRE DEL SERVICIO</td>
+        <td>Listar usuario</td>
+      </tr>
+      <tr>
+        <td>URI</td>
+        <td>/usuario/listar</td>
+      </tr>
+      <tr>
+        <td>DESCRIPCIÓN</td>
+        <td>Permite Listar a los usuarios eN la base de datos</td>
+      </tr>
+      <tr>
+        <td>VERBO HTTP</td>
+        <td>GET</td>
+      </tr>
+      <tr>
+        <td>HEADER</td>
+        <td>NULL</td>
+      </tr>
+      <tr>
+        <td>USUARIOS</td>
+        <td>ADMINISTRADOR</td>
+      </tr>
+      <tr>
+        <td>PETICIÓN body</td>
+        <td>{nombre: "juan"}</td>
+      </tr>
+      <tr>
+        <td>RESPUESTA JSON</td>
+        <td>
+          Correcto: status(200) [ { "id_usuario": 1, "nombres": "jairo stiven",
+          "direccion": "leon12 ", "telefono": "31866358403", "correo":
+          "jairostivenla11@gmail.com", "rol": "administrador", "password": null
+          }, { "id_usuario": 2, "nombres": "stiven", "direccion": "rosales ",
+          "telefono": "318663544653", "correo": "stivenla11@gmail.com", "rol":
+          "usuario", "password": null }, { "id_usuario": 20, "nombres":
+          "darickson 1212", "direccion": "eledenlasa", "telefono": "31515",
+          "correo": "darickson@gmail.com", "rol": "administrador", "password":
+          null }, { "id_usuario": 22, "nombres": "Fabian", "direccion":
+          "Versalle", "telefono": "88844", "correo": "soy@alguien.yo", "rol":
+          "usuario", "password": "1234" }, { "id_usuario": 23, "nombres": "Juan
+          Camilo", "direccion": "Isnos", "telefono": "3157874593", "correo":
+          "juan@gmail.com", "rol": "usuario", "password": "123456" } ]
+          Incorrecto: status(404) body: { status(404) message: "Error al listar
+          usuario" } Error: status(500) json: { status: 500 message: "Error con
+          el sistema getUsers" + e }
+        </td>
+      </tr>
+      <tr>
+        <td>DESARROLLADOR</td>
+        <td>JUAN CAMILO REALPE CERON</td>
+      </tr>
+      <tr>
+        <td>RAMA:</td>
+        <td>DEVjcrc</td>
+      </tr>
+    </table>
+  </body>
+</html>
