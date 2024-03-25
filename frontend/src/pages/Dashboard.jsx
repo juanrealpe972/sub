@@ -1,38 +1,16 @@
 import { Link } from "react-router-dom";
-import ImagesSlider from "../components/ImagesSlider";
 import BuenasPracticas from "../components/BuenasPracticas";
 import NuestroUsuarios from "../components/NuestroUsuarios";
 
 function Dashboard() {
-
   return (
     <>
-      <div className="w-full flex justify-center items-end my-10 m-0 p-0">
-        <ImagesSlider />
-        <span className="absolute text-white text-4xl mx-52 mb-28 text-center">
-          Bienvenido a subcoffee una plataforma online para subastar y pujar por
-          café de alta calidad
+      <div className="flex items-center justify-center px-14">
+        <span className="text-black text-4xl text-center">
+          Bienvenido a Subcoffee una plataforma online donde te podras conectar
+          con diferentes usuarios para subastar y pujar por café de alta calidad
         </span>
-        <Link
-          to={"/login"}
-          className="text-white absolute mb-8 rounded-lg py-3 px-5 bg-[#39A900] hover:bg-green-900 font-semibold"
-        >
-          Registratre gratis
-        </Link>
-      </div>
-      <div className="w-full flex items-center">
-        <div className="flex flex-col p-5 w-2/4">
-          <h2 className="text-4xl">Nuestra comunidad gusta de subcoffee</h2>
-          <Link
-            to="/login"
-            className="py-3 mt-7 px-5 bg-[#39A900] hover:bg-green-800 rounded-lg w-56 text-center text-white font-roboto-bold"
-          >
-            Ver subastas
-          </Link>
-        </div>
-        <div className="w-2/4 h-3/5">
-          <img src="./src/assets/persona.jpg" alt="" className="rounded-lg" />
-        </div>
+        <img src="./src/assets/dashboard.png"/>
       </div>
       <div className="w-full py-11">
         <h3 className="text-4xl font-bold ml-5 my-5">Historial de subastas</h3>
@@ -74,7 +52,7 @@ function Dashboard() {
       </div>
       <div className="flex items-center py-3">
         <div className="grow border-b border-gray-400"></div>
-        <span className="shrink px-1 pb-1 text-2xl">Subcoffee</span>
+        <span className="shrink px-1 pb-1 font-semibold text-gray-500">Subcoffee</span>
         <div className="grow border-b border-gray-400"></div>
       </div>
       <p className="text-center text-xs pb-3">

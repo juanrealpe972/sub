@@ -11,13 +11,13 @@ function Layout({ children }) {
           <Sidebar />
           <div className="grow">
             <Header />
-            <div className="">{children}</div>
+            <div>{children}</div>
           </div>
         </div>
       ) : (
-        <div className="flex-auto h-screen">
+        <div className="flex-auto h-screen py-8">
           <Header />
-          <div className="">{children}</div>
+          <div>{children}</div>
         </div>
       )}
     </>
