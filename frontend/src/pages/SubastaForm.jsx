@@ -75,7 +75,7 @@ function SubastaForm() {
                             disabled={isSubmitting}
                             className="bg-blue-500 rounded-lg text-white my-5 p-1 hover:bg-blue-400"
                         >
-                            {isSubmitting ? "Saving..." : "Save"}
+                            {isSubmitting ? "Guardando..." : "Crear"}
                         </button>
                     </Form>
                 )}

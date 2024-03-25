@@ -1,15 +1,8 @@
-import { useEffect, useState } from "react";
 import SubastaCard from "../components/SubastaCard";
-import { useSubasta } from "../context/SubastaContext";
 import ImagesSlider from "../components/ImagesSlider";
 import { Link } from "react-router-dom";
 
 function SubastaPage() {
-  // const { subastas, loadSubastas } = useSubasta()
-
-  // useEffect(() => {
-  //     loadSubastas()
-  // }, [])
 
   function renderMain() {
     // if (subastas.length === 0) return

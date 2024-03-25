@@ -4,7 +4,7 @@ import { CiCircleList, CiSearch } from "react-icons/ci";
 import LoginUser from "../pages/LoginUser";
 
 function Header() {
-  const [isAuthenticated] = useState(false);
+  const [isAuthenticated] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [abrirModalLogin, setabrirModalLogin] = useState(false);
   const [abrirModalRegister, setabrirModalRegister] = useState(false);
@@ -17,11 +17,11 @@ function Header() {
     <>
       {isAuthenticated ? (
         <div className="flex-1">
-          <nav className="flex justify-between text-black font-roboto-regular text-lg bg-gray-200">
+          <nav className="flex justify-between text-black font-roboto-regular text-lg bg-grisClaro">
             <ul className="ml-5 flex gap-x-5 items-center">
               <li className="flex flex-col">
-                <Link to={"/subcoffee"}>Bienvenido</Link>
-                <span>Juan</span>
+                <Link to={"/subcoffee"}>Bienvenido a Subcoffee</Link>
+                <span>Juan Camilo </span>
               </li>
             </ul>
             <div className="flex items-center">

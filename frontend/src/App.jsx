@@ -21,8 +21,6 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/login" element={<LoginUser />} />
-              <Route path="/register" element={<RegisterUser />} />
               <Route path="/profile" element={<ProfileUser />} />
               <Route path="/" element={<ProtectedRoute />}>
                 <Route path="/subcoffee" element={<SubastaPage />} />
