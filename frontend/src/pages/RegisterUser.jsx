@@ -1,75 +1,128 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 const RegisterUser = () => {
-  const [] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = (event) => {
+    event.preventDefault();
     console.log("Hola");
   };
 
   return (
-    <div className="w-full flex justify-center items-center fixed">
-      <div className=" flex w-auto justify-center items-center p-8 bg-slate-400 rounded-xl drop-shadow-lg">
-        <form onSubmit={handleRegister}>
-          <h1 className="text-center text-3xl font-roboto-medium">
-            Crear cuenta
-          </h1>
-          <div className="flex flex-col space-y-1">
-            <label className="text-sm font-roboto-regular">
+    <div className="bg-white py-8 px-12 rounded-xl flex flex-col justify-center items-center gap-5">
+      <div className="mx-auto max-w-sm space-y-6">
+        <form onSubmit={handleRegister} className="space-y-4">
+          <h1 className="text-center text-3xl font-bold">Crear cuenta</h1>
+          <div>
+            <label
+              htmlFor="fullName"
+              className="block text-sm font-medium text-gray-700"
+            >
               Nombre Completo
             </label>
             <input
+              id="fullName"
+              name="fullName"
               type="text"
-              className="w-auto px-3 py-2 rounded-md border border-slate-400"
               placeholder="Nombre Completo"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
             />
           </div>
-          <div className="flex flex-col space-y-1">
-            <label className="text-sm font-roboto-regular">Cédula</label>
+          <div>
+            <label
+              htmlFor="idNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Cédula
+            </label>
             <input
+              id="idNumber"
+              name="idNumber"
               type="number"
-              className="w-96 px-3 py-2 rounded-md border border-slate-400"
-              placeholder="Cedula"
+              placeholder="Cédula"
+              value={idNumber}
+              onChange={(e) => setIdNumber(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
             />
           </div>
-          <div className="flex flex-col space-y-1">
-            <label className="text-sm font-roboto-regular">Correo</label>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Correo
+            </label>
             <input
+              id="email"
+              name="email"
               type="email"
-              className="w-96 px-3 py-2 rounded-md border border-slate-400"
               placeholder="Correo"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
             />
           </div>
-          <div className="flex flex-col space-y-1">
-            <label className="text-sm font-roboto-regular">Teléfono</label>
+          <div>
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Teléfono
+            </label>
             <input
+              id="phoneNumber"
+              name="phoneNumber"
               type="number"
-              className="w-96 px-3 py-2 rounded-md border border-slate-400"
-              placeholder="Telefono"
+              placeholder="Teléfono"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
             />
           </div>
-          <div className="flex flex-col space-y-1">
-            <label className="text-sm font-roboto-regular">
+          <div>
+            <label
+              htmlFor="birthdate"
+              className="block text-sm font-medium text-gray-700"
+            >
               Fecha de Nacimiento
             </label>
             <input
+              id="birthdate"
+              name="birthdate"
               type="date"
-              className="w-96 px-3 py-2 rounded-md border border-slate-400"
-              placeholder="fechaNacimiento"
+              placeholder="Fecha de Nacimiento"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
             />
           </div>
-          <div className="flex flex-col space-y-1">
-            <label className="text-sm font-roboto-regular">Contraseña</label>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Contraseña
+            </label>
             <input
+              id="password"
+              name="password"
               type="password"
-              className="w-96 px-3 py-2 rounded-md border border-slate-400"
               placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
             />
           </div>
           <button
-            className="w-full px-10 py-2 bg-blue-700 text-white rounded-md
-        hover:bg-blue-500 hover:drop-shadow-md mt-4"
             type="submit"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Crear cuenta
           </button>
