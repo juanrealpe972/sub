@@ -21,14 +21,15 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/subcoffee" element={<SubastaPage />} />
-              <Route path="/subform" element={<SubastaForm />} />
-              <Route path="/editmess/:id" element={<SubastaForm />} />
-              <Route path="*" element={<NotFound />} />
-              <Route path="/" element={<ProtectedRoute />}></Route>
               <Route path="/login" element={<LoginUser />} />
               <Route path="/register" element={<RegisterUser />} />
               <Route path="/profile" element={<ProfileUser />} />
+              <Route path="/" element={<ProtectedRoute />}>
+                <Route path="/subcoffee" element={<SubastaPage />} />
+                <Route path="/subform" element={<SubastaForm />} />
+                <Route path="/editmess/:id" element={<SubastaForm />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
         </BrowserRouter>

@@ -16,7 +16,7 @@ import routerSeguimiento from "./src/routes/seguimiento.routes.js";
 import routerNotificaciones from "./src/routes/notificaciones.routes.js";
 import routerPostulacion from "./src/routes/postulacion.routes.js";
 
-const PORT = 6789;
+const PORT = 9722;
 
 const app = express();
 

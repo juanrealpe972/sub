@@ -4,6 +4,7 @@ import BuenasPracticas from "../components/BuenasPracticas";
 import NuestroUsuarios from "../components/NuestroUsuarios";
 
 function Dashboard() {
+
   return (
     <>
       <div className="w-full flex justify-center items-end my-10 m-0 p-0">
@@ -45,11 +46,11 @@ function Dashboard() {
           Muchos de nuestro usuario ya subastaron el producto de su gusto, que
           esperas para subastar tu café
         </p>
-        <NuestroUsuarios/>
+        <NuestroUsuarios />
       </div>
       <div className="flex items-center justify-between bg-slate-200">
         <h3 className="w-2/4 text-3xl font-bold mx-20 my-12">
-          ¿Quieres subasta tu café? Hazlo ahora totalmente gratis desde
+          ¿Quieres subastar tu café? Hazlo ahora totalmente gratis desde
           subcoffee
         </h3>
         <ul className="flex gap-x-28 p-5 w-2/4 justify-center">
@@ -64,7 +65,7 @@ function Dashboard() {
           <li>
             <Link
               to={"/register"}
-              className="text-[#39A900] bg-white py-2 px-5 rounded-lg border-[#39A900] border-2"
+              className="text-white rounded-lg py-2 px-5 bg-[#39A900] hover:bg-green-800 border-white border-2"
             >
               Registrarse
             </Link>

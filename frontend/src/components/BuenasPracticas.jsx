@@ -8,7 +8,7 @@ function BuenasPracticas() {
     ]
 
     return ( 
-        <div className="p-4 space-x-6 grid grid-cols-3">
+        <div className="px-4 space-x-6 grid grid-cols-3">
             {datos.map((datos, i) => {
                 return (
                     <div key={i} className="bg-white shadow-md rounded-md p-4 border-2">

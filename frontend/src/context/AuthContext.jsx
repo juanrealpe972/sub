@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -12,6 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const login = () => {
     setIsAuthenticated(true);
@@ -21,8 +22,16 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
+  useEffect(() => {
+    try {
+      
+    } catch (error) {
+      setIsAuthenticated(false)
+    }
+  }, [])
+
   return (
-    <AuthContext.Provider value={{login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ loading, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
