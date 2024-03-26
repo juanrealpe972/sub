@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import BuenasPracticas from "../components/BuenasPracticas";
-import NuestroUsuarios from "../components/NuestroUsuarios";
 import TiposDeCafe from "../components/TiposDeCafe";
 
 function Dashboard() {
@@ -28,12 +26,12 @@ function Dashboard() {
       </div>
       <div className="flex items-center py-3">
         <div className="grow border-b border-gray-400"></div>
-        <span className="shrink px-1 pb-1 font-semibold text-gray-500">
+        <span className="px-2 font-semibold text-lg text-gray-500">
           Subcoffee
         </span>
         <div className="grow border-b border-gray-400"></div>
       </div>
-      <p className="text-center text-xs pb-3">
+      <p className="text-center text-sm font-medium text-gray-700 pb-3">
         ©Subcoffee, todos los derechos reservados
       </p>
     </>
