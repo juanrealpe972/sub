@@ -12,6 +12,8 @@ import RegisterUser from "./pages/RegisterUser";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import ProfileUser from "./pages/ProfileUser";
+import ComoCrearUnaSubasta from "./pages/ComoCrearUnaSubasta";
+import ComoPujarUnaSubasta from "./pages/ComoPujarUnaSubasta";
 
 function App() {
   return (
@@ -21,8 +23,10 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/profile" element={<ProfileUser />} />
+              <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
+              <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
               <Route path="/" element={<ProtectedRoute />}>
+                <Route path="/profile" element={<ProfileUser />} />
                 <Route path="/subcoffee" element={<SubastaPage />} />
                 <Route path="/subform" element={<SubastaForm />} />
                 <Route path="/editmess/:id" element={<SubastaForm />} />

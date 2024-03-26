@@ -32,16 +32,16 @@ function Dashboard() {
           </p>
           <div className="flex gap-x-8 mt-8">
             <Link
-              to={""}
+              to="/comosubastar"
               className="px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition duration-300 ease-in-out"
             >
               Crear Subasta
             </Link>
             <Link
-              to={""}
+              to="/comosubastar"
               className="px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition duration-300 ease-in-out"
             >
-              Como Crear...
+              Como Subastar...
             </Link>
           </div>
         </div>
@@ -68,13 +68,13 @@ function Dashboard() {
           </p>
           <div className="flex gap-x-8 mt-8">
             <Link
-              to={""}
+              to="/comopujar"
               className="px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition duration-300 ease-in-out"
             >
               Empezar Puja
             </Link>
             <Link
-              to={""}
+              to="/comopujar"
               className="px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition duration-300 ease-in-out"
             >
               Como Pujar...
