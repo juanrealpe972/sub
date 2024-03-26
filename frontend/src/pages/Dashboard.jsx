@@ -51,7 +51,37 @@ function Dashboard() {
           className="w-lvw mr-32 rounded-3xl"
         />
       </div>
-  
+      <div className="w-full flex justify-center p-12 gap-x-20 items-center">
+        <img
+          src="./src/assets/comunidadfeliz.avif"
+          alt=""
+          className="mx-auto rounded-3xl"
+        />
+        <div className="px-12">
+          <h2 className="text-3xl font-semibold my-4">Pujar Por Una Subasta</h2>
+          <p className=" text-gray-700">
+            Crea una subasta con el tipo de café de tu preferencia, agrega la
+            descripción del mismo e información que llame la atención de los
+            demás. Asi, Los usuarios podrán verlo e interesarse en él. Puede ser
+            un café clásico, exótico o una mezcla única que quieras ofrecer al
+            mundo.
+          </p>
+          <div className="flex gap-x-8 mt-8">
+            <Link
+              to={""}
+              className="px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition duration-300 ease-in-out"
+            >
+              Empezar Puja
+            </Link>
+            <Link
+              to={""}
+              className="px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition duration-300 ease-in-out"
+            >
+              Como Pujar...
+            </Link>
+          </div>
+        </div>
+      </div>
       <div className="flex items-center py-3">
         <div className="grow border-b border-gray-400"></div>
         <span className="px-2 font-semibold text-lg text-gray-500">
