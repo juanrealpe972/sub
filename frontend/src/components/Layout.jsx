@@ -15,7 +15,7 @@ function Layout({ children }) {
           </div>
         </div>
       ) : (
-        <div className="flex-auto h-screen py-8">
+        <div className="flex-auto h-screen py-20">
           <Header />
           <div>{children}</div>
         </div>

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { CiCircleList, CiSearch } from "react-icons/ci";
 import LoginUser from "../pages/LoginUser";
 import RegisterUser from "../pages/RegisterUser";
+import { IoSunnyOutline } from "react-icons/io5";
+import { FaRegMoon } from "react-icons/fa";
 
 function Header() {
   const [isAuthenticated] = useState(false);
@@ -84,6 +86,7 @@ function Header() {
             </Link>
           </div>
           <div className="flex items-center gap-x-3">
+            <IoSunnyOutline />
             <button
               className="bg-verdeSena1 py-1 px-3 rounded-lg hover:bg-naranjaSena text-white font-bold text-sm transition-colors"
               onClick={() => setabrirModalLogin(true)}
