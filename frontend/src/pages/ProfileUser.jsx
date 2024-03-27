@@ -1,8 +1,15 @@
 function ProfileUser() {
   return (
     <>
+      <div className="">
+        <img src="./src/assets/finca1.jpg" className="" alt="" />
+      </div>
       <div className="flex">
-        <img src="./src/assets/profile_user.jfif" className="rounded-full" alt="" />
+        <img
+          src="./src/assets/profile_user.jfif"
+          className="rounded-full"
+          alt=""
+        />
         <div className="grid grid-cols-1">
           <span>Juan Camilo</span>
           <span>3157874593</span>

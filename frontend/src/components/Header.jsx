@@ -37,7 +37,7 @@ function Header() {
     <>
       {isAuthenticated ? (
         <nav
-          className={`flex justify-between items-center text-black font-roboto-regular text-lg bg-white relative w-full py-2 px-4 ${
+          className={`flex justify-between items-center text-black font-roboto-regular text-lg bg-white relative w-full py-2 px-4 border shadow-sm ${
             scrollY > 0 ? "bg-opacity-90" : ""
           }`}
         >
@@ -104,7 +104,7 @@ function Header() {
         </nav>
       ) : (
         <nav
-          className={`flex justify-between items-center text-white font-roboto-regular bg-[#39A900] fixed w-full top-0 p-4 ${
+          className={`flex justify-between items-center text-white font-roboto-regular bg-[#39A900] fixed w-full top-0 p-4 border shadow-sm${
             scrollY > 0 ? "bg-opacity-55" : ""
           }`}
         >
