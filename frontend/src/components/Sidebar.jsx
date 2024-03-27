@@ -7,12 +7,17 @@ import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
-  const location = useLocation()
+  const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
     { title: "user", link: "/d", icon: AiOutlineUser },
     { title: "messages", link: "/e", icon: FiMessageSquare },
-    { title: "Subastas", link: "/subcoffee", icon: TbReportAnalytics, gap: true },
+    {
+      title: "Subastas",
+      link: "/subcoffee",
+      icon: TbReportAnalytics,
+      gap: true,
+    },
     { title: "Crear una subasta", link: "/subform", icon: FiFolder },
     { title: "Cart", link: "/lobgin", icon: FiShoppingCart },
     { title: "Ayuda", link: "/lognin", icon: AiOutlineHeart, gap: true },
@@ -35,8 +40,8 @@ const Sidebar = () => {
           />
           <div className="flex gap-x-4 items-center">
             <img
-              src="./src/assets/logo.png"
-              className={`cursor-pointer duration-500 ${
+              src="./src/assets/isotipo-SubCoffee.png"
+              className={`cursor-pointer w-10 h-10 duration-500 ${
                 open && "rotate-[360deg]"
               }`}
             />

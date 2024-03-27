@@ -5,7 +5,7 @@ function ProtectedRoute() {
   const { loading, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  if (loading === true) return <h1>Cargando...</h1>;
+  // if (loading === true) return <h1>Cargando...</h1>;
   if (!loading && !isAuthenticated) navigate("/login", { replace: true });
   return <Outlet />;
 }

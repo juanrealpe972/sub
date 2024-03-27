@@ -5,10 +5,12 @@ import LoginUser from "../pages/LoginUser";
 import RegisterUser from "../pages/RegisterUser";
 import { IoSunnyOutline } from "react-icons/io5";
 import { FaRegMoon } from "react-icons/fa";
+import ModalCerrarSesion from "./ModalCerrarSesion";
 
 function Header() {
-  const [isAuthenticated] = useState(false);
+  const [isAuthenticated] = useState(true);
   const [abrirModalLogin, setabrirModalLogin] = useState(false);
+  const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirModalRegister, setabrirModalRegister] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -32,8 +34,7 @@ function Header() {
           }`}
         >
           <div className="flex flex-col">
-            <span className="text-gray-800">Bienvenido a Subcoffee</span>
-            <span className="text-gray-600">Hola Juan Camilo</span>
+            <span className="text-gray-800">Bienvenido</span>
           </div>
           <div className="relative">
             <CiSearch className="absolute top-3 left-3 text-gray-400" />
@@ -54,13 +55,37 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link to={"/profile"}>
+              <button
+                className="flex items-center"
+                onClick={() =>
+                  setAbrirCerrarSesion(true) 
+                }
+              >
                 <img
                   src="./src/assets/profile_user.jfif"
                   alt=""
                   className="w-7 h-7 rounded-full cursor-pointer"
                 />
-              </Link>
+                <div>
+                  <span className="text-gray-600 text-sm">Juan Camilo</span>
+                  <p className="text-xs text-gray-400">Vendedor</p>
+                </div>
+              </button>
+            </li>
+            <li>
+              {abrirCerrarSesion && (
+                <div className="fixed flex top-28 right-28 justify-center items-center">
+                  <div className="absolute bg-white rounded-xl">
+                    <ModalCerrarSesion
+                      onClose={() => setAbrirCerrarSesion(false)}
+                    />
+                    <button
+                      className="absolute top-4 right-4  text-gray-500 hover:text-red-500 focus:outline-none"
+                      onClick={() => setAbrirCerrarSesion(false)}
+                    ></button>
+                  </div>
+                </div>
+              )}
             </li>
           </ul>
         </nav>

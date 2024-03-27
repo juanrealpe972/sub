@@ -7,8 +7,6 @@ import SubastaPage from "./pages/SubastaPage";
 import SubastaForm from "./pages/SubastaForm";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
-import LoginUser from "./pages/LoginUser";
-import RegisterUser from "./pages/RegisterUser";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import ProfileUser from "./pages/ProfileUser";

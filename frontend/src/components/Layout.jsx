@@ -3,7 +3,7 @@ import Header from "./Header";
 import { useState } from "react";
 
 function Layout({ children }) {
-  const [isAuthenticated] = useState(false);
+  const [isAuthenticated] = useState(true);
   return (
     <>
       {isAuthenticated ? (
