@@ -30,8 +30,8 @@ function ProfileUser() {
   const [activeTab, setActiveTab] = useState("creadas");
 
   return (
-    <div className="px-44 relative">
-      <div className="relative">
+    <div className="px-44">
+      <div className="">
         <img
           src="./src/assets/finca1.jpg"
           className="w-full rounded-lg"
@@ -39,7 +39,7 @@ function ProfileUser() {
         />
         <img
           src="./src/assets/profile_user.jfif"
-          className="rounded-full w-44 h-44 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="rounded-full w-44 h-44 absolute left-2/4 transform -translate-x-1/2 -translate-y-1/2"
           alt=""
         />
       </div>

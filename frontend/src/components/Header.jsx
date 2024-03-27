@@ -21,9 +21,11 @@ function Header() {
   };
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
+    setAbrirBell(false)
   };
   const toggleAbrirBell = () => {
     setAbrirBell(!abrirBell);
+    setAbrirCerrarSesion(false)
   };
 
   useEffect(() => {
@@ -68,13 +70,6 @@ function Header() {
                 onClick={toggleAbrirBell}
               />
             </li>
-            {abrirBell && (
-              <div className="fixed flex top-44 justify-center items-center">
-                <div className="absolute bg-white rounded-xl w-80">
-                  <ModalMessaAndNoti onClose={toggleAbrirBell} />
-                </div>
-              </div>
-            )}
             <li>
               <button
                 className="flex items-center gap-x-2"
@@ -91,16 +86,21 @@ function Header() {
                 </div>
               </button>
             </li>
-            <li>
-              {abrirCerrarSesion && (
-                <div className="fixed flex top-28 right-28 justify-center items-center">
-                  <div className="absolute bg-white rounded-xl">
-                    <ModalCerrarSesion onClose={toggleCerrarSesionModal} />
-                  </div>
-                </div>
-              )}
-            </li>
           </ul>
+          {abrirCerrarSesion && (
+            <div className="absolute top-16 right-2 flex justify-center items-center">
+              <div className="bg-white rounded-xl">
+                <ModalCerrarSesion onClose={toggleCerrarSesionModal} />
+              </div>
+            </div>
+          )}
+          {abrirBell && (
+            <div className="absolute top-16 right-32 flex justify-center items-center">
+              <div className="bg-white rounded-xl w-80">
+                <ModalMessaAndNoti onClose={toggleAbrirBell} />
+              </div>
+            </div>
+          )}
         </nav>
       ) : (
         <nav
