@@ -4,18 +4,26 @@ import { CiCircleList, CiSearch } from "react-icons/ci";
 import LoginUser from "../pages/LoginUser";
 import RegisterUser from "../pages/RegisterUser";
 import { IoSunnyOutline } from "react-icons/io5";
-import { FaRegMoon } from "react-icons/fa";
+import { HiOutlineBellAlert } from "react-icons/hi2";
 import ModalCerrarSesion from "./ModalCerrarSesion";
+import ModalMessaAndNoti from "./ModalMessaAndNoti";
 
 function Header() {
   const [isAuthenticated] = useState(true);
   const [abrirModalLogin, setabrirModalLogin] = useState(false);
   const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirModalRegister, setabrirModalRegister] = useState(false);
+  const [abrirBell, setAbrirBell] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   const handleScroll = () => {
     setScrollY(window.scrollY);
+  };
+  const toggleCerrarSesionModal = () => {
+    setAbrirCerrarSesion(!abrirCerrarSesion);
+  };
+  const toggleAbrirBell = () => {
+    setAbrirBell(!abrirBell);
   };
 
   useEffect(() => {
@@ -45,7 +53,7 @@ function Header() {
             />
             <CiCircleList className="absolute top-3 right-3 text-gray-400" />
           </div>
-          <ul className="flex gap-x-3">
+          <ul className="flex gap-x-3 items-center">
             <li>
               <Link
                 to={"/login"}
@@ -55,11 +63,22 @@ function Header() {
               </Link>
             </li>
             <li>
+              <HiOutlineBellAlert
+                className="w-5 h-5 cursor-pointer"
+                onClick={toggleAbrirBell}
+              />
+            </li>
+            {abrirBell && (
+              <div className="fixed flex top-44 justify-center items-center">
+                <div className="absolute bg-white rounded-xl w-80">
+                  <ModalMessaAndNoti onClose={toggleAbrirBell} />
+                </div>
+              </div>
+            )}
+            <li>
               <button
                 className="flex items-center"
-                onClick={() =>
-                  setAbrirCerrarSesion(true) 
-                }
+                onClick={toggleCerrarSesionModal}
               >
                 <img
                   src="./src/assets/profile_user.jfif"
@@ -76,13 +95,7 @@ function Header() {
               {abrirCerrarSesion && (
                 <div className="fixed flex top-28 right-28 justify-center items-center">
                   <div className="absolute bg-white rounded-xl">
-                    <ModalCerrarSesion
-                      onClose={() => setAbrirCerrarSesion(false)}
-                    />
-                    <button
-                      className="absolute top-4 right-4  text-gray-500 hover:text-red-500 focus:outline-none"
-                      onClick={() => setAbrirCerrarSesion(false)}
-                    ></button>
+                    <ModalCerrarSesion onClose={toggleCerrarSesionModal} />
                   </div>
                 </div>
               )}
