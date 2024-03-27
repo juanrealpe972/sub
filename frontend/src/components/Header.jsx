@@ -77,7 +77,7 @@ function Header() {
             )}
             <li>
               <button
-                className="flex items-center"
+                className="flex items-center gap-x-2"
                 onClick={toggleCerrarSesionModal}
               >
                 <img
@@ -87,7 +87,7 @@ function Header() {
                 />
                 <div>
                   <span className="text-gray-600 text-sm">Juan Camilo</span>
-                  <p className="text-xs text-gray-400">Vendedor</p>
+                  <p className="-mt-1 text-xs text-gray-400">Vendedor</p>
                 </div>
               </button>
             </li>
