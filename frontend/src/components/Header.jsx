@@ -67,13 +67,12 @@ function Header() {
           </div>
           <ul className="flex gap-x-3 items-center">
             <li>
-              <Link
-                to={"/subform"}
+              <button
                 className="text-gray-800 hover:text-green-500"
                 onClick={() => setAbrirModalSubasta(true)}
               >
                 Crear subasta
-              </Link>
+              </button>
             </li>
             <li>
               <HiOutlineBellAlert
@@ -82,7 +81,7 @@ function Header() {
               />
             </li>
             <li className="cursor-pointer">
-              {isMoonSelected ?  (
+              {isMoonSelected ? (
                 <IoMoonOutline onClick={toggleTheme} />
               ) : (
                 <TbSunHigh onClick={toggleTheme} />

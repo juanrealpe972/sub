@@ -23,8 +23,8 @@ function App() {
               <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
               <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
               <Route path="/" element={<ProtectedRoute />}>
-                <Route path="/profile" element={<ProfileUser />} />
                 <Route path="/subcoffee" element={<SubastaPage />} />
+                <Route path="/profile" element={<ProfileUser />} />
                 <Route path="/ayudacrearsubasta" element={<ComoCrearUnaSubasta />} />
                 <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
               </Route>
