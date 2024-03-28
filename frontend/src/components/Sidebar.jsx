@@ -4,6 +4,7 @@ import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
+import MessageOfLife from "./MessageOfLife";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -77,6 +78,9 @@ const Sidebar = () => {
               </Link>
             ))}
           </ul>
+          <div className="flex justify-center items-center">
+            <MessageOfLife />
+          </div>
         </div>
       </div>
     </>
