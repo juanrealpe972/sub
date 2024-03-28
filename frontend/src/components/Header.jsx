@@ -7,12 +7,14 @@ import { IoSunnyOutline } from "react-icons/io5";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import ModalCerrarSesion from "./ModalCerrarSesion";
 import ModalMessaAndNoti from "./ModalMessaAndNoti";
+import SubastaFormulario from "../pages/SubastaForm";
 
 function Header() {
   const [isAuthenticated] = useState(true);
   const [abrirModalLogin, setabrirModalLogin] = useState(false);
   const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirModalRegister, setabrirModalRegister] = useState(false);
+  const [abrirModalSubasta, setAbrirModalSubasta] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -21,11 +23,11 @@ function Header() {
   };
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
-    setAbrirBell(false)
+    setAbrirBell(false);
   };
   const toggleAbrirBell = () => {
     setAbrirBell(!abrirBell);
-    setAbrirCerrarSesion(false)
+    setAbrirCerrarSesion(false);
   };
 
   useEffect(() => {
@@ -58,8 +60,9 @@ function Header() {
           <ul className="flex gap-x-3 items-center">
             <li>
               <Link
-                to={"/login"}
+                to={"/subform"}
                 className="text-gray-800 hover:text-green-500"
+                onClick={() => setAbrirModalSubasta(true)}
               >
                 Crear subasta
               </Link>
@@ -98,6 +101,34 @@ function Header() {
             <div className="absolute top-16 right-32 flex justify-center items-center">
               <div className="bg-white rounded-xl w-80">
                 <ModalMessaAndNoti onClose={toggleAbrirBell} />
+              </div>
+            </div>
+          )}
+          {abrirModalSubasta && (
+            <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm">
+              <div className="absolute bg-white rounded-xl p-4">
+                <SubastaFormulario
+                  onClose={() => setAbrirModalSubasta(false)}
+                />
+                <button
+                  className="absolute top-4 right-4 text-gray-500 hover:text-red-500 focus:outline-none"
+                  onClick={() => setAbrirModalSubasta(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-7 w-7"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           )}

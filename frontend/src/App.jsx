@@ -4,7 +4,6 @@ import { SubastaContextProviter } from "./context/SubastaContext";
 import Layout from "./components/Layout";
 
 import SubastaPage from "./pages/SubastaPage";
-import SubastaForm from "./pages/SubastaForm";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import { AuthProvider } from "./context/AuthContext";
@@ -28,8 +27,6 @@ function App() {
                 <Route path="/subcoffee" element={<SubastaPage />} />
                 <Route path="/ayudacrearsubasta" element={<ComoCrearUnaSubasta />} />
                 <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
-                <Route path="/subform" element={<SubastaForm />} />
-                <Route path="/editmess/:id" element={<SubastaForm />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
