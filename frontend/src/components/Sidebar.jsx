@@ -10,8 +10,12 @@ const Sidebar = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    { title: "Como Crear Subasta", link: "/helper", icon: AiOutlineUser },
-    { title: "messages", link: "/e", icon: FiMessageSquare },
+    {
+      title: "Como Crear Subasta",
+      link: "/ayudacrearsubasta",
+      icon: AiOutlineUser,
+    },
+    { title: "Como Pujar", link: "/ayudacomopujar", icon: FiMessageSquare },
     {
       title: "Subastas",
       link: "/subcoffee",

@@ -26,7 +26,8 @@ function App() {
               <Route path="/" element={<ProtectedRoute />}>
                 <Route path="/profile" element={<ProfileUser />} />
                 <Route path="/subcoffee" element={<SubastaPage />} />
-                <Route path="/helper" element={<ComoCrearUnaSubasta />} />
+                <Route path="/ayudacrearsubasta" element={<ComoCrearUnaSubasta />} />
+                <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/subform" element={<SubastaForm />} />
                 <Route path="/editmess/:id" element={<SubastaForm />} />
               </Route>
