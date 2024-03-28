@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
+import { FiMessageSquare, FiShoppingCart } from "react-icons/fi";
 import MessageOfLife from "./MessageOfLife";
 
 const Sidebar = () => {
@@ -12,18 +12,16 @@ const Sidebar = () => {
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
     {
+      title: "Dashboard",
+      link: "/subcoffee",
+      icon: AiOutlineUser,
+    },
+    {
       title: "Como Crear Subasta",
       link: "/ayudacrearsubasta",
       icon: AiOutlineUser,
     },
     { title: "Como Pujar", link: "/ayudacomopujar", icon: FiMessageSquare },
-    {
-      title: "Subastas",
-      link: "/subcoffee",
-      icon: TbReportAnalytics,
-      gap: true,
-    },
-    { title: "Crear una subasta", link: "/subform", icon: FiFolder },
     { title: "Cart", link: "/lobgin", icon: FiShoppingCart },
     { title: "Ayuda", link: "/lognin", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/login", icon: RiSettings4Line },
