@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { CiCircleList, CiSearch } from "react-icons/ci";
 import LoginUser from "../pages/LoginUser";
 import RegisterUser from "../pages/RegisterUser";
+
 import { IoSunnyOutline } from "react-icons/io5";
 import { HiOutlineBellAlert } from "react-icons/hi2";
+import { IoMoonOutline } from "react-icons/io5";
+import { TbSunHigh } from "react-icons/tb";
+
 import ModalCerrarSesion from "./ModalCerrarSesion";
 import ModalMessaAndNoti from "./ModalMessaAndNoti";
 import SubastaFormulario from "../pages/SubastaForm";
@@ -16,6 +20,7 @@ function Header() {
   const [abrirModalRegister, setabrirModalRegister] = useState(false);
   const [abrirModalSubasta, setAbrirModalSubasta] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
+  const [isMoonSelected, setIsMoonSelected] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   const handleScroll = () => {
@@ -28,6 +33,9 @@ function Header() {
   const toggleAbrirBell = () => {
     setAbrirBell(!abrirBell);
     setAbrirCerrarSesion(false);
+  };
+  const toggleTheme = () => {
+    setIsMoonSelected((prevValue) => !prevValue);
   };
 
   useEffect(() => {
@@ -72,6 +80,13 @@ function Header() {
                 className="w-5 h-5 cursor-pointer"
                 onClick={toggleAbrirBell}
               />
+            </li>
+            <li className="cursor-pointer">
+              {isMoonSelected ?  (
+                <IoMoonOutline onClick={toggleTheme} />
+              ) : (
+                <TbSunHigh onClick={toggleTheme} />
+              )}
             </li>
             <li>
               <button

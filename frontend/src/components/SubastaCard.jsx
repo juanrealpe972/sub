@@ -2,11 +2,10 @@ import React from "react";
 import { useSubasta } from "../context/SubastaContext";
 import { useNavigate } from "react-router-dom";
 
-function SubastaCard({ subasta }) {
+function SubastaCard() {
   const { deleteSubasta } = useSubasta();
   const navigate = useNavigate();
 
-  // Datos de las subastas
   const Subastas = [
     {
       title: "Subasta Esmeralda",
