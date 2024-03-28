@@ -30,7 +30,7 @@ function ProfileUser() {
   const [activeTab, setActiveTab] = useState("creadas");
 
   return (
-    <div className="px-44">
+    <div className="px-32">
       <div className="">
         <img
           src="./src/assets/finca1.jpg"
