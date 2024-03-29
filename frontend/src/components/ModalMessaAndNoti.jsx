@@ -82,12 +82,11 @@ function ModalMessaAndNoti() {
         >
           Mensajes
         </button>
-        
       </div>
       {activeTab === "notificaciones" ? (
         <div className="my-2">
           {Notificaciones.map((notificacion) => (
-            <div key={notificacion.id} className="flex hover:bg-gray-100 rounded p-1 cursor-pointer">
+            <div key={notificacion.id} className="flex gap-x-1 hover:bg-gray-100 rounded p-1 cursor-pointer">
               <img
                 src={notificacion.foto}
                 alt="Foto de perfil"
@@ -104,7 +103,7 @@ function ModalMessaAndNoti() {
       ) : (
         <div className="my-2">
           {Mensajes.map((mensaje) => (
-            <div key={mensaje.id} className="flex hover:bg-gray-100 rounded p-1 cursor-pointer">
+            <div key={mensaje.id} className="flex gap-x-1 hover:bg-gray-100 rounded p-1 cursor-pointer">
               <img
                 src={mensaje.foto}
                 alt="Foto de perfil"

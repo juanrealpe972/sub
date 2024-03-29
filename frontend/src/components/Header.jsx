@@ -49,12 +49,12 @@ function Header() {
     <>
       {isAuthenticated ? (
         <nav
-          className={`flex justify-between items-center text-black font-roboto-regular text-lg bg-white relative w-full py-2 px-4 border shadow-sm ${
+          className={`flex justify-between items-center text-black text-lg bg-white relative w-full py-2 px-4 border shadow-sm ${
             scrollY > 0 ? "bg-opacity-90" : ""
           }`}
         >
           <div className="flex flex-col">
-            <span className="text-gray-800">Bienvenido</span>
+            <Link to={"/subcoffee"} className="text-gray-800">Bienvenido</Link>
           </div>
           <div className="relative">
             <CiSearch className="absolute top-3 left-3 text-gray-400" />

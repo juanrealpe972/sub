@@ -14,8 +14,8 @@ function SubastaPage() {
   }
 
   return (
-    <div>
-      <div className="w-full flex justify-center items-end my-10 m-0 p-0">
+    <div className="px-14">
+      <div className="w-full flex justify-center items-end my-10">
         <ImagesSlider />
         <span className="absolute text-white text-4xl mx-52 mb-28 text-center">
           Crea una subasta en 5 minutos
@@ -59,7 +59,7 @@ function SubastaPage() {
           </div>
         </div>
       )}
-      <div>
+      <div className="w-full">
         <h1 className="font-semibold ml-5">Borbon</h1>
         <SubastaCard />
       </div>

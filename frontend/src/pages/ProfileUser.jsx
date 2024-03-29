@@ -39,7 +39,7 @@ function ProfileUser() {
         />
         <img
           src="./src/assets/profile_user.jfif"
-          className="rounded-full w-44 h-44 absolute left-2/4 transform -translate-x-1/2 -translate-y-1/2"
+          className="rounded-full w-44 h-44"
           alt=""
         />
       </div>
