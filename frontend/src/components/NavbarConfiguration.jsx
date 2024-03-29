@@ -2,7 +2,7 @@ import React from "react";
 
 function NavbarConfiguration() {
   return (
-    <div className="flex flex-col w-64 bg-gray-200 p-4 rounded-lg shadow-md">
+    <div className="flex flex-col w-64 bg-gray-200 p-4 shadow-md">
       <div className="flex flex-col items-center mb-4">
         <img
           src="./src/assets/profile_user.jfif"

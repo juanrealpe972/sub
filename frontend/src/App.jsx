@@ -12,6 +12,7 @@ import ProfileUser from "./pages/ProfileUser";
 import ComoCrearUnaSubasta from "./pages/ComoCrearUnaSubasta";
 import ComoPujarUnaSubasta from "./pages/ComoPujarUnaSubasta";
 import Configuration from "./pages/Configuration";
+import Ayuda from "./pages/Ayuda";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/ayudacrearsubasta" element={<ComoCrearUnaSubasta />} />
                 <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/configuration" element={<Configuration />} />
+                <Route path="/ayuda" element={<Ayuda />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

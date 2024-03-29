@@ -22,8 +22,7 @@ const Sidebar = () => {
       icon: AiOutlineUser,
     },
     { title: "Como Pujar", link: "/ayudacomopujar", icon: FiMessageSquare },
-    { title: "Cart", link: "/lobgin", icon: FiShoppingCart },
-    { title: "Ayuda", link: "/lognin", icon: AiOutlineHeart, gap: true },
+    { title: "Ayuda", link: "/ayuda", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
   ];
 
