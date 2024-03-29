@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import ButtonAtom from "../atoms/ButtonAtom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import LinkAtom from "../atoms/LinkAtom";
+import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithToggleIconAtom from "../atoms/InputWithToggleIconAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const LoginFormMolecule = () => {
   const [email, setEmail] = useState("");
@@ -13,8 +14,8 @@ const LoginFormMolecule = () => {
   const navigation = useNavigate();
   const URL = "http://localhost:9722/user/validar";
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
     try {
       const res = await axios.post(URL, { correo: email, password: password });
       if (res.status === 200) {

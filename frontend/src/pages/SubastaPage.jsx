@@ -8,9 +8,7 @@ function SubastaPage() {
   const [showModal, setShowModal] = useState(false);
 
   function renderMain() {
-    // if (subastas.length === 0) return
     <h1>No existen subastas aun</h1>;
-    // return subastas.map(subasta => (<SubastaCard subasta={subasta} key={subasta.id} />))
   }
 
   return (

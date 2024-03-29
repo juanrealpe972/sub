@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { icono } from "./IconsAtom";
 
-const InputWithToggleIconAtom = ({ placeholder, value, onChange }) => {
+const InputWithToggleIconAtom = ({ icon:Icon, placeholder, value, onChange }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -10,7 +10,7 @@ const InputWithToggleIconAtom = ({ placeholder, value, onChange }) => {
 
   return (
     <div className="relative">
-      <icono.iconoConOjo className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grisMedio3" />
+      <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grisMedio3" />
       <input
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}

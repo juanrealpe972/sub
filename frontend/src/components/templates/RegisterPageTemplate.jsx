@@ -1,7 +1,7 @@
 import React from "react";
 
-const LoginPageTemplate = ({ children }) => {
+const RegisterPageTemplate = ({ children }) => {
   return <div className="flex h-full">{children}</div>;
 };
 
-export default LoginPageTemplate;
+export default RegisterPageTemplate;

@@ -1,7 +1,26 @@
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 import TiposDeCafe from "../components/TiposDeCafe";
-import { Link } from "react-router-dom";
+import FooterOrganism from "../components/organisms/FooterOrganism";
+import Header from "../components/Header";
 
 function Dashboard() {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return (
+      <>
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <FooterOrganism/>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="flex items-center justify-center px-14">
@@ -82,16 +101,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="flex items-center py-3">
-        <div className="grow border-b border-gray-400"></div>
-        <span className="px-2 font-semibold text-lg text-gray-500">
-          Subcoffee
-        </span>
-        <div className="grow border-b border-gray-400"></div>
-      </div>
-      <p className="text-center text-sm font-medium text-gray-700 pb-3">
-        ©Subcoffee, todos los derechos reservados
-      </p>
+      <FooterOrganism />
     </>
   );
 }

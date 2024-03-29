@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CiCircleList, CiSearch } from "react-icons/ci";
-import RegisterUser from "../pages/RegisterUser";
 
 import { IoSunnyOutline } from "react-icons/io5";
 import { HiOutlineBellAlert } from "react-icons/hi2";
@@ -13,6 +12,7 @@ import ModalMessaAndNoti from "./ModalMessaAndNoti";
 import SubastaFormulario from "../pages/SubastaForm";
 import LoginPage from "../pages/LoginPage";
 import { useAuth } from "../context/AuthContext";
+import RegisterPage from "../pages/RegisterPage";
 
 function Header() {
   const { isAuthenticated } = useAuth();
@@ -215,9 +215,9 @@ function Header() {
         </div>
       )}
       {abrirModalRegister && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm">
-          <div className="absolute bg-white rounded-xl p-4">
-            <RegisterUser onClose={() => setabrirModalRegister(false)} />
+        <div className="fixed inset-0 flex justify-center items-center bg-negro bg-opacity-30 backdrop-blur-sm">
+          <div className="absolute bg-blanco rounded-xl p-2">
+            <RegisterPage onClose={() => setabrirModalRegister(false)} />
             <button
               className="absolute top-4 right-4 text-gray-500 hover:text-red-500 focus:outline-none"
               onClick={() => setabrirModalRegister(false)}

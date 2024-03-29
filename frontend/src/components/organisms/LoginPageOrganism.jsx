@@ -1,9 +1,8 @@
 import React from "react";
-import LinkAtom from "../../atoms/LinkAtom";
-import LoginFormMolecule from "../../molecules/LoginFormMolecule";
+import LinkAtom from "../atoms/LinkAtom";
+import LoginFormMolecule from "../molecules/LoginFormMolecule";
 
 const LoginPageOrganism = () => {
-
   return (
     <div className="bg-blanco py-6 px-8 rounded-xl flex flex-col justify-center items-center gap-5">
       <div className="mx-auto max-w-sm space-y-6">
