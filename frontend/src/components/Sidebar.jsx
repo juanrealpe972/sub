@@ -24,7 +24,7 @@ const Sidebar = () => {
     { title: "Como Pujar", link: "/ayudacomopujar", icon: FiMessageSquare },
     { title: "Cart", link: "/lobgin", icon: FiShoppingCart },
     { title: "Ayuda", link: "/lognin", icon: AiOutlineHeart, gap: true },
-    { title: "Configuración", link: "/login", icon: RiSettings4Line },
+    { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
   ];
 
   return (
@@ -76,7 +76,7 @@ const Sidebar = () => {
               </Link>
             ))}
           </ul>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center my-5 sm:hidden">
             <MessageOfLife />
           </div>
         </div>

@@ -11,6 +11,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import ProfileUser from "./pages/ProfileUser";
 import ComoCrearUnaSubasta from "./pages/ComoCrearUnaSubasta";
 import ComoPujarUnaSubasta from "./pages/ComoPujarUnaSubasta";
+import Configuration from "./pages/Configuration";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/profile" element={<ProfileUser />} />
                 <Route path="/ayudacrearsubasta" element={<ComoCrearUnaSubasta />} />
                 <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
+                <Route path="/configuration" element={<Configuration />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
