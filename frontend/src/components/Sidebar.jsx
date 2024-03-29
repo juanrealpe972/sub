@@ -12,18 +12,15 @@ const Sidebar = () => {
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
     {
-      title: "Dashboard",
+      title: "Inicio",
       link: "/subcoffee",
       icon: AiOutlineUser,
     },
-    {
-      title: "Como Crear Subasta",
-      link: "/ayudacrearsubasta",
-      icon: AiOutlineUser,
-    },
-    { title: "Como Pujar", link: "/ayudacomopujar", icon: FiMessageSquare },
+
+    { title: "Mis subastas", link: "/ayuda", icon: AiOutlineHeart, gap: true },
     { title: "Ayuda", link: "/ayuda", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
+    { title: "Politicas de privacidad", link: "/configuration", icon: RiSettings4Line },
   ];
 
   return (

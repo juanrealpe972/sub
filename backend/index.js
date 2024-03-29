@@ -20,12 +20,7 @@ const PORT = 9722;
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,7 +29,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/", routerUser);
-app.use("/", routerAuth);
+app.use("/user", routerAuth);
 app.use("/", routerFinca);
 app.use("/", routerVariedad);
 app.use("/", routerProduccion);

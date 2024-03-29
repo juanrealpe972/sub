@@ -13,11 +13,11 @@ import ComoCrearUnaSubasta from "./pages/ComoCrearUnaSubasta";
 import ComoPujarUnaSubasta from "./pages/ComoPujarUnaSubasta";
 import Configuration from "./pages/Configuration";
 import Ayuda from "./pages/Ayuda";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <AuthProvider>
-      <SubastaContextProviter>
         <BrowserRouter>
           <Layout>
             <Routes>
@@ -31,12 +31,12 @@ function App() {
                 <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/configuration" element={<Configuration />} />
                 <Route path="/ayuda" element={<Ayuda />} />
+                <Route path="/LoginPage" element={<LoginPage />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
         </BrowserRouter>
-      </SubastaContextProviter>
     </AuthProvider>
   );
 }

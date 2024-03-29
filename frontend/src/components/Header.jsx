@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CiCircleList, CiSearch } from "react-icons/ci";
-import LoginUser from "../pages/LoginUser";
 import RegisterUser from "../pages/RegisterUser";
 
 import { IoSunnyOutline } from "react-icons/io5";
@@ -12,9 +11,11 @@ import { TbSunHigh } from "react-icons/tb";
 import ModalCerrarSesion from "./ModalCerrarSesion";
 import ModalMessaAndNoti from "./ModalMessaAndNoti";
 import SubastaFormulario from "../pages/SubastaForm";
+import LoginPage from "../pages/LoginPage";
+import { useAuth } from "../context/AuthContext";
 
 function Header() {
-  const [isAuthenticated] = useState(true);
+  const { isAuthenticated } = useAuth();
   const [abrirModalLogin, setabrirModalLogin] = useState(false);
   const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirModalRegister, setabrirModalRegister] = useState(false);
@@ -49,12 +50,14 @@ function Header() {
     <>
       {isAuthenticated ? (
         <nav
-          className={`flex justify-between items-center text-black text-lg bg-white relative w-full py-2 px-4 border shadow-sm ${
+          className={`flex justify-between items-center text-black text-lg bg-white  w-full py-2 px-4 border shadow-sm ${
             scrollY > 0 ? "bg-opacity-90" : ""
           }`}
         >
           <div className="flex flex-col">
-            <Link to={"/subcoffee"} className="text-gray-800">Bienvenido</Link>
+            <Link to={"/subcoffee"} className="text-gray-800">
+              Bienvenido
+            </Link>
           </div>
           <div className="relative">
             <CiSearch className="absolute top-3 left-3 text-gray-400" />
@@ -149,7 +152,7 @@ function Header() {
         </nav>
       ) : (
         <nav
-          className={`flex justify-between items-center text-white font-roboto-regular bg-[#39A900] fixed w-full top-0 p-4 border shadow-sm${
+          className={`flex justify-between items-center text-white bg-[#39A900] fixed w-full m-0 top-0 p-4 border shadow-sm ${
             scrollY > 0 ? "bg-opacity-55" : ""
           }`}
         >
@@ -186,11 +189,11 @@ function Header() {
         </nav>
       )}
       {abrirModalLogin && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm">
-          <div className="absolute bg-white rounded-xl p-4">
-            <LoginUser onClose={() => setabrirModalLogin(false)} />
+        <div className="fixed inset-0 flex justify-center items-center bg-negro bg-opacity-30 backdrop-blur-sm">
+          <div className="absolute bg-blanco rounded-xl p-2">
+            <LoginPage onClose={() => setabrirModalLogin(false)} />
             <button
-              className="absolute top-4 right-4  text-gray-500 hover:text-red-500 focus:outline-none"
+              className="absolute top-4 right-4 text-grisMedio3 hover:text-naranjaSena focus:outline-none"
               onClick={() => setabrirModalLogin(false)}
             >
               <svg

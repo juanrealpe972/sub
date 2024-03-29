@@ -3,7 +3,7 @@ import {validarUser, verificarUserToken} from "../controllers/auth.controller.js
 
 const routerAuth = Router()
 
-routerAuth.post("/users", validarUser)
+routerAuth.post("/validar", validarUser)
 routerAuth.get("/users", verificarUserToken)
 
 export default routerAuth

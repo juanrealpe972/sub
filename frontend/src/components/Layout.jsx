@@ -1,9 +1,9 @@
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function Layout({ children }) {
-  const [isAuthenticated] = useState(true);
+  const {isAuthenticated} = useAuth();
   return (
     <>
       {isAuthenticated ? (
