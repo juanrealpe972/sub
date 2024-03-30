@@ -18,7 +18,7 @@ function ImagesSlider() {
 
   return (
     <div className="flex w-full justify-center">
-      <img src={images[imagenTiempo]} alt="Imagenes de inicio" className="rounded-2xl w-3/4 "/>
+      <img src={images[imagenTiempo]} alt="Imagenes de inicio" className="rounded-2xl w-3/4 aspect-auto"/>
     </div>
   );
 }

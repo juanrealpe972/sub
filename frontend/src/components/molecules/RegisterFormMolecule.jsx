@@ -57,7 +57,7 @@ const RegisterFormMolecule = () => {
         value={fullName}
         onChange={(e) => setFullName(e.target.value)}
       />
-      <div className="flex gap-x-4">
+      <div className="grid grid-cols-2 space-x-2">
         <InputWithIconAtom
           icon={icono.iconoCedula}
           id="cedula"
@@ -89,7 +89,7 @@ const RegisterFormMolecule = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <div className="flex gap-x-2 justify-center">
+      <div className="grid grid-cols-2 space-x-2 items-center">
         <InputWithIconAtom
           icon={icono.iconoCelular}
           id="phoneNumber"
@@ -100,18 +100,16 @@ const RegisterFormMolecule = () => {
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
-        <div>
-          <SelectInputAtom
-            id="rol"
-            name="rol"
-            value={rol}
-            onChange={(e) => setRol(e.target.value)}
-          >
-            <OptionAtom value="" label="Seleccione un rol" disabled hidden />
-            <OptionAtom value="vendedor" label="Vendedor" />
-            <OptionAtom value="comprador" label="Comprador" />
-          </SelectInputAtom>
-        </div>
+        <SelectInputAtom
+          id="rol"
+          name="rol"
+          value={rol}
+          onChange={(e) => setRol(e.target.value)}
+        >
+          <OptionAtom value="" label="Seleccione un rol" disabled hidden />
+          <OptionAtom value="vendedor" label="Vendedor" />
+          <OptionAtom value="comprador" label="Comprador" />
+        </SelectInputAtom>
       </div>
       <InputWithToggleIconAtom
         icon={icono.iconoContraseña}

@@ -18,25 +18,26 @@ import LoginPage from "./pages/LoginPage";
 function App() {
   return (
     <AuthProvider>
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
-              <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
-              <Route path="/" element={<ProtectedRoute />}>
-                <Route path="/subcoffee" element={<SubastaPage />} />
-                <Route path="/profile" element={<ProfileUser />} />
-                <Route path="/ayudacrearsubasta" element={<ComoCrearUnaSubasta />} />
-                <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
-                <Route path="/configuration" element={<Configuration />} />
-                <Route path="/ayuda" element={<Ayuda />} />
-                <Route path="/LoginPage" element={<LoginPage />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
+          <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
+          <Route path="/" element={<ProtectedRoute />}>
+            <Route path="/subcoffee" element={<SubastaPage />} />
+            <Route path="/profile" element={<ProfileUser />} />
+            <Route
+              path="/ayudacrearsubasta"
+              element={<ComoCrearUnaSubasta />}
+            />
+            <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
+            <Route path="/configuration" element={<Configuration />} />
+            <Route path="/ayuda" element={<Ayuda />} />
+            <Route path="/LoginPage" element={<LoginPage />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 }

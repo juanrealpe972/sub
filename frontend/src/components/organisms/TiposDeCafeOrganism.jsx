@@ -1,7 +1,6 @@
-import React from "react";
-import { FaReact } from "react-icons/fa";
+import CafeCardAtom from "../atoms/CafeCardAtom";
 
-function TiposDeCafe() {
+const TiposDeCafeOrganism = () => {
   const datos = [
     {
       title: "Tipo seco",
@@ -47,21 +46,10 @@ function TiposDeCafe() {
       style={{ scrollbarWidth: "none" }}
     >
       {datos.map((dato, i) => (
-        <div
-          key={i}
-          className="bg-blue-400 text-white rounded-lg p-4 h-52 transition-all duration-300 hover:scale-105"
-        >
-          <h2 className="font-semibold text-sm text-center w-28">
-            {dato.title}
-          </h2>
-          <div
-            className="bg-cover mt-4"
-            style={{ backgroundImage: `url(./src/assets/${dato.img})` }}
-          ></div>
-        </div>
+        <CafeCardAtom key={i} title={dato.title} img={dato.img} />
       ))}
     </div>
   );
-}
+};
 
-export default TiposDeCafe;
+export default TiposDeCafeOrganism;
