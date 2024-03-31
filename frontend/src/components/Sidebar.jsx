@@ -11,11 +11,15 @@ const Sidebar = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    { title: "Inicio", link: "/subcoffee", icon: AiOutlineUser,},
+    { title: "Inicio", link: "/subcoffee", icon: AiOutlineUser },
     { title: "Mis subastas", link: "/ayuda", icon: AiOutlineHeart, gap: true },
     { title: "Ayuda", link: "/ayuda", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
-    { title: "Politicas de privacidad", link: "/configuration", icon: RiSettings4Line },
+    {
+      title: "Politicas de privacidad",
+      link: "/configuration",
+      icon: RiSettings4Line,
+    },
   ];
 
   return (
@@ -32,10 +36,10 @@ const Sidebar = () => {
                 border-2 rounded-full  ${!open && "rotate-180"}`}
             onClick={() => setOpen(!open)}
           />
-          <div className="flex items-center">
-            <AvatarAtom img="isotipo-SubCoffee.png" />
-            <TextSubAtom to="/" color="cafeClaroLogo" text="Sub" />
-            <TextSubAtom to="/" color="cafeOscuroLogo" text="Coffee" />
+          <div className={`flex items-center`}>
+            <AvatarAtom img="isotipo-SubCoffee.png" className={`${ open && "rotate-[360deg]" }`}/>
+            <TextSubAtom to="/subcoffee" color="cafeClaroLogo" text="Sub" className={`${!open && "scale-0"}`}/>
+            <TextSubAtom to="/subcoffee" color="cafeOscuroLogo" text="Coffee" className={`${!open && "scale-0"}`}/>
           </div>
           <ul className="pt-6">
             {Menus.map((Menu, index) => (

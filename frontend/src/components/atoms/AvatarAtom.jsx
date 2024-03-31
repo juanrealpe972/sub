@@ -1,15 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-const AvatarAtom = ({ img }) => {
+const AvatarAtom = ({ img, className }) => {
   return (
-    <Link to="/">
+    <div>
       <img
         src={`./src/assets/${img}`}
         alt="Logo Subcoffee"
-        className="h-8 w-auto mr-2 rounded-full"
+        className={`h-8 w-auto mr-2 rounded-full ${className} cursor-pointer duration-500`}
       />
-    </Link>
+    </div>
   );
 };
 

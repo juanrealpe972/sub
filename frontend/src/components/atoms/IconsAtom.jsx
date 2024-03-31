@@ -7,6 +7,10 @@ import { FaUserEdit } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { CiCalendarDate } from "react-icons/ci";
 import { IoCloseOutline } from "react-icons/io5";
+import { CiCircleList, CiSearch } from "react-icons/ci";
+import { HiOutlineBellAlert } from "react-icons/hi2";
+import { IoMoonOutline } from "react-icons/io5";
+import { TbSunHigh } from "react-icons/tb";
 
 export const icono = {
     iconoGmail : HiOutlineMail,
@@ -18,5 +22,10 @@ export const icono = {
     iconoRol: FaUserEdit,
     iconoUser: FaUserAlt,
     iconoFecha: CiCalendarDate,
-    iconoequis: IoCloseOutline
+    iconoequis: IoCloseOutline,
+    iconoBuscar: CiSearch,
+    iconoBuscarForDates: CiCircleList,
+    iconoCampana: HiOutlineBellAlert,
+    iconoLuna:IoMoonOutline,
+    iconoSol:TbSunHigh
 }
