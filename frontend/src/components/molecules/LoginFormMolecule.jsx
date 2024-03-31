@@ -7,8 +7,10 @@ import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithToggleIconAtom from "../atoms/InputWithToggleIconAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
+import { useAuth } from "../../context/AuthContext";
 
 const LoginFormMolecule = () => {
+  const { setIsAuthenticated } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigate();
@@ -22,6 +24,7 @@ const LoginFormMolecule = () => {
         const { token } = res.data;
         alert("Usuario validado con éxito");
         localStorage.setItem("Token", token);
+        setIsAuthenticated(true)
         navigation("/subcoffee");
         console.log(res.data);
       } else if (res.status === 404) {
@@ -56,7 +59,7 @@ const LoginFormMolecule = () => {
       />
       <LinkAtom to="#">¿Olvidaste tu contraseña?</LinkAtom>
       <br />
-      <ButtonAtom type="submit">Iniciar Sesión</ButtonAtom>
+      <center><ButtonAtom type="submit">Iniciar Sesión</ButtonAtom></center>
     </form>
   );
 };

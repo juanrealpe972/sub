@@ -7,10 +7,6 @@ import { useState } from "react";
 function SubastaPage() {
   const [showModal, setShowModal] = useState(false);
 
-  function renderMain() {
-    <h1>No existen subastas aun</h1>;
-  }
-
   return (
     <div className="px-14">
       <div className="w-full flex justify-center items-end my-10">

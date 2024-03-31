@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CiCircleList, CiSearch } from "react-icons/ci";
+import { useAuth } from "../context/AuthContext";
 
+import { CiCircleList, CiSearch } from "react-icons/ci";
 import { IoSunnyOutline } from "react-icons/io5";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { IoMoonOutline } from "react-icons/io5";
@@ -11,8 +12,10 @@ import ModalCerrarSesion from "./ModalCerrarSesion";
 import ModalMessaAndNoti from "./ModalMessaAndNoti";
 import SubastaFormulario from "../pages/SubastaForm";
 import LoginPage from "../pages/LoginPage";
-import { useAuth } from "../context/AuthContext";
 import RegisterPage from "../pages/RegisterPage";
+import TextSubAtom from "./atoms/TextSubAtom";
+import AvatarAtom from "./atoms/AvatarAtom";
+import ButtonAtom from "./atoms/ButtonAtom";
 
 function Header() {
   const { isAuthenticated } = useAuth();
@@ -24,9 +27,6 @@ function Header() {
   const [isMoonSelected, setIsMoonSelected] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  const handleScroll = () => {
-    setScrollY(window.scrollY);
-  };
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
     setAbrirBell(false);
@@ -39,25 +39,25 @@ function Header() {
     setIsMoonSelected((prevValue) => !prevValue);
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  // Para que el header se ponga opacity en la parte superior de la pantalla al hacer scroll
+  // const handleScroll = () => {
+  //   setScrollY(window.scrollY);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   return (
     <>
       {isAuthenticated ? (
         <nav
-          className={`flex justify-between items-center text-black text-lg bg-white  w-full py-2 px-4 border shadow-sm ${
-            scrollY > 0 ? "bg-opacity-90" : ""
-          }`}
+          className={`flex justify-between items-center bg-verdeSena2 w-full p-4 shadow-sm `}
         >
           <div className="flex flex-col">
-            <Link to={"/subcoffee"} className="text-gray-800">
-              Bienvenido
-            </Link>
+            <TextSubAtom to="/" color="blanco" text="Bienvenido" />
           </div>
           <div className="relative">
             <CiSearch className="absolute top-3 left-3 text-gray-400" />
@@ -95,11 +95,7 @@ function Header() {
                 className="flex items-center gap-x-2"
                 onClick={toggleCerrarSesionModal}
               >
-                <img
-                  src="./src/assets/profile_user.jfif"
-                  alt=""
-                  className="w-7 h-7 rounded-full cursor-pointer"
-                />
+                <AvatarAtom img="profile_user.jfif" />
                 <div>
                   <span className="text-gray-600 text-sm">Juan Camilo</span>
                   <p className="-mt-1 text-xs text-gray-400">Vendedor</p>
@@ -152,39 +148,28 @@ function Header() {
         </nav>
       ) : (
         <nav
-          className={`flex justify-between items-center text-white bg-[#39A900] fixed w-full m-0 top-0 p-4 border shadow-sm ${
-            scrollY > 0 ? "bg-opacity-55" : ""
-          }`}
+          className={`flex justify-between items-center bg-verdeSena1 fixed w-full m-0 top-0 p-4 shadow-sm 
+          ${scrollY > 0 ? "bg-opacity-60" : ""}`}
         >
           <div className="flex items-center">
-            <Link to={"/"} className="flex items-center text-white">
-              <img
-                src="./src/assets/isotipo-SubCoffee.png"
-                alt="Logo Subcoffee"
-                className="h-8 w-auto mr-2"
-              />
-              <span className="font-roboto-black text-cafeClaroLogo text-2xl">
-                Sub
-              </span>
-              <span className="font-roboto-black text-cafeOscuroLogo text-2xl">
-                Coffee
-              </span>
-            </Link>
+            <AvatarAtom img="isotipo-SubCoffee.png" />
+            <TextSubAtom to="/" color="cafeClaroLogo" text="Sub" />
+            <TextSubAtom to="/" color="cafeOscuroLogo" text="Coffee" />
           </div>
           <div className="flex items-center gap-x-3">
-            <IoSunnyOutline />
-            <button
-              className="bg-verdeSena1 py-1 px-3 rounded-lg hover:bg-naranjaSena text-white font-bold text-sm transition-colors"
-              onClick={() => setabrirModalLogin(true)}
-            >
+            <div className="cursor-pointer">
+              {isMoonSelected ? (
+                <IoMoonOutline onClick={toggleTheme} />
+              ) : (
+                <TbSunHigh onClick={toggleTheme} />
+              )}
+            </div>
+            <ButtonAtom onClick={() => setabrirModalLogin(true)}>
               Iniciar sesión
-            </button>
-            <button
-              className="bg-verdeSena1 py-1 px-3 rounded-lg hover:bg-naranjaSena text-white font-bold text-sm transition-colors"
-              onClick={() => setabrirModalRegister(true)}
-            >
+            </ButtonAtom>
+            <ButtonAtom onClick={() => setabrirModalRegister(true)}>
               Registrarse
-            </button>
+            </ButtonAtom>
           </div>
         </nav>
       )}

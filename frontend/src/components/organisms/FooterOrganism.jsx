@@ -5,11 +5,10 @@ const FooterOrganism = () => {
     return (
       <footer className="bg-blancoMedio1">
         <div className="container mx-auto py-5 flex justify-evenly">
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-lg font-semibold mb-4">Información</p>
+          <FooterSectionMolecule title="Información">
             <FooterLinkAtom to={"/somos"}>¿Quiénes somos?</FooterLinkAtom>
             <FooterLinkAtom to={"/politicas"}>Políticas y privacidad</FooterLinkAtom>
-          </div>
+          </FooterSectionMolecule>
           <FooterSectionMolecule title="Ayudas">
             <FooterLinkAtom to={"/ayuda"}>¿Cómo funciona Subcoffee?</FooterLinkAtom>
             <FooterLinkAtom to={"/ayuda"}>¿Cómo funciona Subcoffee?</FooterLinkAtom>

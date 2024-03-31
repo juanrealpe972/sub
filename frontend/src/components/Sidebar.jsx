@@ -1,22 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import { RiSettings4Line } from "react-icons/ri";
-import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiShoppingCart } from "react-icons/fi";
 import MessageOfLife from "./MessageOfLife";
+import AvatarAtom from "./atoms/AvatarAtom";
+import TextSubAtom from "./atoms/TextSubAtom";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    {
-      title: "Inicio",
-      link: "/subcoffee",
-      icon: AiOutlineUser,
-    },
-
+    { title: "Inicio", link: "/subcoffee", icon: AiOutlineUser,},
     { title: "Mis subastas", link: "/ayuda", icon: AiOutlineHeart, gap: true },
     { title: "Ayuda", link: "/ayuda", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
@@ -25,7 +20,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen bg-blancoMedio1">
         <div
           className={`${
             open ? "w-64" : "w-20"
@@ -37,20 +32,10 @@ const Sidebar = () => {
                 border-2 rounded-full  ${!open && "rotate-180"}`}
             onClick={() => setOpen(!open)}
           />
-          <div className="flex gap-x-4 items-center">
-            <img
-              src="./src/assets/isotipo-SubCoffee.png"
-              className={`cursor-pointer w-10 h-10 duration-500 ${
-                open && "rotate-[360deg]"
-              }`}
-            />
-            <h1
-              className={`text-white origin-left font-medium text-xl duration-200 ${
-                !open && "scale-0"
-              }`}
-            >
-              Subcoffee
-            </h1>
+          <div className="flex items-center">
+            <AvatarAtom img="isotipo-SubCoffee.png" />
+            <TextSubAtom to="/" color="cafeClaroLogo" text="Sub" />
+            <TextSubAtom to="/" color="cafeOscuroLogo" text="Coffee" />
           </div>
           <ul className="pt-6">
             {Menus.map((Menu, index) => (

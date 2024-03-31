@@ -106,7 +106,6 @@ const RegisterFormMolecule = () => {
           value={rol}
           onChange={(e) => setRol(e.target.value)}
         >
-          <OptionAtom value="" label="Seleccione un rol" disabled hidden />
           <OptionAtom value="vendedor" label="Vendedor" />
           <OptionAtom value="comprador" label="Comprador" />
         </SelectInputAtom>
@@ -121,7 +120,13 @@ const RegisterFormMolecule = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <ButtonAtom type="submit">Registrarse</ButtonAtom>
+      <div className="flex mt-4 gap-x-2">
+        <input type="checkbox" />
+        <p className="text-grisMedio2">Acepta terminos y condiciones</p>
+      </div>
+      <center>
+        <ButtonAtom type="submit">Registrarse</ButtonAtom>
+      </center>
     </form>
   );
 };
