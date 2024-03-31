@@ -6,6 +6,7 @@ import { FaPhoneVolume } from "react-icons/fa6";
 import { FaUserEdit } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { CiCalendarDate } from "react-icons/ci";
+import { IoCloseOutline } from "react-icons/io5";
 
 export const icono = {
     iconoGmail : HiOutlineMail,
@@ -16,5 +17,6 @@ export const icono = {
     iconoCelular: FaPhoneVolume,
     iconoRol: FaUserEdit,
     iconoUser: FaUserAlt,
-    iconoFecha: CiCalendarDate
+    iconoFecha: CiCalendarDate,
+    iconoequis: IoCloseOutline
 }

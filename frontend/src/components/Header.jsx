@@ -16,6 +16,8 @@ import RegisterPage from "../pages/RegisterPage";
 import TextSubAtom from "./atoms/TextSubAtom";
 import AvatarAtom from "./atoms/AvatarAtom";
 import ButtonAtom from "./atoms/ButtonAtom";
+import { icono } from "./atoms/IconsAtom";
+import ButtonCerrarModalAtom from "./atoms/ButtonCerrarModalAtom";
 
 function Header() {
   const { isAuthenticated } = useAuth();
@@ -91,7 +93,8 @@ function Header() {
               )}
             </li>
             <li>
-              <button
+              <Link
+              to="profile"
                 className="flex items-center gap-x-2"
                 onClick={toggleCerrarSesionModal}
               >
@@ -100,48 +103,30 @@ function Header() {
                   <span className="text-gray-600 text-sm">Juan Camilo</span>
                   <p className="-mt-1 text-xs text-gray-400">Vendedor</p>
                 </div>
-              </button>
+              </Link>
             </li>
           </ul>
           {abrirCerrarSesion && (
             <div className="absolute top-16 right-2 flex justify-center items-center">
-              <div className="bg-white rounded-xl">
+              <div className="bg-blanco rounded-xl">
                 <ModalCerrarSesion onClose={toggleCerrarSesionModal} />
               </div>
             </div>
           )}
           {abrirBell && (
             <div className="absolute top-16 right-32 flex justify-center items-center">
-              <div className="bg-white rounded-xl w-80">
+              <div className="bg-blanco rounded-xl w-80">
                 <ModalMessaAndNoti onClose={toggleAbrirBell} />
               </div>
             </div>
           )}
           {abrirModalSubasta && (
-            <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm">
-              <div className="absolute bg-white rounded-xl p-4">
-                <SubastaFormulario
+            <div className="fixed inset-0 flex justify-center items-center bg-negro bg-opacity-30 backdrop-blur-sm">
+              <div className="absolute bg-blanco rounded-xl p-2">
+                <SubastaFormulario />
+                <ButtonCerrarModalAtom
                   onClose={() => setAbrirModalSubasta(false)}
                 />
-                <button
-                  className="absolute top-4 right-4 text-gray-500 hover:text-red-500 focus:outline-none"
-                  onClick={() => setAbrirModalSubasta(false)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-7 w-7"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
           )}
@@ -176,52 +161,18 @@ function Header() {
       {abrirModalLogin && (
         <div className="fixed inset-0 flex justify-center items-center bg-negro bg-opacity-30 backdrop-blur-sm">
           <div className="absolute bg-blanco rounded-xl p-2">
-            <LoginPage onClose={() => setabrirModalLogin(false)} />
-            <button
-              className="absolute top-4 right-4 text-grisMedio3 hover:text-naranjaSena focus:outline-none"
-              onClick={() => setabrirModalLogin(false)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+            <LoginPage />
+            <ButtonCerrarModalAtom onClose={() => setabrirModalLogin(false)} />
           </div>
         </div>
       )}
       {abrirModalRegister && (
         <div className="fixed inset-0 flex justify-center items-center bg-negro bg-opacity-30 backdrop-blur-sm">
           <div className="absolute bg-blanco rounded-xl p-2">
-            <RegisterPage onClose={() => setabrirModalRegister(false)} />
-            <button
-              className="absolute top-4 right-4 text-gray-500 hover:text-red-500 focus:outline-none"
-              onClick={() => setabrirModalRegister(false)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+            <RegisterPage />
+            <ButtonCerrarModalAtom
+              onClose={() => setabrirModalRegister(false)}
+            />
           </div>
         </div>
       )}
