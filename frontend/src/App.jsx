@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 import SubastaPage from "./pages/SubastaPage";
-import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import ProfileUser from "./pages/ProfileUser";
 import ComoCrearUnaSubasta from "./pages/ComoCrearUnaSubasta";
@@ -11,6 +10,7 @@ import Configuration from "./pages/Configuration";
 import Ayuda from "./pages/Ayuda";
 import Inicio from "./pages/Inicio";
 import ProtectedRoute from "./ProtectedRoute";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
             <Route path="ayuda" element={<Ayuda />} />
           </Route>
 
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
