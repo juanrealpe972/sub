@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
+import TextLgAtom from "../atoms/TextLgAtom";
 
-const MessageOfLife = () => {
+function MessageOfLifeMolecule() {
   const [messages] = useState([
     "La vida es lo que pasa mientras estás ocupado haciendo otros planes. - John Lennon",
     "No esperes a que pase la tormenta, aprende a bailar bajo la lluvia.",
@@ -8,20 +9,19 @@ const MessageOfLife = () => {
     "La vida es un viaje, no un destino. Disfruta el viaje.",
   ]);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
-    }, 10000); 
+    }, 10000);
 
     return () => clearInterval(intervalId);
   }, [messages.length]);
 
   return (
     <div className="bg-gray-100 p-4 rounded-md shadow-md">
-      <p className="text-center text-lg">{messages[currentMessageIndex]}</p>
+      <TextLgAtom text={messages[currentMessageIndex]} />
     </div>
   );
-};
+}
 
-export default MessageOfLife;
+export default MessageOfLifeMolecule;

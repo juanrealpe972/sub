@@ -1,8 +1,8 @@
 import SubastaCard from "../components/SubastaCard";
-import ImagesSlider from "../components/ImagesSlider";
 import { Link } from "react-router-dom";
 import ModalFinca from "../components/ModalFinca";
 import { useState } from "react";
+import ImagenesSliderOrganism from "../components/organisms/ImagenesSliderOrganism";
 
 function SubastaPage() {
   const [showModal, setShowModal] = useState(false);
@@ -10,7 +10,7 @@ function SubastaPage() {
   return (
     <div className="px-14">
       <div className="w-full flex justify-center items-end my-10">
-        <ImagesSlider />
+        <ImagenesSliderOrganism/>
         <span className="absolute text-white text-4xl mx-52 mb-28 text-center">
           Crea una subasta en 5 minutos
         </span>

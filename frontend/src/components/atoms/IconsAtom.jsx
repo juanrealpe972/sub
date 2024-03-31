@@ -12,22 +12,26 @@ import { HiOutlineBellAlert } from "react-icons/hi2";
 import { IoMoonOutline } from "react-icons/io5";
 import { TbSunHigh } from "react-icons/tb";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { IoArrowBack } from "react-icons/io5";
+import { IoArrowForwardOutline } from "react-icons/io5";
 
 export const icono = {
-    iconoGmail : HiOutlineMail,
-    iconoConOjo: HiEye,
-    iconoConOjoCerrado: HiEyeOff,
-    iconoContraseña: TbPasswordFingerprint,
-    iconoCedula: FaAddressCard,
-    iconoCelular: FaPhoneVolume,
-    iconoRol: FaUserEdit,
-    iconoUser: FaUserAlt,
-    iconoFecha: CiCalendarDate,
-    iconoequis: IoCloseOutline,
-    iconoBuscar: CiSearch,
-    iconoBuscarForDates: CiCircleList,
-    iconoCampana: HiOutlineBellAlert,
-    iconoLuna:IoMoonOutline,
-    iconoSol:TbSunHigh,
-    iconoInterrogation: AiOutlineInfoCircle
-}
+  iconoGmail: HiOutlineMail,
+  iconoConOjo: HiEye,
+  iconoConOjoCerrado: HiEyeOff,
+  iconoContraseña: TbPasswordFingerprint,
+  iconoCedula: FaAddressCard,
+  iconoCelular: FaPhoneVolume,
+  iconoRol: FaUserEdit,
+  iconoUser: FaUserAlt,
+  iconoFecha: CiCalendarDate,
+  iconoequis: IoCloseOutline,
+  iconoBuscar: CiSearch,
+  iconoBuscarForDates: CiCircleList,
+  iconoCampana: HiOutlineBellAlert,
+  iconoLuna: IoMoonOutline,
+  iconoSol: TbSunHigh,
+  iconoInterrogation: AiOutlineInfoCircle,
+  iconofechaleft: IoArrowBack,
+  iconofecharight: IoArrowForwardOutline,
+};
