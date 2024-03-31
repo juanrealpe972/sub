@@ -57,7 +57,7 @@ const LoginFormMolecule = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <LinkAtom to="#">¿Olvidaste tu contraseña?</LinkAtom>
+      <LinkAtom to="/">¿Olvidaste tu contraseña?</LinkAtom>
       <br />
       <center><ButtonAtom type="submit">Iniciar Sesión</ButtonAtom></center>
     </form>

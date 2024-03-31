@@ -6,7 +6,7 @@ import TextSubAtom from "../atoms/TextSubAtom";
 import AvatarAtom from "../atoms/AvatarAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
 import SearchBarMolecule from "../molecules/SearchBarMolecule";
-import ModalCerrarSesion from "../ModalCerrarSesion";
+import ModalCerrarSesion from "../molecules/ModalLogoutMolecule";
 import ModalMessaAndNoti from "../ModalMessaAndNoti";
 import SubastaFormulario from "../../pages/SubastaForm";
 import LoginPage from "../../pages/LoginPage";

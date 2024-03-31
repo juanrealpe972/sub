@@ -11,6 +11,7 @@ import { CiCircleList, CiSearch } from "react-icons/ci";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { IoMoonOutline } from "react-icons/io5";
 import { TbSunHigh } from "react-icons/tb";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 export const icono = {
     iconoGmail : HiOutlineMail,
@@ -27,5 +28,6 @@ export const icono = {
     iconoBuscarForDates: CiCircleList,
     iconoCampana: HiOutlineBellAlert,
     iconoLuna:IoMoonOutline,
-    iconoSol:TbSunHigh
+    iconoSol:TbSunHigh,
+    iconoInterrogation: AiOutlineInfoCircle
 }

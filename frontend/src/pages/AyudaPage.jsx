@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
 
-function Ayuda() {
+function AyudaPage() {
   return (
     <div className="p-8">
       <h1 className="text-center text-3xl font-semibold mb-4">
@@ -51,4 +51,4 @@ function Ayuda() {
   );
 }
 
-export default Ayuda;
+export default AyudaPage;

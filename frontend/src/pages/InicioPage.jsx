@@ -1,7 +1,7 @@
 import React from "react";
 import DashboardContentOrganism from "../components/organisms/DashboardContentOrganism";
 
-function Inicio() {
+function InicioPage() {
   return (
     <div>
       <DashboardContentOrganism />
@@ -9,4 +9,4 @@ function Inicio() {
   );
 }
 
-export default Inicio;
+export default InicioPage;

@@ -34,7 +34,9 @@ export default {
       grisOscuro: "#555555",
       cafeOscuroLogo: "#4A3621",
       cafeClaroLogo: "#DEBFA8",
-      negro:"#000"
+      negro: "#000",
+      rojo: "#FF0000",
+      marrom: "#800000",
     },
   },
   plugins: [],
