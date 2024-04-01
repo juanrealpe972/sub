@@ -2,9 +2,9 @@ import { Link, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import { RiSettings4Line } from "react-icons/ri";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import MessageOfLife from "./MessageOfLife";
 import AvatarAtom from "./atoms/AvatarAtom";
 import TextSubAtom from "./atoms/TextSubAtom";
+import MessageOfLifeMolecule from "./molecules/MessageOfLifeMolecule"
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -62,7 +62,7 @@ const Sidebar = () => {
             ))}
           </ul>
           <div className="flex justify-center items-center my-5 sm:hidden">
-            <MessageOfLife />
+            <MessageOfLifeMolecule />
           </div>
         </div>
       </div>

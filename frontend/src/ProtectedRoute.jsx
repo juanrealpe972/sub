@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar";
 import { useAuth } from "./context/AuthContext";
 import { useNavigate, Outlet } from "react-router-dom";
 import HeaderOrganism from "./components/organisms/HeaderOrganism";
+import FooterOrganism from "./components/organisms/FooterOrganism";
 
 function ProtectedRoute() {
   const { isAuthenticated } = useAuth();
@@ -15,6 +16,7 @@ function ProtectedRoute() {
         <div className="grow">
           <HeaderOrganism />
           <Outlet />
+          <FooterOrganism/>
         </div>
       </div>
     );

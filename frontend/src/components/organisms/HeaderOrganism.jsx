@@ -8,7 +8,7 @@ import ButtonAtom from "../atoms/ButtonAtom";
 import SearchBarMolecule from "../molecules/SearchBarMolecule";
 import ModalCerrarSesion from "../molecules/ModalLogoutMolecule";
 import ModalMessaAndNoti from "../ModalMessaAndNoti";
-import SubastaFormulario from "../../pages/SubastaForm";
+import SubastaFormPage from "../../pages/SubastaFormPage";
 import LoginPage from "../../pages/LoginPage";
 import RegisterPage from "../../pages/RegisterPage";
 import IconHeaderAtom from "../atoms/IconHeaderAtom";
@@ -70,6 +70,14 @@ function HeaderOrganism() {
             <ButtonAtom onClick={() => setAbrirModalSubasta(true)}>
               Crear subasta
             </ButtonAtom>
+            {abrirModalSubasta && (
+              <AbrirModalTemplate>
+                <SubastaFormPage />
+                <ButtonCerrarModalAtom
+                  onClose={() => setAbrirModalSubasta(false)}
+                />
+              </AbrirModalTemplate>
+            )}
             <IconHeaderAtom onClick={toggleAbrirBell}>
               <icono.iconoCampana className="h-5 w-5" />
             </IconHeaderAtom>
@@ -109,14 +117,6 @@ function HeaderOrganism() {
               </div>
             </div>
           )}
-          {abrirModalSubasta && (
-            <AbrirModalTemplate>
-              <SubastaFormulario />
-              <ButtonCerrarModalAtom
-                onClose={() => setAbrirModalSubasta(false)}
-              />
-            </AbrirModalTemplate>
-          )}
         </nav>
       ) : (
         <nav
@@ -124,8 +124,8 @@ function HeaderOrganism() {
         >
           <div className="flex items-center">
             <AvatarAtom img="isotipo-SubCoffee.png" />
-            <TextSubAtom to="/" color="cafeClaroLogo" text="Sub" />
-            <TextSubAtom to="/" color="cafeOscuroLogo" text="Coffee" />
+            <TextSubAtom to="/" color={"cafeClaroLogo"} text="Sub" />
+            <TextSubAtom to="/" color={"cafeOscuroLogo"} text="Coffee" />
           </div>
           <div className="flex items-center gap-x-3">
             <div className="cursor-pointer">

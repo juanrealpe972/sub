@@ -15,11 +15,11 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const login = () => {
-    setIsAuthenticated(true);
+    setIsAuthenticated(true)
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
+    setIsAuthenticated(false)
   };
 
   useEffect(() => {

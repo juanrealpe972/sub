@@ -20,8 +20,8 @@ function ImageSliderMolecule({ images }) {
     setImagenTiempo((imagenTiempo - 1 + images.length) % images.length);
   };
   return (
-    <div className="relative w-full md:w-3/4 mx-auto">
-      <div className="w-full h-[60vh] relative overflow-hidden rounded-2xl">
+    <div className=" w-full md:w-3/4 mx-auto">
+      <div className="w-full h-[60vh]  overflow-hidden rounded-2xl">
         <ImageSliderAtom src={images[imagenTiempo]} alt="Imagenes de slider" />
       </div>
       <SliderControlAtom onClick={prevImage} direction="left-2" />

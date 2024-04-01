@@ -2,7 +2,7 @@ import React from "react";
 import { icono } from "./IconsAtom";
 
 function SliderControlAtom({ onClick, direction }) {
-  const icon = direction === "prev" ? icono.iconofechaleft : icono.iconofecharight;
+  const icon = direction === "prev" ? "->" : "<-";
 
   const positionStyle = direction === "prev" ? "left-2" : "right-2";
 
