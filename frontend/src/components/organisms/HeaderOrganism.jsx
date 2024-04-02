@@ -8,12 +8,12 @@ import ButtonAtom from "../atoms/ButtonAtom";
 import SearchBarMolecule from "../molecules/SearchBarMolecule";
 import ModalCerrarSesion from "../molecules/ModalLogoutMolecule";
 import ModalMessaAndNoti from "../ModalMessaAndNoti";
-import SubastaFormPage from "../../pages/SubastaFormPage";
-import LoginPage from "../../pages/LoginPage";
-import RegisterPage from "../../pages/RegisterPage";
 import IconHeaderAtom from "../atoms/IconHeaderAtom";
 import ButtonCerrarModalAtom from "../atoms/ButtonCerrarModalAtom";
 import AbrirModalTemplate from "../templates/AbrirModalTemplate";
+import LoginPageOrganism from "./LoginPageOrganism";
+import RegisterPageOrganism from "./RegisterPageOrganism";
+import SubastaFormPageOrganism from "./SubastaFormPageOrganism";
 
 function HeaderOrganism() {
   const { isAuthenticated } = useAuth();
@@ -70,14 +70,6 @@ function HeaderOrganism() {
             <ButtonAtom onClick={() => setAbrirModalSubasta(true)}>
               Crear subasta
             </ButtonAtom>
-            {abrirModalSubasta && (
-              <AbrirModalTemplate>
-                <SubastaFormPage />
-                <ButtonCerrarModalAtom
-                  onClose={() => setAbrirModalSubasta(false)}
-                />
-              </AbrirModalTemplate>
-            )}
             <IconHeaderAtom onClick={toggleAbrirBell}>
               <icono.iconoCampana className="h-5 w-5" />
             </IconHeaderAtom>
@@ -103,6 +95,14 @@ function HeaderOrganism() {
               </div>
             </button>
           </div>
+          {abrirModalSubasta && (
+            <AbrirModalTemplate>
+              <SubastaFormPageOrganism />
+              <ButtonCerrarModalAtom
+                onClose={() => setAbrirModalSubasta(false)}
+              />
+            </AbrirModalTemplate>
+          )}
           {abrirCerrarSesion && (
             <div className="absolute top-16 right-2 flex justify-center items-center">
               <div className="bg-blanco rounded-xl">
@@ -149,13 +149,13 @@ function HeaderOrganism() {
       )}
       {abrirModalLogin && (
         <AbrirModalTemplate>
-          <LoginPage />
+          <LoginPageOrganism />
           <ButtonCerrarModalAtom onClose={() => setabrirModalLogin(false)} />
         </AbrirModalTemplate>
       )}
       {abrirModalRegister && (
         <AbrirModalTemplate>
-          <RegisterPage />
+          <RegisterPageOrganism />
           <ButtonCerrarModalAtom onClose={() => setabrirModalRegister(false)} />
         </AbrirModalTemplate>
       )}
