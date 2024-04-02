@@ -5,6 +5,7 @@ import ImagenesSliderOrganism from "../components/organisms/ImagenesSliderOrgani
 import AbrirModalTemplate from "../components/templates/AbrirModalTemplate";
 import ButtonCerrarModalAtom from "../components/atoms/ButtonCerrarModalAtom";
 import RegisterFincaOrganism from "../components/organisms/RegisterFincaOrganism";
+import ButtonAtom from "../components/atoms/ButtonAtom";
 
 function SubastaPage() {
   const [showModal, setShowModal] = useState(false);
@@ -23,22 +24,17 @@ function SubastaPage() {
           Crear subasta
         </Link>
       </div>
-      <button
-        className="bg-verdeSena1 py-1 px-3 rounded-lg hover:bg-naranjaSena text-black font-bold text-sm transition-colors"
-        onClick={() => setShowModal(true)}
-      >
-        Crear finca
-      </button>
-      {showModal && (
-        <AbrirModalTemplate>
-          <RegisterFincaOrganism />
-          <ButtonCerrarModalAtom onClick={() => setShowModal(false)} />
-        </AbrirModalTemplate>
-      )}
+      <ButtonAtom onClick={() => setShowModal(true)}>Crear finca</ButtonAtom>
       <div className="w-full">
         <h1 className="font-semibold ml-5">Borbon</h1>
         <SubastaCard />
       </div>
+      {showModal && (
+        <AbrirModalTemplate>
+          <RegisterFincaOrganism />
+          <ButtonCerrarModalAtom onClose={() => setShowModal(false)} />
+        </AbrirModalTemplate>
+      )}
     </div>
   );
 }
