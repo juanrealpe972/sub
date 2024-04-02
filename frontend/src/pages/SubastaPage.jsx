@@ -12,17 +12,9 @@ function SubastaPage() {
 
   return (
     <div className="px-14">
-      <div className="w-full flex justify-center items-end my-10">
+      <div className="w-full flex flex-col justify-center items-end my-10">
         <ImagenesSliderOrganism />
-        <span className="absolute text-white text-4xl mx-52 mb-28 text-center">
-          Crea una subasta en 5 minutos
-        </span>
-        <Link
-          to={"/login"}
-          className="text-white absolute mb-8 rounded-lg py-3 px-5 bg-[#39A900] hover:bg-green-900 font-semibold"
-        >
-          Crear subasta
-        </Link>
+        <p>¡Tu finca tiene una historia que contar!</p>
       </div>
       <ButtonAtom onClick={() => setShowModal(true)}>Crear finca</ButtonAtom>
       <div className="w-full">

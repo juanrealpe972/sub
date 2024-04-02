@@ -2,7 +2,7 @@ import React from "react";
 import { icono } from "./IconsAtom";
 
 function SliderControlAtom({ onClick, direction }) {
-  const icon = direction === "prev" ? "->" : "<-";
+  const IconComponent = direction === "prev" ? icono.iconofechaleft : icono.iconofecharight;
 
   const positionStyle = direction === "prev" ? "left-2" : "right-2";
 
@@ -11,7 +11,7 @@ function SliderControlAtom({ onClick, direction }) {
       onClick={onClick}
       className={`absolute top-1/2 transform -translate-y-1/2 bg-negro bg-opacity-50 text-xl rounded-full w-10 h-10 flex justify-center items-center ${positionStyle}`}
     >
-      {icon}
+      <IconComponent className="text-white" />
     </button>
   );
 }

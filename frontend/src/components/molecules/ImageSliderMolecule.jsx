@@ -8,7 +8,7 @@ function ImageSliderMolecule({ images }) {
   useEffect(() => {
     const validarImagen = setInterval(() => {
       setImagenTiempo((img) => (img + 1) % images.length);
-    }, 3000);
+    }, 5000);
     return () => clearInterval(validarImagen);
   }, [images.length]);
 
@@ -20,8 +20,8 @@ function ImageSliderMolecule({ images }) {
     setImagenTiempo((imagenTiempo - 1 + images.length) % images.length);
   };
   return (
-    <div className=" w-full md:w-3/4 mx-auto">
-      <div className="w-full h-[60vh]  overflow-hidden rounded-2xl">
+    <div className=" w-full md:w-2/3 mx-auto">
+      <div className="w-full h-[60vh] overflow-hidden rounded-2xl">
         <ImageSliderAtom src={images[imagenTiempo]} alt="Imagenes de slider" />
       </div>
       <SliderControlAtom onClick={prevImage} direction="left-2" />

@@ -14,6 +14,17 @@ import { TbSunHigh } from "react-icons/tb";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { IoArrowBack } from "react-icons/io5";
 import { IoArrowForwardOutline } from "react-icons/io5";
+import { FaMapLocationDot } from "react-icons/fa6";
+import { TbWorldPin } from "react-icons/tb";
+import { TbMapPin2 } from "react-icons/tb";
+import { AiTwotonePropertySafety } from "react-icons/ai";
+import { GoRepoPush } from "react-icons/go";
+import { TbFileDescription } from "react-icons/tb";
+import { BsCalendar2Date } from "react-icons/bs";
+import { GiPriceTag } from "react-icons/gi";
+import { FaSwatchbook } from "react-icons/fa";
+import { Md18UpRating } from "react-icons/md";
+import { MdProductionQuantityLimits } from "react-icons/md";
 
 export const icono = {
   iconoGmail: HiOutlineMail,
@@ -34,4 +45,15 @@ export const icono = {
   iconoInterrogation: AiOutlineInfoCircle,
   iconofechaleft: IoArrowBack,
   iconofecharight: IoArrowForwardOutline,
+  iconoMundo: TbWorldPin,
+  iconoDepartamento: FaMapLocationDot,
+  iconoMunicipio: TbMapPin2,
+  iconoNamePropiedad: AiTwotonePropertySafety,
+  iconoPush: GoRepoPush, 
+  iconoDescript: TbFileDescription, 
+  iconoDateDay: BsCalendar2Date,
+  iconoPrice: GiPriceTag,
+  iconoType: FaSwatchbook,
+  iconoValor: Md18UpRating,
+  iconoQuantity: MdProductionQuantityLimits,
 };
