@@ -3,9 +3,9 @@ import DashboardContentOrganism from "../components/organisms/DashboardContentOr
 
 function InicioPage() {
   return (
-    <div>
+    <>
       <DashboardContentOrganism />
-    </div>
+    </>
   );
 }
 

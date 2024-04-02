@@ -18,25 +18,25 @@ const RegisterFormMolecule = () => {
   const [birthdate, setBirthdate] = useState("");
   const [rol, setRol] = useState("");
   const navigation = useNavigate();
-  const URL = "http://localhost:9722/user/validar";
+  const URL = "http://localhost:9722/formuser";
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(URL, {
-        cedula_user,
-        nombre_user,
-        email_user,
-        password_user,
-        telefono_user,
-        fechanacimiento_user,
-        rol_user,
+        cedula_user: cedula,
+        nombre_user: fullName,
+        email_user: email,
+        password_user : password,
+        telefono_user: phoneNumber,
+        fechanacimiento_user: birthdate,
+        rol_user: rol,
       });
       if (res.status === 200) {
         const { token } = res.data;
-        alert("Usuario registrado con éxito");
+        alert("Usuario registrado con éxito, ya puedes loguearte");
         localStorage.setItem("Token", token);
-        navigation("/subcoffee");
+        navigation("/");
       } else {
         alert("Error al registrar el usuario");
       }

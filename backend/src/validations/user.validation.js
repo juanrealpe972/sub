@@ -14,9 +14,6 @@ export const validationRegisterUser = [
   check("email_user", "El email es obligatorio, max 50 caracteres")
     .isEmail()
     .isLength({ max: 50 }),
-  check("descripcion_user", "La descripcion es obligatoria, max 200 caracteres")
-    .isEmpty()
-    .isLength({ max: 200 }),
   check("password_user", "La contraseña es obligatoria, max 50 caracteres")
     .not()
     .isEmpty()

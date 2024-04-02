@@ -23,8 +23,8 @@ export const createUser = async (req, res) => {
       res.status(404).json(errors)
     }
 
-    const {cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, fechanacimiento_user, rol_user}= req.body
-    let sql = `INSERT INTO usuarios (pk_cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, fecha_nacimiento_user, rol_user) VALUES ('${cedula_user}', '${nombre_user}','${email_user}','${password_user}','${descripcion_user}','${telefono_user}', '${fechanacimiento_user}' ,'${rol_user}')`
+    const {cedula_user, nombre_user, email_user, password_user, telefono_user, fechanacimiento_user, rol_user}= req.body
+    let sql = `INSERT INTO usuarios (pk_cedula_user, nombre_user, email_user, password_user, telefono_user, fecha_nacimiento_user, rol_user) VALUES ('${cedula_user}', '${nombre_user}','${email_user}','${password_user}', '${telefono_user}', '${fechanacimiento_user}' ,'${rol_user}')`
     const [result] = await pool.query(sql)
     if(result.affectedRows> 0){
       res.status(200).json({status:200, message:"Usuario creado exitosamente"})
