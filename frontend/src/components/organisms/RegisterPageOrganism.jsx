@@ -10,7 +10,7 @@ const RegisterPageOrganism = () => {
         <RegisterFormMolecule />
         <p className="text-grisMedio3 dark:text-gray-400 text-xs">
           ¿Ya tienes una cuenta?
-          <LinkAtom to="/login">Iniciar sesión</LinkAtom>
+          <LinkAtom to="/">Iniciar sesión</LinkAtom>
         </p>
       </div>
     </div>

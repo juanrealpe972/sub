@@ -10,7 +10,7 @@ const LoginPageOrganism = () => {
         <LoginFormMolecule/>
         <p className="text-grisMedio3 dark:text-gray-400 text-xs">
           ¿No tienes una cuenta?
-          <LinkAtom to="/register">Crear cuenta</LinkAtom>
+          <LinkAtom to="/">Crear cuenta</LinkAtom>
         </p>
       </div>
     </div>

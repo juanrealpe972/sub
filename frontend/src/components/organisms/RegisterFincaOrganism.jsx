@@ -10,7 +10,7 @@ function RegisterFincaOrganism() {
         <ModalFincaMolecule />
         <p className="text-grisMedio3 dark:text-gray-400 text-xs">
           ¿No quieres crear una finca?
-          <LinkAtom to="/login">Volver</LinkAtom>
+          <LinkAtom to="/">Volver</LinkAtom>
         </p>
       </div>
     </div>
