@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AvatarAtom from "../atoms/AvatarAtom";
 import FooterLinkAtom from "../atoms/FooterLinkAtom";
 import { icono } from "../atoms/IconsAtom";
@@ -8,7 +8,7 @@ import FooterSectionMolecule from "../molecules/FooterSectionMolecule";
 import ButtonAtomFull from "../atoms/ButtonAtomFull";
 
 const FooterOrganism = () => {
-  const [text, setText] = useState();
+  const [texto, setTexto] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,13 +25,13 @@ const FooterOrganism = () => {
               <TextSubAtom to="/" color={"cafeClaroLogo"} text="Sub" />
               <TextSubAtom to="/" color={"cafeOscuroLogo"} text="Coffee" />
             </div>
-
             <p class="text-base leading-relaxed text-grisOscuro mt-2">
               Una plataforma innovadora diseñada para conectar a caficultores,
               compradores y comerciantes en un entorno de subastas eficiente y
-              transparente. Nuestro enfoque se centra en el café especial,
+              transparente.
+              {/* Nuestro enfoque se centra en el café especial,
               brindando a los amantes del café una forma única de descubrir y
-              adquirir los mejores granos.
+              adquirir los mejores granos. */}
             </p>
           </div>
 
@@ -58,8 +58,8 @@ const FooterOrganism = () => {
                 placeholder="Duda o sugerencia..."
                 required
                 type="text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+                value={texto}
+                onChange={(e) => setTexto(e.target.value)}
               />
               <ButtonAtomFull color="verdeSena1" colorHover="verdeSena2">
                 Enviar Duda
