@@ -9,8 +9,8 @@ import ComoPujarUnaSubasta from "./pages/ComoPujarUnaSubasta";
 import Configuration from "./pages/Configuration";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
-import InicioPage from "./pages/InicioPage";
 import AyudaPage from "./pages/AyudaPage";
+import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
           </Route>
 
           <Route path="/" element={<Dashboard />}>
-            <Route index element={<InicioPage />} />
+            <Route index element={<DashboardContentOrganims />} />
             <Route path="comopujar" element={<ComoCrearUnaSubasta />} />
             <Route path="comosubastar" element={<ComoPujarUnaSubasta />} />
             <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />

@@ -1,11 +1,11 @@
 import React from "react";
 import LinkButtonAtom from "../atoms/LinkButtonAtom";
-import { TiposDeCafeTemplates } from "../../components/templates/TiposDeCafeTemplates";
-import TiposDeCafeOrganism from "../organisms/TiposDeCafeOrganism";
+import { TiposDeCafeTemplates } from "../templates/TiposDeCafeTemplates";
+import TiposDeCafeOrganism from "./TiposDeCafeOrganism";
 import Text4xlSemiboldAtom from "../atoms/Text4xlSemiboldAtom";
 import TextXlSemiboldAtom from "../atoms/TextXlSemiboldAtom";
 
-function DashboardContentOrganism() {
+function DashboardContentOrganims() {
   return (
     <>
       <div className="flex items-center justify-center px-14">
@@ -70,4 +70,4 @@ function DashboardContentOrganism() {
   );
 }
 
-export default DashboardContentOrganism;
+export default DashboardContentOrganims;

@@ -1,9 +1,9 @@
 import React from "react";
-import Sidebar from "./components/Sidebar";
 import { useAuth } from "./context/AuthContext";
 import { useNavigate, Outlet } from "react-router-dom";
 import HeaderOrganism from "./components/organisms/HeaderOrganism";
 import FooterOrganism from "./components/organisms/FooterOrganism";
+import SidebarOrganims from "./components/organisms/SidebarOrganims";
 
 function ProtectedRoute() {
   const { isAuthenticated } = useAuth();
@@ -12,7 +12,7 @@ function ProtectedRoute() {
   if (isAuthenticated) {
     return (
       <div className="flex flex-auto h-auto">
-        <Sidebar />
+        <SidebarOrganims />
         <div className="grow">
           <HeaderOrganism />
           <Outlet />

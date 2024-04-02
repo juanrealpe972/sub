@@ -6,9 +6,9 @@ import HeaderOrganism from "../components/organisms/HeaderOrganism";
 
 const Dashboard = () => {
   return (
-    <div className="flex-auto h-screen py-20">
+    <div className="flex-auto h-screen py-6">
       <HeaderOrganism />
-      <main className="mt-10">
+      <main className="mt-8">
         <Outlet />
       </main>
       <FooterOrganism />

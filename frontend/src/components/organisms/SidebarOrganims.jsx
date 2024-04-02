@@ -2,11 +2,11 @@ import { Link, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import { RiSettings4Line } from "react-icons/ri";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import AvatarAtom from "./atoms/AvatarAtom";
-import TextSubAtom from "./atoms/TextSubAtom";
-import MessageOfLifeMolecule from "./molecules/MessageOfLifeMolecule"
+import AvatarAtom from "../atoms/AvatarAtom";
+import TextSubAtom from "../atoms/TextSubAtom";
+import MessageOfLifeMolecule from "../molecules/MessageOfLifeMolecule"
 
-const Sidebar = () => {
+const SidebarOrganims = () => {
   const [open, setOpen] = useState(true);
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
@@ -70,4 +70,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarOrganims;
