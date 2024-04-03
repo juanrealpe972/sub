@@ -16,16 +16,16 @@ const FooterOrganism = () => {
   };
 
   return (
-    <section class="py-2 sm:pt-16 bg-blancoMedio1 lg:pt-16">
-      <div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-        <div class="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-2">
-          <div class="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
+    <section className="py-2 sm:pt-16 bg-blancoMedio1 lg:pt-16">
+      <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-2">
+          <div className="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
             <div className="flex">
               <AvatarAtom img="isotipo-SubCoffee.png" alt="Logo" />
               <TextSubAtom to="/" color={"cafeClaroLogo"} text="Sub" />
               <TextSubAtom to="/" color={"cafeOscuroLogo"} text="Coffee" />
             </div>
-            <p class="text-base leading-relaxed text-grisOscuro mt-2">
+            <p className="text-base leading-relaxed text-grisOscuro mt-2">
               Una plataforma innovadora diseñada para conectar a caficultores,
               compradores y comerciantes en un entorno de subastas eficiente y
               transparente.
@@ -45,8 +45,8 @@ const FooterOrganism = () => {
             </FooterSectionMolecule>
           </div>
 
-          <div class="col-span-2 md:col-span-1 lg:col-span-2 lg:pl-8">
-            <p class="text-sm font-semibold tracking-widest text-gray-400 uppercase">
+          <div className="col-span-2 md:col-span-1 lg:col-span-2 lg:pl-8">
+            <p className="text-sm font-semibold tracking-widest text-gray-400 uppercase">
               ¿Tienes alguna duda?
             </p>
 
