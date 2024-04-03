@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 
-import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 
 import routerSubasta from "./src/routes/subasta.routes.js";
@@ -26,18 +25,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cookieParser());
 
-app.use("/", routerUser);
-app.use("/user", routerAuth);
-app.use("/", routerFinca);
-app.use("/", routerVariedad);
-app.use("/", routerProduccion);
-app.use("/", routerChat);
-app.use("/", routerSeguimiento);
-app.use("/", routerNotificaciones);
-app.use("/", routerPostulacion);
-app.use("/", routerSubasta);
+app.use("/auth", routerAuth);
+app.use("/v1", routerUser);
+app.use("/v1", routerFinca);
+app.use("/v1", routerVariedad);
+app.use("/v1", routerProduccion);
+app.use("/v1", routerChat);
+app.use("/v1", routerSeguimiento);
+app.use("/v1", routerNotificaciones);
+app.use("/v1", routerPostulacion);
+app.use("/v1", routerSubasta);
 
 app.listen(PORT, () => {
   console.log(`Connected on port: ${PORT}`);

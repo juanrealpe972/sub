@@ -9,7 +9,7 @@ import { icono } from "../atoms/IconsAtom";
 import SelectInputAtom from "../atoms/SelectInputAtom";
 import OptionAtom from "../atoms/OptionAtom";
 
-const RegisterFormMolecule = () => {
+const RegisterFormMolecule = ({ onClose }) => {
   const [cedula, setCedula] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ const RegisterFormMolecule = () => {
   const [birthdate, setBirthdate] = useState("");
   const [rol, setRol] = useState("");
   const navigation = useNavigate();
-  const URL = "http://localhost:9722/formuser";
+  const URL = "http://localhost:9722/v1/formuser";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -27,16 +27,15 @@ const RegisterFormMolecule = () => {
         cedula_user: cedula,
         nombre_user: fullName,
         email_user: email,
-        password_user : password,
+        password_user: password,
         telefono_user: phoneNumber,
         fechanacimiento_user: birthdate,
         rol_user: rol,
       });
       if (res.status === 200) {
-        const { token } = res.data;
         alert("Usuario registrado con éxito, ya puedes loguearte");
-        localStorage.setItem("Token", token);
         navigation("/");
+        onClose();
       } else {
         alert("Error al registrar el usuario");
       }

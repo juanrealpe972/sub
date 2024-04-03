@@ -35,7 +35,6 @@ function App() {
             <Route path="ayuda" element={<AyudaPage />} />
           </Route>
 
-
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

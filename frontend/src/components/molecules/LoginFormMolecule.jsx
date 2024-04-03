@@ -9,26 +9,28 @@ import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
 import { useAuth } from "../../context/AuthContext";
 
-const LoginFormMolecule = () => {
-  const { setIsAuthenticated } = useAuth();
+const LoginFormMolecule = ({onClose}) => {
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigate();
-  const URL = "http://localhost:9722/user/validar";
+  const URL = "http://localhost:9722/auth/validar";
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(URL, { correo: email, password: password });
+      const res = await axios.post(URL, { 
+        correo: email,
+        password: password
+      });
       if (res.status === 200) {
-        const { token } = res.data;
         alert("Usuario validado con éxito");
-        localStorage.setItem("Token", token);
-        setIsAuthenticated(true)
+        login();
         navigation("/subcoffee");
         console.log(res.data);
-      } else if (res.status === 404) {
-        alert("Usuario no validado");
+        onClose()
+      } else if (res.status === 401) {
+        alert("Usuario no registrado");
       }
     } catch (error) {
       alert("Error en el sistema: " + error.message);
@@ -59,7 +61,9 @@ const LoginFormMolecule = () => {
       />
       <LinkAtom to="/">¿Olvidaste tu contraseña?</LinkAtom>
       <br />
-      <center><ButtonAtom type="submit">Iniciar Sesión</ButtonAtom></center>
+      <center>
+        <ButtonAtom type="submit">Iniciar Sesión</ButtonAtom>
+      </center>
     </form>
   );
 };

@@ -48,6 +48,13 @@ function HeaderOrganism() {
     setAbrirCerrarSesion(false);
   };
 
+  const toggleAbrirModalRegister = () => {
+    setabrirModalRegister(!abrirModalRegister);
+  };
+  const toggleAbrirModalLogin = () => {
+    setabrirModalLogin(!abrirModalLogin);
+  };
+
   const toggleTheme = () => {
     setIsMoonSelected((prevValue) => !prevValue);
   };
@@ -149,14 +156,14 @@ function HeaderOrganism() {
       )}
       {abrirModalLogin && (
         <AbrirModalTemplate>
-          <LoginPageOrganism />
-          <ButtonCerrarModalAtom onClose={() => setabrirModalLogin(false)} />
+          <LoginPageOrganism onClose={toggleAbrirModalLogin} />
+          <ButtonCerrarModalAtom onClose={toggleAbrirModalLogin} />
         </AbrirModalTemplate>
       )}
       {abrirModalRegister && (
         <AbrirModalTemplate>
-          <RegisterPageOrganism />
-          <ButtonCerrarModalAtom onClose={() => setabrirModalRegister(false)} />
+          <RegisterPageOrganism onClose={toggleAbrirModalRegister} />
+          <ButtonCerrarModalAtom onClose={toggleAbrirModalRegister} />
         </AbrirModalTemplate>
       )}
     </>
