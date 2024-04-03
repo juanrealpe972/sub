@@ -17,10 +17,6 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true)
   };
 
-  const logout = () => {
-    setIsAuthenticated(false)
-    
-  };
 
   useEffect(() => {
     try {
@@ -31,9 +27,11 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ login, logout, isAuthenticated, setIsAuthenticated }}
+      value={{ login, isAuthenticated, setIsAuthenticated }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext

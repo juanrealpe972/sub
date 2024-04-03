@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import {Toaster} from "react-hot-toast"
 
 import SubastaPage from "./pages/SubastaPage";
 import Dashboard from "./pages/Dashboard";
@@ -14,31 +15,34 @@ import DashboardContentOrganims from "./components/organisms/DashboardContentOrg
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<ProtectedRoute />}>
-            <Route path="subcoffee" element={<SubastaPage />} />
-            <Route path="profile" element={<ProfileUser />} />
-            <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
-            <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
-            <Route path="configuration" element={<Configuration />} />
-            <Route path="ayuda" element={<AyudaPage />} />
-          </Route>
+    <>
+      <Toaster />
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<ProtectedRoute />}>
+              <Route path="subcoffee" element={<SubastaPage />} />
+              <Route path="profile" element={<ProfileUser />} />
+              <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
+              <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
+              <Route path="configuration" element={<Configuration />} />
+              <Route path="ayuda" element={<AyudaPage />} />
+            </Route>
 
-          <Route path="/" element={<Dashboard />}>
-            <Route index element={<DashboardContentOrganims />} />
-            <Route path="comopujar" element={<ComoCrearUnaSubasta />} />
-            <Route path="comosubastar" element={<ComoPujarUnaSubasta />} />
-            <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
-            <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
-            <Route path="ayuda" element={<AyudaPage />} />
-          </Route>
+            <Route path="/" element={<Dashboard />}>
+              <Route index element={<DashboardContentOrganims />} />
+              <Route path="comopujar" element={<ComoCrearUnaSubasta />} />
+              <Route path="comosubastar" element={<ComoPujarUnaSubasta />} />
+              <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
+              <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
+              <Route path="ayuda" element={<AyudaPage />} />
+            </Route>
 
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { icono } from "./IconsAtom";
 
-const InputWithToggleIconAtom = ({ icon:Icon, placeholder, value, onChange }) => {
+const InputWithToggleIconAtom = React.forwardRef(({ icon: Icon, placeholder }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -14,8 +14,7 @@ const InputWithToggleIconAtom = ({ icon:Icon, placeholder, value, onChange }) =>
       <input
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
+        ref={ref}
         className="pl-10 pr-10 py-2 w-full rounded-md border border-grisClaro shadow-sm focus:border-verdeSena2 focus:ring-0"
       />
       <button
@@ -27,6 +26,6 @@ const InputWithToggleIconAtom = ({ icon:Icon, placeholder, value, onChange }) =>
       </button>
     </div>
   );
-};
+})
 
 export default InputWithToggleIconAtom;

@@ -16,7 +16,7 @@ import RegisterPageOrganism from "./RegisterPageOrganism";
 import SubastaFormPageOrganism from "./SubastaFormPageOrganism";
 
 function HeaderOrganism() {
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = window.localStorage.getItem("token");
   const [abrirModalLogin, setabrirModalLogin] = useState(false);
   const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirModalRegister, setabrirModalRegister] = useState(false);

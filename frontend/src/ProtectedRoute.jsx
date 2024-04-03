@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "./context/AuthContext";
 import { useNavigate, Outlet } from "react-router-dom";
 import HeaderOrganism from "./components/organisms/HeaderOrganism";
 import FooterOrganism from "./components/organisms/FooterOrganism";
 import SidebarOrganims from "./components/organisms/SidebarOrganims";
 
 function ProtectedRoute() {
-  const { isAuthenticated } = useAuth();
+  const auth = window.localStorage.getItem("token");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!auth) {
       setTimeout(() => {
         navigate("/");
-      }, 2000)
+      }, 2000);
     } else {
       setLoading(false);
     }
-  }, [isAuthenticated, navigate]);
+  }, [auth, navigate]);
 
   return (
     <>

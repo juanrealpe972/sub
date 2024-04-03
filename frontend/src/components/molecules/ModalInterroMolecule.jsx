@@ -1,15 +1,13 @@
 import React from "react";
-import { useAuth } from "../../context/AuthContext";
 import { icono } from "../atoms/IconsAtom";
 import ButtonAtomFull from "../atoms/ButtonAtomFull";
 import { useNavigate } from "react-router-dom";
 
 function ModalInterroMolecule() {
-  const { logout } = useAuth();
   const navigator = useNavigate();
 
   const logoutt = () => {
-    logout();
+    localStorage.clear();
     navigator("/");
   };
 

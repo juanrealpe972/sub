@@ -1,75 +1,59 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 
 import LinkAtom from "../atoms/LinkAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithToggleIconAtom from "../atoms/InputWithToggleIconAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
-import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
-const LoginFormMolecule = () => {
-  const { login } = useAuth();
+const LoginFormMolecule = ({ onClose }) => {
   const navigation = useNavigate();
   const URL = "http://localhost:9722/auth/validar";
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  console.log(watch("example"));
+  const emailRef = useRef(null); // Cambié email a emailRef
+  const passwordRef = useRef(null); // Cambié password a passwordRef
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const data = {
+      correo: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
     try {
-      const res = await axios.post(URL, {
-        correo: email,
-        password: password,
-      });
+      const res = await axios.post(URL, data);
       if (res.status === 200) {
-        alert("Usuario validado con éxito");
-        login();
         localStorage.setItem("token", res.data.token);
         navigation("/subcoffee");
         console.log(res.data);
+        toast.success("Usuario validado con éxito", { duration: 5000 });
       } else if (res.status === 401) {
-        alert("Usuario no registrado");
+        toast.error("Usuario no registrado");
       }
     } catch (error) {
-      alert("Error en el sistema: " + error.message);
+      console.error(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-4">
       <InputWithIconAtom
         icon={icono.iconoGmail}
-        id="email"
-        name="email"
         placeholder="Correo electrónico"
         required
         type="email"
-        {...register("email")}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        ref={emailRef} // Cambié ref a emailRef
       />
-      {errors.email && <span>This field is required</span>}
       <InputWithToggleIconAtom
         icon={icono.iconoContraseña}
-        id="password"
-        name="password"
         placeholder="Contraseña"
         required
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        ref={passwordRef} // Cambié ref a passwordRef
       />
       <LinkAtom to="/">¿Olvidaste tu contraseña?</LinkAtom>
       <br />
