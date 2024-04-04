@@ -1,91 +1,98 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import TextTareaAtom from "../atoms/TextTareaAtom";
 import { icono } from "../atoms/IconsAtom";
+import axios from "axios";
 
 const ModalFincaMolecule = () => {
-  const [nombreFinca, setNombreFinca] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [municipio, setMunicipio] = useState("");
-  const [departamento, setDepartamento] = useState("");
-  const [imagen, setImagen] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+  const nombreFincaRef = useRef(null);
+  const direccionRef = useRef(null);
+  const municipioRef = useRef(null);
+  const departamentoRef = useRef(null);
+  const imagenRef = useRef(null);
+  const descripcionRef = useRef(null);
   const navigate = useNavigate();
+  const URL = "http://localhost:9722/v1/formfinca"
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      alert("Finca creada con éxito");
-    } catch (error) {
-      alert("Error en el sistema" + error);
+
+    const data = {
+      nombre_fin : nombreFincaRef.current.value,
+      ubicacion_fin : direccionRef.current.value,
+      municipio_fin : municipioRef.current.value,
+      departamento_fin : departamentoRef.current.value,
+      imagen_fin : imagenRef.current.files[0],
+      descripcion_fin : descripcionRef.current.value,
+      fk_id_usuario: "1084251889", 
+      estado_fin : "activo",
     }
+
+    if (!nombreFincaRef || !direccionRef || !municipioRef || !departamentoRef || !imagenRef || !descripcionRef) {
+      toast.error("Por favor complete todos los campos del formulario");
+      return;
+    }
+
+    axios.post(URL, data).then((response) => {
+      if(response.status === 200){
+        toast.success("Finca creada con éxito!");
+        navigate("/subcoffee"); 
+      }else {
+        toast.error("Error al crear la finca: " + error.message);
+      }
+    }).catch((error) => {
+      toast.error("Error en el sistema "+ error)
+    })
+    
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <InputWithIconAtom
         icon={icono.iconoNamePropiedad}
-        id="nombreFinca"
-        name="nombreFinca"
         placeholder="Nombre de la Finca"
         required
         type="text"
-        value={nombreFinca}
-        onChange={(e) => setNombreFinca(e.target.value)}
+        ref={nombreFincaRef}
       />
       <InputWithIconAtom
         icon={icono.iconoMundo}
-        id="direccion"
-        name="direccion"
         placeholder="Dirección"
         required
         type="text"
-        value={direccion}
-        onChange={(e) => setDireccion(e.target.value)}
+        ref={direccionRef}
       />
       <div className="grid grid-cols-2 gap-4">
         <InputWithIconAtom
           icon={icono.iconoMunicipio}
-          id="municipio"
-          name="municipio"
           placeholder="Municipio"
           required
           type="text"
-          value={municipio}
-          onChange={(e) => setMunicipio(e.target.value)}
+          ref={municipioRef}
         />
         <InputWithIconAtom
           icon={icono.iconoDepartamento}
-          id="departamento"
-          name="departamento"
           placeholder="Departamento"
           required
           type="text"
-          value={departamento}
-          onChange={(e) => setDepartamento(e.target.value)}
+          ref={departamentoRef}
         />
       </div>
       <InputWithIconAtom
         icon={icono.iconoPush}
-        id="imagen"
-        name="imagen"
         placeholder="Imagen"
         required
         type="file"
-        value={imagen}
-        onChange={(e) => setImagen(e.target.files[0])}
+        ref={imagenRef}
       />
       <TextTareaAtom
         icon={icono.iconoDescript}
-        id="descripcion"
-        name="descripcion"
-        value={descripcion}
-        onChange={(e) => setDescripcion(e.target.value)}
+        ref={descripcionRef}
       >
-        Descripcion
       </TextTareaAtom>
       <center>
         <ButtonAtom type="submit">Crear Finca</ButtonAtom>
