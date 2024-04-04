@@ -1,132 +1,127 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
 import TextTareaAtom from "../atoms/TextTareaAtom";
 
-function SubastaFormMolecule() {
-  const [fechaInicial, setFechaInicial] = useState("");
-  const [fechaFinal, setFechaFinal] = useState("");
-  const [precioInicial, setPrecioInicial] = useState("");
-  const [nombreSubasta, setNombreSubasta] = useState("");
-  const [imagen, setImagen] = useState("");
-  const [tipoVariedad, setTipoVariedad] = useState("");
-  const [puntuacionCafe, setPuntuacionCafe] = useState("");
-  const [cantidad, setCantidad] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+const SubastaFormMolecule = () => {
+  const nombreSubastaRef = useRef(null);
+  const fechaInicialRef = useRef(null);
+  const fechaFinalRef = useRef(null);
+  const cantidadRef = useRef(null);
+  const precioInicialRef = useRef(null);
+  const imagenRef = useRef(null);
+  const tipoVariedadRef = useRef(null);
+  const puntuacionCafeRef = useRef(null);
+  const descripcionRef = useRef(null);
 
   const navigate = useNavigate();
-
-  const URL = "";
+  const URL = "http://localhost:9722/v1/formsub";
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-    } catch (error) {
-      alert("Error en el sistema" + error);
-    }
+
+    const data = {
+      nombreSubasta: nombreSubastaRef.current.value,
+      fechaInicial: fechaInicialRef.current.value,
+      fechaFinal: fechaFinalRef.current.value,
+      cantidad: cantidadRef.current.value,
+      precioInicial: precioInicialRef.current.value,
+      imagen: imagenRef.current.files[0],
+      tipoVariedad: tipoVariedadRef.current.value,
+      puntuacionCafe: puntuacionCafeRef.current.value,
+      descripcion: descripcionRef.current.value,
+    };
+
+    axios
+      .post(URL, data)
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Subasta creada con éxito");
+          navigate("/subcoffee"); 
+        } else {
+          toast.error("Error al crear la subasta");
+        }
+      })
+      .catch((error) => {
+        toast.error("Error en el sistema: " + error.message);
+      });
   };
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <InputWithIconAtom
         icon={icono.iconoNamePropiedad}
-        id="nombreSubasta"
-        name="nombreSubasta"
         placeholder="Nombre de la Subasta"
         required
         type="text"
-        value={nombreSubasta}
-        onChange={(e) => setNombreSubasta(e.target.value)}
+        ref={nombreSubastaRef}
       />
       <div className="grid grid-cols-2">
         <InputWithIconAtom
           icon={icono.iconoFecha}
-          id="fechaInicial"
-          name="fechaInicial"
           placeholder="Fecha inicial"
           required
           type="date"
-          value={fechaInicial}
-          onChange={(e) => setFechaInicial(e.target.value)}
+          ref={fechaInicialRef}
         />
         <InputWithIconAtom
           icon={icono.iconoDateDay}
-          id="fechaFinal"
-          name="fechaFinal"
           placeholder="Fecha final"
           required
           type="date"
-          value={fechaFinal}
-          onChange={(e) => setFechaFinal(e.target.value)}
+          ref={fechaFinalRef}
         />
       </div>
       <div className="grid grid-cols-2 gap-x-2">
         <InputWithIconAtom
           icon={icono.iconoQuantity}
-          id="cantidad"
-          name="cantidad"
           placeholder="Cantidad"
           required
           type="number"
-          value={cantidad}
-          onChange={(e) => setCantidad(e.target.value)}
+          ref={cantidadRef}
         />
         <InputWithIconAtom
           icon={icono.iconoPrice}
-          id="precioInicial"
-          name="precioInicial"
           placeholder="Precio Inicial"
           required
           type="number"
-          value={precioInicial}
-          onChange={(e) => setPrecioInicial(e.target.value)}
+          ref={precioInicialRef}
         />
       </div>
       <InputWithIconAtom
         icon={icono.iconoPush}
-        id="imagen"
-        name="imagen"
         placeholder="Imagen del producto"
         required
         type="file"
-        value={imagen}
-        onChange={(e) => setImagen(e.target.files[0])}
+        ref={imagenRef}
       />
       <div className="grid grid-cols-2">
         <InputWithIconAtom
           icon={icono.iconoType}
-          id="tipoVariedad"
-          name="tipoVariedad"
           placeholder="Tipo de variedad"
           required
           type="text"
-          value={tipoVariedad}
-          onChange={(e) => setTipoVariedad(e.target.value)}
+          ref={tipoVariedadRef}
         />
         <InputWithIconAtom
           icon={icono.iconoValor}
-          id="puntuacionCafe"
-          name="puntuacionCafe"
           placeholder="Puntuación café"
           required
           type="number"
-          value={puntuacionCafe}
-          onChange={(e) => setPuntuacionCafe(e.target.value)}
+          step="any"
+          ref={puntuacionCafeRef}
         />
       </div>
       <TextTareaAtom
         icon={icono.iconoDescript}
-        id="descripcion"
-        name="descripcion"
-        value={descripcion}
-        onChange={(e) => setDescripcion(e.target.value)}
-      >
-        Descripcion
-      </TextTareaAtom>
+        placeholder="Descripción"
+        ref={descripcionRef}
+      />
       <center>
         <ButtonAtom type="submit">Crear subasta</ButtonAtom>
       </center>

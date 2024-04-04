@@ -47,7 +47,8 @@ export const createSub = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" + error });
   }
-};
+}
+
 export const updateSub = async (req, res) => {
   try {
     const result = await pool.query("UPDATE subasta SET ? WHERE id = ?", [
@@ -58,7 +59,8 @@ export const updateSub = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" + error });
   }
-};
+}
+
 export const deleteSub = async (req, res) => {
   try {
     const [result] = await pool.query("DELETE FROM subasta WHERE id = ?", [
@@ -71,4 +73,4 @@ export const deleteSub = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" + error });
   }
-};
+}
