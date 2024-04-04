@@ -12,7 +12,6 @@ const ModalVariedadMolecule = ({ onClose }) => {
   const descripcionVariRef = useRef(null);
   const imagenVariRef = useRef(null);
   const puntuacionVariRef = useRef(null);
-  const estadoVariRef = useRef(null);
   const navigate = useNavigate();
   const URL = "http://localhost:9722/v1/formvariedad";
 
@@ -24,15 +23,13 @@ const ModalVariedadMolecule = ({ onClose }) => {
       descripcion_vari: descripcionVariRef.current.value,
       imagen_vari: imagenVariRef.current.files[0],
       puntuacion_vari: puntuacionVariRef.current.value,
-      estado_vari: estadoVariRef.current.value,
     };
 
     if (
       !tipoVariRef.current ||
       !descripcionVariRef.current ||
       !imagenVariRef.current ||
-      !puntuacionVariRef.current ||
-      !estadoVariRef.current
+      !puntuacionVariRef.current 
     ) {
       toast.error("Por favor complete todos los campos del formulario");
       return;
@@ -83,13 +80,6 @@ const ModalVariedadMolecule = ({ onClose }) => {
         required
         type="number"
         ref={puntuacionVariRef}
-      />
-      <InputWithIconAtom
-        icon={icono.iconoBuscar}
-        placeholder="Estado"
-        required
-        type="text"
-        ref={estadoVariRef}
       />
       <center>
         <ButtonAtom type="submit">Registrar Variedad</ButtonAtom>

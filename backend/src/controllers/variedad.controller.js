@@ -31,8 +31,8 @@ export const getVariedad = async (req, res) => {
 
 export const createVariedad = async (req, res) => {
   try {
-    const {tipo_vari, descripcion_vari, puntuacion_vari, estado_vari} = req.body
-    let sql = `INSERT INTO variedad(tipo_vari, descripcion_vari, puntuacion_vari, estado_vari) VALUES ('${tipo_vari}', '${descripcion_vari}', '${puntuacion_vari}', '${estado_vari}')`
+    const {tipo_vari, descripcion_vari, puntuacion_vari} = req.body
+    let sql = `INSERT INTO variedad(tipo_vari, descripcion_vari, puntuacion_vari) VALUES ('${tipo_vari}', '${descripcion_vari}', '${puntuacion_vari}')`
     const [result] = await pool.query(sql)
     if(result.affectedRows > 0){
         res.status(200).json({message:"Variedades creada con exito", data:result})
