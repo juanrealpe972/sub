@@ -11,7 +11,7 @@ function RegisterFincaOrganism({onClose}) {
       <ModalFincaMolecule onClose={onClose} />
       <ButtonVolverAtom>
         ¿No quieres crear una finca?
-        <LinkAtom to="/">Volver</LinkAtom>
+        <LinkAtom to="/subcoffee">Volver</LinkAtom>
       </ButtonVolverAtom>
     </>
   );
