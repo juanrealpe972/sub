@@ -4,11 +4,11 @@ import ModalFincaMolecule from "../molecules/ModalFincaMolecule";
 import TitleForModal from "../atoms/TitleForModal";
 import ButtonVolverAtom from "../atoms/ButtonVolverAtom";
 
-function RegisterFincaOrganism() {
+function RegisterFincaOrganism({onClose}) {
   return (
     <>
       <TitleForModal>Registrar finca</TitleForModal>
-      <ModalFincaMolecule />
+      <ModalFincaMolecule onClose={onClose} />
       <ButtonVolverAtom>
         ¿No quieres crear una finca?
         <LinkAtom to="/">Volver</LinkAtom>

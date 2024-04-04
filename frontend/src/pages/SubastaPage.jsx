@@ -8,23 +8,28 @@ import RegisterFincaOrganism from "../components/organisms/RegisterFincaOrganism
 import ButtonAtom from "../components/atoms/ButtonAtom";
 
 function SubastaPage() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModalFinca, setShowModalFinca] = useState(false);
 
+  const toggleAbrirModalFinca = () => {
+    setShowModalFinca(!showModalFinca);
+  }
+  
   return (
     <div className="px-14">
       <div className="w-full flex flex-col justify-center items-end my-10">
         <ImagenesSliderOrganism />
         <p>¡Tu finca tiene una historia que contar!</p>
       </div>
-      <ButtonAtom onClick={() => setShowModal(true)}>Crear finca</ButtonAtom>
+      <ButtonAtom onClick={() => setShowModalFinca(true)}>Crear finca</ButtonAtom>
+      <ButtonAtom onClick={() => setShowModalFinca(true)}>Crear Variedad</ButtonAtom>
       <div className="w-full">
         <h1 className="font-semibold ml-5">Borbon</h1>
         <SubastaCard />
       </div>
-      {showModal && (
+      {showModalFinca && (
         <AbrirModalTemplate>
-          <RegisterFincaOrganism />
-          <ButtonCerrarModalAtom onClose={() => setShowModal(false)} />
+          <RegisterFincaOrganism onClose={toggleAbrirModalFinca} />
+          <ButtonCerrarModalAtom onClose={() => setShowModalFinca(false)} />
         </AbrirModalTemplate>
       )}
     </div>
