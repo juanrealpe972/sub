@@ -156,7 +156,7 @@ function HeaderOrganism() {
       )}
       {abrirModalLogin && (
         <AbrirModalTemplate>
-          <LoginPageOrganism onClose={toggleAbrirModalLogin} />
+          <LoginPageOrganism />
           <ButtonCerrarModalAtom onClose={toggleAbrirModalLogin} />
         </AbrirModalTemplate>
       )}

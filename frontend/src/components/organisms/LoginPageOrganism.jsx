@@ -4,11 +4,11 @@ import LoginFormMolecule from "../molecules/LoginFormMolecule";
 import TitleForModal from "../atoms/TitleForModal";
 import ButtonVolverAtom from "../atoms/ButtonVolverAtom";
 
-const LoginPageOrganism = ({ onClose }) => {
+const LoginPageOrganism = () => {
   return (
     <>
       <TitleForModal>Iniciar sesión</TitleForModal>
-      <LoginFormMolecule onClose={onClose} />
+      <LoginFormMolecule />
       <ButtonVolverAtom>
         ¿No tienes una cuenta?
         <LinkAtom to="/">Registrarse</LinkAtom>

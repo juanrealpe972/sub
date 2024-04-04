@@ -9,12 +9,12 @@ import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
 import toast from "react-hot-toast";
 
-const LoginFormMolecule = ({ onClose }) => {
+const LoginFormMolecule = () => {
   const navigation = useNavigate();
   const URL = "http://localhost:9722/auth/validar";
 
-  const emailRef = useRef(null); // Cambié email a emailRef
-  const passwordRef = useRef(null); // Cambié password a passwordRef
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -24,19 +24,18 @@ const LoginFormMolecule = ({ onClose }) => {
       password: passwordRef.current.value,
     };
 
-    try {
-      const res = await axios.post(URL, data);
-      if (res.status === 200) {
-        localStorage.setItem("token", res.data.token);
-        navigation("/subcoffee");
-        console.log(res.data);
-        toast.success("Usuario validado con éxito", { duration: 5000 });
-      } else if (res.status === 401) {
-        toast.error("Usuario no registrado");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    await axios
+      .post(URL, data)
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem("token", res.data.token);
+          navigation("/subcoffee");
+          toast.success("Usuario validado con éxito", { duration: 5000 });
+        } else if (res.status === 401) {
+          toast.error("Usuario no registrado");
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -46,14 +45,14 @@ const LoginFormMolecule = ({ onClose }) => {
         placeholder="Correo electrónico"
         required
         type="email"
-        ref={emailRef} // Cambié ref a emailRef
+        ref={emailRef}
       />
       <InputWithToggleIconAtom
         icon={icono.iconoContraseña}
         placeholder="Contraseña"
         required
         type="password"
-        ref={passwordRef} // Cambié ref a passwordRef
+        ref={passwordRef}
       />
       <LinkAtom to="/">¿Olvidaste tu contraseña?</LinkAtom>
       <br />

@@ -2,6 +2,7 @@ import React from "react";
 import { icono } from "../atoms/IconsAtom";
 import ButtonAtomFull from "../atoms/ButtonAtomFull";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function ModalInterroMolecule() {
   const navigator = useNavigate();
@@ -9,6 +10,7 @@ function ModalInterroMolecule() {
   const logoutt = () => {
     localStorage.clear();
     navigator("/");
+    toast.success("Cierre de sesión exitoso")
   };
 
   return (

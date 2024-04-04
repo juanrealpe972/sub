@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef } from "react";
 import axios from "axios";
 
 import ButtonAtom from "../atoms/ButtonAtom";
@@ -8,116 +7,97 @@ import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
 import SelectInputAtom from "../atoms/SelectInputAtom";
 import OptionAtom from "../atoms/OptionAtom";
+import toast from "react-hot-toast";
 
 const RegisterFormMolecule = ({ onClose }) => {
-  const [cedula, setCedula] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [rol, setRol] = useState("");
-  const navigation = useNavigate();
+  const cedula = useRef(null);
+  const fullName = useRef(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const phoneNumber = useRef(null);
+  const birthdate = useRef(null);
+  const rol = useRef(null);
   const URL = "http://localhost:9722/v1/formuser";
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(URL, {
-        cedula_user: cedula,
-        nombre_user: fullName,
-        email_user: email,
-        password_user: password,
-        telefono_user: phoneNumber,
-        fechanacimiento_user: birthdate,
-        rol_user: rol,
-      });
-      if (res.status === 200) {
-        alert("Usuario registrado con éxito, ya puedes loguearte");
-        navigation("/");
-        onClose();
-      } else {
-        alert("Error al registrar el usuario");
-      }
-    } catch (error) {
-      alert("Error en el sistema: " + error.message);
-    }
+
+    const data = {
+      cedula_user: cedula.current.value,
+      nombre_user: fullName.current.value,
+      email_user: email.current.value,
+      password_user: password.current.value,
+      telefono_user: phoneNumber.current.value,
+      fechanacimiento_user: birthdate.current.value,
+      rol_user: rol.current.value,
+    };
+
+    await axios
+      .post(URL, data)
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Usuario registrado con éxito, ya puedes loguearte", {
+            duration: 2000,
+          });
+          onClose();
+        } else {
+          toast.error("Error al registrar el usuario");
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <InputWithIconAtom
         icon={icono.iconoUser}
-        id="fullName"
-        name="fullName"
         placeholder="Nombre Completo"
         required
         type="text"
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
+        ref={fullName}
       />
       <div className="grid grid-cols-2 space-x-2">
         <InputWithIconAtom
           icon={icono.iconoCedula}
-          id="cedula"
-          name="cedula"
           placeholder="Cédula"
           required
           type="number"
-          value={cedula}
-          onChange={(e) => setCedula(e.target.value)}
+          ref={cedula}
         />
         <InputWithIconAtom
           icon={icono.iconoFecha}
-          id="birthdate"
-          name="birthdate"
           placeholder="Fecha de Nacimiento"
           required
           type="date"
-          value={birthdate}
-          onChange={(e) => setBirthdate(e.target.value)}
+          ref={birthdate}
         />
       </div>
       <InputWithIconAtom
         icon={icono.iconoGmail}
-        id="email"
-        name="email"
         placeholder="Correo"
         required
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        ref={email}
       />
       <div className="grid grid-cols-2 space-x-2 items-center">
         <InputWithIconAtom
           icon={icono.iconoCelular}
-          id="phoneNumber"
-          name="phoneNumber"
           placeholder="Teléfono"
           required
           type="number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          ref={phoneNumber}
         />
-        <SelectInputAtom
-          id="rol"
-          name="rol"
-          value={rol}
-          onChange={(e) => setRol(e.target.value)}
-        >
+        <SelectInputAtom ref={rol}>
           <OptionAtom value="vendedor" label="Vendedor" />
           <OptionAtom value="comprador" label="Comprador" />
         </SelectInputAtom>
       </div>
       <InputWithToggleIconAtom
         icon={icono.iconoContraseña}
-        id="password"
-        name="password"
         placeholder="Contraseña"
         required
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        ref={password}
       />
       <div className="flex mt-4 gap-x-2">
         <input type="checkbox" />
