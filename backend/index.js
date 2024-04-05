@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.static('./public'))
 
 app.use("/auth", routerAuth);
 app.use("/v1", routerUser);
