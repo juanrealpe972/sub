@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import TextTareaAtom from "../atoms/TextTareaAtom";
 import { icono } from "../atoms/IconsAtom";
-import axios from "axios";
 
 const ModalFincaMolecule = ({ onClose }) => {
   const nombreFincaRef = useRef(null);
@@ -16,7 +16,7 @@ const ModalFincaMolecule = ({ onClose }) => {
   const imagenRef = useRef(null);
   const descripcionRef = useRef(null);
   const navigate = useNavigate();
-  const URL = "http://localhost:9722/v1/formfinca";
+  const URL = "http://localhost:9722/v1/finca";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ const ModalFincaMolecule = ({ onClose }) => {
       ubicacion_fin: direccionRef.current.value,
       municipio_fin: municipioRef.current.value,
       departamento_fin: departamentoRef.current.value,
-      imagen_fin: imagenRef.current.files[0],
+      imagen_fin: imagenRef.current.file,
       descripcion_fin: descripcionRef.current.value,
       fk_id_usuario: "1084251889",
       estado_fin: "activo",

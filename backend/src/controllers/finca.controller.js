@@ -45,7 +45,7 @@ export const createFinca = async (req, res) => {
   try {
     const { nombre_fin, ubicacion_fin, descripcion_fin, departamento_fin, municipio_fin, fk_id_usuario, estado_fin } = req.body;
 
-    let imagen_fin = req.filename;
+    let imagen_fin = req.file.originalname;
 
     let sql = `INSERT INTO finca(nombre_fin, ubicacion_fin, imagen_fin, descripcion_fin, departamento_fin, municipio_fin, fk_id_usuario, estado_fin) VALUES ('${nombre_fin}', '${ubicacion_fin}', '${imagen_fin}', '${descripcion_fin}', '${departamento_fin}', '${municipio_fin}', '${fk_id_usuario}', '${estado_fin}')`;
     const [rows] = await pool.query(sql);
