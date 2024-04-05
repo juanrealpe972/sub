@@ -5,8 +5,8 @@ const routerProduccion = Router()
 
 routerProduccion.get("/produccion", getProducciones)
 routerProduccion.get("/produccion/:id", getProduccion)
-routerProduccion.post("/formproduccion", createProduccion)
-routerProduccion.put("/formproduccion/:id", updateProduccion)
+routerProduccion.post("/produccion", createProduccion)
+routerProduccion.put("/produccion/:id", updateProduccion)
 routerProduccion.delete("/produccion/:id", deleteProduccion)
 
 export default routerProduccion

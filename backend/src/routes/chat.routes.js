@@ -5,8 +5,8 @@ const routerChat = Router()
 
 routerChat.get("/chat", getChats)
 routerChat.get("/chat/:id", getChat)
-routerChat.post("/formchat", createChat)
-routerChat.put("/formchat/:id", updateChat)
+routerChat.post("/chat", createChat)
+routerChat.put("/chat/:id", updateChat)
 routerChat.delete("/chat/:id", deleteChat)
 
 export default routerChat

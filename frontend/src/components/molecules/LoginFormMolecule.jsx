@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 
 const LoginFormMolecule = () => {
   const navigation = useNavigate();
-  const URL = "http://localhost:9722/auth/validar";
+  const URL = "http://localhost:9722/auth/login";
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);

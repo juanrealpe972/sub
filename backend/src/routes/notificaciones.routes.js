@@ -5,8 +5,8 @@ const routerNotificaciones = Router()
 
 routerNotificaciones.get("/notificacion", getNotificaciones)
 routerNotificaciones.get("/notificacion/:id", getNotificaciones)
-routerNotificaciones.post("/formnotificacion", createNotificacion)
-routerNotificaciones.put("/formnotificacion/:id", updateNotificacion)
+routerNotificaciones.post("/notificacion", createNotificacion)
+routerNotificaciones.put("/notificacion/:id", updateNotificacion)
 routerNotificaciones.delete("/notificacion/:id", deleteNotificacion)
 
 export default routerNotificaciones

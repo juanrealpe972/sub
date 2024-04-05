@@ -17,7 +17,7 @@ const RegisterFormMolecule = ({ onClose }) => {
   const phoneNumber = useRef(null);
   const birthdate = useRef(null);
   const rol = useRef(null);
-  const URL = "http://localhost:9722/v1/formuser";
+  const URL = "http://localhost:9722/v1/users";
 
   const onSubmit = async (e) => {
     e.preventDefault();

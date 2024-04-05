@@ -5,8 +5,8 @@ const routerVariedad = Router()
 
 routerVariedad.get("/variedad",getVariedades)
 routerVariedad.get("/variedad/:id",getVariedad)
-routerVariedad.post("/formvariedad", createVariedad)
-routerVariedad.put("/formvariedad/:id",updateVariedad)
+routerVariedad.post("/variedad", createVariedad)
+routerVariedad.put("/variedad/:id",updateVariedad)
 routerVariedad.delete("/variedad/:id",deleteVariedad)
 
 export default routerVariedad

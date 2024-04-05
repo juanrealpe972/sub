@@ -16,11 +16,8 @@ import routerNotificaciones from "./src/routes/notificaciones.routes.js";
 import routerPostulacion from "./src/routes/postulacion.routes.js";
 
 const PORT = 9722;
-
 const app = express();
-
-app.use(cors());
-
+app.use(cors());  
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));

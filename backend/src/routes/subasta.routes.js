@@ -3,10 +3,10 @@ import { createSub, deleteSub, getSub, getSubs, updateSub } from '../controllers
 
 const routerSubasta = Router()
 
-routerSubasta.get("/sub", getSubs)
-routerSubasta.get("/sub/:id", getSub)
-routerSubasta.post("/formsub", createSub)
-routerSubasta.put("/formsub/:id", updateSub)
-routerSubasta.delete("/sub/:id", deleteSub)
+routerSubasta.get("/subasta", getSubs)
+routerSubasta.get("/subasta/:id", getSub)
+routerSubasta.post("/subasta", createSub)
+routerSubasta.put("/subasta/:id", updateSub)
+routerSubasta.delete("/subasta/:id", deleteSub)
 
 export default routerSubasta;

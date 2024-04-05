@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createFinca, deleteFinca, getFinca, getFincas, updateFinca } from "../controllers/finca.controller.js";
+import { cargarImagen, createFinca, deleteFinca, getFinca, getFincas, updateFinca } from "../controllers/finca.controller.js";
 
-const routerFinca =Router()
+const routerFinca = Router();
 
-routerFinca.get("/finca", getFincas)
-routerFinca.get("/finca/:id", getFinca)
-routerFinca.post("/formfinca", createFinca)
-routerFinca.put("/formfinca/:id", updateFinca)
-routerFinca.delete("/finca/:id", deleteFinca)
+routerFinca.get("/finca", getFincas);
+routerFinca.get("/finca/:id", getFinca);
+routerFinca.post("/finca", cargarImagen, createFinca);
+routerFinca.put("/finca/:id", cargarImagen, updateFinca);
+routerFinca.delete("/finca/:id", deleteFinca);
 
-export default routerFinca
+export default routerFinca;
