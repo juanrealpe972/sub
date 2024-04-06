@@ -26,7 +26,7 @@ export const validarUser = async (req, res) => {
 
 export const verificarUserToken = async (req, res, next) => {
   try {
-    const token_client = req.headers;
+    const token_client = req.headers['token'];
     if (!token_client) {
       res.status(404).json({ message: "No autorizado ☢️" });
     } else {
