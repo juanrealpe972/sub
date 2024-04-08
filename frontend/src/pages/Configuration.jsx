@@ -1,5 +1,5 @@
 import React from "react";
-import NavbarConfiguration from "../components/NavbarConfiguration";
+import NavbarConfiguration from "../components/organisms/NavbarConfiguration";
 
 function Configuration() {
   return (
