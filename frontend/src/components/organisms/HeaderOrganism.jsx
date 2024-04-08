@@ -7,7 +7,7 @@ import AvatarAtom from "../atoms/AvatarAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
 import SearchBarMolecule from "../molecules/SearchBarMolecule";
 import ModalCerrarSesion from "../molecules/ModalLogoutMolecule";
-import ModalMessaAndNoti from "../ModalMessaAndNoti";
+import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
 import IconHeaderAtom from "../atoms/IconHeaderAtom";
 import ButtonCerrarModalAtom from "../atoms/ButtonCerrarModalAtom";
 import AbrirModalTemplate from "../templates/AbrirModalTemplate";
