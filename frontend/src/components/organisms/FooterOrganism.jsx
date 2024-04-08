@@ -6,51 +6,49 @@ import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
 import FooterSectionMolecule from "../molecules/FooterSectionMolecule";
 import ButtonAtomFull from "../atoms/ButtonAtomFull";
+import toast from "react-hot-toast";
 
 const FooterOrganism = () => {
   const [texto, setTexto] = useState("");
 
-  const onSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Hello world!");
+    toast.success("Gracias por tu mensaje!");
+    setTexto("");
   };
 
   return (
-    <section className="py-2 sm:pt-16 bg-blancoMedio1 lg:pt-16">
-      <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-        <div className="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-2">
-          <div className="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
-            <div className="flex">
+    <footer className="py-8 pt-12 sm:pb-4 bg-blancoMedio1">
+      <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-8">
+          <div className="sm:col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
+            <div className="flex items-center">
               <AvatarAtom img="isotipo-SubCoffee.png" alt="Logo" />
-              <TextSubAtom to="/" color={"cafeClaroLogo"} text="Sub" />
-              <TextSubAtom to="/" color={"cafeOscuroLogo"} text="Coffee" />
+              <div className="ml-2">
+                <TextSubAtom to="/" color="cafeClaroLogo" text="Sub" />
+                <TextSubAtom to="/" color="cafeOscuroLogo" text="Coffee" />
+              </div>
             </div>
-            <p className="text-base leading-relaxed text-grisOscuro mt-2">
+            <p className="text-sm lg:text-base text-grisOscuro mt-2">
               Una plataforma innovadora diseñada para conectar a caficultores,
               compradores y comerciantes en un entorno de subastas eficiente y
               transparente.
-              {/* Nuestro enfoque se centra en el café especial,
-              brindando a los amantes del café una forma única de descubrir y
-              adquirir los mejores granos. */}
             </p>
           </div>
 
-          <div>
-            <FooterSectionMolecule title={"Información"}>
-              <FooterLinkAtom to={"/somos"}>¿Quiénes somos?</FooterLinkAtom>
-              <FooterLinkAtom to={"/politicas"}>
-                Políticas y privacidad
-              </FooterLinkAtom>
-              <FooterLinkAtom to={"/ayuda"}>¿Cómo funciona?</FooterLinkAtom>
+          <div className="sm:col-span-1 md:col-span-1 lg:col-span-2">
+            <FooterSectionMolecule title="Información">
+              <FooterLinkAtom to="/somos">¿Quiénes somos?</FooterLinkAtom>
+              <FooterLinkAtom to="/politicas">Políticas y privacidad</FooterLinkAtom>
+              <FooterLinkAtom to="/ayuda">¿Cómo funciona?</FooterLinkAtom>
             </FooterSectionMolecule>
           </div>
 
-          <div className="col-span-2 md:col-span-1 lg:col-span-2 lg:pl-8">
-            <p className="text-sm font-semibold tracking-widest text-gray-400 uppercase">
+          <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
+            <p className="text-sm font-semibold text-gray-400 uppercase mb-2">
               ¿Tienes alguna duda?
             </p>
-
-            <form onSubmit={onSubmit} className="gap-y-2 flex flex-col">
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
               <InputWithIconAtom
                 icon={icono.iconoGmail}
                 id="text"
@@ -67,18 +65,19 @@ const FooterOrganism = () => {
             </form>
           </div>
         </div>
+
+        <div className="flex items-center justify-center py-3">
+          <div className="grow border-b border-grisMedio2"></div>
+          <span className="px-2 font-semibold text-lg text-grisMedio2">
+            Subcoffee
+          </span>
+          <div className="grow border-b border-grisMedio2"></div>
+        </div>
+        <p className="text-center text-sm font-medium text-grisMedio2 pb-3">
+          © Subcoffee, todos los derechos reservados
+        </p>
       </div>
-      <div className="flex items-center justify-center py-3">
-        <div className="grow border-b border-grisMedio2"></div>
-        <span className="px-2 font-semibold text-lg text-grisMedio2">
-          Subcoffee
-        </span>
-        <div className="grow border-b border-grisMedio2"></div>
-      </div>
-      <p className="text-center text-sm font-medium text-grisMedio2 pb-3">
-        ©Subcoffee, todos los derechos reservados
-      </p>
-    </section>
+    </footer>
   );
 };
 

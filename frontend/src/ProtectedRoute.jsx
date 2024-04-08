@@ -1,42 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
-import HeaderOrganism from "./components/organisms/HeaderOrganism";
-import FooterOrganism from "./components/organisms/FooterOrganism";
-import SidebarOrganims from "./components/organisms/SidebarOrganims";
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import ModalProtectMolecule from './components/molecules/ModalProtectMolecule';
 
 function ProtectedRoute() {
-  const auth = window.localStorage.getItem("token");
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+    const auth = window.localStorage.getItem('token');
+    const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    if (!auth) {
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    if (auth) {
+        return <Outlet />;
     } else {
-      setLoading(false);
+        return (
+            <>
+                <ModalProtectMolecule
+                    isOpen={showModal}
+                    onRequestClose={handleCloseModal}
+                    contentLabel="Iniciar sesión"
+                >
+                    <h2>Debes iniciar sesión primero.</h2>
+                    <button onClick={handleCloseModal}>Cerrar</button>
+                </ModalProtectMolecule>
+                <button onClick={() => setShowModal(true)}>Mostrar modal</button>
+            </>
+        );
     }
-  }, [auth, navigate]);
-
-  return (
-    <>
-      {loading ? (
-        <div>
-          <h1>Cargando...</h1>
-        </div>
-      ) : (
-        <div className="flex flex-auto h-auto">
-          <SidebarOrganims />
-          <div className="grow">
-            <HeaderOrganism />
-            <Outlet />
-            <FooterOrganism />
-          </div>
-        </div>
-      )}
-    </>
-  );
 }
 
 export default ProtectedRoute;
