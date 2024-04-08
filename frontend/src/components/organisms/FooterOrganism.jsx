@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import AvatarAtom from "../atoms/AvatarAtom";
 import FooterLinkAtom from "../atoms/FooterLinkAtom";
 import { icono } from "../atoms/IconsAtom";
-import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
 import FooterSectionMolecule from "../molecules/FooterSectionMolecule";
 import ButtonAtomFull from "../atoms/ButtonAtomFull";
 import toast from "react-hot-toast";
+import InputDudaWithIconAtom from "../atoms/InputDudaWithIconAtom";
 
 const FooterOrganism = () => {
   const [texto, setTexto] = useState("");
@@ -49,7 +49,7 @@ const FooterOrganism = () => {
               ¿Tienes alguna duda?
             </p>
             <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
-              <InputWithIconAtom
+              <InputDudaWithIconAtom
                 icon={icono.iconoGmail}
                 id="text"
                 name="text"

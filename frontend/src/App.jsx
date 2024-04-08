@@ -20,13 +20,15 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<ProtectedRoute />}>
-              <Route path="subcoffee" element={<SubastaPage />} />
-              <Route path="profile" element={<ProfileUser />} />
-              <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
-              <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
-              <Route path="configuration" element={<Configuration />} />
-              <Route path="ayuda" element={<AyudaPage />} />
+            <Route path="/" element={<Dashboard />} >
+              <Route path="/" element={<ProtectedRoute />}>
+                <Route path="subcoffee" element={<SubastaPage />} />
+                <Route path="profile" element={<ProfileUser />} />
+                <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
+                <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
+                <Route path="configuration" element={<Configuration />} />
+                <Route path="ayuda" element={<AyudaPage />} />
+              </Route>
             </Route>
 
             <Route path="/" element={<Dashboard />}>
