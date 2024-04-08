@@ -8,9 +8,9 @@ const MessageItemAtom = ({ mensaje }) => {
         img={mensaje.foto}
       />
       <div>
-        <p className="text-sm">{mensaje.usuario}</p>
+        <p className="text-sm font-semibold">{mensaje.usuario}</p>
         <p className="text-xs">{mensaje.texto}</p>
-        <p className="text-xs">{mensaje.fecha}</p>
+        <p className="text-xs text-grisMedio2">{mensaje.fecha}</p>
       </div>
     </div>
   );
