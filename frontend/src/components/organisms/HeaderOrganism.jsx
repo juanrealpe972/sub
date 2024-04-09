@@ -14,6 +14,8 @@ import LoginPageOrganism from "./LoginPageOrganism";
 import RegisterPageOrganism from "./RegisterPageOrganism";
 import SubastaFormPageOrganism from "./SubastaFormPageOrganism";
 import axiosClient from "../../api/axios";
+import axios from "axios";
+import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 
 function HeaderOrganism() {
   const isAuthenticated = window.localStorage.getItem("token");
@@ -22,8 +24,10 @@ function HeaderOrganism() {
   const [abrirModalRegister, setabrirModalRegister] = useState(false);
   const [abrirModalSubasta, setAbrirModalSubasta] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
+  const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
   const [usuario, setUsuario] = useState({});
+  const token = localStorage.getItem("token");
 
   // const [scrollY, setScrollY] = useState(0);
 
@@ -40,17 +44,21 @@ function HeaderOrganism() {
 
   //   ${scrollY > 0 ? "bg-opacity-60" : ""}`}
 
-  useEffect(() => {
-    axiosClient
-      .get("/v1/users")
-      .then((response) => {
-        setUsuario(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("/v1/users", {
+  //       headers: {
+  //         token: token,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setUsuario(response.data);
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
@@ -65,6 +73,11 @@ function HeaderOrganism() {
   const toggleAbrirModalRegister = () => {
     setabrirModalRegister(!abrirModalRegister);
   };
+
+  const toggleAbrirModalBuscador = () => {
+    setAbrirBuscador(!abrirBuscador);
+  };
+
   const toggleAbrirModalLogin = () => {
     setabrirModalLogin(!abrirModalLogin);
   };
@@ -86,7 +99,7 @@ function HeaderOrganism() {
               text="Bienvenido"
             />
           </div>
-          <SearchBarMolecule />
+          <SearchBarMolecule onClick={() => setAbrirBuscador(true)}/>
           <div className="flex gap-x-3 items-center">
             <ButtonAtom onClick={() => setAbrirModalSubasta(true)}>
               Crear subasta
@@ -135,6 +148,16 @@ function HeaderOrganism() {
             <div className="absolute top-16 right-32 flex justify-center items-center">
               <div className="bg-blanco rounded-xl w-80">
                 <ModalMessaAndNoti onClose={toggleAbrirBell} />
+              </div>
+            </div>
+          )}
+          {abrirBuscador && (
+            <div className="absolute top-16 left-[800px] flex justify-center items-center">
+              <div className="bg-blanco rounded-xl w-[500px]">
+                <ModalBuscarMolecule onClose={toggleAbrirModalBuscador} />
+                <ButtonCerrarModalAtom
+                onClose={() => setAbrirBuscador(false)}
+              />
               </div>
             </div>
           )}

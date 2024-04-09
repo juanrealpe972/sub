@@ -3,7 +3,7 @@ import NavbarConfiguration from "../components/organisms/NavbarConfiguration";
 
 function Configuration() {
   return (
-    <div className="flex h-full">
+    <div className="flex">
       <NavbarConfiguration />
     </div>
   );
