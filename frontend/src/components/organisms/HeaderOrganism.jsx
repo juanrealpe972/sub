@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
 
 import { icono } from "../atoms/IconsAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
@@ -14,6 +13,7 @@ import AbrirModalTemplate from "../templates/AbrirModalTemplate";
 import LoginPageOrganism from "./LoginPageOrganism";
 import RegisterPageOrganism from "./RegisterPageOrganism";
 import SubastaFormPageOrganism from "./SubastaFormPageOrganism";
+import axiosClient from "../../api/axios";
 
 function HeaderOrganism() {
   const isAuthenticated = window.localStorage.getItem("token");
@@ -23,6 +23,8 @@ function HeaderOrganism() {
   const [abrirModalSubasta, setAbrirModalSubasta] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
+  const [usuario, setUsuario] = useState({});
+
   // const [scrollY, setScrollY] = useState(0);
 
   // Para que el header se ponga opacity en la parte superior de la pantalla al hacer scroll
@@ -37,6 +39,18 @@ function HeaderOrganism() {
   // }, []);
 
   //   ${scrollY > 0 ? "bg-opacity-60" : ""}`}
+
+  useEffect(() => {
+    axiosClient
+      .get("/v1/users")
+      .then((response) => {
+        setUsuario(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
@@ -96,10 +110,10 @@ function HeaderOrganism() {
               onClick={toggleCerrarSesionModal}
             >
               <AvatarAtom img="profile_user.jfif" />
-              <div>
-                <span className="text-gray-600 text-sm">Juan Camilo</span>
-                <p className="text-xs text-gray-400">Vendedor</p>
-              </div>
+              <span className="text-gray-600 text-sm">
+                {usuario.nombre_user}
+              </span>
+              <p className="text-xs text-gray-400">{usuario.rol_user}</p>
             </button>
           </div>
           {abrirModalSubasta && (

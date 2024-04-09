@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import axiosClient from "../api/axios";
 
 const AuthContext = createContext();
 
@@ -12,22 +13,19 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [usuario, setUsuario] = useState({})
 
-  const login = () => {
-    setIsAuthenticated(true)
-  };
-
-
-  useEffect(() => {
-    try {
-    } catch (error) {
-      setIsAuthenticated(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   axiosClient.get("/v1/users").then((response) => {
+  //     setUsuario(response.data.usuario)
+  //   }).catch((error) => {
+  //     console.log(error);
+  //   })
+  // }, []);
 
   return (
     <AuthContext.Provider
-      value={{ login, isAuthenticated, setIsAuthenticated }}
+      value={{ isAuthenticated, setIsAuthenticated }}
     >
       {children}
     </AuthContext.Provider>

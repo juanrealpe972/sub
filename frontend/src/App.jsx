@@ -20,24 +20,24 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Dashboard />} >
-              <Route path="/" element={<ProtectedRoute />}>
-                <Route path="subcoffee" element={<SubastaPage />} />
-                <Route path="profile" element={<ProfileUser />} />
-                <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
-                <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
-                <Route path="configuration" element={<Configuration />} />
-                <Route path="ayuda" element={<AyudaPage />} />
+            <Route element={<Dashboard />} >
+              <Route element={<ProtectedRoute />}>
+                <Route path="/subcoffee" element={<SubastaPage />} />
+                <Route path="/profile" element={<ProfileUser />} />
+                <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
+                <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
+                <Route path="/configuration" element={<Configuration />} />
+                <Route path="/ayudaaa" element={<AyudaPage />} />
               </Route>
             </Route>
 
-            <Route path="/" element={<Dashboard />}>
+            <Route element={<Dashboard />}>
               <Route index element={<DashboardContentOrganims />} />
-              <Route path="comopujar" element={<ComoCrearUnaSubasta />} />
-              <Route path="comosubastar" element={<ComoPujarUnaSubasta />} />
-              <Route path="ayudaCrear" element={<ComoCrearUnaSubasta />} />
-              <Route path="ayudacomopujar" element={<ComoPujarUnaSubasta />} />
-              <Route path="ayuda" element={<AyudaPage />} />
+              <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
+              <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
+              <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
+              <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
+              <Route path="/ayuda" element={<AyudaPage />} />
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />

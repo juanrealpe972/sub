@@ -13,7 +13,7 @@ const SidebarOrganims = () => {
   const Menus = [
     { title: "Inicio", link: "/subcoffee", icon: AiOutlineUser },
     { title: "Mis subastas", link: "/ayuda", icon: AiOutlineHeart, gap: true },
-    { title: "Ayuda", link: "/ayuda", icon: AiOutlineHeart, gap: true },
+    { title: "Ayudaaa", link: "/ayudaaa", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
     {
       title: "Politicas de privacidad",

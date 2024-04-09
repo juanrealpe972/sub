@@ -1,8 +1,14 @@
-import axios from "axios"
+import axios from "axios";
 
-const instanciar = axios.create({
-    baseURL:"http://localhost:6789/api",
-    withCredentials:true
+const axiosClient = axios.create({
+  baseURL: "http://localhost:9722",
+  withCredentials: true,
+});
+
+axiosClient.interceptors.request.use((request) => {
+  const token = localStorage.getItem("token")
+  request.headers = `${token}`
+  return request
 })
 
-export default instanciar
+export default axiosClient;
