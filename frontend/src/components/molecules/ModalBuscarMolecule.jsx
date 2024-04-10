@@ -14,7 +14,6 @@ function ModalBuscarMolecule() {
     setActiveTab("subastas");
   };
 
-  // Información de ejemplo para usuarios y subastas
   const usuarios = [
     { id: 1, nombre: "Usuario A", foto: "profile_user.jfif" },
     { id: 2, nombre: "Usuario B", foto: "profile_user.jfif" },
@@ -29,11 +28,11 @@ function ModalBuscarMolecule() {
 
   return (
     <div className="bg-white rounded-xl p-3 border shadow-md">
-      {/* <TabSelectorMolecule2
+      <TabSelectorMolecule2
         activeTab={activeTab}
         handleShowUsers={handleShowUsers} 
         handleShowSubastas={handleShowSubastas} 
-      /> */}
+      />
       {activeTab === "usuarios" ? (
         <UserListMolecule data={usuarios} />
       ) : (

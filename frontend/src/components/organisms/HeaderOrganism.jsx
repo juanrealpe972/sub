@@ -30,11 +30,13 @@ function HeaderOrganism() {
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
     setAbrirBell(false);
+    setAbrirBuscador(false)
   };
 
   const toggleAbrirBell = () => {
     setAbrirBell(!abrirBell);
     setAbrirCerrarSesion(false);
+    setAbrirBuscador(false)
   };
 
   const toggleAbrirModalRegister = () => {
@@ -43,6 +45,8 @@ function HeaderOrganism() {
 
   const toggleAbrirModalBuscador = () => {
     setAbrirBuscador(!abrirBuscador);
+    setAbrirCerrarSesion(false);
+    setAbrirBell(false);
   };
 
   const toggleAbrirModalLogin = () => {
@@ -102,10 +106,9 @@ function HeaderOrganism() {
             </div>
           )}
           {abrirBuscador && (
-            <div className="absolute top-16 left-[800px] flex justify-center items-center">
-              <div className="bg-blanco rounded-xl w-[500px]">
+            <div className="absolute top-16 left-[585px] flex justify-center items-center">
+              <div className="bg-blanco rounded-xl w-[300px]">
                 <ModalBuscarMolecule onClose={toggleAbrirModalBuscador} />
-                <ButtonCerrarModalAtom onClose={() => setAbrirBuscador(false)} />
               </div>
             </div>
           )}
