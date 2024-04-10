@@ -12,6 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import AyudaPage from "./pages/AyudaPage";
 import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
+import UsersPage from "./pages/UsersPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route element={<Dashboard />} >
               <Route element={<ProtectedRoute />}>
                 <Route path="/subcoffee" element={<SubastaPage />} />
+                <Route path="/usuarios" element={<UsersPage />} />
                 <Route path="/profile" element={<ProfileUser />} />
                 <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
                 <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />

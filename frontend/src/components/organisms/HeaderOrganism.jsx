@@ -59,6 +59,7 @@ function HeaderOrganism() {
   //       console.log(error);
   //     });
   // }, []);
+  
 
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
