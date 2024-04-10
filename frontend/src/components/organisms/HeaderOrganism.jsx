@@ -25,7 +25,7 @@ function HeaderOrganism() {
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
-  const {users} = useContext(AuthContext)
+  const { users } = useContext(AuthContext)
 
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
@@ -79,8 +79,8 @@ function HeaderOrganism() {
               <button className="flex items-center gap-x-2" onClick={toggleCerrarSesionModal}>
                 <AvatarAtom img="/profile_user.jfif" />
                 <div className="">
-                <span className="text-blanco text-sm">{users.nombre_user}</span>
-                <p className="text-xs text-blancoMedio1">{users.rol_user}</p>
+                  <span className="text-blanco text-sm">{users.nombre_user}</span>
+                  <p className="text-xs text-blancoMedio1">{users.rol_user}</p>
                 </div>
               </button>
             )}

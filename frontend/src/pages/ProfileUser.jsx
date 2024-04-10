@@ -12,6 +12,16 @@ function ProfileUser() {
       titulo: "Subasta 2",
       descripcion: "Descripción de la subasta 2",
     },
+    {
+      id: 3,
+      titulo: "Subasta 1",
+      descripcion: "Descripción de la subasta 1",
+    },
+    {
+      id: 4,
+      titulo: "Subasta 2",
+      descripcion: "Descripción de la subasta 2",
+    },
   ];
 
   const SubastasGanadas = [
@@ -25,12 +35,22 @@ function ProfileUser() {
       titulo: "Subasta 4",
       descripcion: "Descripción de la subasta 4",
     },
+    {
+      id: 3,
+      titulo: "Subasta 3",
+      descripcion: "Descripción de la subasta 3",
+    },
+    {
+      id: 4,
+      titulo: "Subasta 4",
+      descripcion: "Descripción de la subasta 4",
+    },
   ];
 
   const [activeTab, setActiveTab] = useState("creadas");
 
   return (
-    <div className="px-32">
+    <div className="px-32 mb-9">
       <div className="">
         <img
           src="./src/assets/finca1.jpg"
@@ -55,41 +75,39 @@ function ProfileUser() {
           <button className="text-sm bg-green-400 text-white p-2 rounded hover:bg-green-300">Editar perfil</button>
         </div>
       </div>
-      <div className="flex mt-4 space-x-28 justify-center">
+      <div className="flex items-center w-full">
         <button
-          className={`text-lg font-semibold focus:outline-none ${
-            activeTab === "creadas" ? "text-blue-600" : "text-gray-500"
-          }`}
-          onClick={() => setActiveTab("creadas")}
+          className={`text-lg font-semibold mr-4 focus:outline-none ${activeTab === 'creadas' ? 'text-blue-600' : 'text-gray-500'
+            }`}
+          onClick={() => setActiveTab('creadas')}
         >
           Subastas creadas
         </button>
         <button
-          className={`text-lg font-semibold focus:outline-none ${
-            activeTab === "ganadas" ? "text-blue-600" : "text-gray-500"
-          }`}
-          onClick={() => setActiveTab("ganadas")}
+          className={`text-lg font-semibold focus:outline-none ${activeTab === 'ganadas' ? 'text-blue-600' : 'text-gray-500'
+            }`}
+          onClick={() => setActiveTab('ganadas')}
         >
           Subastas ganadas
         </button>
       </div>
       <div className="mt-6">
-        {activeTab === "creadas" && (
-          <div>
-            <h2 className="text-lg font-semibold mb-2">Subastas Creadas</h2>
+        {activeTab === 'creadas' && (
+          <div className="grid grid-cols-2 gap-4">
+            <h2 className="text-lg font-semibold">Subastas Creadas</h2>
             {SubastasCreadas.map((subasta) => (
-              <div key={subasta.id} className="mb-4">
+              <div key={subasta.id} className="border rounded p-4">
                 <h3 className="text-md font-semibold">{subasta.titulo}</h3>
                 <p className="text-sm text-gray-600">{subasta.descripcion}</p>
               </div>
             ))}
           </div>
         )}
-        {activeTab === "ganadas" && (
-          <div>
-            <h2 className="text-lg font-semibold mb-2">Subastas Ganadas</h2>
+        {activeTab === 'ganadas' && (
+          <div className=" grid gap-4 mb-6 ">
+            <h2 className="text-lg font-semibold">Subastas Ganadas</h2>
             {SubastasGanadas.map((subasta) => (
-              <div key={subasta.id} className="mb-4">
+              <div key={subasta.id} className="border rounded p-4">
                 <h3 className="text-md font-semibold">{subasta.titulo}</h3>
                 <p className="text-sm text-gray-600">{subasta.descripcion}</p>
               </div>

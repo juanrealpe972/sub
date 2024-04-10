@@ -3,10 +3,10 @@ import { createVariedad, deleteVariedad, getVariedad, getVariedades, updateVarie
 
 const routerVariedad = Router()
 
-routerVariedad.get("/variedad",getVariedades)
-routerVariedad.get("/variedad/:id",getVariedad)
+routerVariedad.get("/variedad", getVariedades)
+routerVariedad.get("/variedad/:id", getVariedad)
 routerVariedad.post("/variedad", createVariedad)
-routerVariedad.put("/variedad/:id",updateVariedad)
-routerVariedad.delete("/variedad/:id",deleteVariedad)
+routerVariedad.put("/variedad/:id", updateVariedad)
+routerVariedad.delete("/variedad/:id", deleteVariedad)
 
 export default routerVariedad

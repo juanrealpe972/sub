@@ -13,6 +13,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AyudaPage from "./pages/AyudaPage";
 import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
 import UsersPage from "./pages/UsersPage";
+import PoliticasYCondicionesPage from "./pages/PoliticasYCondicionesPage";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route element={<Dashboard />}>
               <Route index element={<DashboardContentOrganims />} />
               <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
+              <Route path="/politicas" element={<PoliticasYCondicionesPage />} />
               <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
               <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
               <Route path="/ayudacomopujar" element={<ComoPujarUnaSubasta />} />
