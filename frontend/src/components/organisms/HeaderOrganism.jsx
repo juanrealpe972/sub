@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 import { icono } from "../atoms/IconsAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
@@ -17,36 +17,15 @@ import SubastaFormPageOrganism from "./SubastaFormPageOrganism";
 import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 
 function HeaderOrganism() {
-  const isAuthenticated = window.localStorage.getItem("token");
   const [abrirModalLogin, setAbrirModalLogin] = useState(false);
+  const isAuthenticated = window.localStorage.getItem("token")
   const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirModalRegister, setAbrirModalRegister] = useState(false);
   const [abrirModalSubasta, setAbrirModalSubasta] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const URL = "http://localhost:9722/v1/users";
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      axios
-        .get(URL, {
-          headers: {
-            token: token,
-          },
-        })
-        .then((response) => {
-          setCurrentUser(response.data.data[1]);
-        })
-        .catch((error) => {
-          console.error("Error al obtener datos del usuario:", error);
-          alert("Error al obtener los datos del usuario");
-        });
-    }
-  }, [isAuthenticated, token]);
+  const {users} = useContext(AuthContext)
 
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
@@ -74,11 +53,6 @@ function HeaderOrganism() {
     setIsMoonSelected((prevValue) => !prevValue);
   };
 
-  const handleCerrarSesion = () => {
-    localStorage.removeItem("token");
-    setCurrentUser(null);
-  };
-
   return (
     <>
       {isAuthenticated ? (
@@ -97,12 +71,12 @@ function HeaderOrganism() {
             ) : (
               <icono.iconoSol onClick={toggleTheme} className="text-blanco cursor-pointer" />
             )}
-            {currentUser && (
+            {users && (
               <button className="flex items-center gap-x-2" onClick={toggleCerrarSesionModal}>
                 <AvatarAtom img="/profile_user.jfif" />
                 <div className="">
-                <span className="text-blanco text-sm">{currentUser.nombre_user}</span>
-                <p className="text-xs text-blancoMedio1">{currentUser.rol_user}</p>
+                <span className="text-blanco text-sm">{users.nombre_user}</span>
+                <p className="text-xs text-blancoMedio1">{users.rol_user}</p>
                 </div>
               </button>
             )}
