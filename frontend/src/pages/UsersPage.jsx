@@ -16,6 +16,8 @@ function UsersPage() {
   if (!users) {
     return <div className="text-red-500">No hay usuarios registrados...</div>;
   }
+  
+  console.log(users);
 
   return (
     <div className="max-w-72 mx-auto p-4">

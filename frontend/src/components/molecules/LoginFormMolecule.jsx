@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -8,9 +8,11 @@ import InputWithToggleIconAtom from "../atoms/InputWithToggleIconAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
 import toast from "react-hot-toast";
+import AuthContext from "../../context/AuthContext";
 
 const LoginFormMolecule = () => {
   const navigation = useNavigate();
+  const { setUsers } = useContext(AuthContext);
   const URL = "http://localhost:9722/auth/login";
 
   const emailRef = useRef(null);
@@ -28,8 +30,10 @@ const LoginFormMolecule = () => {
       .post(URL, data)
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem("token", res.data.token);
+          const { token, user } = res.data;
+          localStorage.setItem("token", token);
           navigation("/subcoffee");
+          setUsers(user)
           toast.success("Usuario validado con éxito", { duration: 5000 });
         } else if (res.status === 401) {
           toast.error("Usuario no registrado");

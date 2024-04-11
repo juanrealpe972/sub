@@ -76,11 +76,11 @@ export const getUser = async (req, res) => {
   try {
     const id = req.params.id;
     let sql = `SELECT * FROM usuarios WHERE pk_cedula_user = '${id}'`;
-    const [result] = await pool.query(sql);
-    if (result.length > 0) {
+    const [user] = await pool.query(sql);
+    if (user.length > 0) {
       res
         .status(200)
-        .json({ message: "Usuario encontrado con exito", data: result });
+        .json({ message: "Usuario encontrado con exito", data: user });
     } else {
       res.status(404).json({ message: "Error al encontrar el usuario" });
     }

@@ -18,25 +18,25 @@ import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 
 function HeaderOrganism() {
   const [abrirModalLogin, setAbrirModalLogin] = useState(false);
-  const isAuthenticated = window.localStorage.getItem("token")
+  const isAuthenticated = window.localStorage.getItem("token");
   const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirModalRegister, setAbrirModalRegister] = useState(false);
   const [abrirModalSubasta, setAbrirModalSubasta] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
-  const { users } = useContext(AuthContext)
+  const { users } = useContext(AuthContext);
 
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
     setAbrirBell(false);
-    setAbrirBuscador(false)
+    setAbrirBuscador(false);
   };
 
   const toggleAbrirBell = () => {
     setAbrirBell(!abrirBell);
     setAbrirCerrarSesion(false);
-    setAbrirBuscador(false)
+    setAbrirBuscador(false);
   };
 
   const toggleAbrirModalRegister = () => {
@@ -57,30 +57,58 @@ function HeaderOrganism() {
     setIsMoonSelected((prevValue) => !prevValue);
   };
 
+  console.log(users);
+
   return (
     <>
       {isAuthenticated ? (
         <nav className="flex justify-between items-center bg-verdeSena2 w-full p-4 shadow-sm">
           <div className="flex flex-col">
-            <TextSubAtom to="/subcoffee" color="cafeClaroLogo" text="Bienvenido" />
+            <TextSubAtom
+              to="/subcoffee"
+              color="cafeClaroLogo"
+              text="Bienvenido"
+            />
           </div>
           <SearchBarMolecule onClick={() => setAbrirBuscador(true)} />
           <div className="flex gap-x-3 items-center">
-            <ButtonAtom onClick={() => setAbrirModalSubasta(true)}>Crear subasta</ButtonAtom>
+            {/* {users.rol_user == "vendedor" ? (
+              <ButtonAtom onClick={() => setAbrirModalSubasta(true)}>
+                Crear subasta
+              </ButtonAtom>
+            ) : (
+              ""
+            )} */}
+            <ButtonAtom onClick={() => setAbrirModalRegister(true)}>
+              Registrarse
+            </ButtonAtom>
             <IconHeaderAtom onClick={toggleAbrirBell}>
               <icono.iconoCampana className="h-5 w-5" />
             </IconHeaderAtom>
             {isMoonSelected ? (
-              <icono.iconoLuna onClick={toggleTheme} className="text-blanco cursor-pointer" />
+              <icono.iconoLuna
+                onClick={toggleTheme}
+                className="text-blanco cursor-pointer"
+              />
             ) : (
-              <icono.iconoSol onClick={toggleTheme} className="text-blanco cursor-pointer" />
+              <icono.iconoSol
+                onClick={toggleTheme}
+                className="text-blanco cursor-pointer"
+              />
             )}
-            {users && (
-              <button className="flex items-center gap-x-2" onClick={toggleCerrarSesionModal}>
+            {users && users.data && users.data.length > 0 && (
+              <button
+                className="flex items-center gap-x-2"
+                onClick={toggleCerrarSesionModal}
+              >
                 <AvatarAtom img="/profile_user.jfif" />
                 <div className="">
-                  <span className="text-blanco text-sm">{users.nombre_user}</span>
-                  <p className="text-xs text-blancoMedio1">{users.rol_user}</p>
+                  <span className="text-blanco text-sm">
+                    {users.data[0].nombre_user}
+                  </span>
+                  <p className="text-xs text-blancoMedio1">
+                    {users.data[0].rol_user}
+                  </p>
                 </div>
               </button>
             )}
@@ -88,7 +116,9 @@ function HeaderOrganism() {
           {abrirModalSubasta && (
             <AbrirModalTemplate>
               <SubastaFormPageOrganism />
-              <ButtonCerrarModalAtom onClose={() => setAbrirModalSubasta(false)} />
+              <ButtonCerrarModalAtom
+                onClose={() => setAbrirModalSubasta(false)}
+              />
             </AbrirModalTemplate>
           )}
           {abrirCerrarSesion && (
@@ -112,6 +142,12 @@ function HeaderOrganism() {
               </div>
             </div>
           )}
+          {abrirModalRegister && (
+            <AbrirModalTemplate>
+              <RegisterPageOrganism onClose={toggleAbrirModalRegister} />
+              <ButtonCerrarModalAtom onClose={toggleAbrirModalRegister} />
+            </AbrirModalTemplate>
+          )}
         </nav>
       ) : (
         <nav className="flex justify-between items-center bg-verdeSena1 fixed w-full m-0 top-0 p-4 shadow-sm">
@@ -123,13 +159,17 @@ function HeaderOrganism() {
           <div className="flex items-center gap-x-3">
             <div className="cursor-pointer">
               {isMoonSelected ? (
-                <icono.iconoLuna onClick={toggleTheme} className="text-blanco" />
+                <icono.iconoLuna
+                  onClick={toggleTheme}
+                  className="text-blanco"
+                />
               ) : (
                 <icono.iconoSol onClick={toggleTheme} className="text-blanco" />
               )}
             </div>
-            <ButtonAtom onClick={() => setAbrirModalLogin(true)}>Iniciar sesión</ButtonAtom>
-            <ButtonAtom onClick={() => setAbrirModalRegister(true)}>Registrarse</ButtonAtom>
+            <ButtonAtom onClick={() => setAbrirModalLogin(true)}>
+              Iniciar sesión
+            </ButtonAtom>
           </div>
         </nav>
       )}
@@ -137,12 +177,6 @@ function HeaderOrganism() {
         <AbrirModalTemplate>
           <LoginPageOrganism />
           <ButtonCerrarModalAtom onClose={toggleAbrirModalLogin} />
-        </AbrirModalTemplate>
-      )}
-      {abrirModalRegister && (
-        <AbrirModalTemplate>
-          <RegisterPageOrganism onClose={toggleAbrirModalRegister} />
-          <ButtonCerrarModalAtom onClose={toggleAbrirModalRegister} />
         </AbrirModalTemplate>
       )}
     </>

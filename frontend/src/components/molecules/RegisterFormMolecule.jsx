@@ -8,6 +8,7 @@ import { icono } from "../atoms/IconsAtom";
 import SelectInputAtom from "../atoms/SelectInputAtom";
 import OptionAtom from "../atoms/OptionAtom";
 import toast from "react-hot-toast";
+import axiosClient from "../../api/axios";
 
 const RegisterFormMolecule = ({ onClose }) => {
   const cedula = useRef(null);
@@ -32,8 +33,8 @@ const RegisterFormMolecule = ({ onClose }) => {
       rol_user: rol.current.value,
     };
 
-    await axios
-      .post(URL, data)
+    await axiosClient
+      .post("/v1/users", data)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Usuario registrado con éxito, ya puedes loguearte", {
