@@ -43,11 +43,11 @@ export const getFincas = async (req, res) => {
 
 export const createFinca = async (req, res) => {
   try {
-    const { nombre_fin, ubicacion_fin, descripcion_fin, departamento_fin, municipio_fin, fk_id_usuario, estado_fin } = req.body;
+    const { nombre_fin, longitud_fin, latitud_fin, descripcion_fin, estado_fin, fk_id_usuario, fk_municipio } = req.body;
 
     let imagen_fin = req.file.originalname;
 
-    let sql = `INSERT INTO finca(nombre_fin, ubicacion_fin, imagen_fin, descripcion_fin, departamento_fin, municipio_fin, fk_id_usuario, estado_fin) VALUES ('${nombre_fin}', '${ubicacion_fin}', '${imagen_fin}', '${descripcion_fin}', '${departamento_fin}', '${municipio_fin}', '${fk_id_usuario}', '${estado_fin}')`;
+    let sql = `INSERT INTO finca(nombre_fin, longitud_fin, latitud_fin, imagen_fin, descripcion_fin, estado_fin, fk_id_usuario, fk_municipio) VALUES ('${nombre_fin}', '${longitud_fin}', '${latitud_fin}', '${imagen_fin}', '${descripcion_fin}', '${estado_fin}', '${fk_id_usuario}', '${fk_municipio}')`;
     const [rows] = await pool.query(sql);
     if (rows.affectedRows > 0) {
       res.status(200).json({ message: "Finca creada con exito" });
