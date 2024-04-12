@@ -31,10 +31,10 @@ export const getMunicipioById = async (req, res) => {
 };
 
 export const createMunicipio = async (req, res) => {
-  const { pk_codigo_muni, nombre_muni, estado_muni, fk_departamento } = req.body;
+  const { pk_codigo_muni, nombre_muni, fk_departamento } = req.body;
   try {
     const [result] = await pool.query(
-      `INSERT INTO municipio (pk_codigo_muni, nombre_muni, estado_muni, fk_departamento) VALUES ('${pk_codigo_muni}', '${nombre_muni}', '${estado_muni}', '${fk_departamento}')`
+      `INSERT INTO municipio (pk_codigo_muni, nombre_muni, estado_muni, fk_departamento) VALUES ('${pk_codigo_muni}', '${nombre_muni}', 'activo', '${fk_departamento}')`
     );
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Municipio creado exitosamente" });
@@ -51,7 +51,7 @@ export const updateMunicipio = async (req, res) => {
   const {pk_codigo_muni, nombre_muni, fk_departamento } = req.body;
   try {
     const [result] = await pool.query(
-      `UPDATE municipio SET pk_codigo_muni = ('${pk_codigo_muni}') nombre_muni = ('${nombre_muni}'), fk_departamento = ('${fk_departamento}') WHERE pk_codigo_muni = '${id}'`
+      `UPDATE municipio SET pk_codigo_muni = ('${pk_codigo_muni}'), nombre_muni = ('${nombre_muni}'), fk_departamento = ('${fk_departamento}') WHERE pk_codigo_muni = '${id}'`
     );
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Municipio actualizado exitosamente" });

@@ -16,7 +16,7 @@ routerMunicipio.get("/municipios/:id", getMunicipioById);
 routerMunicipio.post("/municipios", createMunicipio);
 routerMunicipio.put("/municipios/:id", updateMunicipio);
 routerMunicipio.delete("/municipios/:id", deleteMunicipio);
-routerMunicipio.put("/municipios/activar/:id", activarMunicipio);
-routerMunicipio.put("/municipios/desactivar/:id", desactivarMunicipio);
+routerMunicipio.put("/municipiosac/:id", activarMunicipio);
+routerMunicipio.put("/municipiosdes/:id", desactivarMunicipio);
 
 export default routerMunicipio;
