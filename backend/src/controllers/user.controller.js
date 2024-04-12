@@ -55,12 +55,12 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const {id} = req.params;
-    const { nombre_user, email_user, password_user, descripcion_user, telefono_user, fecha_nacimiento_user, rol_user, estado_user } = req.body;
+    const id = req.params.id;
+    const { pk_cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, fecha_nacimiento_user, rol_user, estado_user } = req.body;
 
-    // let imagen_user = req.file.filename
+    let imagen_user =  req.file.originalname
 
-    let sql = `UPDATE usuarios SET nombre_user = COALESCE('${nombre_user}', nombre_user), email_user = COALESCE('${email_user}', email_user), password_user = COALESCE('${password_user}', password_user), descripcion_user = COALESCE('${descripcion_user}', descripcion_user), telefono_user = COALESCE('${telefono_user}', telefono_user), fecha_nacimiento_user = COALESCE('${fecha_nacimiento_user}', fecha_nacimiento_user), rol_user = COALESCE('${rol_user}', rol_user), estado_user = COALESCE('${estado_user}', estado_user) WHERE pk_cedula_user = '${id}'`;
+    let sql = `UPDATE usuarios SET pk_cedula_user = '${pk_cedula_user}', nombre_user = '${nombre_user}', email_user = '${email_user}', password_user = '${password_user}', descripcion_user = '${descripcion_user}', imagen_user = '${imagen_user}', telefono_user = '${telefono_user}', fecha_nacimiento_user = '${fecha_nacimiento_user}', rol_user = '${rol_user}', estado_user = '${estado_user}' WHERE pk_cedula_user = '${id}'`;
     const [result] = await pool.query(sql);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Usuario actualizado con exito" });

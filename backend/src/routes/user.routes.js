@@ -14,7 +14,7 @@ const routerUser = Router();
 routerUser.get("/users", verificarUserToken, getUsers);
 routerUser.get("/users/:id", verificarUserToken, getUser);
 routerUser.post("/users", verificarUserToken, createUser);
-routerUser.put("/users/:id", verificarUserToken, updateUser);
+routerUser.put("/users/:id", verificarUserToken, cargarImagen, updateUser);
 routerUser.delete("/users/:id", verificarUserToken, deleteUser);
 
 export default routerUser;
