@@ -2,15 +2,15 @@ import multer from "multer";
 import { pool } from "../database/conexion.js";
 
 const storage = multer.diskStorage({
-  destination: function (req, img, cb) {
+  destination: function (req, imagen_fin, cb) {
     cb(null, "public/img");
   },
-  filename: function (req, img, cb) {
-    cb(null, img.originalname);
+  filename: function (req, imagen_fin, cb) {
+    cb(null, imagen_fin.originalname);
   },
 });
 const uploat = multer({ storage: storage });
-export const cargarImagen = uploat.single("img");
+export const cargarImagen = uploat.single("imagen_fin");
 
 export const getFinca = async (req, res) => {
   try {
@@ -47,8 +47,8 @@ export const createFinca = async (req, res) => {
 
     let imagen_fin = req.file.originalname;
 
-    let sql = `INSERT INTO finca(nombre_fin, longitud_fin, latitud_fin, imagen_fin, descripcion_fin, estado_fin, fk_id_usuario, fk_municipio) VALUES ('${nombre_fin}', '${longitud_fin}', '${latitud_fin}', '${imagen_fin}', '${descripcion_fin}', '${estado_fin}', '${fk_id_usuario}', '${fk_municipio}')`;
-    const [rows] = await pool.query(sql);
+    let sql = `INSERT INTO finca(nombre_fin, longitud_fin, latitud_fin, imagen_fin, descripcion_fin, estado_fin, fk_id_usuario, fk_municipio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const [rows] = await pool.query(sql, [nombre_fin, longitud_fin, latitud_fin, imagen_fin, descripcion_fin, estado_fin, fk_id_usuario, fk_municipio]);
     if (rows.affectedRows > 0) {
       res.status(200).json({ message: "Finca creada con exito" });
     } else {

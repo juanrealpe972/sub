@@ -57,7 +57,7 @@ function HeaderOrganism() {
     setIsMoonSelected((prevValue) => !prevValue);
   };
 
-  console.log(users);
+  // console.log(users);
 
   return (
     <>

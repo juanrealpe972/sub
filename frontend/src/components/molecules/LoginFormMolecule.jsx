@@ -32,6 +32,7 @@ const LoginFormMolecule = () => {
         if (res.status === 200) {
           const { token, user } = res.data;
           localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user))
           navigation("/subcoffee");
           setUsers(user)
           toast.success("Usuario validado con éxito", { duration: 5000 });
