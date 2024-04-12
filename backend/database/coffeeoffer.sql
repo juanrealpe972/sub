@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-04-2024 a las 05:38:38
+-- Tiempo de generación: 12-04-2024 a las 06:40:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -30,18 +30,62 @@ SET time_zone = "+00:00";
 CREATE TABLE `chat` (
   `pk_id_chat` int(11) NOT NULL,
   `mensaje_chat` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `imagen_chat` varchar(255) NOT NULL,
   `fecha_chat` timestamp NOT NULL DEFAULT current_timestamp(),
   `fk_id_subasta` int(11) NOT NULL,
   `fk_id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `chat`
+-- Estructura de tabla para la tabla `departamento`
 --
 
-INSERT INTO `chat` (`pk_id_chat`, `mensaje_chat`, `fecha_chat`, `fk_id_subasta`, `fk_id_usuario`) VALUES
-(3, 'Hola, buenas tardes', '2024-02-21 19:40:47', 1, 108000700),
-(4, 'Hola, como vamos a cuadrar ?', '2024-02-21 19:40:47', 2, 1084251889);
+CREATE TABLE `departamento` (
+  `pk_codigo_depar` int(11) NOT NULL,
+  `nombre_depart` varchar(255) NOT NULL,
+  `estado_depar` enum('activo','inactivo') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `departamento`
+--
+
+INSERT INTO `departamento` (`pk_codigo_depar`, `nombre_depart`, `estado_depar`) VALUES
+(5, 'Antioquia', 'activo'),
+(8, 'Atlántico', 'activo'),
+(11, 'Bogotá, D.C. (Distrito Capital)', 'activo'),
+(13, 'Bolívar', 'activo'),
+(15, 'Boyacá', 'activo'),
+(17, 'Caldas', 'activo'),
+(18, 'Caquetá', 'activo'),
+(19, 'Cauca', 'activo'),
+(20, 'Cesar', 'activo'),
+(23, 'Córdoba', 'activo'),
+(25, 'Cundinamarca', 'activo'),
+(27, 'Chocó', 'activo'),
+(41, 'Huila', 'activo'),
+(44, 'La Guajira', 'activo'),
+(47, 'Magdalena', 'activo'),
+(50, 'Meta', 'activo'),
+(52, 'Nariño', 'activo'),
+(54, 'Norte de Santander', 'activo'),
+(63, 'Quindío', 'activo'),
+(66, 'Risaralda', 'activo'),
+(68, 'Santander', 'activo'),
+(70, 'Sucre', 'activo'),
+(73, 'Tolima', 'activo'),
+(76, 'Valle del Cauca', 'activo'),
+(81, 'Arauca', 'activo'),
+(85, 'Casanare', 'activo'),
+(86, 'Putumayo', 'activo'),
+(88, 'San Andrés y Providencia', 'activo'),
+(91, 'Amazonas', 'activo'),
+(94, 'Guainía', 'activo'),
+(95, 'Guaviare', 'activo'),
+(97, 'Vaupés', 'activo'),
+(99, 'Vichada', 'activo');
 
 -- --------------------------------------------------------
 
@@ -52,22 +96,69 @@ INSERT INTO `chat` (`pk_id_chat`, `mensaje_chat`, `fecha_chat`, `fk_id_subasta`,
 CREATE TABLE `finca` (
   `pk_id_fin` int(11) NOT NULL,
   `nombre_fin` varchar(50) NOT NULL,
-  `ubicacion_fin` varchar(90) NOT NULL,
+  `longitud_fin` varchar(40) NOT NULL,
+  `latitud_fin` varchar(40) NOT NULL,
   `imagen_fin` varchar(100) NOT NULL,
   `descripcion_fin` varchar(100) DEFAULT NULL,
-  `departamento_fin` varchar(50) NOT NULL,
-  `municipio_fin` varchar(50) NOT NULL,
+  `estado_fin` enum('activo','inactivo') DEFAULT NULL,
   `fk_id_usuario` int(11) NOT NULL,
-  `estado_fin` enum('activo','inactivo') DEFAULT NULL
+  `fk_municipio` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `finca`
+-- Estructura de tabla para la tabla `municipio`
 --
 
-INSERT INTO `finca` (`pk_id_fin`, `nombre_fin`, `ubicacion_fin`, `imagen_fin`, `descripcion_fin`, `departamento_fin`, `municipio_fin`, `fk_id_usuario`, `estado_fin`) VALUES
-(1, 'Napoles', 'Vereda Belén con Longitud: 5.10822578 (W)\r\nLatitud: 41.92771566', '', 'A tan solo 5 minutos del casco urbano ', 'Huila', 'Pitalito', 1084251889, 'inactivo'),
-(2, 'La guajira', 'Vereda Guacas con Longitud: 9.10822578 (W)\r\nLatitud: 26.92771566\r\n', '', 'A tan solo 5 minutos del casco urbano', 'Huila', 'Isnos', 108000700, NULL);
+CREATE TABLE `municipio` (
+  `pk_codigo_muni` bigint(20) NOT NULL,
+  `nombre_muni` varchar(255) NOT NULL,
+  `estado_muni` enum('activo','inactivo') NOT NULL,
+  `fk_departamento` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `municipio`
+--
+
+INSERT INTO `municipio` (`pk_codigo_muni`, `nombre_muni`, `estado_muni`, `fk_departamento`) VALUES
+(41001, 'Neiva', 'activo', 41),
+(41006, 'Acevedo', 'activo', 41),
+(41013, 'Aipe', 'activo', 41),
+(41016, 'Algeciras', 'activo', 41),
+(41020, 'Altamira', 'activo', 41),
+(41026, 'Baraya', 'activo', 41),
+(41078, 'Campoalegre', 'activo', 41),
+(41132, 'Colombia', 'activo', 41),
+(41206, 'Elías', 'activo', 41),
+(41244, 'Garzón', 'activo', 41),
+(41298, 'Gigante', 'activo', 41),
+(41306, 'Guadalupe', 'activo', 41),
+(41319, 'Hobo', 'activo', 41),
+(41349, 'Íquira', 'activo', 41),
+(41357, 'Isnos', 'activo', 41),
+(41359, 'La Argentina', 'activo', 41),
+(41378, 'La Plata', 'activo', 41),
+(41483, 'Nátaga', 'activo', 41),
+(41503, 'Oporapa', 'activo', 41),
+(41518, 'Paicol', 'activo', 41),
+(41524, 'Palermo', 'activo', 41),
+(41530, 'Palestina', 'activo', 41),
+(41548, 'Pital', 'activo', 41),
+(41551, 'Pitalito', 'activo', 41),
+(41615, 'Rivera', 'activo', 41),
+(41660, 'Saladoblanco', 'activo', 41),
+(41668, 'San Agustín', 'activo', 41),
+(41676, 'Santa María', 'activo', 41),
+(41770, 'Suaza', 'activo', 41),
+(41791, 'Tarqui', 'activo', 41),
+(41797, 'Tesalia', 'activo', 41),
+(41799, 'Tello', 'activo', 41),
+(41801, 'Teruel', 'activo', 41),
+(41807, 'Timaná', 'activo', 41),
+(41872, 'Villavieja', 'activo', 41),
+(41885, 'Yaguará', 'activo', 41);
 
 -- --------------------------------------------------------
 
@@ -84,14 +175,6 @@ CREATE TABLE `notificaciones` (
   `fk_id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `notificaciones`
---
-
-INSERT INTO `notificaciones` (`pk_id_not`, `tipo_not`, `fecha_not`, `texto_not`, `fk_id_subasta`, `fk_id_usuario`) VALUES
-(1, 'cierre', '2024-02-21 19:42:06', 'La subasta acaba de dar cierre, vuelve a intentarlo en otro momento', 1, 1084251889),
-(2, 'oferta', '2024-02-21 19:42:06', 'Hay una nueva oferta mayor que la tuya, ve a mirarla', 2, 108000700);
-
 -- --------------------------------------------------------
 
 --
@@ -103,64 +186,8 @@ CREATE TABLE `postulacion` (
   `fecha_pos` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `oferta_pos` int(11) NOT NULL,
   `fk_id_usuario` int(11) NOT NULL,
-  `fk_id_subasta` int(11) NOT NULL,
-  `estado_pos` enum('activo','inactivo') DEFAULT NULL
+  `fk_id_subasta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `postulacion`
---
-
-INSERT INTO `postulacion` (`pk_id_pos`, `fecha_pos`, `oferta_pos`, `fk_id_usuario`, `fk_id_subasta`, `estado_pos`) VALUES
-(1, '2024-03-07 08:39:51', 12, 1084251889, 1, 'inactivo'),
-(2, '2023-11-28 05:00:00', 2100000, 108000700, 2, NULL),
-(4, '2024-03-07 08:25:20', 1565571, 1084251889, 1, 'activo');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `produccion`
---
-
-CREATE TABLE `produccion` (
-  `pk_id_pro` int(11) NOT NULL,
-  `cantidad_pro` int(11) NOT NULL,
-  `fk_id_variedad` int(11) NOT NULL,
-  `fk_id_finca` int(11) NOT NULL,
-  `estado_pro` enum('activo','inactivo') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `produccion`
---
-
-INSERT INTO `produccion` (`pk_id_pro`, `cantidad_pro`, `fk_id_variedad`, `fk_id_finca`, `estado_pro`) VALUES
-(1, 20000, 2, 2, NULL),
-(2, 15000, 1, 1, NULL);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `seguimiento`
---
-
-CREATE TABLE `seguimiento` (
-  `pk_id_seg` int(11) NOT NULL,
-  `nombre_seg` varchar(200) NOT NULL,
-  `fecha_seg` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `imagen_seg` varchar(100) DEFAULT NULL,
-  `fk_id_produccion` int(11) NOT NULL,
-  `fk_id_usuario` int(11) NOT NULL,
-  `estado_seg` enum('activo','inactivo') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `seguimiento`
---
-
-INSERT INTO `seguimiento` (`pk_id_seg`, `nombre_seg`, `fecha_seg`, `imagen_seg`, `fk_id_produccion`, `fk_id_usuario`, `estado_seg`) VALUES
-(1, '', '2024-02-21 00:00:00', NULL, 1, 1084251889, NULL),
-(2, '', '2024-02-20 00:00:00', NULL, 2, 108000700, NULL);
 
 -- --------------------------------------------------------
 
@@ -172,19 +199,15 @@ CREATE TABLE `subasta` (
   `pk_id_sub` int(11) NOT NULL,
   `fecha_inicio_sub` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_fin_sub` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `imagen_sub` varchar(255) DEFAULT NULL,
   `precio_inicial_sub` int(11) NOT NULL,
   `precio_final_sub` int(11) DEFAULT NULL,
+  `unidad_peso_sub` enum('Gramo','Libra','Kilogramo','Tonelada') NOT NULL,
+  `cantidad` float NOT NULL,
   `estado_sub` enum('abierta','espera','cerrada') NOT NULL,
-  `fk_id_produccion` int(11) NOT NULL
+  `certificado_sub` varchar(255) DEFAULT NULL,
+  `fk_variedad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `subasta`
---
-
-INSERT INTO `subasta` (`pk_id_sub`, `fecha_inicio_sub`, `fecha_fin_sub`, `precio_inicial_sub`, `precio_final_sub`, `estado_sub`, `fk_id_produccion`) VALUES
-(1, '2024-02-28 10:00:00', '2024-02-28 14:00:30', 180000, NULL, 'espera', 1),
-(2, '2024-02-21 12:00:00', '2024-02-29 18:30:00', 150000, NULL, 'espera', 2);
 
 -- --------------------------------------------------------
 
@@ -198,7 +221,7 @@ CREATE TABLE `usuarios` (
   `email_user` varchar(100) NOT NULL,
   `password_user` char(60) NOT NULL,
   `descripcion_user` varchar(170) DEFAULT NULL,
-  `imagen_user` blob DEFAULT NULL,
+  `imagen_user` varchar(255) DEFAULT NULL,
   `telefono_user` varchar(12) NOT NULL,
   `fecha_nacimiento_user` date NOT NULL,
   `rol_user` enum('vendedor','comprador','admin') NOT NULL,
@@ -210,10 +233,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`pk_cedula_user`, `nombre_user`, `email_user`, `password_user`, `descripcion_user`, `imagen_user`, `telefono_user`, `fecha_nacimiento_user`, `rol_user`, `estado_user`) VALUES
-(108000700, 'Pepito', 'pepito@hotmail.com', '7382b', 'hola, esta funcionando ?', NULL, '3207383', '2005-02-01', 'admin', NULL),
-(1084251888, 'Juan Camilo Realpe Ceron', 'juanca@gmail.com', '$2b$12$8uET96AEuJQJ8QUqB.AGQu8UDJbv1898LpsZPeJrcs.ziKFqOvate', NULL, NULL, '3157874593', '2005-06-17', 'comprador', 'activo'),
-(1084251889, 'Juan Camilo Realpe', 'juan@gmail.com', '123456789', 'Soy un chico amigable', '', '3157874593', '2005-06-17', 'admin', NULL),
-(1879534436, 'jorge enrique', 'jorge4@gmail.com', '3203986077Nn', 'Soy amable y amigable ', NULL, '3203986077', '2005-04-04', 'admin', NULL);
+(12101220, 'Raul Realpe', 'raul@gmail.com', '$2b$12$0ylIY4w6jmSjJqDOUUAgLuPyKJT7713FQWcUXtDkFfNv.84xNLTsq', NULL, NULL, '3203294684', '1983-02-20', 'comprador', 'activo'),
+(1084251889, 'Juan Realpe', 'juan@gmail.com', '$2b$12$08tE0U2.jPJ9AVRjP9ej2OSJZDL72D/nwYSKZTYZCwlCCHZxFZccW', NULL, NULL, '3157874593', '2005-06-17', 'admin', 'activo'),
+(1084252915, 'Andres', 'andres@gmail.com', '$2b$12$S6SGNywU6GOsgRj6.HwIPuGqsTlKItSH8LcN8/lhCqV/.A9VgcygC', NULL, NULL, '3186452162', '2006-06-10', 'vendedor', 'activo'),
+(1084253677, 'Marcella Ceron', 'marcela@gmail.com', '$2b$12$s..RHODksQ/BrXQ7.fux5.iRnFojJFskrMSeYEfzZmQuxUsUTIewm', NULL, NULL, '3114840169', '1989-03-09', 'comprador', 'activo');
 
 -- --------------------------------------------------------
 
@@ -226,17 +249,9 @@ CREATE TABLE `variedad` (
   `tipo_vari` enum('Tipica','Borbon','Tabi','Caturra','Variedad Colombia') NOT NULL,
   `descripcion_vari` varchar(100) DEFAULT NULL,
   `imagen_vari` varchar(100) DEFAULT NULL,
-  `puntuacion_vari` int(11) NOT NULL,
-  `estado_vari` enum('activo','inactivo') DEFAULT NULL
+  `estado_vari` enum('activo','inactivo') NOT NULL,
+  `fk_finca` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `variedad`
---
-
-INSERT INTO `variedad` (`pk_id_vari`, `tipo_vari`, `descripcion_vari`, `imagen_vari`, `puntuacion_vari`, `estado_vari`) VALUES
-(1, 'Tipica', 'Este tipo de café tiene un sabor más amargo y un aroma picante', NULL, 9, NULL),
-(2, 'Tabi', 'Este tipo de café tiene un sabor dulce', NULL, 9, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -251,11 +266,25 @@ ALTER TABLE `chat`
   ADD KEY `chatUser` (`fk_id_usuario`);
 
 --
+-- Indices de la tabla `departamento`
+--
+ALTER TABLE `departamento`
+  ADD PRIMARY KEY (`pk_codigo_depar`);
+
+--
 -- Indices de la tabla `finca`
 --
 ALTER TABLE `finca`
   ADD PRIMARY KEY (`pk_id_fin`),
+  ADD UNIQUE KEY `estar` (`fk_municipio`),
   ADD KEY `fincaUser` (`fk_id_usuario`);
+
+--
+-- Indices de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD PRIMARY KEY (`pk_codigo_muni`),
+  ADD KEY `pertenecer` (`fk_departamento`) USING BTREE;
 
 --
 -- Indices de la tabla `notificaciones`
@@ -274,27 +303,11 @@ ALTER TABLE `postulacion`
   ADD KEY `Postulasub` (`fk_id_subasta`);
 
 --
--- Indices de la tabla `produccion`
---
-ALTER TABLE `produccion`
-  ADD PRIMARY KEY (`pk_id_pro`),
-  ADD KEY `produccionvariedad` (`fk_id_variedad`),
-  ADD KEY `produccionFin` (`fk_id_finca`);
-
---
--- Indices de la tabla `seguimiento`
---
-ALTER TABLE `seguimiento`
-  ADD PRIMARY KEY (`pk_id_seg`),
-  ADD KEY `SeguimiUser` (`fk_id_usuario`),
-  ADD KEY `produccionSegui` (`fk_id_produccion`) USING BTREE;
-
---
 -- Indices de la tabla `subasta`
 --
 ALTER TABLE `subasta`
   ADD PRIMARY KEY (`pk_id_sub`),
-  ADD KEY `subastaPro` (`fk_id_produccion`);
+  ADD UNIQUE KEY `variedad` (`fk_variedad`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -306,7 +319,8 @@ ALTER TABLE `usuarios`
 -- Indices de la tabla `variedad`
 --
 ALTER TABLE `variedad`
-  ADD PRIMARY KEY (`pk_id_vari`);
+  ADD PRIMARY KEY (`pk_id_vari`),
+  ADD UNIQUE KEY `finca` (`fk_finca`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -322,7 +336,7 @@ ALTER TABLE `chat`
 -- AUTO_INCREMENT de la tabla `finca`
 --
 ALTER TABLE `finca`
-  MODIFY `pk_id_fin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pk_id_fin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
@@ -335,18 +349,6 @@ ALTER TABLE `notificaciones`
 --
 ALTER TABLE `postulacion`
   MODIFY `pk_id_pos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla `produccion`
---
-ALTER TABLE `produccion`
-  MODIFY `pk_id_pro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `seguimiento`
---
-ALTER TABLE `seguimiento`
-  MODIFY `pk_id_seg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `subasta`
@@ -375,7 +377,14 @@ ALTER TABLE `chat`
 -- Filtros para la tabla `finca`
 --
 ALTER TABLE `finca`
-  ADD CONSTRAINT `fincaUser` FOREIGN KEY (`fk_id_usuario`) REFERENCES `usuarios` (`pk_cedula_user`);
+  ADD CONSTRAINT `fincaUser` FOREIGN KEY (`fk_id_usuario`) REFERENCES `usuarios` (`pk_cedula_user`),
+  ADD CONSTRAINT `finca_ibfk_1` FOREIGN KEY (`fk_municipio`) REFERENCES `municipio` (`pk_codigo_muni`);
+
+--
+-- Filtros para la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD CONSTRAINT `municipio_ibfk_1` FOREIGN KEY (`fk_departamento`) REFERENCES `departamento` (`pk_codigo_depar`);
 
 --
 -- Filtros para la tabla `notificaciones`
@@ -392,24 +401,16 @@ ALTER TABLE `postulacion`
   ADD CONSTRAINT `Postulasub` FOREIGN KEY (`fk_id_subasta`) REFERENCES `subasta` (`pk_id_sub`);
 
 --
--- Filtros para la tabla `produccion`
---
-ALTER TABLE `produccion`
-  ADD CONSTRAINT `produccionFin` FOREIGN KEY (`fk_id_finca`) REFERENCES `finca` (`pk_id_fin`),
-  ADD CONSTRAINT `produccionvariedad` FOREIGN KEY (`fk_id_variedad`) REFERENCES `variedad` (`pk_id_vari`);
-
---
--- Filtros para la tabla `seguimiento`
---
-ALTER TABLE `seguimiento`
-  ADD CONSTRAINT `SeguimiUser` FOREIGN KEY (`fk_id_usuario`) REFERENCES `usuarios` (`pk_cedula_user`),
-  ADD CONSTRAINT `seguimiento_ibfk_1` FOREIGN KEY (`fk_id_produccion`) REFERENCES `produccion` (`pk_id_pro`) ON DELETE CASCADE;
-
---
 -- Filtros para la tabla `subasta`
 --
 ALTER TABLE `subasta`
-  ADD CONSTRAINT `subastaPro` FOREIGN KEY (`fk_id_produccion`) REFERENCES `produccion` (`pk_id_pro`);
+  ADD CONSTRAINT `subasta_ibfk_1` FOREIGN KEY (`fk_variedad`) REFERENCES `variedad` (`pk_id_vari`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `variedad`
+--
+ALTER TABLE `variedad`
+  ADD CONSTRAINT `variedad_ibfk_1` FOREIGN KEY (`fk_finca`) REFERENCES `finca` (`pk_id_fin`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
