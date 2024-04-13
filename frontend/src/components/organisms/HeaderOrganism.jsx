@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+import React, { useState } from "react";
 
 import { icono } from "../atoms/IconsAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
@@ -25,7 +24,9 @@ function HeaderOrganism() {
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
-  const { users } = useContext(AuthContext);
+  //const { users } = useContext(AuthContext);
+  const storedUser = localStorage.getItem("user");
+  const users = storedUser ? JSON.parse(storedUser) : null;
 
   const toggleCerrarSesionModal = () => {
     setAbrirCerrarSesion(!abrirCerrarSesion);
@@ -57,7 +58,7 @@ function HeaderOrganism() {
     setIsMoonSelected((prevValue) => !prevValue);
   };
 
-  // console.log(users);
+  console.log(users);
 
   return (
     <>
@@ -72,16 +73,16 @@ function HeaderOrganism() {
           </div>
           <SearchBarMolecule onClick={() => setAbrirBuscador(true)} />
           <div className="flex gap-x-3 items-center">
-            {/* {users.rol_user == "vendedor" ? (
+            {users.rol_user === "vendedor" && (
               <ButtonAtom onClick={() => setAbrirModalSubasta(true)}>
                 Crear subasta
               </ButtonAtom>
-            ) : (
-              ""
-            )} */}
-            <ButtonAtom onClick={() => setAbrirModalRegister(true)}>
-              Registrarse
-            </ButtonAtom>
+            )}
+            {users.rol_user === "admin" && (
+              <ButtonAtom onClick={() => setAbrirModalRegister(true)}>
+                Registrar usuario
+              </ButtonAtom>
+            )}
             <IconHeaderAtom onClick={toggleAbrirBell}>
               <icono.iconoCampana className="h-5 w-5" />
             </IconHeaderAtom>
@@ -96,7 +97,7 @@ function HeaderOrganism() {
                 className="text-blanco cursor-pointer"
               />
             )}
-            {users && users.data && users.data.length > 0 && (
+            {users && (
               <button
                 className="flex items-center gap-x-2"
                 onClick={toggleCerrarSesionModal}
@@ -104,11 +105,9 @@ function HeaderOrganism() {
                 <AvatarAtom img="/profile_user.jfif" />
                 <div className="">
                   <span className="text-blanco text-sm">
-                    {users.data[0].nombre_user}
+                    {users.nombre_user}
                   </span>
-                  <p className="text-xs text-blancoMedio1">
-                    {users.data[0].rol_user}
-                  </p>
+                  <p className="text-xs text-blancoMedio1">{users.rol_user}</p>
                 </div>
               </button>
             )}

@@ -14,6 +14,7 @@ import routerNotificaciones from "./src/routes/notificaciones.routes.js";
 import routerPostulacion from "./src/routes/postulacion.routes.js";
 import routerDepart from "./src/routes/departamento.routes.js";
 import routerMunicipio from "./src/routes/municipio.routes.js";
+import routerVereda from "./src/routes/vereda.routes.js";
 
 const PORT = 9722;
 const app = express();
@@ -28,12 +29,13 @@ app.use("/auth", routerAuth);
 app.use("/v1", routerUser);
 app.use("/v1", routerFinca);
 app.use("/v1", routerDepart)
-app.use("/v1", routerVariedad);
+app.use("/v1", routerVereda);
 app.use("/v1", routerMunicipio)
+app.use("/v1", routerVariedad);
+app.use("/v1", routerSubasta);
+app.use("/v1", routerPostulacion);
 app.use("/v1", routerChat);
 app.use("/v1", routerNotificaciones);
-app.use("/v1", routerPostulacion);
-app.use("/v1", routerSubasta);
 
 app.listen(PORT, () => {
   console.log(`Connected on port: ${PORT}`);
