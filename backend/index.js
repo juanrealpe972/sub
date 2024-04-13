@@ -14,7 +14,7 @@ import routerNotificaciones from "./src/routes/notificaciones.routes.js";
 import routerPostulacion from "./src/routes/postulacion.routes.js";
 import routerDepart from "./src/routes/departamento.routes.js";
 import routerMunicipio from "./src/routes/municipio.routes.js";
-import routerVereda from "./src/routes/vereda.routes.js";
+import routerVereda from "./src/routes/veredas.routes.js";
 
 const PORT = 9722;
 const app = express();
