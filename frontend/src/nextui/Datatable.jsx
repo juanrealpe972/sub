@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import {
   Table,
   TableHeader,
@@ -17,75 +17,109 @@ import {
   Pagination,
   Tooltip,
 } from "@nextui-org/react";
-import { PlusIcon } from "./PlusIcon";
-import { VerticalDotsIcon } from "./VerticalDotsIcon";
 import { SearchIcon } from "./SearchIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
-import { columns, users, statusOptions } from "./data";
 import { capitalize } from "./utils";
 import { EditIcon } from "./EditIcon";
+import axiosClient from "../api/axios";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const COLUMSVISIBLES = [
+  "identificacion",
+  "nombre",
+  "email",
+  "estado",
+  "rol",
+  "acciones",
+];
 
 export default function Datatable() {
-  const [filterValue, setFilterValue] = React.useState("");
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(
-    new Set(INITIAL_VISIBLE_COLUMNS)
-  );
-  const [statusFilter, setStatusFilter] = React.useState("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: "age",
+  const [filterValue, setFilterValue] = useState("");
+  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  const [visibleColumns, setVisibleColumns] = useState(new Set(COLUMSVISIBLES));
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [sortDescriptor, setSortDescriptor] = useState({
+    column: "rol",
     direction: "ascending",
   });
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
+  const [userss, setusers] = useState([]);
+
+  useEffect(() => {
+    axiosClient
+      .get("/v1/users")
+      .then((res) => {
+        console.log(res.data);
+        setusers(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  const columns = [
+    { name: "IDENTIFICACIÓN", uid: "identificacion" },
+    { name: "NOMBRE", uid: "nombre", sortable: true },
+    { name: "EMAIL", uid: "email" },
+    { name: "TELEFONO", uid: "telefono", sortable: true },
+    { name: "ROL", uid: "rol", sortable: true },
+    { name: "FECHA_NAC", uid: "fecha_nacimiento" },
+    { name: "ESTADO", uid: "estado", sortable: true },
+    { name: "ACCIONES", uid: "acciones" },
+  ];
+
+  const statusOptions = [
+    { name: "Activo", uid: "activo" },
+    { name: "Inactivo", uid: "inactivo" },
+  ];
 
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
-
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
   }, [visibleColumns]);
 
-  const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+  const filteredItems = useMemo(() => {
+    let filteredUsers = userss;
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+        String(user.nombre_user)
+          .toLowerCase()
+          .includes(filterValue.toLowerCase())
       );
     }
+
     if (
       statusFilter !== "all" &&
-      Array.from(statusFilter).length !== statusOptions.length
+      Array.from(statusFilter.length) !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
+        Array.from(statusFilter.includes(user.estado_user))
       );
     }
 
     return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+  }, [userss, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
-  const items = React.useMemo(() => {
+  const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
 
-  const sortedItems = React.useMemo(() => {
+  const sortedItems = useMemo(() => {
     return [...items].sort((a, b) => {
       const first = a[sortDescriptor.column];
       const second = b[sortDescriptor.column];
@@ -95,18 +129,18 @@ export default function Datatable() {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user, columnKey) => {
+  const renderCell = useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
-      case "name":
+      case "nombre_user":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
+            avatarProps={{ radius: "lg", src: user.imagen_user }}
+            description={user.email_user}
             name={cellValue}
           >
-            {user.email}
+            {cellValue}
           </User>
         );
       case "role":
@@ -114,22 +148,22 @@ export default function Datatable() {
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
             <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
+              {user.rol_user}
             </p>
           </div>
         );
-      case "status":
+      case "estado_user":
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
+            color={statusColorMap[user.estado_user]}
             size="sm"
             variant="flat"
           >
             {cellValue}
           </Chip>
         );
-      case "actions":
+      case "acciones":
         return (
           <div className="relative flex justify-end items-center gap-2">
             <Tooltip content="Edit user">
@@ -137,7 +171,7 @@ export default function Datatable() {
                 <EditIcon />
               </span>
             </Tooltip>
-            <Dropdown>
+            {/* <Dropdown>
               <DropdownTrigger>
                 <Button isIconOnly size="sm" variant="light">
                   <VerticalDotsIcon className="text-default-300" />
@@ -148,7 +182,7 @@ export default function Datatable() {
                 <DropdownItem>Edit</DropdownItem>
                 <DropdownItem>Delete</DropdownItem>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
         );
       default:
@@ -156,24 +190,24 @@ export default function Datatable() {
     }
   }, []);
 
-  const onNextPage = React.useCallback(() => {
+  const onNextPage = useCallback(() => {
     if (page < pages) {
       setPage(page + 1);
     }
   }, [page, pages]);
 
-  const onPreviousPage = React.useCallback(() => {
+  const onPreviousPage = useCallback(() => {
     if (page > 1) {
       setPage(page - 1);
     }
   }, [page]);
 
-  const onRowsPerPageChange = React.useCallback((e) => {
+  const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
 
-  const onSearchChange = React.useCallback((value) => {
+  const onSearchChange = useCallback((value) => {
     if (value) {
       setFilterValue(value);
       setPage(1);
@@ -182,19 +216,23 @@ export default function Datatable() {
     }
   }, []);
 
-  const onClear = React.useCallback(() => {
+  const onClear = useCallback(() => {
     setFilterValue("");
     setPage(1);
   }, []);
 
-  const topContent = React.useMemo(() => {
+  const onStatusFilter = (selectedKeys) => {
+    setStatusFilter(selectedKeys);
+  };
+
+  const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4 pt-12 px-12">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            className="w-full sm:max-w-[44%] border border-default-200 rounded-xl"
+            placeholder="Buscar..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -207,7 +245,7 @@ export default function Datatable() {
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
                 >
-                  Status
+                  Estados
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -231,7 +269,7 @@ export default function Datatable() {
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
                 >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -249,17 +287,17 @@ export default function Datatable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
+            {/* <Button color="primary" endContent={<PlusIcon />}>
               Add New
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} users
+            Total {userss.length} usuarios
           </span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Filas por página:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -277,18 +315,18 @@ export default function Datatable() {
     statusFilter,
     visibleColumns,
     onRowsPerPageChange,
-    users.length,
+    userss.length,
     onSearchChange,
     hasSearchFilter,
   ]);
 
-  const bottomContent = React.useMemo(() => {
+  const bottomContent = useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center p-12">
+      <div className="py-2 px-2 flex justify-between items-center">
         <span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
+            : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
         </span>
         <Pagination
           isCompact
@@ -306,7 +344,7 @@ export default function Datatable() {
             variant="flat"
             onPress={onPreviousPage}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             isDisabled={pages === 1}
@@ -314,7 +352,7 @@ export default function Datatable() {
             variant="flat"
             onPress={onNextPage}
           >
-            Next
+            Siguiente
           </Button>
         </div>
       </div>
@@ -342,14 +380,14 @@ export default function Datatable() {
         {(column) => (
           <TableColumn
             key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
+            align={column.uid === "acciones" ? "center" : "start"}
             allowsSorting={column.sortable}
           >
             {column.name}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
+      <TableBody emptyContent={"Usuario no encontrado"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (

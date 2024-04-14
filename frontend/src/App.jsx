@@ -16,6 +16,7 @@ import DashboardContentOrganims from "./components/organisms/DashboardContentOrg
 import UsersPage from "./pages/UsersPage";
 import PoliticasYCondicionesPage from "./pages/PoliticasYCondicionesPage";
 import Datable from "./pages/Datable";
+import GeografiaFullPage from "./pages/GeografiaFullPage";
 
 function App() {
   const storedUser = localStorage.getItem("user");
@@ -32,16 +33,17 @@ function App() {
                   <Route path="/subcoffee" element={<SubastaPage />} />
                   <Route path="/profile" element={<ProfileUser />} />
                   <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
-                  <Route
-                    path="/ayudacomopujar"
-                    element={<ComoPujarUnaSubasta />}
-                  />
+                  <Route path="/ayudapujar" element={<ComoPujarUnaSubasta />} />
                   <Route path="/configuration" element={<Configuration />} />
                   <Route path="/ayudaaa" element={<AyudaPage />} />
                   {users && users.rol_user === "admin" && (
                     <>
                       <Route path="/usuarios" element={<UsersPage />} />
                       <Route path="/data" element={<Datable />} />
+                      <Route
+                        path="/geografia"
+                        element={<GeografiaFullPage />}
+                      />
                     </>
                   )}
                 </Route>
@@ -50,16 +52,10 @@ function App() {
               <Route element={<Dashboard />}>
                 <Route index element={<DashboardContentOrganims />} />
                 <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
-                <Route
-                  path="/politicas"
-                  element={<PoliticasYCondicionesPage />}
-                />
+                <Route path="/poli" element={<PoliticasYCondicionesPage />} />
                 <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
-                <Route
-                  path="/ayudacomopujar"
-                  element={<ComoPujarUnaSubasta />}
-                />
+                <Route path="/ayudapujar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/ayuda" element={<AyudaPage />} />
               </Route>
 

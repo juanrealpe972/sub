@@ -47,7 +47,7 @@ function SubastaPage() {
 
   return (
     <div className="px-14">
-      <div className="max-w-[1600px] h-[600px] w-full m-auto pt-10 px-4">
+      <div className="max-w-[1600px] h-auto w-full m-auto pt-10 p-4">
         <div
           className="w-full h-96 rounded-2xl bg-center bg-cover duration-500"
           style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
@@ -87,7 +87,7 @@ function SubastaPage() {
         <ButtonAtom onClick={toggleAbrirModalVari}>Crear Variedad</ButtonAtom>
       </div>
       <div className="w-full">
-        <h1 className="font-semibold ml-5">Borbon</h1>
+        <h1 className="font-semibold py-5">Borbon</h1>
         <SubastaCard />
       </div>
       {showModalFinca && (

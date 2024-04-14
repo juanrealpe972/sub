@@ -1,7 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
 import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { RiSettings4Line } from "react-icons/ri";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+
 import AvatarAtom from "../atoms/AvatarAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
 import MessageOfLifeMolecule from "../molecules/MessageOfLifeMolecule";
@@ -18,6 +19,11 @@ const SidebarOrganims = () => {
       ? [
           { title: "Data", link: "/data", icon: AiOutlineUser },
           { title: "Usuarios", link: "/usuarios", icon: AiOutlineUser },
+          {
+            title: "Geografía completa",
+            link: "/geografia",
+            icon: AiOutlineHeart,
+          },
         ]
       : []),
     ...(users && users.rol_user === "vendedor"
@@ -33,8 +39,8 @@ const SidebarOrganims = () => {
     { title: "Ayudaaa", link: "/ayudaaa", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
     {
-      title: "Politicas de privacidad",
-      link: "/politicas",
+      title: "Politicas privacidad",
+      link: "/poli",
       icon: RiSettings4Line,
     },
   ];
