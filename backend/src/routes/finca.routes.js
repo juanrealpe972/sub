@@ -9,7 +9,7 @@ routerFinca.get("/finca/:id", verificarUserToken, getFinca);
 routerFinca.post("/finca", cargarImagen, verificarUserToken, createFinca);
 routerFinca.put("/finca/:id", cargarImagen, verificarUserToken, updateFinca);
 routerFinca.delete("/finca/:id", verificarUserToken, deleteFinca);
-routerFinca.put("/finca/:id", verificarUserToken, activarFinca);
-routerFinca.put("/finca/:id", verificarUserToken, desactivarFinca);
+routerFinca.put("/fincaac/:id", verificarUserToken, activarFinca);
+routerFinca.put("/fincades/:id", verificarUserToken, desactivarFinca);
 
 export default routerFinca;
