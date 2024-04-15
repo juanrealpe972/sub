@@ -1,12 +1,15 @@
 import { Router } from 'express';
-import { createSub, deleteSub, getSub, getSubs, updateSub } from '../controllers/subasta.controllers.js';
+import { activarSubasta, createSubasta, deleteSubasta, desactivarSubasta, getSubasta, getSubastas, updateSubasta } from '../controllers/subasta.controllers.js';
+import { verificarUserToken } from '../controllers/auth.controller.js';
 
 const routerSubasta = Router()
 
-routerSubasta.get("/subasta", getSubs)
-routerSubasta.get("/subasta/:id", getSub)
-routerSubasta.post("/subasta", createSub)
-routerSubasta.put("/subasta/:id", updateSub)
-routerSubasta.delete("/subasta/:id", deleteSub)
+routerSubasta.get("/subasta", verificarUserToken, getSubastas)
+routerSubasta.get("/subasta/:id", verificarUserToken, getSubasta)
+routerSubasta.post("/subasta", verificarUserToken, createSubasta)
+routerSubasta.put("/subasta/:id", verificarUserToken, updateSubasta)
+routerSubasta.delete("/subasta/:id", verificarUserToken, deleteSubasta)
+routerSubasta.put("/subasta/:id", verificarUserToken, activarSubasta)
+routerSubasta.put("/subasta/:id", verificarUserToken, desactivarSubasta)
 
 export default routerSubasta;
