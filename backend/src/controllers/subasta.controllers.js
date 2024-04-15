@@ -1,7 +1,7 @@
 import { pool } from "../database/conexion.js";
 import multer from "multer";
 
-const storage = multer.diskStorage({
+const storageImg = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/subastas");
   },
@@ -10,8 +10,20 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
-export const cargarImagen = upload.single("img", "imgcert");
+const storageImgCert = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/subastas");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const carImg = multer({ storage: storageImg })
+export const cargarImagen = carImg.single("img");
+
+const carCer = multer({ storage: storageImgCert })
+export const cargarCertificado = carCer.single("imgcert");
 
 export const getSubastas = async (req, res) => {
   try {
@@ -45,12 +57,13 @@ export const getSubasta = async (req, res) => {
 export const createSubasta = async (req, res) => {
   try {
     const { fecha_ini, fecha_fin, precio_ini, unit_peso, catidad_sub, description_sub, fk_variedad } = req.body;
-    let img = req.file.originalname;
-    let imgCertificado = req.file.originalname;
 
     const [result] = await pool.query(
-      `INSERT INTO subasta(fecha_inicio_sub, fecha_fin_sub, imagen_sub, precio_inicial_sub, unidad_peso_sub, cantidad_sub, estado_sub, certificado_sub, descripcion_sub, fk_variedad) VALUES ('${fecha_ini}','${fecha_fin}', '${img}', '${precio_ini}','${unit_peso}','${catidad_sub}','abierta','${imgCertificado}','${description_sub}','${fk_variedad}')`
+      `INSERT INTO subasta(fecha_inicio_sub, fecha_fin_sub, precio_inicial_sub, unidad_peso_sub, cantidad_sub, estado_sub, descripcion_sub, fk_variedad) VALUES ('${fecha_ini}','${fecha_fin}',
+       '${precio_ini}','${unit_peso}','${catidad_sub}','abierta',
+       '${description_sub}','${fk_variedad}')`
     );
+
     if (result.length > 0) {
       res.status(201).json({ message: "Subasta creada exitosamente" });
     } else {
@@ -84,7 +97,7 @@ export const updateSubasta = async (req, res) => {
 export const deleteSubasta = async (req, res) => {
   try {
     const id = req.params.id;
-    const [result] = await pool.query(`DELETE FROM subasta WHERE id = '${id}'`);
+    const [result] = await pool.query(`DELETE FROM subasta WHERE pk_id_sub = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Subasta eliminada exitosamente" });
     } else {
@@ -98,7 +111,7 @@ export const deleteSubasta = async (req, res) => {
 export const activarSubasta = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(`UPDATE subasta SET estado = 1 WHERE id = '${id}'`
+    const [result] = await pool.query(`UPDATE subasta SET estado_sub = 1 WHERE pk_id_sub = '${id}'`
     );
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Subasta activada exitosamente" });
@@ -113,7 +126,7 @@ export const activarSubasta = async (req, res) => {
 export const desactivarSubasta = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(`UPDATE subasta SET estado = 2 WHERE id = '${id}'`);
+    const [result] = await pool.query(`UPDATE subasta SET estado_sub = 2 WHERE pk_id_sub = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Subasta desactivada exitosamente" });
     } else {
