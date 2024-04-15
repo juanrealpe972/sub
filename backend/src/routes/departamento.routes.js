@@ -1,22 +1,15 @@
 import { Router } from "express";
-import {
-  getDepartamentos,
-  getDepartamentoById,
-  createDepartamento,
-  updateDepartamento,
-  deleteDepartamento,
-  activarDepartamento,
-  desactivarDepartamento,
-} from "../controllers/departamento.controller.js";
+import { getDepartamentos, getDepartamentoById, createDepartamento, updateDepartamento, deleteDepartamento, activarDepartamento, desactivarDepartamento } from "../controllers/departamento.controller.js";
+import { verificarUserToken } from "../controllers/auth.controller.js";
 
 const routerDepartamento = Router();
 
-routerDepartamento.get("/departamentos", getDepartamentos);
-routerDepartamento.get("/departamentos/:id", getDepartamentoById);
-routerDepartamento.post("/departamentos", createDepartamento);
-routerDepartamento.put("/departamentos/:id", updateDepartamento);
-routerDepartamento.delete("/departamentos/:id", deleteDepartamento);
-routerDepartamento.put("/departamentosac/:id", activarDepartamento);
-routerDepartamento.put("/departamentosdes/:id", desactivarDepartamento);
+routerDepartamento.get("/departamentos", verificarUserToken, getDepartamentos);
+routerDepartamento.get("/departamentos/:id", verificarUserToken, getDepartamentoById);
+routerDepartamento.post("/departamentos", verificarUserToken, createDepartamento);
+routerDepartamento.put("/departamentos/:id", verificarUserToken, updateDepartamento);
+routerDepartamento.delete("/departamentos/:id", verificarUserToken, deleteDepartamento);
+routerDepartamento.put("/departamentosac/:id", verificarUserToken, activarDepartamento);
+routerDepartamento.put("/departamentosdes/:id", verificarUserToken, desactivarDepartamento);
 
 export default routerDepartamento;

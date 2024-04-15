@@ -3,7 +3,7 @@ import { pool } from "../database/conexion.js";
 
 const storage = multer.diskStorage({
   destination: function (req, imagen_fin, cb) {
-    cb(null, "public/img");
+    cb(null, "src/assets");
   },
   filename: function (req, imagen_fin, cb) {
     cb(null, imagen_fin.originalname);
@@ -23,7 +23,7 @@ export const getFinca = async (req, res) => {
       res.status(404).json({ message: "La finca con el ID no existe" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -37,7 +37,7 @@ export const getFincas = async (req, res) => {
       res.status(404).json({ message: "No se encontraron fincas con el ID" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -55,17 +55,17 @@ export const createFinca = async (req, res) => {
       res.status(404).json({ message: "No se pudo crear la finca" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
 export const updateFinca = async (req, res) => {
   try {
-    const { nombre_fin, ubicacion_fin, descripcion_fin, departamento_fin, municipio_fin, estado_fin } = req.body;
+    const { nombre_fin, ubicacion_fin, descripcion_fin } = req.body;
     let imagen_fin = req.filename;
 
     const id = req.params.id;
-    let sql = `UPDATE finca SET nombre_fin = COALESCE('${nombre_fin}', nombre_fin), ubicacion_fin = COALESCE('${ubicacion_fin}', ubicacion_fin), imagen_fin = COALESCE('${imagen_fin}', imagen_fin), descripcion_fin = COALESCE('${descripcion_fin}', descripcion_fin), departamento_fin = COALESCE('${departamento_fin}', departamento_fin), municipio_fin = COALESCE('${municipio_fin}', municipio_fin), estado_fin=COALESCE('${estado_fin}', estado_fin) WHERE pk_id_fin = '${id}'`;
+    let sql = `UPDATE finca SET nombre_fin = '${nombre_fin}', ubicacion_fin ='${ubicacion_fin}', imagen_fin = '${imagen_fin}', descripcion_fin = '${descripcion_fin}', estado_fin='activo' WHERE pk_id_fin = '${id}'`;
     const [rows] = await pool.query(sql);
     if (rows.affectedRows > 0) {
       res.status(200).json({ message: "Finca actualizada con exito" });
@@ -73,7 +73,7 @@ export const updateFinca = async (req, res) => {
       res.status(404).json({ message: "No se pudo actualizar la finca con el ID" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -88,6 +88,38 @@ export const deleteFinca = async (req, res) => {
       res.status(404).json({ message: "Error con el ID al eliminar la finca" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
+  }
+};
+
+export const activarFinca = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [result] = await pool.query(
+      `UPDATE fincas SET estado_fin = 1 WHERE pk_id_fin = '${id}'`
+    );
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: "Finca activada exitosamente" });
+    } else {
+      res.status(404).json({ message: `No se encontró ninguna Finca con el ID ${id}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
+  }
+};
+
+export const desactivarFinca = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [result] = await pool.query(
+      `UPDATE fincas SET estado_fin = 2 WHERE pk_id_fin = ${id}`
+    );
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: "Finca desactivada exitosamente" });
+    } else {
+      res.status(404).json({ message: `No se encontró ninguna Finca con el ID ${id}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };

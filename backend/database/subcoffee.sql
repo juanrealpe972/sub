@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-04-2024 a las 06:40:39
+-- Tiempo de generación: 15-04-2024 a las 03:55:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `coffeeoffer`
+-- Base de datos: `subcoffee`
 --
 
 -- --------------------------------------------------------
@@ -96,13 +96,12 @@ INSERT INTO `departamento` (`pk_codigo_depar`, `nombre_depart`, `estado_depar`) 
 CREATE TABLE `finca` (
   `pk_id_fin` int(11) NOT NULL,
   `nombre_fin` varchar(50) NOT NULL,
-  `longitud_fin` varchar(40) NOT NULL,
-  `latitud_fin` varchar(40) NOT NULL,
+  `nombre_vereda_fin` varchar(255) NOT NULL,
   `imagen_fin` varchar(100) NOT NULL,
   `descripcion_fin` varchar(100) DEFAULT NULL,
   `estado_fin` enum('activo','inactivo') DEFAULT NULL,
   `fk_id_usuario` int(11) NOT NULL,
-  `fk_municipio` bigint(11) NOT NULL
+  `fk_vereda` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -178,16 +177,27 @@ CREATE TABLE `notificaciones` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `postulacion`
+-- Estructura de tabla para la tabla `ofertas`
 --
 
-CREATE TABLE `postulacion` (
+CREATE TABLE `ofertas` (
   `pk_id_pos` int(11) NOT NULL,
   `fecha_pos` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `oferta_pos` int(11) NOT NULL,
   `fk_id_usuario` int(11) NOT NULL,
   `fk_id_subasta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `postulantes`
+--
+
+CREATE TABLE `postulantes` (
+  `fk_id_usuario` int(11) NOT NULL,
+  `fk_id_subasta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -253,6 +263,18 @@ CREATE TABLE `variedad` (
   `fk_finca` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `veredas`
+--
+
+CREATE TABLE `veredas` (
+  `pk_id_vere` bigint(11) NOT NULL,
+  `nombre_vere` varchar(255) NOT NULL,
+  `fk_municipio` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Índices para tablas volcadas
 --
@@ -276,7 +298,7 @@ ALTER TABLE `departamento`
 --
 ALTER TABLE `finca`
   ADD PRIMARY KEY (`pk_id_fin`),
-  ADD UNIQUE KEY `estar` (`fk_municipio`),
+  ADD UNIQUE KEY `poseer` (`fk_vereda`),
   ADD KEY `fincaUser` (`fk_id_usuario`);
 
 --
@@ -295,12 +317,19 @@ ALTER TABLE `notificaciones`
   ADD KEY `notificacionUser` (`fk_id_usuario`);
 
 --
--- Indices de la tabla `postulacion`
+-- Indices de la tabla `ofertas`
 --
-ALTER TABLE `postulacion`
+ALTER TABLE `ofertas`
   ADD PRIMARY KEY (`pk_id_pos`),
   ADD KEY `PostulaUser` (`fk_id_usuario`),
   ADD KEY `Postulasub` (`fk_id_subasta`);
+
+--
+-- Indices de la tabla `postulantes`
+--
+ALTER TABLE `postulantes`
+  ADD UNIQUE KEY `tener` (`fk_id_usuario`),
+  ADD UNIQUE KEY `quedar` (`fk_id_subasta`) USING BTREE;
 
 --
 -- Indices de la tabla `subasta`
@@ -321,6 +350,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `variedad`
   ADD PRIMARY KEY (`pk_id_vari`),
   ADD UNIQUE KEY `finca` (`fk_finca`);
+
+--
+-- Indices de la tabla `veredas`
+--
+ALTER TABLE `veredas`
+  ADD PRIMARY KEY (`pk_id_vere`),
+  ADD UNIQUE KEY `localizar` (`fk_municipio`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -345,9 +381,9 @@ ALTER TABLE `notificaciones`
   MODIFY `pk_id_not` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `postulacion`
+-- AUTO_INCREMENT de la tabla `ofertas`
 --
-ALTER TABLE `postulacion`
+ALTER TABLE `ofertas`
   MODIFY `pk_id_pos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
@@ -361,6 +397,12 @@ ALTER TABLE `subasta`
 --
 ALTER TABLE `variedad`
   MODIFY `pk_id_vari` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `veredas`
+--
+ALTER TABLE `veredas`
+  MODIFY `pk_id_vere` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -378,7 +420,7 @@ ALTER TABLE `chat`
 --
 ALTER TABLE `finca`
   ADD CONSTRAINT `fincaUser` FOREIGN KEY (`fk_id_usuario`) REFERENCES `usuarios` (`pk_cedula_user`),
-  ADD CONSTRAINT `finca_ibfk_1` FOREIGN KEY (`fk_municipio`) REFERENCES `municipio` (`pk_codigo_muni`);
+  ADD CONSTRAINT `finca_ibfk_1` FOREIGN KEY (`fk_vereda`) REFERENCES `veredas` (`pk_id_vere`);
 
 --
 -- Filtros para la tabla `municipio`
@@ -394,11 +436,18 @@ ALTER TABLE `notificaciones`
   ADD CONSTRAINT `subastaNo` FOREIGN KEY (`fk_id_subasta`) REFERENCES `subasta` (`pk_id_sub`);
 
 --
--- Filtros para la tabla `postulacion`
+-- Filtros para la tabla `ofertas`
 --
-ALTER TABLE `postulacion`
+ALTER TABLE `ofertas`
   ADD CONSTRAINT `PostulaUser` FOREIGN KEY (`fk_id_usuario`) REFERENCES `usuarios` (`pk_cedula_user`),
   ADD CONSTRAINT `Postulasub` FOREIGN KEY (`fk_id_subasta`) REFERENCES `subasta` (`pk_id_sub`);
+
+--
+-- Filtros para la tabla `postulantes`
+--
+ALTER TABLE `postulantes`
+  ADD CONSTRAINT `postulantes_ibfk_1` FOREIGN KEY (`fk_id_usuario`) REFERENCES `usuarios` (`pk_cedula_user`),
+  ADD CONSTRAINT `postulantes_ibfk_2` FOREIGN KEY (`fk_id_subasta`) REFERENCES `subasta` (`pk_id_sub`);
 
 --
 -- Filtros para la tabla `subasta`
@@ -411,6 +460,12 @@ ALTER TABLE `subasta`
 --
 ALTER TABLE `variedad`
   ADD CONSTRAINT `variedad_ibfk_1` FOREIGN KEY (`fk_finca`) REFERENCES `finca` (`pk_id_fin`);
+
+--
+-- Filtros para la tabla `veredas`
+--
+ALTER TABLE `veredas`
+  ADD CONSTRAINT `veredas_ibfk_1` FOREIGN KEY (`fk_municipio`) REFERENCES `municipio` (`pk_codigo_muni`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

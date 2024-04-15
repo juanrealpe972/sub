@@ -18,19 +18,19 @@ import routerVereda from "./src/routes/veredas.routes.js";
 
 const PORT = 9722;
 const app = express();
-app.use(cors());  
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.static('./public'))
+app.use(express.static("./public"));
 
 app.use("/auth", routerAuth);
 app.use("/v1", routerUser);
-app.use("/v1", routerFinca);
-app.use("/v1", routerDepart)
+app.use("/v1", routerDepart);
 app.use("/v1", routerVereda);
-app.use("/v1", routerMunicipio)
+app.use("/v1", routerMunicipio);
+app.use("/v1", routerFinca);
 app.use("/v1", routerVariedad);
 app.use("/v1", routerSubasta);
 app.use("/v1", routerPostulacion);

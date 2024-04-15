@@ -102,7 +102,7 @@ function HeaderOrganism() {
                 className="flex items-center gap-x-2"
                 onClick={toggleCerrarSesionModal}
               >
-                <AvatarAtom img="/profile_user.jfif" />
+                <AvatarAtom img={`/${users.imagen_user}`} />
                 <div className="">
                   <span className="text-blanco text-sm">
                     {users.nombre_user}

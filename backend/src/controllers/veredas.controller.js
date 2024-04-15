@@ -3,10 +3,13 @@ import { pool } from "../database/conexion.js";
 export const getVeredas = async (req, res) => {
   try {
     const [result] = await pool.query("SELECT * FROM veredas");
-    res.status(200).json({message: "Veredas encontradas exitosamente",data: result.rows,
-    });
+    if(result.length > 0) {
+      res.status(200).json({message: "Veredas encontradas exitosamente",data: result });
+    } else {
+      res.status(404).json({message: "Error al listar las veredas"})
+    }
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener las veredas", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -16,13 +19,13 @@ export const getVereda = async (req, res) => {
     const [result] = await pool.query(
       `SELECT * FROM veredas WHERE pk_id_vere = '${id}'`
     );
-    if (result.rows.length > 0) {
-      res.status(200).json({ message: "Vereda encontrada", data: result.rows[0] });
+    if (result.length > 0) {
+      res.status(200).json({ message: "Vereda encontrada", data: result });
     } else {
       res.status(404).json({ message: `No se encontró ninguna vereda con el ID '${id}'` });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener la vereda", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -30,7 +33,7 @@ export const crearVereda = async (req, res) => {
   const { nombre_vere, fk_municipio } = req.body;
   try {
     const [result] = await pool.query(
-      `INSERT INTO veredas (nombre_vere, estado_vere, fk_municipio) VALUES ('${nombre_vere}', 'activo', '${fk_municipio}')`
+      `INSERT INTO veredas (nombre_vere, fk_municipio, estado_vere) VALUES ('${nombre_vere}', '${fk_municipio}', 'activo')`
     );
     if (result.affectedRows > 0) {
       res.status(201).json({ message: "Vereda creada exitosamente" });
@@ -38,7 +41,7 @@ export const crearVereda = async (req, res) => {
       res.status(400).json({message:"Error al crear la vereda"})
     }
   } catch (error) {
-    res.status(500).json({ message: "Error al crear la vereda", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -55,7 +58,7 @@ export const editarVereda = async (req, res) => {
       res.status(404).json({ message: `No se encontró ninguna vereda con el ID ${id}` });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error al actualizar la vereda", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -71,7 +74,7 @@ export const eliminarVereda = async (req, res) => {
       res.status(404).json({ message: `No se encontró ninguna vereda con el ID ${id}` });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error al eliminar la vereda", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -87,7 +90,7 @@ export const activarVereda = async (req, res) => {
       res.status(404).json({ message: `No se encontró ninguna vereda con el ID ${id}` });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error al activar la vereda", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -103,6 +106,6 @@ export const desactivarVereda = async (req, res) => {
       res.status(404).json({ message: `No se encontró ninguna vereda con el ID ${id}` });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error al desactivar la vereda", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };

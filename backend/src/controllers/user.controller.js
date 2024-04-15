@@ -57,10 +57,10 @@ export const updateUser = async (req, res) => {
   try {
     const id = req.params.id;
     const { pk_cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, fecha_nacimiento_user, rol_user, estado_user } = req.body;
-
+    const bcryptPassword = bcrypt.hashSync(password_user, 12);
     let imagen_user =  req.file.originalname
 
-    let sql = `UPDATE usuarios SET pk_cedula_user = '${pk_cedula_user}', nombre_user = '${nombre_user}', email_user = '${email_user}', password_user = '${password_user}', descripcion_user = '${descripcion_user}', imagen_user = '${imagen_user}', telefono_user = '${telefono_user}', fecha_nacimiento_user = '${fecha_nacimiento_user}', rol_user = '${rol_user}', estado_user = '${estado_user}' WHERE pk_cedula_user = '${id}'`;
+    let sql = `UPDATE usuarios SET pk_cedula_user = '${pk_cedula_user}', nombre_user = '${nombre_user}', email_user = '${email_user}', password_user = '${bcryptPassword}', descripcion_user = '${descripcion_user}', imagen_user = '${imagen_user}', telefono_user = '${telefono_user}', fecha_nacimiento_user = '${fecha_nacimiento_user}', rol_user = '${rol_user}', estado_user = '${estado_user}' WHERE pk_cedula_user = '${id}'`;
     const [result] = await pool.query(sql);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Usuario actualizado con exito" });
@@ -103,5 +103,37 @@ export const deleteUser = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error });
+  }
+};
+
+export const activarUsuario = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [result] = await pool.query(
+      `UPDATE usuarios SET estado_user = 1 WHERE pk_cedula_user = '${id}'`
+    );
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: "Usuario activado exitosamente" });
+    } else {
+      res.status(404).json({ message: `No se encontró ningun usuario con el ID ${id}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
+  }
+};
+
+export const desactivarUsuario = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [result] = await pool.query(
+      `UPDATE usuarios SET estado_user = 2 WHERE pk_cedula_user = ${id}`
+    );
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: "Usuario desactivado exitosamente" });
+    } else {
+      res.status(404).json({ message: `No se encontró ningun usuario con el ID ${id}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };

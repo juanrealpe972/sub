@@ -9,7 +9,7 @@ export const getDepartamentos = async (req, res) => {
       res.status(404).json({ message: "No hay departamentos registrados" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el sistema", error });
   }
 };
 
@@ -25,7 +25,7 @@ export const getDepartamentoById = async (req, res) => {
       res.status(404).json({ message: "Departamento no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el sistema", error });
   }
 };
 
@@ -41,7 +41,7 @@ export const createDepartamento = async (req, res) => {
       res.status(404).json({ message: "Error al crear el departamento" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el sistema", error });
   }
 };
 
@@ -60,7 +60,7 @@ export const updateDepartamento = async (req, res) => {
       res.status(404).json({ message: "Departamento no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el sistema", error });
   }
 };
 
@@ -77,7 +77,7 @@ export const deleteDepartamento = async (req, res) => {
       res.status(404).json({ message: "Departamento no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el sistema", error });
   }
 };
 
@@ -93,7 +93,7 @@ export const activarDepartamento = async (req, res) => {
       res.status(404).json({ message: "Departamento no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el sistema", error });
   }
 };
 
@@ -111,6 +111,6 @@ export const desactivarDepartamento = async (req, res) => {
       res.status(404).json({ message: "Departamento no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    res.status(500).json({ message: "Error en el sistema", error });
   }
 };
