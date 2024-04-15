@@ -1,4 +1,16 @@
 import { pool } from "../database/conexion.js";
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/variedades");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const uploat = multer({ storage: storage });
+export const cargarImagen = uploat.single("img");
 
 export const getVariedades = async (req, res) => {
   try {
@@ -10,7 +22,7 @@ export const getVariedades = async (req, res) => {
       res.status(404).json({ message: "Error al buscar las variedades" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -25,38 +37,40 @@ export const getVariedad = async (req, res) => {
       res.status(404).json({ message: "Error al buscar las variedades" });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
 export const createVariedad = async (req, res) => {
   try {
-    const {tipo_vari, descripcion_vari, puntuacion_vari} = req.body
-    let sql = `INSERT INTO variedad(tipo_vari, descripcion_vari, puntuacion_vari) VALUES ('${tipo_vari}', '${descripcion_vari}', '${puntuacion_vari}')`
+    const {tipo_vari, descripcion_vari, fk_finca} = req.body
+    let img =  req.file.originalname
+    let sql = `INSERT INTO variedad(tipo_vari, descripcion_vari, imagen_vari, estado_vari, fk_finca) VALUES ('${tipo_vari}', '${descripcion_vari}', '${img}', 'activo', '${fk_finca}')`
     const [result] = await pool.query(sql)
     if(result.affectedRows > 0){
-        res.status(200).json({message:"Variedades creada con exito", data:result})
+        res.status(200).json({message:"Variedad creada con exito"})
     }else {
-        res.status(404).json({message:"Error al buscar las variedades"})
+        res.status(404).json({message:"Error al crear la variedad"})
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
 export const updateVariedad = async (req, res) => {
   try {
     const id = req.params.id
-    const {tipo_vari, descripcion_vari, puntuacion_vari, estado_vari} = req.body
-    let sql = `UPDATE variedad SET tipo_vari = COALESCE('${tipo_vari}', tipo_vari), descripcion_vari=COALESCE('${descripcion_vari}', descripcion_vari), puntuacion_vari=COALESCE('${puntuacion_vari}', puntuacion_vari), estado_vari = COALESCE('${estado_vari}', estado_vari) WHERE pk_id_vari = '${id}'`
+    const {tipo_vari, descripcion_vari, fk_finca} = req.body
+    let img =  req.file.originalname
+    let sql = `UPDATE variedad SET tipo_vari = '${tipo_vari}', descripcion_vari='${descripcion_vari}', imagen_vari = '${img}', fk_finca = '${fk_finca}' WHERE pk_id_vari = '${id}'`
     const [result] = await pool.query(sql)
     if(result.affectedRows > 0){
-        res.status(200).json({message:"Variedad actualizada con exito", data:result})
+        res.status(200).json({message:"Variedad actualizada con exito"})
     }else {
         res.status(404).json({message:"Error al buscar las variedades"})
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -71,6 +85,38 @@ export const deleteVariedad = async (req, res) => {
         res.status(404).json({message:"Error al eliminar la variedad"})
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
+  }
+};
+
+export const activarVariedad = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [result] = await pool.query(
+      `UPDATE variedad SET estado_vari = 1 WHERE pk_id_vari = '${id}'`
+    );
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: "Variedad activada exitosamente" });
+    } else {
+      res.status(404).json({ message: `No se encontró ninguna Variedad con el ID ${id}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
+  }
+};
+
+export const desactivarVariedad = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [result] = await pool.query(
+      `UPDATE variedad SET estado_vari = 2 WHERE pk_id_vari = ${id}`
+    );
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: "Variedad desactivada exitosamente" });
+    } else {
+      res.status(404).json({ message: `No se encontró ninguna Variedad con el ID ${id}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
