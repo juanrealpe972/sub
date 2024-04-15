@@ -22,9 +22,7 @@ export const getSubastas = async (req, res) => {
       res.status(404).json({ message: "No existen subastas" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -40,23 +38,13 @@ export const getSubasta = async (req, res) => {
       res.status(200).json({ message: "Subasta encontrada", data: result });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
 export const createSubasta = async (req, res) => {
   try {
-    const {
-      fecha_ini,
-      fecha_fin,
-      precio_ini,
-      unit_peso,
-      catidad_sub,
-      description_sub,
-      fk_variedad,
-    } = req.body;
+    const { fecha_ini, fecha_fin, precio_ini, unit_peso, catidad_sub, description_sub, fk_variedad } = req.body;
     let img = req.file.originalname;
     let imgCertificado = req.file.originalname;
 
@@ -69,9 +57,7 @@ export const createSubasta = async (req, res) => {
       res.status(404).json({ message: "Error al crear la subasta" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -91,9 +77,7 @@ export const updateSubasta = async (req, res) => {
       res.status(404).json({ message: "No se encontró la subasta con ese ID" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
@@ -107,48 +91,35 @@ export const deleteSubasta = async (req, res) => {
       res.status(404).json({ message: "No se encontró la subasta con ese ID" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
 export const activarSubasta = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE subasta SET estado = 1 WHERE id = '${id}'`
+    const [result] = await pool.query(`UPDATE subasta SET estado = 1 WHERE id = '${id}'`
     );
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Subasta activada exitosamente" });
     } else {
-      res
-        .status(404)
-        .json({ message: `No se encontró ninguna subasta con el ID ${id}` });
+      res.status(404).json({ message: `No se encontró ninguna subasta con el ID ${id}` });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
 
 export const desactivarSubasta = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE subasta SET estado = 2 WHERE id = '${id}'`
-    );
+    const [result] = await pool.query(`UPDATE subasta SET estado = 2 WHERE id = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Subasta desactivada exitosamente" });
     } else {
-      res
-        .status(404)
-        .json({ message: `No se encontró ninguna subasta con el ID ${id}` });
+      res.status(404).json({ message: `No se encontró ninguna subasta con el ID ${id}` });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el sistema", error: error.message });
   }
 };
