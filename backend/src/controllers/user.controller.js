@@ -21,9 +21,7 @@ export const getUsers = async (req, res) => {
     if (rows.length > 0) {
       res.status(200).json({ message: "Los usuarios son: ", data: rows });
     } else {
-      res
-        .status(404)
-        .json({ message: "No hay usuarios registrados por el momento" });
+      res.status(404).json({ message: "No hay usuarios registrados por el momento" });
     }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor " + error });
@@ -32,19 +30,19 @@ export const getUsers = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-    const errors = validationResult(req);
+
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(404).json(errors);
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const { cedula_user, nombre_user, email_user, password_user, telefono_user, fechanacimiento_user, rol_user } = req.body;
     const bcryptPassword = bcrypt.hashSync(password_user, 12);
+    
     let sql = `INSERT INTO usuarios (pk_cedula_user, nombre_user, email_user, password_user, telefono_user, fecha_nacimiento_user, rol_user, estado_user) VALUES ('${cedula_user}', '${nombre_user}','${email_user}','${bcryptPassword}', '${telefono_user}', '${fechanacimiento_user}' ,'${rol_user}', 'activo')`;
     const [result] = await pool.query(sql);
     if (result.affectedRows > 0) {
-      res
-        .status(200)
-        .json({ status: 200, message: "Usuario creado exitosamente" });
+      res.status(200).json({ status: 200, message: "Usuario creado exitosamente" });
     } else {
       res.status(404).json({ message: "No se pudo crear el usuario" });
     }
@@ -55,12 +53,18 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const id = req.params.id;
-    const { pk_cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, fecha_nacimiento_user, rol_user, estado_user } = req.body;
-    const bcryptPassword = bcrypt.hashSync(password_user, 12);
-    let imagen_user =  req.file.originalname
 
-    let sql = `UPDATE usuarios SET pk_cedula_user = '${pk_cedula_user}', nombre_user = '${nombre_user}', email_user = '${email_user}', password_user = '${bcryptPassword}', descripcion_user = '${descripcion_user}', imagen_user = '${imagen_user}', telefono_user = '${telefono_user}', fecha_nacimiento_user = '${fecha_nacimiento_user}', rol_user = '${rol_user}', estado_user = '${estado_user}' WHERE pk_cedula_user = '${id}'`;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.params.id;
+    const { cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, fecha_nacimiento_user, rol_user, estado_user } = req.body;
+    const bcryptPassword = bcrypt.hashSync(password_user, 12);
+    let img =  req.file.originalname
+
+    let sql = `UPDATE usuarios SET pk_cedula_user = '${cedula_user}', nombre_user = '${nombre_user}', email_user = '${email_user}', password_user = '${bcryptPassword}', descripcion_user = '${descripcion_user}', imagen_user = '${img}', telefono_user = '${telefono_user}', fecha_nacimiento_user = '${fecha_nacimiento_user}', rol_user = '${rol_user}', estado_user = '${estado_user}' WHERE pk_cedula_user = '${id}'`;
     const [result] = await pool.query(sql);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Usuario actualizado con exito" });
@@ -78,9 +82,7 @@ export const getUser = async (req, res) => {
     let sql = `SELECT * FROM usuarios WHERE pk_cedula_user = '${id}'`;
     const [user] = await pool.query(sql);
     if (user.length > 0) {
-      res
-        .status(200)
-        .json({ message: "Usuario encontrado con exito", data: user });
+      res.status(200).json({ message: "Usuario encontrado con exito", data: user });
     } else {
       res.status(404).json({ message: "Error al encontrar el usuario" });
     }
@@ -97,9 +99,7 @@ export const deleteUser = async (req, res) => {
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Usuario eliminado con exito" });
     } else {
-      res
-        .status(404)
-        .json({ message: "Error con el ID al eliminar el usuario" });
+      res.status(404).json({ message: "Error con el ID al eliminar el usuario" });
     }
   } catch (error) {
     res.status(500).json({ message: error });
@@ -109,9 +109,7 @@ export const deleteUser = async (req, res) => {
 export const activarUsuario = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE usuarios SET estado_user = 1 WHERE pk_cedula_user = '${id}'`
-    );
+    const [result] = await pool.query(`UPDATE usuarios SET estado_user = 1 WHERE pk_cedula_user = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Usuario activado exitosamente" });
     } else {
@@ -125,9 +123,7 @@ export const activarUsuario = async (req, res) => {
 export const desactivarUsuario = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE usuarios SET estado_user = 2 WHERE pk_cedula_user = ${id}`
-    );
+    const [result] = await pool.query(`UPDATE usuarios SET estado_user = 2 WHERE pk_cedula_user = ${id}`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Usuario desactivado exitosamente" });
     } else {
