@@ -15,6 +15,7 @@ import routerPostulacion from "./src/routes/postulacion.routes.js";
 import routerDepart from "./src/routes/departamento.routes.js";
 import routerMunicipio from "./src/routes/municipio.routes.js";
 import routerVereda from "./src/routes/veredas.routes.js";
+import routertipovari from "./src/routes/tipovariedad.routes.js";
 
 const PORT = 9722;
 const app = express();
@@ -32,6 +33,7 @@ app.use("/v1", routerVereda);
 app.use("/v1", routerMunicipio);
 app.use("/v1", routerFinca);
 app.use("/v1", routerVariedad);
+app.use("/v1", routertipovari);
 app.use("/v1", routerSubasta);
 app.use("/v1", routerPostulacion);
 app.use("/v1", routerChat);

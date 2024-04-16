@@ -43,9 +43,9 @@ export const getVariedad = async (req, res) => {
 
 export const createVariedad = async (req, res) => {
   try {
-    const {tipo_vari, descripcion_vari, fk_finca} = req.body
+    const { descripcion_vari, fk_finca, fk_variedad} = req.body
     let img =  req.file.originalname
-    let sql = `INSERT INTO variedad(tipo_vari, descripcion_vari, imagen_vari, estado_vari, fk_finca) VALUES ('${tipo_vari}', '${descripcion_vari}', '${img}', 'activo', '${fk_finca}')`
+    let sql = `INSERT INTO variedad( descripcion_vari, imagen_vari, estado_vari, fk_finca, fk_variedad) VALUES ('${descripcion_vari}', '${img}', 'activo', '${fk_finca}', '${fk_variedad}')`
     const [result] = await pool.query(sql)
     if(result.affectedRows > 0){
         res.status(200).json({message:"Variedad creada con exito"})
@@ -60,9 +60,9 @@ export const createVariedad = async (req, res) => {
 export const updateVariedad = async (req, res) => {
   try {
     const id = req.params.id
-    const {tipo_vari, descripcion_vari, fk_finca} = req.body
+    const {fk_variedad, descripcion_vari, fk_finca} = req.body
     let img =  req.file.originalname
-    let sql = `UPDATE variedad SET tipo_vari = '${tipo_vari}', descripcion_vari='${descripcion_vari}', imagen_vari = '${img}', fk_finca = '${fk_finca}' WHERE pk_id_vari = '${id}'`
+    let sql = `UPDATE variedad SET fk_variedad = '${fk_variedad}', descripcion_vari='${descripcion_vari}', imagen_vari = '${img}', fk_finca = '${fk_finca}' WHERE pk_id_vari = '${id}'`
     const [result] = await pool.query(sql)
     if(result.affectedRows > 0){
         res.status(200).json({message:"Variedad actualizada con exito"})

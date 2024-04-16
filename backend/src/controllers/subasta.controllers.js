@@ -64,6 +64,7 @@ export const createSubasta = async (req, res) => {
        '${description_sub}','${fk_variedad}')`
     );
 
+    
     if (result.length > 0) {
       res.status(201).json({ message: "Subasta creada exitosamente" });
     } else {
