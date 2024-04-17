@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { pool } from "../database/conexion.js";
 
 export const getVeredas = async (req, res) => {
@@ -16,9 +17,7 @@ export const getVeredas = async (req, res) => {
 export const getVereda = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `SELECT * FROM veredas WHERE pk_id_vere = '${id}'`
-    );
+    const [result] = await pool.query(`SELECT * FROM veredas WHERE pk_id_vere = '${id}'`);
     if (result.length > 0) {
       res.status(200).json({ message: "Vereda encontrada", data: result });
     } else {
@@ -30,11 +29,14 @@ export const getVereda = async (req, res) => {
 };
 
 export const crearVereda = async (req, res) => {
-  const { nombre_vere, fk_municipio } = req.body;
   try {
-    const [result] = await pool.query(
-      `INSERT INTO veredas (nombre_vere, fk_municipio, estado_vere) VALUES ('${nombre_vere}', '${fk_municipio}', 'activo')`
-    );
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { nombre_vere, fk_municipio } = req.body;
+    const [result] = await pool.query(`INSERT INTO veredas (nombre_vere, fk_municipio, estado_vere) VALUES ('${nombre_vere}', '${fk_municipio}', 'activo')`);
     if (result.affectedRows > 0) {
       res.status(201).json({ message: "Vereda creada exitosamente" });
     }else {
@@ -46,12 +48,15 @@ export const crearVereda = async (req, res) => {
 };
 
 export const editarVereda = async (req, res) => {
-  const id = req.params.id;
-  const { nombre_vere, fk_municipio } = req.body;
   try {
-    const [result] = await pool.query(
-      `UPDATE veredas SET nombre_vere = '${nombre_vere}', fk_municipio = '${fk_municipio}' WHERE pk_id_vere = '${id}'`
-    );
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.params.id;
+    const { nombre_vere, fk_municipio } = req.body;
+    const [result] = await pool.query(`UPDATE veredas SET nombre_vere = '${nombre_vere}', fk_municipio = '${fk_municipio}' WHERE pk_id_vere = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Vereda actualizada exitosamente" });
     } else {
@@ -65,9 +70,7 @@ export const editarVereda = async (req, res) => {
 export const eliminarVereda = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `DELETE FROM veredas WHERE pk_id_vere = '${id}'`
-    );
+    const [result] = await pool.query(`DELETE FROM veredas WHERE pk_id_vere = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Vereda eliminada correctamente" });
     } else {
@@ -81,9 +84,7 @@ export const eliminarVereda = async (req, res) => {
 export const activarVereda = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE veredas SET estado_vere = 1 WHERE pk_id_vere = '${id}'`
-    );
+    const [result] = await pool.query(`UPDATE veredas SET estado_vere = 1 WHERE pk_id_vere = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Vereda activada exitosamente" });
     } else {
@@ -97,9 +98,7 @@ export const activarVereda = async (req, res) => {
 export const desactivarVereda = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE veredas SET estado_vere = 2 WHERE pk_id_vere = ${id}`
-    );
+    const [result] = await pool.query(`UPDATE veredas SET estado_vere = 2 WHERE pk_id_vere = ${id}`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Vereda desactivada exitosamente" });
     } else {

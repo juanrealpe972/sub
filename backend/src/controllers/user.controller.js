@@ -30,7 +30,6 @@ export const getUsers = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -53,7 +52,6 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });

@@ -1,5 +1,6 @@
 import multer from "multer";
 import { pool } from "../database/conexion.js";
+import { validationResult } from "express-validator";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -10,7 +11,7 @@ const storage = multer.diskStorage({
   },
 });
 const uploat = multer({ storage: storage });
-export const cargarImagen = uploat.single("img");
+export const cargarImagen = uploat.single("imagen_fin");
 
 export const getFincas = async (req, res) => {
   try {
@@ -43,10 +44,13 @@ export const getFinca = async (req, res) => {
 
 export const createFinca = async (req, res) => {
   try {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { nombre_fin, descripcion_fin, fk_id_usuario, fk_vereda } = req.body;
-
     let imagen_fin = req.file.originalname;
-
     let sql = `INSERT INTO finca(nombre_fin, imagen_fin, descripcion_fin, estado_fin, fk_id_usuario, fk_vereda) VALUES ('${nombre_fin}', '${imagen_fin}', '${descripcion_fin}', 'activo', '${fk_id_usuario}', '${fk_vereda}')`;
     const [rows] = await pool.query(sql);
     if (rows.affectedRows > 0) {
@@ -61,10 +65,14 @@ export const createFinca = async (req, res) => {
 
 export const updateFinca = async (req, res) => {
   try {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const id = req.params.id;
     const { nombre_fin, descripcion_fin, fk_vereda } = req.body;
     let imagen_fin = req.file.originalname;
-
     let sql = `UPDATE finca SET nombre_fin = '${nombre_fin}', imagen_fin = '${imagen_fin}', descripcion_fin = '${descripcion_fin}', fk_vereda = '${fk_vereda}' WHERE pk_id_fin = '${id}'`;
     const [rows] = await pool.query(sql);
     if (rows.affectedRows > 0) {
@@ -95,9 +103,7 @@ export const deleteFinca = async (req, res) => {
 export const activarFinca = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE finca SET estado_fin = 1 WHERE pk_id_fin = '${id}'`
-    );
+    const [result] = await pool.query(`UPDATE finca SET estado_fin = 1 WHERE pk_id_fin = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Finca activada exitosamente" });
     } else {
@@ -111,9 +117,7 @@ export const activarFinca = async (req, res) => {
 export const desactivarFinca = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE finca SET estado_fin = 2 WHERE pk_id_fin = ${id}`
-    );
+    const [result] = await pool.query(`UPDATE finca SET estado_fin = 2 WHERE pk_id_fin = ${id}`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Finca desactivada exitosamente" });
     } else {

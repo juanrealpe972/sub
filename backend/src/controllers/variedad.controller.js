@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { pool } from "../database/conexion.js";
 import multer from "multer";
 
@@ -43,6 +44,11 @@ export const getVariedad = async (req, res) => {
 
 export const createVariedad = async (req, res) => {
   try {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { descripcion_vari, fk_finca, fk_variedad} = req.body
     let img =  req.file.originalname
     let sql = `INSERT INTO variedad( descripcion_vari, imagen_vari, estado_vari, fk_finca, fk_variedad) VALUES ('${descripcion_vari}', '${img}', 'activo', '${fk_finca}', '${fk_variedad}')`
@@ -59,6 +65,11 @@ export const createVariedad = async (req, res) => {
 
 export const updateVariedad = async (req, res) => {
   try {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const id = req.params.id
     const {fk_variedad, descripcion_vari, fk_finca} = req.body
     let img =  req.file.originalname
@@ -92,9 +103,7 @@ export const deleteVariedad = async (req, res) => {
 export const activarVariedad = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE variedad SET estado_vari = 1 WHERE pk_id_vari = '${id}'`
-    );
+    const [result] = await pool.query(`UPDATE variedad SET estado_vari = 1 WHERE pk_id_vari = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Variedad activada exitosamente" });
     } else {

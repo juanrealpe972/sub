@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { pool } from "../database/conexion.js";
 
 export const getDepartamentos = async (req, res) => {
@@ -16,9 +17,7 @@ export const getDepartamentos = async (req, res) => {
 export const getDepartamentoById = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `SELECT * FROM departamento WHERE pk_codigo_depar = '${id}'`
-    );
+    const [result] = await pool.query(`SELECT * FROM departamento WHERE pk_codigo_depar = '${id}'`);
     if (result.length > 0) {
       res.status(200).json(result[0]);
     } else {
@@ -30,11 +29,14 @@ export const getDepartamentoById = async (req, res) => {
 };
 
 export const createDepartamento = async (req, res) => {
-  const { pk_codigo_depar, nombre_depart } = req.body;
   try {
-    const [result] = await pool.query(
-      `INSERT INTO departamento (pk_codigo_depar, nombre_depart, estado_depar) VALUES ('${pk_codigo_depar}' ,'${nombre_depart}', 'activo')`
-    );
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { pk_codigo_depar, nombre_depart } = req.body;
+    const [result] = await pool.query(`INSERT INTO departamento (pk_codigo_depar, nombre_depart, estado_depar) VALUES ('${pk_codigo_depar}' ,'${nombre_depart}', 'activo')`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Departamento creado exitosamente" });
     } else {
@@ -46,16 +48,17 @@ export const createDepartamento = async (req, res) => {
 };
 
 export const updateDepartamento = async (req, res) => {
-  const id = req.params.id;
-  const { pk_codigo_depar, nombre_depart } = req.body;
   try {
-    const [result] = await pool.query(
-      `UPDATE departamento SET pk_codigo_depar = '${pk_codigo_depar}', nombre_depart = '${nombre_depart}' WHERE pk_codigo_depar = '${id}'`
-    );
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.params.id;
+    const { pk_codigo_depar, nombre_depart } = req.body;
+    const [result] = await pool.query(`UPDATE departamento SET pk_codigo_depar = '${pk_codigo_depar}', nombre_depart = '${nombre_depart}' WHERE pk_codigo_depar = '${id}'`);
     if (result.affectedRows > 0) {
-      res
-        .status(200)
-        .json({ message: "Departamento actualizado exitosamente" });
+      res.status(200).json({ message: "Departamento actualizado exitosamente" });
     } else {
       res.status(404).json({ message: "Departamento no encontrado" });
     }
@@ -67,10 +70,7 @@ export const updateDepartamento = async (req, res) => {
 export const deleteDepartamento = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `DELETE FROM departamento WHERE pk_codigo_depar = '${id}'`,
-      [id]
-    );
+    const [result] = await pool.query(`DELETE FROM departamento WHERE pk_codigo_depar = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Departamento eliminado exitosamente" });
     } else {

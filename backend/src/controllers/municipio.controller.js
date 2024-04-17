@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { pool } from "../database/conexion.js";
 
 export const getMunicipios = async (req, res) => {
@@ -16,10 +17,7 @@ export const getMunicipios = async (req, res) => {
 export const getMunicipioById = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `SELECT * FROM municipio WHERE pk_codigo_muni = '${id}'`,
-      [id]
-    );
+    const [result] = await pool.query(`SELECT * FROM municipio WHERE pk_codigo_muni = '${id}'`);
     if (result.length > 0) {
       res.status(200).json(result[0]);
     } else {
@@ -31,11 +29,14 @@ export const getMunicipioById = async (req, res) => {
 };
 
 export const createMunicipio = async (req, res) => {
-  const { pk_codigo_muni, nombre_muni, fk_departamento } = req.body;
   try {
-    const [result] = await pool.query(
-      `INSERT INTO municipio (pk_codigo_muni, nombre_muni, estado_muni, fk_departamento) VALUES ('${pk_codigo_muni}', '${nombre_muni}', 'activo', '${fk_departamento}')`
-    );
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { pk_codigo_muni, nombre_muni, fk_departamento } = req.body;
+    const [result] = await pool.query(`INSERT INTO municipio (pk_codigo_muni, nombre_muni, estado_muni, fk_departamento) VALUES ('${pk_codigo_muni}', '${nombre_muni}', 'activo', '${fk_departamento}')`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Municipio creado exitosamente" });
     } else {
@@ -47,12 +48,15 @@ export const createMunicipio = async (req, res) => {
 };
 
 export const updateMunicipio = async (req, res) => {
-  const id = req.params.id;
-  const {pk_codigo_muni, nombre_muni, fk_departamento } = req.body;
   try {
-    const [result] = await pool.query(
-      `UPDATE municipio SET pk_codigo_muni = ('${pk_codigo_muni}'), nombre_muni = ('${nombre_muni}'), fk_departamento = ('${fk_departamento}') WHERE pk_codigo_muni = '${id}'`
-    );
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.params.id;
+    const { pk_codigo_muni, nombre_muni, fk_departamento } = req.body;
+    const [result] = await pool.query(`UPDATE municipio SET pk_codigo_muni = ('${pk_codigo_muni}'), nombre_muni = ('${nombre_muni}'), fk_departamento = ('${fk_departamento}') WHERE pk_codigo_muni = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Municipio actualizado exitosamente" });
     } else {
@@ -66,10 +70,7 @@ export const updateMunicipio = async (req, res) => {
 export const deleteMunicipio = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `DELETE FROM municipio WHERE pk_codigo_muni = '${id}'`,
-      [id]
-    );
+    const [result] = await pool.query(`DELETE FROM municipio WHERE pk_codigo_muni = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Municipio eliminado exitosamente" });
     } else {
@@ -83,10 +84,7 @@ export const deleteMunicipio = async (req, res) => {
 export const activarMunicipio = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE municipio SET estado_muni = 1 WHERE pk_codigo_muni = '${id}'`,
-      [id]
-    );
+    const [result] = await pool.query(`UPDATE municipio SET estado_muni = 1 WHERE pk_codigo_muni = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Municipio activado exitosamente" });
     } else {
@@ -100,10 +98,7 @@ export const activarMunicipio = async (req, res) => {
 export const desactivarMunicipio = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(
-      `UPDATE municipio SET estado_muni = 2 WHERE pk_codigo_muni ='${id}'`,
-      [id]
-    );
+    const [result] = await pool.query(`UPDATE municipio SET estado_muni = 2 WHERE pk_codigo_muni ='${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Municipio desactivado exitosamente" });
     } else {
