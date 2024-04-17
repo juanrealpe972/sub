@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import ejs from "ejs";
 import morgan from "morgan";
 
 import bodyParser from "body-parser";
@@ -19,12 +20,11 @@ import routertipovari from "./src/routes/tipovariedad.routes.js";
 
 const PORT = 9722;
 const app = express();
-app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.static("./public"));
+app.use(cors());
 
 app.use("/auth", routerAuth);
 app.use("/v1", routerUser);
@@ -38,6 +38,13 @@ app.use("/v1", routerSubasta);
 app.use("/v1", routerPostulacion);
 app.use("/v1", routerChat);
 app.use("/v1", routerNotificaciones);
+
+app.set("view engine", "ejs")
+app.set("views", "./view")
+app.use(express.static("./public"));
+app.get("/documents", (req, res) => {
+  res.render("documentacion.ejs");
+});
 
 app.listen(PORT, () => {
   console.log(`Connected on port: ${PORT}`);
