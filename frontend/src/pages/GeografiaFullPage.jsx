@@ -27,7 +27,7 @@ function GeografiaFullPage() {
   };
 
   return (
-    <div>
+    <div className="flex p-10 gap-x-4">
       <ButtonAtom onClick={() => setAbrirModalDepartamento(true)}>
         Registrar Departamento
       </ButtonAtom>
