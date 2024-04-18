@@ -5,6 +5,7 @@ import ButtonCerrarModalAtom from "../components/atoms/ButtonCerrarModalAtom";
 import RegisterPageDepartamento from "../components/organisms/RegisterPageDepartamento";
 import RegisterPageMunicipio from "../components/organisms/RegisterPageMunicipio";
 import RegisterPageVereda from "../components/organisms/RegisterPageVereda";
+import RegisterPageTipoVariedad from "../components/organisms/RegisterPageTipoVariedad";
 
 function GeografiaFullPage() {
   const [abrirModalDepartamento, setAbrirModalDepartamento] = useState(false);
@@ -66,15 +67,15 @@ function GeografiaFullPage() {
           <ButtonCerrarModalAtom onClose={toggleAbrirModalVereda} />
         </AbrirModalTemplate>
       )}
-      {/* {abrirModalTipoVari && (
+      {abrirModalTipoVari && (
         <AbrirModalTemplate>
-          <RegisterPageDepartamento
+          <RegisterPageTipoVariedad
             onClose={toggleAbrirModalTipoVari}
             mode="create"
           />
           <ButtonCerrarModalAtom onClose={toggleAbrirModalTipoVari} />
         </AbrirModalTemplate>
-      )} */}
+      )}
     </div>
   );
 }
