@@ -1,18 +1,12 @@
 import React from "react";
-import LinkAtom from "../atoms/LinkAtom";
 import RegisterFormMolecule from "../molecules/RegisterFormMolecule";
-import TitleForModal from "../atoms/TitleForModal";
 import ButtonVolverAtom from "../atoms/ButtonVolverAtom";
 
-const RegisterPageOrganism = ({ onClose }) => {
+const RegisterPageOrganism = ({ onClose, mode, userId, }) => {
   return (
     <>
-      <TitleForModal>Registrarse</TitleForModal>
-      <RegisterFormMolecule onClose={onClose} />
-      <ButtonVolverAtom>
-        ¿Ya tienes una cuenta?
-        <LinkAtom to="/">Iniciar sesión</LinkAtom>
-      </ButtonVolverAtom>
+      <RegisterFormMolecule onClose={onClose} mode={mode} userId={userId} />
+      <ButtonVolverAtom />
     </>
   );
 };

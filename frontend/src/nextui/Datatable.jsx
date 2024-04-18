@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -19,55 +19,119 @@ import {
 } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
-import { columns, users, statusOptions } from "./data";
 import { capitalize } from "./utils";
-import { EditIcon } from "./EditIcon"
+import { EditIcon } from "./EditIcon";
 import { EyeIcon } from "./EyeIcon";
+import axiosClient from "../api/axios";
+import ButtonAtom from "../components/atoms/ButtonAtom";
+import AbrirModalTemplate from "../components/templates/AbrirModalTemplate";
+import RegisterPageOrganism from "../components/organisms/RegisterPageOrganism";
+import ButtonCerrarModalAtom from "../components/atoms/ButtonCerrarModalAtom";
 
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  activo: "success",
+  inactivo: "danger",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["id", "name", "role", "status", "team", "actions"];
+const INITIAL_VISIBLE_COLUMNS = [
+  "pk_cedula_user",
+  "nombre_user",
+  "email_user",
+  "descripcion_user",
+  "telefono_user",
+  "fecha_nacimiento_user",
+  "rol_user",
+  "estado_user",
+  "actions",
+];
 
 export default function App() {
-  const [filterValue, setFilterValue] = React.useState("");
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
-  const [statusFilter, setStatusFilter] = React.useState("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: "age",
+  const [filterValue, setFilterValue] = useState("");
+  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  const [visibleColumns, setVisibleColumns] = useState(
+    new Set(INITIAL_VISIBLE_COLUMNS)
+  );
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [sortDescriptor, setSortDescriptor] = useState({
+    column: "nombre_user",
     direction: "ascending",
   });
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
+  const [results, setResults] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState("create");
+  const [selectedUserId, setSelectedUserId] = useState(null);
+
+  const handleToggle = (mode, userId = null) => {
+    setMode(mode);
+    setSelectedUserId(userId);
+    setOpen(true);
+  };
+  console.log(selectedUserId);
+
+  useEffect(() => {
+    axiosClient
+      .get("/v1/users")
+      .then((res) => {
+        console.log(res.data);
+        setResults(res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  const data = [
+    { uid: "pk_cedula_user", name: "Cedula", sortable: true },
+    { uid: "nombre_user", name: "Usuario", sortable: true },
+    { uid: "descripcion_user", name: "Descripción", sortable: true },
+    { uid: "telefono_user", name: "Telefono", sortable: true },
+    { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
+    { uid: "rol_user", name: "Rol", sortable: true },
+    { uid: "estado_user", name: "Estado", sortable: true },
+    { uid: "actions", name: "Acciones", sortable: false },
+  ];
+
+  const statusOptions = [
+    { name: "Activo", uid: "activo" },
+    { name: "Inactivo", uid: "inactivo" },
+  ];
 
   const hasSearchFilter = Boolean(filterValue);
 
-  const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columns;
-
-    return columns.filter((column) => Array.from(visibleColumns).includes(column.uid));
-  }, [visibleColumns]);
-
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredResults = results;
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase()),
-      );
-    }
-    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status),
+      filteredResults = filteredResults.filter(
+        (result) =>
+          String(result.pk_cedula_user)
+            .toLowerCase()
+            .includes(filterValue.toLowerCase()) ||
+          result.fecha_nacimiento_user
+            .toLowerCase()
+            .includes(filterValue.toLowerCase()) ||
+          String(result.nombre_user)
+            .toLowerCase()
+            .includes(filterValue.toLowerCase()) ||
+          result.rol_user.toLowerCase().includes(filterValue.toLowerCase()) ||
+          result.email_user.toLowerCase().includes(filterValue.toLowerCase()) ||
+          result.estado_user.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+    if (
+      statusFilter !== "all" &&
+      Array.from(statusFilter).length !== statusOptions.length
+    ) {
+      filteredResults = filteredResults.filter((result) =>
+        Array.from(statusFilter).includes(result.estado)
+      );
+    }
+
+    return filteredResults;
+  }, [results, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -88,35 +152,28 @@ export default function App() {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell = React.useCallback((result, columnKey) => {
+    const cellValue = result[columnKey];
 
     switch (columnKey) {
-      case "id":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-          </div>
-        )
-      case "name":
+      case "nombre_user":
         return (
           <User
-            avatarProps={{ radius: "xl", src: user.avatar }}
-            description={user.email}
+            avatarProps={{ radius: "lg", src: result.imagen_user }}
+            description={result.email_user}
             name={cellValue}
           >
-            {user.email}
+            {result.email_user}
           </User>
         );
-      case "role":
+      case "estado_user":
         return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+          <Chip
+            className="capitalize"
+            color={statusColorMap[result.estado_user]}
+            size="sm"
+            variant="flat"
+          >
             {cellValue}
           </Chip>
         );
@@ -125,22 +182,28 @@ export default function App() {
           <div className="relative flex justify-end items-center gap-2">
             <Tooltip content="Edit user">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EditIcon />
+                <ButtonAtom
+                  onClick={() => handleToggle("update", result.pk_cedula_user)}
+                >
+                  <EditIcon />
+                </ButtonAtom>
               </span>
             </Tooltip>
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EyeIcon />
-              </span>
-            </Tooltip>
+            {result.estado_user === "activo" ? (
+              <Tooltip content="Desactivar">
+                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                  <EyeIcon />
+                </span>
+              </Tooltip>
+            ) : (
+              <Tooltip content="Activar">
+                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                  <EyeIcon />
+                </span>
+              </Tooltip>
+            )}
           </div>
         );
-      case "team":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-          </div>
-        )
       default:
         return cellValue;
     }
@@ -173,9 +236,13 @@ export default function App() {
   }, []);
 
   const onClear = React.useCallback(() => {
-    setFilterValue("")
-    setPage(1)
-  }, [])
+    setFilterValue("");
+    setPage(1);
+  }, []);
+
+  const onStatusFilter = (selectedKeys) => {
+    setStatusFilter(selectedKeys);
+  };
 
   const topContent = React.useMemo(() => {
     return (
@@ -190,11 +257,14 @@ export default function App() {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+          {/* <div className="flex gap-3">
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Estados
+                <Button
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                >
+                  Estado
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -203,7 +273,7 @@ export default function App() {
                 closeOnSelect={false}
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
+                onSelectionChange={onStatusFilter}
               >
                 {statusOptions.map((status) => (
                   <DropdownItem key={status.uid} className="capitalize">
@@ -214,7 +284,10 @@ export default function App() {
             </Dropdown>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
+                <Button
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                >
                   Columnas
                 </Button>
               </DropdownTrigger>
@@ -226,19 +299,21 @@ export default function App() {
                 selectionMode="multiple"
                 onSelectionChange={setVisibleColumns}
               >
-                {columns.map((column) => (
+                {data.map((column) => (
                   <DropdownItem key={column.uid} className="capitalize">
                     {capitalize(column.name)}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {users.length} usuarios</span>
+          <span className="text-default-400 text-small">
+            Total {results.length} usuarios
+          </span>
           <label className="flex items-center text-default-400 text-small">
-            Filas por páginas:
+            Columnas por páginas:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -253,11 +328,9 @@ export default function App() {
     );
   }, [
     filterValue,
-    statusFilter,
-    visibleColumns,
     onRowsPerPageChange,
-    users.length,
     onSearchChange,
+    onClear,
     hasSearchFilter,
   ]);
 
@@ -274,10 +347,20 @@ export default function App() {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+          <Button
+            isDisabled={pages === 1}
+            size="sm"
+            variant="flat"
+            onPress={onPreviousPage}
+          >
             Anterior
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button
+            isDisabled={pages === 1}
+            size="sm"
+            variant="flat"
+            onPress={onNextPage}
+          >
             Siguiente
           </Button>
         </div>
@@ -286,37 +369,51 @@ export default function App() {
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
   return (
-    <Table
-      aria-label="Example table with custom cells, pagination and sorting"
-      isHeaderSticky
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      classNames={{
-        wrapper: "max-h-[482px]",
-      }}
-      sortDescriptor={sortDescriptor}
-      topContent={topContent}
-      topContentPlacement="outside"
-      onSortChange={setSortDescriptor}
-    >
-      <TableHeader columns={headerColumns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-            allowsSorting={column.sortable}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody emptyContent={"Usuario no encontrado"} items={sortedItems}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table
+        aria-label="Example table with custom cells, pagination and sorting"
+        isHeaderSticky
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        classNames={{
+          wrapper: "max-h-[482px]",
+        }}
+        sortDescriptor={sortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
+        onSortChange={setSortDescriptor}
+      >
+        <TableHeader columns={data}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+              allowsSorting={column.sortable}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody emptyContent={"Usuario no encontrado"} items={sortedItems}>
+          {(item) => (
+            <TableRow key={item.pk_cedula_user}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      {open && (
+        <AbrirModalTemplate>
+          <RegisterPageOrganism
+            mode={mode}
+            userId={selectedUserId}
+            onClose={() => setOpen(false)}
+          />
+          <ButtonCerrarModalAtom onClose={() => setOpen(false)} />
+        </AbrirModalTemplate>
+      )}
+    </>
   );
 }

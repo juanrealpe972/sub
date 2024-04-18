@@ -143,7 +143,7 @@ function HeaderOrganism() {
           )}
           {abrirModalRegister && (
             <AbrirModalTemplate>
-              <RegisterPageOrganism onClose={toggleAbrirModalRegister} />
+              <RegisterPageOrganism onClose={toggleAbrirModalRegister} mode="create"/>
               <ButtonCerrarModalAtom onClose={toggleAbrirModalRegister} />
             </AbrirModalTemplate>
           )}

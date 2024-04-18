@@ -11,7 +11,7 @@ const Dashboard = () => {
   return auth ? (
     <div className="flex flex-auto h-auto">
       <SidebarOrganims />
-      <div className="grow">
+      <div className="grow-0">
         <HeaderOrganism />
         <Outlet />
         <FooterOrganism />
