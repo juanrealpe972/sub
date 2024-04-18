@@ -8,18 +8,12 @@ import {
   TableCell,
   Input,
   Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
   Chip,
   User,
   Pagination,
   Tooltip,
 } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
-import { capitalize } from "./utils";
 import { EditIcon } from "./EditIcon";
 import { EyeIcon } from "./EyeIcon";
 import axiosClient from "../api/axios";
@@ -98,6 +92,16 @@ export default function App() {
     { name: "Inactivo", uid: "inactivo" },
   ];
 
+  const toggleUserStatus = async (pk_cedula_user, currentStatus) => {
+    try {
+      const endpoint = currentStatus === "activo" ? `/v1/usersdes/${pk_cedula_user}` : `/v1/usersac/${pk_cedula_user}`;
+      await axiosClient.put(endpoint);
+      fetchData(); // Actualizar la lista de usuarios después de la modificación
+    } catch (error) {
+      console.error("Error updating user status:", error);
+    }
+  };
+
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = React.useMemo(() => {
@@ -116,6 +120,9 @@ export default function App() {
             .toLowerCase()
             .includes(filterValue.toLowerCase()) ||
           result.rol_user.toLowerCase().includes(filterValue.toLowerCase()) ||
+          result.telefono_user
+            .toLowerCase()
+            .includes(filterValue.toLowerCase()) ||
           result.email_user.toLowerCase().includes(filterValue.toLowerCase()) ||
           result.estado_user.toLowerCase().includes(filterValue.toLowerCase())
       );
@@ -152,62 +159,68 @@ export default function App() {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((result, columnKey) => {
-    const cellValue = result[columnKey];
+  const renderCell = React.useCallback(
+    (result, columnKey) => {
+      const cellValue = result[columnKey];
 
-    switch (columnKey) {
-      case "nombre_user":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: result.imagen_user }}
-            description={result.email_user}
-            name={cellValue}
-          >
-            {result.email_user}
-          </User>
-        );
-      case "estado_user":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[result.estado_user]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <ButtonAtom
-                  onClick={() => handleToggle("update", result.pk_cedula_user)}
+      switch (columnKey) {
+        case "nombre_user":
+          return (
+            <User
+              avatarProps={{ radius: "lg", src: result.imagen_user }}
+              description={result.email_user}
+              name={cellValue}
+            >
+              {result.email_user}
+            </User>
+          );
+        case "estado_user":
+          return (
+            <Chip
+              className="capitalize"
+              color={statusColorMap[result.estado_user]}
+              size="sm"
+              variant="flat"
+            >
+              {cellValue}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex justify-end items-center gap-2">
+              <Tooltip content="Edit user">
+                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                  <ButtonAtom
+                    onClick={() =>
+                      handleToggle("update", result.pk_cedula_user)
+                    }
+                  >
+                    <EditIcon />
+                  </ButtonAtom>
+                </span>
+              </Tooltip>
+              <Tooltip
+                content={
+                  result.estado_user === "activo" ? "Desactivar" : "Activar"
+                }
+              >
+                <span
+                  className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                  onClick={() =>
+                    toggleUserStatus(result.pk_cedula_user, result.estado_user)
+                  }
                 >
-                  <EditIcon />
-                </ButtonAtom>
-              </span>
-            </Tooltip>
-            {result.estado_user === "activo" ? (
-              <Tooltip content="Desactivar">
-                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                   <EyeIcon />
                 </span>
               </Tooltip>
-            ) : (
-              <Tooltip content="Activar">
-                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                  <EyeIcon />
-                </span>
-              </Tooltip>
-            )}
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+            </div>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [toggleUserStatus, handleToggle]
+  );
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
@@ -240,9 +253,9 @@ export default function App() {
     setPage(1);
   }, []);
 
-  const onStatusFilter = (selectedKeys) => {
-    setStatusFilter(selectedKeys);
-  };
+  // const onStatusFilter = (selectedKeys) => {
+  //   setStatusFilter(selectedKeys);
+  // };
 
   const topContent = React.useMemo(() => {
     return (
@@ -336,7 +349,7 @@ export default function App() {
 
   const bottomContent = React.useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center m-10">
+      <div className="py-2 px-2 flex justify-between items-center m-4">
         <Pagination
           isCompact
           showControls

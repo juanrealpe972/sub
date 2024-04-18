@@ -10,7 +10,6 @@ function UsersPage() {
     console.log("hello");
   };
 
-  // const { users } = useContext(AuthContext);
   const [users, setusers] = useState([]);
 
   if (!users) {
