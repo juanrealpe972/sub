@@ -3,6 +3,7 @@ import ButtonAtom from "../components/atoms/ButtonAtom";
 import AbrirModalTemplate from "../components/templates/AbrirModalTemplate";
 import ButtonCerrarModalAtom from "../components/atoms/ButtonCerrarModalAtom";
 import RegisterPageDepartamento from "../components/organisms/RegisterPageDepartamento";
+import RegisterPageMunicipio from "../components/organisms/RegisterPageMunicipio";
 
 function GeografiaFullPage() {
   const [abrirModalDepartamento, setAbrirModalDepartamento] = useState(false);
@@ -14,13 +15,13 @@ function GeografiaFullPage() {
     setAbrirModalDepartamento(!abrirModalDepartamento);
   };
   const toggleAbrirModalMunicipio = () => {
-    setAbrirModalDepartamento(!abrirModalDepartamento);
+    setAbrirModalMunicipio(!abrirModalMunicipio);
   };
   const toggleAbrirModalVereda = () => {
-    setAbrirModalDepartamento(!abrirModalDepartamento);
+    setAbrirModalVereda(!abrirModalVereda);
   };
   const toggleAbrirModalTipoVari = () => {
-    setAbrirModalDepartamento(!abrirModalDepartamento);
+    setAbrirModalTipoVari(!abrirModalTipoVari);
   };
 
   return (
@@ -48,14 +49,14 @@ function GeografiaFullPage() {
       )}
       {abrirModalMunicipio && (
         <AbrirModalTemplate>
-          <RegisterPageDepartamento
+          <RegisterPageMunicipio
             onClose={toggleAbrirModalMunicipio}
             mode="create"
           />
           <ButtonCerrarModalAtom onClose={toggleAbrirModalMunicipio} />
         </AbrirModalTemplate>
       )}
-      {abrirModalVereda && (
+      {/* {abrirModalVereda && (
         <AbrirModalTemplate>
           <RegisterPageDepartamento
             onClose={toggleAbrirModalVereda}
@@ -72,7 +73,7 @@ function GeografiaFullPage() {
           />
           <ButtonCerrarModalAtom onClose={toggleAbrirModalTipoVari} />
         </AbrirModalTemplate>
-      )}
+      )} */}
     </div>
   );
 }
