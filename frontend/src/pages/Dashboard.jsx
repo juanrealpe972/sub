@@ -11,10 +11,10 @@ const Dashboard = () => {
   return auth ? (
     <div className="flex flex-auto h-auto">
       <SidebarOrganims />
-      <div className="grow-0">
+      <div className="grow">
         <HeaderOrganism />
         <Outlet />
-        <FooterOrganism />
+        {/* <FooterOrganism /> */}
       </div>
     </div>
   ) : (

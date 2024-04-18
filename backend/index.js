@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import ejs from "ejs";
 import morgan from "morgan";
 
 import bodyParser from "body-parser";
@@ -42,9 +41,6 @@ app.use("/v1", routerNotificaciones);
 app.set("view engine", "ejs");
 app.set("views", "./view");
 app.use(express.static("./public"));
-app.get("/documents", (req, res) => {
-  res.render("documentacion.ejs");
-});
 
 app.listen(PORT, () => {
   console.log(`Connected on port: ${PORT}`);
