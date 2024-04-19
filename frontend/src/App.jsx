@@ -15,8 +15,8 @@ import AyudaPage from "./pages/AyudaPage";
 import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
 import UsersPage from "./pages/UsersPage";
 import PoliticasYCondicionesPage from "./pages/PoliticasYCondicionesPage";
-import Datable from "./pages/Datable";
 import GeografiaFullPage from "./pages/GeografiaFullPage";
+import UsersT from "./pages/UsersT";
 
 function App() {
   const storedUser = localStorage.getItem("user");
@@ -39,7 +39,7 @@ function App() {
                   {users && users.rol_user === "admin" && (
                     <>
                       <Route path="/usuarios" element={<UsersPage />} />
-                      <Route path="/data" element={<Datable />} />
+                      <Route path="/users" element={<UsersT />} />
                       <Route
                         path="/geografia"
                         element={<GeografiaFullPage />}

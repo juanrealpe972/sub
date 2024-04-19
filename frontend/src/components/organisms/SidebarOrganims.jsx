@@ -17,10 +17,10 @@ const SidebarOrganims = () => {
     { title: "Inicio", link: "/subcoffee", icon: AiOutlineUser },
     ...(users && users.rol_user === "admin"
       ? [
-          { title: "Data", link: "/data", icon: AiOutlineUser },
+          { title: "Uusarios", link: "/users", icon: AiOutlineUser },
           { title: "Usuarios", link: "/usuarios", icon: AiOutlineUser },
           {
-            title: "Geografía completa",
+            title: "Geografía",
             link: "/geografia",
             icon: AiOutlineHeart,
           },

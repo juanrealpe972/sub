@@ -11,16 +11,12 @@ import IconHeaderAtom from "../atoms/IconHeaderAtom";
 import ButtonCerrarModalAtom from "../atoms/ButtonCerrarModalAtom";
 import AbrirModalTemplate from "../templates/AbrirModalTemplate";
 import LoginPageOrganism from "./LoginPageOrganism";
-import RegisterPageOrganism from "./RegisterPageOrganism";
-import SubastaFormPageOrganism from "./SubastaFormPageOrganism";
 import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 
 function HeaderOrganism() {
   const [abrirModalLogin, setAbrirModalLogin] = useState(false);
   const isAuthenticated = window.localStorage.getItem("token");
   const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
-  const [abrirModalRegister, setAbrirModalRegister] = useState(false);
-  const [abrirModalSubasta, setAbrirModalSubasta] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
@@ -38,10 +34,6 @@ function HeaderOrganism() {
     setAbrirBell(!abrirBell);
     setAbrirCerrarSesion(false);
     setAbrirBuscador(false);
-  };
-
-  const toggleAbrirModalRegister = () => {
-    setAbrirModalRegister(!abrirModalRegister);
   };
 
   const toggleAbrirModalBuscador = () => {
@@ -73,16 +65,6 @@ function HeaderOrganism() {
           </div>
           <SearchBarMolecule onClick={() => setAbrirBuscador(true)} />
           <div className="flex gap-x-3 items-center">
-            {users.rol_user === "vendedor" && (
-              <ButtonAtom onClick={() => setAbrirModalSubasta(true)}>
-                Crear subasta
-              </ButtonAtom>
-            )}
-            {users.rol_user === "admin" && (
-              <ButtonAtom onClick={() => setAbrirModalRegister(true)}>
-                Registrar usuario
-              </ButtonAtom>
-            )}
             <IconHeaderAtom onClick={toggleAbrirBell}>
               <icono.iconoCampana className="h-5 w-5" />
             </IconHeaderAtom>
@@ -112,14 +94,6 @@ function HeaderOrganism() {
               </button>
             )}
           </div>
-          {abrirModalSubasta && (
-            <AbrirModalTemplate>
-              <SubastaFormPageOrganism />
-              <ButtonCerrarModalAtom
-                onClose={() => setAbrirModalSubasta(false)}
-              />
-            </AbrirModalTemplate>
-          )}
           {abrirCerrarSesion && (
             <div className="absolute top-16 right-2 flex justify-center items-center">
               <div className="bg-blanco rounded-xl">
@@ -140,12 +114,6 @@ function HeaderOrganism() {
                 <ModalBuscarMolecule onClose={toggleAbrirModalBuscador} />
               </div>
             </div>
-          )}
-          {abrirModalRegister && (
-            <AbrirModalTemplate>
-              <RegisterPageOrganism onClose={toggleAbrirModalRegister} mode="create"/>
-              <ButtonCerrarModalAtom onClose={toggleAbrirModalRegister} />
-            </AbrirModalTemplate>
           )}
         </nav>
       ) : (
