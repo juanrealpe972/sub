@@ -1,19 +1,13 @@
 import React, { useRef, useEffect } from "react";
-import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithToggleIconAtom from "../atoms/InputWithToggleIconAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import SelectInputAtom from "../atoms/SelectInputAtom";
 import OptionAtom from "../atoms/OptionAtom";
 import TitleForModal from "../atoms/TitleForModal";
 import { icono } from "../atoms/IconsAtom";
-import { ModalFooter, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
-const RegisterFormMolecule = ({
-  mode,
-  initialData,
-  handleSubmit,
-  actionLabel,
-}) => {
+const RegisterFormMolecule = ({ mode, initialData, handleSubmit, actionLabel }) => {
   const cedula = useRef(null);
   const fullName = useRef(null);
   const email = useRef(null);

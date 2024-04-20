@@ -1,13 +1,13 @@
 import React from "react";
-import { AccodalAcciones } from "./AccodalAcciones";
+import { ModalForm } from "./ModalForm";
 import RegisterUser from "../molecules/RegisterUser"
 
 function FormUserOrganism ({ open, onClose, handleSubmit, actionLabel, initialData, mode }) {
   return (
     <>
-      <AccodalAcciones open={open} onClose={onClose}>
+      <ModalForm open={open} onClose={onClose}>
         <RegisterUser initialData={initialData} mode={mode} handleSubmit={handleSubmit} actionLabel={actionLabel} />
-      </AccodalAcciones>
+      </ModalForm>
     </>
   );
 };

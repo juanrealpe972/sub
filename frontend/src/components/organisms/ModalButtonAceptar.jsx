@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button } from "@nextui-org/react";
 
-export default function AccionesModal({ isOpen, onClose }) {
+export default function ModalButtonAceptar({ isOpen, onClose }) {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} placement="top-center">

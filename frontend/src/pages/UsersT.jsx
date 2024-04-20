@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axios";
 import UsersTable from "../components/Guard/UsersTable.jsx";
-import AccionesModal from "../components/organisms/AccionesModal.jsx";
+import ModalButtonAceptar from "../components/organisms/ModalButtonAceptar.jsx";
 import FormUserOrganism from "../components/organisms/FormUserOrganism.jsx";
 import toast from "react-hot-toast";
 
@@ -36,18 +36,7 @@ export function UsersT() {
       toast.error("Error en el sistema " + error);
     }
   };
-
-  const contenido = [
-    { uid: "pk_cedula_user", name: "Cedula", sortable: true },
-    { uid: "nombre_user", name: "Usuario", sortable: true },
-    { uid: "descripcion_user", name: "Descripción", sortable: true },
-    { uid: "telefono_user", name: "Telefono", sortable: true },
-    { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
-    { uid: "rol_user", name: "Rol", sortable: true },
-    { uid: "estado_user", name: "Estado", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
-
+  
   const peticionActivarUser = async (pk_cedula_user) => {
     try {
       const response = await axiosClient.put(`/v1/usersac/${pk_cedula_user}`);
@@ -60,6 +49,19 @@ export function UsersT() {
     }
   };
 
+  const contenido = [
+    { uid: "pk_cedula_user", name: "Cedula", sortable: true },
+    { uid: "nombre_user", name: "Usuario", sortable: true },
+    { uid: "descripcion_user", name: "Descripción", sortable: true },
+    { uid: "telefono_user", name: "Telefono", sortable: true },
+    { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
+    { uid: "rol_user", name: "Rol", sortable: true },
+    { uid: "estado_user", name: "Estado", sortable: true },
+    { uid: "actions", name: "Acciones", sortable: false },
+  ];
+
+const id =localStorage.getItem('idUser')
+  
   const handleSubmit = async (data, e) => {
     e.preventDefault();
     try {
@@ -89,7 +91,7 @@ export function UsersT() {
 
   return (
     <div className="w-full flex flex-col items-center px-10">
-      <AccionesModal
+      <ModalButtonAceptar
         isOpen={modalAcciones}
         onClose={() => setModalAcciones(false)}
       />
@@ -103,10 +105,10 @@ export function UsersT() {
         mode={mode}
       />
       <UsersTable
-        desactivarUser={peticionDesactivar}
-        activarUser={peticionActivarUser}
         actualizarUser={() => handleToggle("update", id)}
         registrarUser={() => handleToggle("create")}
+        desactivarUser={peticionDesactivar}
+        activarUser={peticionActivarUser}
         data={contenido}
         results={results}
       />

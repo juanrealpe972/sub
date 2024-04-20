@@ -1,20 +1,34 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, Chip, User, Pagination, Tooltip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Input,
+  Button,
+  Chip,
+  User,
+  Pagination,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
 import { SearchIcon } from "../../nextui/SearchIcon";
-import { EditIcon } from "../../nextui/EditIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
-import { EyeIcon } from "../../nextui/EyeIcon";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
-import {VerticalDotsIcon} from "../../nextui/VerticalDotsIcon.jsx"
+import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-export default function UsersTable({ registrarUser, data, results, actualizarUser, desactivarUser, activarUser }) {
+export default function UsersTable({ registrarUser, data, results, actualizarUser, desactivarUser, activarUser}) {
   const [filterValue, setFilterValue] = useState("");
-  const [statusFilter, setStatusFilter ] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "nombre_user",
@@ -22,14 +36,14 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
   });
   const [page, setPage] = useState(1);
 
-  const handleUpdateClick = (id) => {
+  const handleUpdateUser = (id) => {
     localStorage.setItem("idUser", id);
-    actualizarUser(id);
+    actualizarUser(id)
   };
 
   const statusOptions = [
-    { name: "Activo", uid: "activo" },
-    { name: "Inactivo", uid: "inactivo" },
+    { name: "Inactivo", uid: "activo" },
+    { name: "Activo", uid: "inactivo" },
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -38,32 +52,18 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
     let filteredResults = results;
 
     if (hasSearchFilter) {
-      filteredResults = filteredResults.filter(
-        (results) =>
-          String(results.pk_cedula_user)
-            .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
-          String(results.fecha_nacimiento_user)
-            .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
-          String(results.nombre_user)
-            .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
-          results.rol_user.toLowerCase().includes(filterValue.toLowerCase()) ||
-          results.telefono_user
-            .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
-          results.email_user
-            .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
-          results.estado_user.toLowerCase().includes(filterValue.toLowerCase())
+      filteredResults = filteredResults.filter((results) =>
+          String(results.pk_cedula_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.fecha_nacimiento_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.nombre_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.rol_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.telefono_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.email_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.estado_user).toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
-    if (
-      statusFilter !== "all" &&
-      Array.from(statusFilter).length !== statusOptions.length
-    ) {
+    if ( statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
       filteredResults = filteredResults.filter((results) =>
         Array.from(statusFilter).includes(results.estado_user)
       );
@@ -91,72 +91,66 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = useCallback(
-    (results, columnKey) => {
-      const cellValue = results[columnKey];
+  const renderCell = useCallback((results, columnKey) => {
+    const cellValue = results[columnKey];
 
-      switch (columnKey) {
-        case "nombre_user":
-          return (
-            <User
-              avatarProps={{ radius: "lg", src: results.imagen_user }}
-              description={results.email_user}
-              name={cellValue}
-            >
-              {results.email_user}
-            </User>
-          );
-        case "descripcion_user":
-          return (
-            <>
+    switch (columnKey) {
+      case "nombre_user":
+        return (
+          <User
+            avatarProps={{ radius: "lg", src: results.imagen_user }}
+            description={results.email_user}
+            name={cellValue}
+          >
+            {results.email_user}
+          </User>
+        );
+      case "descripcion_user":
+        return (
+          <>
             {results.descripcion_user && results.descripcion_user.length > 0 ? (
               <span>{results.descripcion_user}</span>
             ) : (
               <span className="text-rojo">No tiene descripción</span>
             )}
           </>
-          );
-        case "estado_user":
-          return (
-            <Chip
-              className="capitalize"
-              color={statusColorMap[results.estado_user]}
-              size="sm"
-              variant="flat"
-            >
-              {cellValue}
-            </Chip>
-          );
-        case "actions":
-          return (
-            <div className="relative flex justify-end items-center gap-2">
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
-                    <VerticalDotsIcon className="text-default-300" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Menu de acciones">
-                  <DropdownItem onClick={() => handleUpdateClick(results.pk_cedula_user)}>
-                    Editar
+        );
+      case "estado_user":
+        return (
+          <Chip className="capitalize" color={statusColorMap[results.estado_user]} size="sm" variant="flat">
+            {cellValue}
+          </Chip>
+        );
+      case "actions":
+        return (
+          <div className="relative flex justify-end items-center gap-2">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button isIconOnly size="lg" variant="light">
+                  <VerticalDotsIcon className="text-default-300" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Menu de acciones">
+                <DropdownItem onClick={() => handleUpdateUser(results.pk_cedula_user)} >
+                  Editar
+                </DropdownItem>
+                {results.estado_user === "activo" ? (
+                  <DropdownItem onClick={() => desactivarUser(results.pk_cedula_user)} >
+                    Desactivar
                   </DropdownItem>
-                  {results.estado_user === "activo" ? (
-                    <DropdownItem onClick={() => desactivarUser(results.pk_cedula_user)}>
-                      Desactivar
-                    </DropdownItem>
-                  ) : (
-                    <DropdownItem onClick={() => activarUser(results.pk_cedula_user)}>
-                      Activar
-                    </DropdownItem>
-                  ) }
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          );
-        default:
-          return cellValue;
-      }
-    }, []);
+                ) : (
+                  <DropdownItem onClick={() => activarUser(results.pk_cedula_user)} >
+                    Activar
+                  </DropdownItem>
+                )}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        );
+      default:
+        return cellValue;
+    }
+  }, []);
 
   const onNextPage = useCallback(() => {
     if (page < pages) {
@@ -190,8 +184,8 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
   }, []);
 
   const onStatusFilter = (selectedKeys) => {
-    setStatusFilter(selectedKeys)
-  }
+    setStatusFilter(selectedKeys);
+  };
 
   const topContent = useMemo(() => {
     return (
@@ -209,10 +203,7 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
           <div className="flex gap-3">
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
+                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat" >
                   Estado
                 </Button>
               </DropdownTrigger>
@@ -232,11 +223,7 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button
-              color="primary"
-              endContent={<PlusIcon />}
-              onClick={registrarUser}
-            >
+            <Button color="primary" endContent={<PlusIcon />} onClick={registrarUser} >
               Registrar
             </Button>
           </div>
@@ -280,20 +267,10 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onPreviousPage}
-          >
+          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
             Anterior
           </Button>
-          <Button
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onNextPage}
-          >
+          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
