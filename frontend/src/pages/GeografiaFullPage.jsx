@@ -6,6 +6,7 @@ import RegisterPageDepartamento from "../components/organisms/RegisterPageDepart
 import RegisterPageMunicipio from "../components/organisms/RegisterPageMunicipio";
 import RegisterPageVereda from "../components/organisms/RegisterPageVereda";
 import RegisterPageTipoVariedad from "../components/organisms/RegisterPageTipoVariedad";
+import { Button } from "@nextui-org/react";
 
 function GeografiaFullPage() {
   const [abrirModalDepartamento, setAbrirModalDepartamento] = useState(false);
