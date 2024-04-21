@@ -12,6 +12,7 @@ import ButtonCerrarModalAtom from "../atoms/ButtonCerrarModalAtom";
 import AbrirModalTemplate from "../templates/AbrirModalTemplate";
 import LoginPageOrganism from "./LoginPageOrganism";
 import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
+import { User } from "@nextui-org/react";
 
 function HeaderOrganism() {
   const [abrirModalLogin, setAbrirModalLogin] = useState(false);
@@ -84,13 +85,14 @@ function HeaderOrganism() {
                 className="flex items-center gap-x-2"
                 onClick={toggleCerrarSesionModal}
               >
-                <AvatarAtom img={`/${users.imagen_user}`} />
-                <div className="">
-                  <span className="text-blanco text-sm">
-                    {users.nombre_user}
-                  </span>
-                  <p className="text-xs text-blancoMedio1">{users.rol_user}</p>
-                </div>
+              <User   
+                name={`${users.nombre_user}`}
+                description={`${users.rol_user}`}
+                className="text-blanco"
+                avatarProps={{
+                  src: `./src/assets/${users.imagen_user}`
+                }}
+              />
               </button>
             )}
           </div>
