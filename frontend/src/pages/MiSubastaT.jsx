@@ -33,7 +33,7 @@ export default function MiSubastaT() {
 
   const fetchList = async () => {
     try {
-      const response = await axiosClient.get(`/v1/variedad/${users.pk_cedula_user}`);
+      const response = await axiosClient.get(`/v1/variedaduser/${users.pk_cedula_user}`);
       setResults(response.data.data);
     } catch (error) {
       console.error("Error fetching dates list:", error);
@@ -66,11 +66,11 @@ export default function MiSubastaT() {
 
   const contenido = [
     // { uid: "pk_id_vari", name: "Codigo Variedad", sortable: true },
-    { uid: "nombre_tipo_variedad", name: "Tipo Variedad", sortable: false },
+    { uid: "nombre_tipo_vari", name: "Tipo Variedad", sortable: false },
     { uid: "descripcion_vari", name: "Descripción Variedad", sortable: true },
     { uid: "imagen_vari", name: "Imagen Variedad", sortable: true },
     { uid: "estado_vari", name: "Estado Variedad", sortable: true },
-    { uid: "nombre_finca", name: "Finca", sortable: true },
+    { uid: "nombre_fin", name: "Finca", sortable: true },
     { uid: "actions", name: "Acciones", sortable: false },
   ];
 

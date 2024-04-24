@@ -53,8 +53,8 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
     if (hasSearchFilter) {
       filteredResults = filteredResults.filter((results) =>
           String(results.descripcion_vari).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.nombre_tipo_variedad).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.nombre_finca).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.nombre_tipo_vari).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.nombre_fin).toLowerCase().includes(filterValue.toLowerCase()) ||
           String(results.estado_vari).toLowerCase().includes(filterValue.toLowerCase())
       );
     }
@@ -64,6 +64,9 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
         Array.from(statusFilter).includes(results.estado_vari)
       );
     }
+    filteredResults = filteredResults.filter((result) =>
+    result.estado_vari === "activo" && result.estado_fin === "activo"
+  );
 
     return filteredResults;
   }, [results, filterValue, statusFilter]);
@@ -107,7 +110,7 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
       return (
         <div className="flex flex-col">
           <p className="text-bold text-sm capitalize">{cellValue}</p>
-          <p className="text-bold text-sm capitalize text-default-400">{results.fk_finca}</p>
+          {/* <p className="text-bold text-sm capitalize text-default-400">{results.fk_finca}</p> */}
         </div>
       );
       case "estado_vari":

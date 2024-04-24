@@ -91,7 +91,7 @@ const RegisterVariedadUserMolecule = ({ mode, initialData, handleSubmit, actionL
         value={fincasRef}
         onChange={(e) => setFincasRef(e.target.value)}
       >
-        {fincas.map((finca) => (
+        {fincas.filter((finca) => finca.estado_fin === "activo").map((finca) => (
           <SelectItem key={finca.pk_id_fin} value={finca.pk_id_fin}>
             {finca.nombre_fin}
           </SelectItem>
@@ -102,9 +102,9 @@ const RegisterVariedadUserMolecule = ({ mode, initialData, handleSubmit, actionL
         value={tipoVariRef}
         onChange={(e) => setTipoVariRef(e.target.value)}
       >
-        {tipoVariedades.map((tipo) => (
+        {tipoVariedades.filter((tipo) => tipo.estado_tipo_vari === "activo").map((tipo) => (
           <SelectItem key={tipo.pk_id_tipo_vari} value={tipo.pk_id_tipo_vari}>
-            {tipo.nombre_tipo_vari}
+            {tipo.nombre_tipo_vari }
           </SelectItem>
         ))}
       </Select>
