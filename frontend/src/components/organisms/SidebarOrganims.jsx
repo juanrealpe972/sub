@@ -18,22 +18,13 @@ const SidebarOrganims = () => {
     ...(users && users.rol_user === "admin"
       ? [
           { title: "Usuarios", link: "/users", icon: AiOutlineUser },
-          { title: "Subasta", link: "/subasta", icon: AiOutlineUser },
-          {
-            title: "Geografía",
-            link: "/geografia",
-            icon: AiOutlineHeart,
-          },
+          { title: "Tipo Variedad", link: "/tipo_variedad", icon: AiOutlineUser },
+          { title: "Geografía", link: "/geografia", icon: AiOutlineHeart },
         ]
       : []),
     ...(users && users.rol_user === "vendedor"
       ? [
-          {
-            title: "Mis subastas",
-            link: "/ayuda",
-            icon: AiOutlineHeart,
-            gap: true,
-          },
+          { title: "Mis subastas", link: "/ayuda", icon: AiOutlineHeart, gap: true },
         ]
       : []),
     ...(users && users.rol_user === "comprador"

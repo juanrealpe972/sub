@@ -19,7 +19,7 @@ import GeografiaFullPage from "./pages/GeografiaFullPage";
 import UsersT from "./pages/UsersT";
 import { DepartamentoT } from "./pages/DepartamentoT";
 import MiSubastaT from "./pages/MiSubastaT";
-import SubastaT from "./pages/SubastaT";
+import TipoVariedadT from "./pages/TipoVariedadT";
 
 function App() {
   const storedUser = localStorage.getItem("user");
@@ -42,12 +42,9 @@ function App() {
                   {users && users.rol_user === "admin" && (
                     <>
                       <Route path="/users" element={<UsersT />} />
-                      <Route
-                        path="/geografia"
-                        element={<GeografiaFullPage />}
-                      />
+                      <Route path="/geografia" element={<GeografiaFullPage />} />
                       <Route path="/departamentos" element={<DepartamentoT/>} />
-                      <Route path="/subasta" element={<SubastaT />} />
+                      <Route path="/tipo_variedad" element={<TipoVariedadT />} />
                     </>
                   )}
                   {users && users.rol_user === "vendedor" && (
