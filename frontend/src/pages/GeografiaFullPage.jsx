@@ -1,54 +1,15 @@
-import React, { useState } from "react";
-import ButtonAtom from "../components/atoms/ButtonAtom";
-import AbrirModalTemplate from "../components/templates/AbrirModalTemplate";
-import ButtonCerrarModalAtom from "../components/atoms/ButtonCerrarModalAtom";
-import RegisterPageDepartamento from "../components/organisms/RegisterPageDepartamento";
-import RegisterPageMunicipio from "../components/organisms/RegisterPageMunicipio";
-import RegisterPageVereda from "../components/organisms/RegisterPageVereda";
+import React from "react";
 import RegisterPageTipoVariedad from "../components/organisms/RegisterPageTipoVariedad";
-import { Button } from "@nextui-org/react";
 import DepartamentoT from "./DepartamentoT";
 import MunicipioT from "./MunicipioT";
+import VeredaT from "./VeredaT";
 
 function GeografiaFullPage() {
-  const [abrirModalVereda, setAbrirModalVereda] = useState(false);
-  const [abrirModalTipoVari, setAbrirModalTipoVari] = useState(false);
-
-  const toggleAbrirModalVereda = () => {
-    setAbrirModalVereda(!abrirModalVereda);
-  };
-  const toggleAbrirModalTipoVari = () => {
-    setAbrirModalTipoVari(!abrirModalTipoVari);
-  };
-
   return (
     <div className="flex px-10 gap-x-4 flex-col">
       <DepartamentoT />
       <MunicipioT />
-      <ButtonAtom onClick={() => setAbrirModalVereda(true)}>
-        Registrar Vereda
-      </ButtonAtom>
-      <ButtonAtom onClick={() => setAbrirModalTipoVari(true)}>
-        Registrar Tipo variedad
-      </ButtonAtom>
-      {abrirModalVereda && (
-        <AbrirModalTemplate>
-          <RegisterPageVereda
-            onClose={toggleAbrirModalVereda}
-            mode="create"
-          />
-          <ButtonCerrarModalAtom onClose={toggleAbrirModalVereda} />
-        </AbrirModalTemplate>
-      )}
-      {abrirModalTipoVari && (
-        <AbrirModalTemplate>
-          <RegisterPageTipoVariedad
-            onClose={toggleAbrirModalTipoVari}
-            mode="create"
-          />
-          <ButtonCerrarModalAtom onClose={toggleAbrirModalTipoVari} />
-        </AbrirModalTemplate>
-      )}
+      <VeredaT />
     </div>
   );
 }

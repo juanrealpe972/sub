@@ -17,8 +17,8 @@ const SidebarOrganims = () => {
     { title: "Inicio", link: "/subcoffee", icon: AiOutlineUser },
     ...(users && users.rol_user === "admin"
       ? [
-          { title: "Uusarios", link: "/users", icon: AiOutlineUser },
-          { title: "Usuarios", link: "/usuarios", icon: AiOutlineUser },
+          { title: "Usuarios", link: "/users", icon: AiOutlineUser },
+          { title: "Subasta", link: "/subasta", icon: AiOutlineUser },
           {
             title: "Geografía",
             link: "/geografia",
@@ -36,6 +36,9 @@ const SidebarOrganims = () => {
           },
         ]
       : []),
+    ...(users && users.rol_user === "comprador"
+      ? [{ title: "Usuarios", link: "/usuarios", icon: AiOutlineUser }]
+      : []),
     { title: "Ayudaaa", link: "/ayudaaa", icon: AiOutlineHeart, gap: true },
     { title: "Configuración", link: "/configuration", icon: RiSettings4Line },
     {
@@ -51,7 +54,7 @@ const SidebarOrganims = () => {
         <div
           className={`${
             open ? "w-64" : "w-20"
-          } bg-green-600 max-h-full p-5 pt-5 relative duration-300`}
+          } bg-gray-600 max-h-full p-5 pt-5 relative duration-300`}
         >
           <img
             src="./src/assets/control.png"
@@ -66,14 +69,8 @@ const SidebarOrganims = () => {
             />
             <TextSubAtom
               to="/subcoffee"
-              color="cafeClaroLogo"
-              text="Sub"
-              className={`${!open && "scale-0"}`}
-            />
-            <TextSubAtom
-              to="/subcoffee"
-              color="cafeOscuroLogo"
-              text="Coffee"
+              color="gray-400"
+              text="SubCoffee"
               className={`${!open && "scale-0"}`}
             />
           </div>
@@ -83,9 +80,9 @@ const SidebarOrganims = () => {
                 to={Menu?.link}
                 key={index}
                 onClick={() => setActiveLink(Menu.link)}
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-green-500 text-gray-300 text-sm items-center gap-x-4 ${
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-500 text-gray-300 text-sm items-center gap-x-4 ${
                   Menu.gap ? "mt-9" : "mt-2"
-                } ${activeLink === Menu.link ? "bg-green-500" : ""}`}
+                } ${activeLink === Menu.link ? "bg-gray-500" : ""}`}
               >
                 <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
                 <span
