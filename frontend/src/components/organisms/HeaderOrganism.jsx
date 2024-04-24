@@ -97,14 +97,14 @@ function HeaderOrganism() {
             )}
           </div>
           {abrirCerrarSesion && (
-            <div className="absolute top-16 right-2 flex justify-center items-center">
+            <div className="absolute z-20 top-16 right-2 flex justify-center items-center">
               <div className="bg-blanco rounded-xl">
                 <ModalCerrarSesion onClose={toggleCerrarSesionModal} />
               </div>
             </div>
           )}
           {abrirBell && (
-            <div className="absolute top-16 right-32 flex justify-center items-center">
+            <div className="absolute z-20 top-16 right-32 flex justify-center items-center">
               <div className="bg-blanco rounded-xl w-80">
                 <ModalMessaAndNoti onClose={toggleAbrirBell} />
               </div>

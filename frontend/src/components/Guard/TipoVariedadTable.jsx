@@ -292,7 +292,7 @@ export default function TipoVariedadTable({ registrar, data, results, actualizar
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"Departamento no encontrado"} items={sortedItems}>
+        <TableBody emptyContent={"Tipo de variedad no encontrado"} items={sortedItems}>
           {(item) => (
             <TableRow key={item.pk_id_tipo_vari}>
               {(columnKey) => (

@@ -298,7 +298,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"Municipio no encontrado"} items={sortedItems}>
+        <TableBody emptyContent={"Vereda no encontrada"} items={sortedItems}>
           {(item) => (
             <TableRow key={item.pk_id_vere}>
               {(columnKey) => (
