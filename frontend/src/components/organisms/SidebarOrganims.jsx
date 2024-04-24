@@ -24,7 +24,7 @@ const SidebarOrganims = () => {
       : []),
     ...(users && users.rol_user === "vendedor"
       ? [
-          { title: "Mis subastas", link: "/ayuda", icon: AiOutlineHeart, gap: true },
+          { title: "Mis subastas", link: "/mi_subasta", icon: AiOutlineHeart },
         ]
       : []),
     ...(users && users.rol_user === "comprador"
