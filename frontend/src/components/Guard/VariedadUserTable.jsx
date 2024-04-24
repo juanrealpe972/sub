@@ -53,6 +53,8 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
     if (hasSearchFilter) {
       filteredResults = filteredResults.filter((results) =>
           String(results.descripcion_vari).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.nombre_tipo_variedad).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.nombre_finca).toLowerCase().includes(filterValue.toLowerCase()) ||
           String(results.estado_vari).toLowerCase().includes(filterValue.toLowerCase())
       );
     }

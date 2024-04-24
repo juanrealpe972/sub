@@ -82,10 +82,7 @@ export default function MiSubastaT() {
       const response =
         mode === "create"
           ? await axiosClient.post("/v1/variedad", data)
-          : await axiosClient.put(
-              `/v1/variedad/${initialData.pk_id_vari}`,
-              data
-            );
+          : await axiosClient.put( `/v1/variedad/${initialData.pk_id_vari}`, data );
       const message = response.data.message;
       if (response.status === 200) {
         toast.success(message);
@@ -105,7 +102,7 @@ export default function MiSubastaT() {
     setModalOpen(true);
     setMode(mode);
   };
-
+  
   return (
     <div className="w-full flex flex-col items-center px-10">
       <div className="pb-6">
