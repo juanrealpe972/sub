@@ -9,8 +9,8 @@ import { icono } from "../atoms/IconsAtom";
 const RegisterMunicipioMolecule = ({ onClose, mode, municipioId }) => {
   const codigoDepart = useRef(null);
   const nombreMunicipioRef = useRef(null);
-  const departamentoIdRef = useRef(null);
-  const [departamentos, setDepartamentos] = useState([]);
+  const [departamentoIdRef, setDepartamentosRef] = useRef([]);
+  const [departamentos, setDepartamentos] = useState("");
 
   useEffect(() => {
     const fetchDepartamentos = async () => {
@@ -20,12 +20,10 @@ const RegisterMunicipioMolecule = ({ onClose, mode, municipioId }) => {
       } catch (error) {
         console.error("Error fetching departamentos:", error);
         toast.error("Error al cargar la lista de departamentos");
-      }
     };
 
     fetchDepartamentos();
 
-    const fetchMunicipioData = async () => {
       if (mode === "update" && municipioId) {
         try {
           const response = await axiosClient.get(
@@ -41,7 +39,7 @@ const RegisterMunicipioMolecule = ({ onClose, mode, municipioId }) => {
           console.error("Error fetching municipio data:", error);
           toast.error("Error al cargar datos del municipio");
         }
-      }
+        {} }
     };
 
     fetchMunicipioData();

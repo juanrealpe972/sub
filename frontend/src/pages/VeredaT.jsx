@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axios";
 import toast from "react-hot-toast";
-import FormMunicipioOrganism from "../components/organisms/FormMunicipioOrganism.jsx";
 import VeredaTable from "../components/Guard/VeredaTable.jsx";
+import FormRegisterVeredaMolecule from "../components/organisms/FormVeredaMolecule.jsx";
 
 export function VeredaT() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -86,7 +86,7 @@ const id =localStorage.getItem('id_vere')
 
   return (
     <div className="w-full flex flex-col items-center px-10">
-      <FormMunicipioOrganism
+      <FormRegisterVeredaMolecule
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         actionLabel={mode === "create" ? "Registrar" : "Actualizar"}
