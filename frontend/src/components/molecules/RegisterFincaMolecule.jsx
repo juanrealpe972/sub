@@ -8,7 +8,7 @@ import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import TextTareaAtom from "../atoms/TextTareaAtom";
 import { icono } from "../atoms/IconsAtom";
 
-const ModalFincaMolecule = ({ onClose }) => {
+const RegisterFincaMolecule = ({ onClose }) => {
   const nombreFincaRef = useRef(null);
   const direccionRef = useRef(null);
   const municipioRef = useRef(null);
@@ -110,4 +110,4 @@ const ModalFincaMolecule = ({ onClose }) => {
   );
 };
 
-export default ModalFincaMolecule;
+export default RegisterFincaMolecule;
