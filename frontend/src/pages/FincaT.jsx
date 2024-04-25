@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../api/axios";
-import VariedadUserTable from "../components/Guard/VariedadUserTable";
 import toast from "react-hot-toast";
 import FormFincaOrganims from "../components/organisms/FormFincaOrganims";
+import FincaTable from "../components/Guard/FincaTable";
 
 export default function FincaT() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -18,7 +18,7 @@ export default function FincaT() {
 
   const fetchList = async () => {
     try {
-      const response = await axiosClient.get(`/v1/variedaduser/${users.pk_cedula_user}`);
+      const response = await axiosClient.get(`/v1/finca/${users.pk_cedula_user}`);
       setResults(response.data.data);
     } catch (error) {
       console.error("Error fetching dates list:", error);
@@ -27,7 +27,7 @@ export default function FincaT() {
 
   const peticionDesactivar = async (pk_id_vari) => {
     try {
-      const response = await axiosClient.put(`/v1/variedaddes/${pk_id_vari}`);
+      const response = await axiosClient.put(`/v1/fincades/${pk_id_vari}`);
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchList(); // Actualizar la lista de datos después de desactivar
@@ -39,7 +39,7 @@ export default function FincaT() {
 
   const peticionActivar = async (pk_id_vari) => {
     try {
-      const response = await axiosClient.put(`/v1/variedadac/${pk_id_vari}`);
+      const response = await axiosClient.put(`/v1/fincaac/${pk_id_vari}`);
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchList(); // Actualizar la lista de datos después de activar
@@ -50,24 +50,24 @@ export default function FincaT() {
   };
 
   const contenido = [
-    // { uid: "pk_id_vari", name: "Codigo Variedad", sortable: true },
-    { uid: "nombre_tipo_vari", name: "Tipo Variedad", sortable: false },
-    { uid: "descripcion_vari", name: "Descripción Variedad", sortable: true },
-    { uid: "imagen_vari", name: "Imagen Variedad", sortable: true },
-    { uid: "estado_vari", name: "Estado Variedad", sortable: true },
-    { uid: "nombre_fin", name: "Finca", sortable: true },
+    // { uid: "pk_id_fin", name: "Codigo Finca", sortable: true },
+    { uid: "nombre_fin", name: "Nombre Finca", sortable: false },
+    { uid: "imagen_fin", name: "Imagen Finca", sortable: true },
+    { uid: "descripcion_fin", name: "Descripción Finca", sortable: true },
+    { uid: "estado_fin", name: "Estado Finca", sortable: true },
+    { uid: "nombre_vere", name: "Vereda", sortable: true },
     { uid: "actions", name: "Acciones", sortable: false },
   ];
 
-  const id = localStorage.getItem("id_variedad");
+  const id = localStorage.getItem("id_finca");
 
   const handleSubmit = async (data, e) => {
     e.preventDefault();
     try {
       const response =
         mode === "create"
-          ? await axiosClient.post("/v1/variedad", data)
-          : await axiosClient.put( `/v1/variedad/${initialData.pk_id_vari}`, data );
+          ? await axiosClient.post("/v1/finca", data)
+          : await axiosClient.put( `/v1/finca/${initialData.pk_id_vari}`, data );
       const message = response.data.message;
       if (response.status === 200) {
         toast.success(message);
@@ -98,7 +98,7 @@ export default function FincaT() {
           handleSubmit={handleSubmit}
           mode={mode}
         />
-        <VariedadUserTable
+        <FincaTable
           actualizar={() => handleToggle("update", id)}
           registrar={() => handleToggle("create")}
           desactivar={peticionDesactivar}

@@ -62,7 +62,7 @@ const RegisterVariedadUserMolecule = ({ mode, initialData, handleSubmit, actionL
   
       handleSubmit(formData, e);
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Error del sistema:", error);
     }
   };
 

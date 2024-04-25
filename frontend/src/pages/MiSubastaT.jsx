@@ -9,28 +9,28 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import VariedadT from "./VariedadT";
+import FincaT from "./FincaT";
 
 export default function MiSubastaT() {
   const { isOpen: isOpenFinca, onOpen: onOpenFinca, onClose: onCloseFinca } = useDisclosure();
   
   return (
     <div className="w-full flex flex-col items-center px-10">
-      <div className="pb-6">
+      <div className="pb-2">
         <div className="flex justify-center pt-8 pb-2">
           <img src="./cafe.png" alt="Cafe_imagen" className="rounded-s-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto" />
           <img src="./image.png" alt="Finca_imagen" className="rounded-e-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto" />
         </div>
-        <p className="text-center text-negro transition duration-300">
+        <p className="text-center mt-3 text-negro transition duration-300">
           ¡Tu finca tiene una historia que contar!
         </p>
       </div>
-      <Button onClick={onOpenFinca}>Registrar finca</Button>
-      <p>
-        Registra todas las variedades de café que tienes en tu maravillosa finca
-      </p>
-      <div className="flex justify-center">
+      <div className="flex flex-col justify-center">
+        <FincaT />
+      <p className="text-center"> Registra todas las maravillosas variedades de café que tienes en tu finca</p>
         <VariedadT />
       </div>
+      <Button onClick={onOpenFinca}>Registrar finca</Button>
 
       <Modal isOpen={isOpenFinca} onClose={onCloseFinca} className="p-4">
         <ModalContent>
