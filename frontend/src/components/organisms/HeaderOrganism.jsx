@@ -90,7 +90,7 @@ function HeaderOrganism() {
                 description={`${users.rol_user}`}
                 className="text-blanco"
                 avatarProps={{
-                  src: `./src/assets/${users.imagen_user}`
+                  public: `./public/${users.imagen_user}`
                 }}
               />
               </button>
