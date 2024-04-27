@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import SubastaCard from "../components/SubastaCard";
+import AbrirModalTemplate from "../components/templates/AbrirModalTemplate";
+import ButtonCerrarModalAtom from "../components/atoms/ButtonCerrarModalAtom";
+import RegisterFincaOrganism from "../components/organisms/RegisterFincaOrganism";
+import ButtonAtom from "../components/atoms/ButtonAtom";
+import VariedadPageOrganism from "../components/organisms/VariedadPageOrganism";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function SubastaPage() {
@@ -16,6 +21,11 @@ function SubastaPage() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showModalFinca, setShowModalFinca] = useState(false);
+  const [showModalVari, setShowModalVari] = useState(false);
+
+  const toggleAbrirModalFinca = () => setShowModalFinca(!showModalFinca);
+  const toggleAbrirModalVari = () => setShowModalVari(!showModalVari);
 
   const prevSlide = () => {
     const newIndex = (currentIndex - 1 + slides.length) % slides.length;
@@ -36,7 +46,7 @@ function SubastaPage() {
   }, [currentIndex]);
 
   return (
-    <div className="px-14">
+    <div className="px-10 bg-gray-100">
       <div className="max-w-[1600px] h-auto w-full m-auto pt-10 p-4">
         <div
           className="w-full h-96 rounded-2xl bg-center bg-cover duration-500"
@@ -44,7 +54,7 @@ function SubastaPage() {
         ></div>
         <div className="flex justify-center">
           <div
-            className="text-2xl text-bold rounded-full p-2 text-rojo cursor-pointer transition duration-300"
+            className="text-2xl text-bold rounded-full p-2 text-gray-700 cursor-pointer transition duration-300"
             onClick={prevSlide}
           >
             <FaChevronLeft size={25} />
@@ -54,24 +64,40 @@ function SubastaPage() {
               <div
                 key={index}
                 className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${
-                  index === currentIndex ? "bg-negro" : "bg-gridMedio1"
+                  index === currentIndex ? "bg-black" : "bg-gray-300"
                 }`}
                 onClick={() => setCurrentIndex(index)}
               ></div>
             ))}
           </div>
           <div
-            className="text-2xl text-bold rounded-full p-2 text-rojo cursor-pointer transition duration-300"
+            className="text-2xl text-bold rounded-full p-2 text-gray-700 cursor-pointer transition duration-300"
             onClick={nextSlide}
           >
             <FaChevronRight size={25} />
           </div>
         </div>
+
+        <p className="left-0 right-0 text-center text-negro transition duration-300">
+          ¡Tu finca tiene una historia que contar!
+        </p>
       </div>
       <div className="w-full">
         <h1 className="font-semibold py-5">Borbon</h1>
         <SubastaCard />
       </div>
+      {showModalFinca && (
+        <AbrirModalTemplate>
+          <RegisterFincaOrganism onClose={toggleAbrirModalFinca} />
+          <ButtonCerrarModalAtom onClose={toggleAbrirModalFinca} />
+        </AbrirModalTemplate>
+      )}
+      {showModalVari && (
+        <AbrirModalTemplate>
+          <VariedadPageOrganism onClose={toggleAbrirModalVari} />
+          <ButtonCerrarModalAtom onClose={toggleAbrirModalVari} />
+        </AbrirModalTemplate>
+      )}
     </div>
   );
 }

@@ -19,7 +19,7 @@ import GeografiaFullPage from "./pages/GeografiaFullPage";
 import UsersT from "./pages/UsersT";
 import { DepartamentoT } from "./pages/DepartamentoT";
 import MiSubastaT from "./pages/MiSubastaT";
-import TipoVariedadT from "./pages/TipoVariedadT";
+import TipoVariedadT from "./pages/TipoVariedadT"
 
 function App() {
   const storedUser = localStorage.getItem("user");
@@ -34,7 +34,7 @@ function App() {
               <Route element={<Dashboard />}>
                 <Route element={<ProtectedRoute />}>
                   <Route path="/subcoffee" element={<SubastaPage />} />
-                  <Route path="/profile" element={<ProfileUser />} />
+                  <Route path="/profile/:id" element={<ProfileUser />} />
                   <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
                   <Route path="/ayudapujar" element={<ComoPujarUnaSubasta />} />
                   <Route path="/configuration" element={<Configuration />} />

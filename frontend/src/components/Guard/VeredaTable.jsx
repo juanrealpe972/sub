@@ -54,6 +54,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
       filteredResults = filteredResults.filter((results) =>
           String(results.pk_id_vere).toLowerCase().includes(filterValue.toLowerCase()) ||
           String(results.nombre_vere).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.nombre_muni).toLowerCase().includes(filterValue.toLowerCase()) ||
           String(results.estado_vere).toLowerCase().includes(filterValue.toLowerCase())
       );
     }
@@ -188,7 +189,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
           <Input
             isClearable
             className="w-full sm:max-w-[44%] border rounded-xl border-grisMedio"
-            placeholder="Buscar..."
+            placeholder="Buscar vereda..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}

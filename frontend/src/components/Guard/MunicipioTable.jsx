@@ -54,6 +54,8 @@ export default function MunicipioTable({ registrar, data, results, actualizar, d
       filteredResults = filteredResults.filter((results) =>
           String(results.pk_codigo_muni).toLowerCase().includes(filterValue.toLowerCase()) ||
           String(results.nombre_muni).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.nombre_depar).toLowerCase().includes(filterValue.toLowerCase()) ||
+          String(results.fk_departamento).toLowerCase().includes(filterValue.toLowerCase()) ||
           String(results.estado_muni).toLowerCase().includes(filterValue.toLowerCase())
       );
     }
@@ -188,7 +190,7 @@ export default function MunicipioTable({ registrar, data, results, actualizar, d
           <Input
             isClearable
             className="w-full sm:max-w-[44%] border rounded-xl border-grisMedio"
-            placeholder="Buscar..."
+            placeholder="Buscar municipio..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}

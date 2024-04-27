@@ -18,16 +18,16 @@ function DashboardContentOrganims() {
       navigate("/subcoffee");
     }
   }, [navigate]);
-
+  
   return (
-    <>
-      <div className="flex items-center justify-center px-14">
+    <div className="bg-gray-200 pt-12">
+      <div className="flex items-center justify-center px-12">
         <span className="text-black text-4xl text-center">
           Bienvenido a Subcoffee una plataforma online donde te podras conectar
           con diferentes usuarios para subastar y pujar por café de alta calidad
         </span>
         <img src="./src/assets/dashboard.png" />
-      </div>  
+      </div>
       <TiposDeCafeTemplates>
         <Text4xlSemiboldAtom>
           Una plataforma de café perfecta para todos
@@ -79,7 +79,7 @@ function DashboardContentOrganims() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

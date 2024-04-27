@@ -46,7 +46,7 @@ const RegisterVariedadUserMolecule = ({ mode, initialData, handleSubmit, actionL
         setTipoVariRef(initialData.fk_tipo_variedad);
         setFincasRef(initialData.fk_finca);
       } catch (error) {
-        toast.error("Error setting initial data:", error);
+        toast.error("Error en el sistema:", error);
       }
     }
   }, [mode, initialData]);

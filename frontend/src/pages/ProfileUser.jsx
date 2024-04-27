@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar } from "@nextui-org/react";
 import avatarImage from "../../public/imagen_de_usuario.webp";
+import axiosClient from "../api/axios";
+import { useParams } from "react-router-dom";
 
 function ProfileUser() {
-  const storedUser = localStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : {};
+  const { id } = useParams();
+  const [users, setUsers] = useState({});
+
+  useEffect(() => {
+    axiosClient
+      .get(`/v1/users/${id}`)
+      .then((res) => {
+        setUsers(res.data.data[0]);
+        console.log("User data:", res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [id]);
   
   const SubastasCreadas = [
     { id: 1, titulo: "Subasta 1", descripcion: "Descripción de la subasta 1" },
@@ -37,21 +51,21 @@ function ProfileUser() {
     <div className="px-32 mb-9">
       <div className="flex items-center justify-between mb-4 flex-col">
         <img
-          src="./src/assets/finca1.jpg"
+          src="../src/assets/finca1.jpg"
           className="w-full rounded-lg"
           alt="Finca de usuario"
         />
         <Avatar
-          src={user.imagen_user ? `../../public/${user.imagen_user}` : avatarImage }
+          src={users.imagen_user ? `../../public/${users.imagen_user}` : avatarImage }
           className="w-44 h-44 text-large -mt-24"
         />
       </div>
       <div className="grid grid-cols-1 gap-y-1 mb-4">
-        <span className="text-lg font-semibold">{user.nombre_user}</span>
-        <span className="text-sm text-gray-600">{user.telefono_user}</span>
-        <span className="text-sm text-gray-600">{user.fecha_nacimiento_user}</span>
-        <span className="text-sm text-gray-600">{user.email_user}</span>
-        <span className="text-sm text-gray-600">{user.descripcion_user}</span>
+        <span className="text-lg font-semibold">{users.nombre_user}</span>
+        <span className="text-sm text-gray-600">{users.telefono_user}</span>
+        <span className="text-sm text-gray-600">{users.fecha_nacimiento_user}</span>
+        <span className="text-sm text-gray-600">{users.email_user}</span>
+        <span className="text-sm text-gray-600">{users.descripcion_user}</span>
       </div>
       <div className="flex items-center w-full mb-4">
         <button

@@ -56,7 +56,7 @@ function HeaderOrganism() {
   return (
     <>
       {isAuthenticated ? (
-        <nav className="flex justify-between items-center bg-verdeSena2 w-full p-4 shadow-sm">
+        <nav className="flex justify-between items-center bg-gray-300 w-full p-4 shadow-sm">
           <div className="flex flex-col">
             <TextSubAtom
               to="/subcoffee"
@@ -82,29 +82,28 @@ function HeaderOrganism() {
             )}
             {users && (
               <button
-                className="flex items-center gap-x-2"
+                className="flex flex-col items-center h-8 -mt-3"
                 onClick={toggleCerrarSesionModal}
               >
-              <User
+              <User   
                 name={`${users.nombre_user}`}
                 description={`${users.rol_user}`}
-                className="text-blanco"
                 avatarProps={{
-                  public: `./public/${users.imagen_user}`
-                }}
-              />
+                  src: `./public/img/${users.imagen_user ? users.imagen_user :  "usernotfound.png"}`
+              }}
+                />
               </button>
             )}
           </div>
           {abrirCerrarSesion && (
-            <div className="absolute z-20 top-16 right-2 flex justify-center items-center">
+            <div className="absolute top-16 right-2 flex justify-center items-center z-20">
               <div className="bg-blanco rounded-xl">
                 <ModalCerrarSesion onClose={toggleCerrarSesionModal} />
               </div>
             </div>
           )}
           {abrirBell && (
-            <div className="absolute z-20 top-16 right-32 flex justify-center items-center">
+            <div className="absolute top-16 right-32 flex justify-center items-center">
               <div className="bg-blanco rounded-xl w-80">
                 <ModalMessaAndNoti onClose={toggleAbrirBell} />
               </div>
@@ -119,7 +118,7 @@ function HeaderOrganism() {
           )}
         </nav>
       ) : (
-        <nav className="flex justify-between items-center bg-verdeSena1 fixed w-full m-0 top-0 p-4 shadow-sm">
+        <nav className="flex justify-between items-center bg-gray-300 fixed w-full m-0 top-0 p-4 shadow-sm">
           <div className="flex items-center">
             <AvatarAtom img="isotipo-SubCoffee.png" />
             <TextSubAtom to="/" color="cafeClaroLogo" text="Sub" />

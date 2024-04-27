@@ -14,13 +14,13 @@ const Dashboard = () => {
       <div className="grow">
         <HeaderOrganism />
         <Outlet />
-        {/* <FooterOrganism /> */}
+        <FooterOrganism />
       </div>
     </div>
   ) : (
-    <div className="flex-auto h-screen py-6">
+    <div className="flex-auto h-screen">
       <HeaderOrganism />
-      <main className="mt-8">
+      <main>
         <Outlet />
       </main>
       <FooterOrganism />
