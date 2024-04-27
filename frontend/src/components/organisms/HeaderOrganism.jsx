@@ -85,7 +85,7 @@ function HeaderOrganism() {
                 className="flex items-center gap-x-2"
                 onClick={toggleCerrarSesionModal}
               >
-              <User   
+              <User
                 name={`${users.nombre_user}`}
                 description={`${users.rol_user}`}
                 className="text-blanco"
