@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { activarVereda, crearVereda, desactivarVereda, editarVereda, eliminarVereda, getVereda, getVeredas } from "../controllers/veredas.controller.js";
-import { verificarUserToken } from "../controllers/auth.controller.js";
+import { verificarUserToken } from "../controllers/autenticacionController.js";
 import { validationVereda } from "../validations/vereda.validation.js";
 
 const routerVereda = Router()

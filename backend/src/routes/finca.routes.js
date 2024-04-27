@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { activarFinca, cargarImagen, createFinca, deleteFinca, desactivarFinca, getFinca, getFincas, updateFinca } from "../controllers/finca.controller.js";
-import { verificarUserToken } from "../controllers/auth.controller.js";
+import { verificarUserToken } from "../controllers/autenticacionController.js";
 import { validationCreateFinca, validationUpdateFinca } from "../validations/finca.validation.js";
 
 const routerFinca = Router();

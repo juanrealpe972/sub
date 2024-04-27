@@ -1,15 +1,32 @@
-import { Router } from 'express';
-import { activarSubasta, cargarCertificado, cargarImagen, createSubasta, deleteSubasta, desactivarSubasta, getSubasta, getSubastas, updateSubasta } from '../controllers/subasta.controllers.js';
-import { verificarUserToken } from '../controllers/auth.controller.js';
+import { Router } from "express";
+import {
+  SubastaAbierta,
+  SubastaCerrada,
+  SubastaEspera,
+  SubastaProceso,
+  subastaFiles,
+  listar,
+  registrar,
+  actualizar,
+  buscar,
+  eliminar,
+} from "../controllers/subasta.controllers.js";
+import {
+  validarActualizarSubasta,
+  validarRegistrarSubasta,
+} from "../validations/subasta.validation.js";
+import { verificarUserToken } from "../controllers/autenticacionController.js";
 
-const routerSubasta = Router()
+const router = Router();
 
-routerSubasta.get("/subasta", verificarUserToken, getSubastas)
-routerSubasta.get("/subasta/:id", verificarUserToken, getSubasta)
-routerSubasta.post("/subasta", verificarUserToken, createSubasta)
-routerSubasta.put("/subasta/:id", verificarUserToken, updateSubasta)
-routerSubasta.delete("/subasta/:id", verificarUserToken, deleteSubasta)
-routerSubasta.put("/subastaac/:id", verificarUserToken, activarSubasta)
-routerSubasta.put("/subastades/:id", verificarUserToken, desactivarSubasta)
+router.post("/registrar",subastaFiles,verificarUserToken,validarRegistrarSubasta,registrar);
+router.get("/listar", verificarUserToken, listar);
+router.put("/actualizar/:id",subastaFiles,verificarUserToken,validarActualizarSubasta,actualizar);
+router.get("/buscar/:id", verificarUserToken, buscar);
+router.delete("/eliminar/:id", verificarUserToken, eliminar);
+router.put("/abierta/:id", verificarUserToken, SubastaAbierta);
+router.put("/cerrada/:id", verificarUserToken, SubastaCerrada);
+router.put("/espera/:id", verificarUserToken, SubastaEspera);
+router.put("/proceso/:id", verificarUserToken, SubastaProceso);
 
-export default routerSubasta;
+export default router;

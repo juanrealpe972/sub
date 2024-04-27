@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { createChat, deleteChat, getChat, getChats, updateChat } from "../controllers/chat.controller.js";
+import {Imagen, createChat, deleteChat, getChat, getChats, updateChat} from "../controllers/chat.controllers.js";
+import { validarCreateChat, validarActualizarChat} from "../validations/chat.validacion.js";
+import { verificarUserToken } from "../controllers/autenticacionController.js";
 
-const routerChat = Router()
+const routerChat = Router();
 
-routerChat.get("/chat", getChats)
-routerChat.get("/chat/:id", getChat)
-routerChat.post("/chat", createChat)
-routerChat.put("/chat/:id", updateChat)
-routerChat.delete("/chat/:id", deleteChat)
+routerChat.post("/chats", Imagen,verificarUserToken, validarCreateChat, createChat);
+routerChat.get("/chats", verificarUserToken, getChats);
+routerChat.put("/chats/:id",Imagen, verificarUserToken, validarActualizarChat, updateChat);
+routerChat.get("/chats/:id", verificarUserToken, getChat);
+routerChat.delete("/chats/:id", verificarUserToken, deleteChat);
 
-export default routerChat
+export default routerChat;

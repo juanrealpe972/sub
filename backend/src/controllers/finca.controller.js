@@ -1,5 +1,5 @@
 import multer from "multer";
-import { pool } from "../database/conexion.js";
+import { pool } from "../databases/conexion.js";
 import { validationResult } from "express-validator";
 
 const storage = multer.diskStorage({
@@ -15,7 +15,12 @@ export const cargarImagen = uploat.single("imagen_fin");
 
 export const getFincas = async (req, res) => {
   try {
-    let sql = `SELECT * FROM finca`;
+    let sql = `
+      SELECT f.*, v.nombre_vere 
+      FROM finca f
+      INNER JOIN veredas v 
+      ON f.fk_vereda = v.pk_id_vere
+    `;
     const [result] = await pool.query(sql);
     if (result.length > 0) {
       res.status(200).json({ message: "Las fincas encontradas con exito", data: result });
@@ -23,14 +28,20 @@ export const getFincas = async (req, res) => {
       res.status(404).json({ message: "No se encontraron fincas" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
 export const getFinca = async (req, res) => {
   try {
     const id = req.params.id;
-    let sql = `SELECT * FROM finca WHERE pk_id_fin = '${id}'`;
+    let sql = 
+    `
+      SELECT f.*, v.* 
+      FROM finca f
+      INNER JOIN veredas v ON f.fk_vereda = v.pk_id_vere
+      WHERE f.fk_id_usuario = '${id}';
+    `;
     const [result] = await pool.query(sql);
     if (result.length > 0) {
       res.status(200).json({ message: "Finca encontrada", data: result });
@@ -38,7 +49,7 @@ export const getFinca = async (req, res) => {
       res.status(404).json({ message: "La finca con el ID no existe" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error: error.message });
+     res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -59,7 +70,7 @@ export const createFinca = async (req, res) => {
       res.status(404).json({ message: "No se pudo crear la finca" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -81,7 +92,7 @@ export const updateFinca = async (req, res) => {
       res.status(404).json({ message: "No se pudo actualizar la finca con el ID" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -96,7 +107,7 @@ export const deleteFinca = async (req, res) => {
       res.status(404).json({ message: "Error con el ID al eliminar la finca" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -110,7 +121,7 @@ export const activarFinca = async (req, res) => {
       res.status(404).json({ message: `No se encontró ninguna Finca con el ID ${id}` });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -124,6 +135,6 @@ export const desactivarFinca = async (req, res) => {
       res.status(404).json({ message: `No se encontró ninguna Finca con el ID ${id}` });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error: error.message });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };

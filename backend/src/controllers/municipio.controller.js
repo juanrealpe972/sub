@@ -1,32 +1,68 @@
 import { validationResult } from "express-validator";
-import { pool } from "../database/conexion.js";
+import { pool } from "../databases/conexion.js";
 
 export const getMunicipios = async (req, res) => {
   try {
-    const [result] = await pool.query("SELECT * FROM municipio");
+    const [result] = await pool.query(
+      `
+        SELECT m.*, d.nombre_depar
+        FROM municipio m
+        INNER JOIN departamento d 
+        ON m.fk_departamento = d.pk_codigo_depar
+      `
+    );
     if (result.length > 0) {
       res.status(200).json(result);
     } else {
       res.status(404).json({ message: "No se encontraron municipios" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
 export const getMunicipioById = async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await pool.query(`SELECT * FROM municipio WHERE pk_codigo_muni = '${id}'`);
+    const [result] = await pool.query(      
+      `
+        SELECT m.*, d.*
+        FROM municipio m
+        INNER JOIN departamento d 
+        ON m.fk_departamento = d.pk_codigo_depar
+        WHERE m.pk_codigo_muni = '${id}'
+      `
+    );
     if (result.length > 0) {
       res.status(200).json(result[0]);
     } else {
       res.status(404).json({ message: "Municipio no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
+
+export const getMuniForDepart = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [result] = await pool.query(      
+      `
+        SELECT m.*, d.*
+        FROM municipio m
+        INNER JOIN departamento d ON m.fk_departamento = d.pk_codigo_depar
+        WHERE d.pk_codigo_depar = '${id}';
+      `
+    );
+    if (result.length > 0) {
+      res.status(200).json(result); // Devuelve todos los municipios relacionados con el departamento
+    } else {
+      res.status(404).json({ message: "Departamento no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" + error });
+  }
+}
 
 export const createMunicipio = async (req, res) => {
   try {
@@ -43,7 +79,7 @@ export const createMunicipio = async (req, res) => {
       res.status(404).json({ message: "No se pudo crear el municipio" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -63,7 +99,7 @@ export const updateMunicipio = async (req, res) => {
       res.status(404).json({ message: "Municipio no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -77,7 +113,7 @@ export const deleteMunicipio = async (req, res) => {
       res.status(404).json({ message: "Municipio no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -91,7 +127,7 @@ export const activarMunicipio = async (req, res) => {
       res.status(404).json({ message: "Municipio no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };
 
@@ -105,6 +141,6 @@ export const desactivarMunicipio = async (req, res) => {
       res.status(404).json({ message: "Municipio no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error en el sistema", error });
+    res.status(500).json({ message: "Error en el servidor" + error });
   }
 };

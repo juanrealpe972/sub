@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getDepartamentos, getDepartamentoById, createDepartamento, updateDepartamento, deleteDepartamento, activarDepartamento, desactivarDepartamento } from "../controllers/departamento.controller.js";
-import { verificarUserToken } from "../controllers/auth.controller.js";
+import { verificarUserToken } from "../controllers/autenticacionController.js";
 import { validationDepartamento } from "../validations/departamento.validation.js";
 
 const routerDepartamento = Router();
