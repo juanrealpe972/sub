@@ -18,7 +18,7 @@ import ofertasRoutes from "./src/routes/ofertas.routes.js";
 
 const app = express();
 app.use(cors());
-const PORT = 4001
+const PORT = 4000
 
 app.use(express.json());
 app.use(bodyParser.json());
