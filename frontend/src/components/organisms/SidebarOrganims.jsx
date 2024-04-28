@@ -32,7 +32,7 @@ const SidebarOrganims = () => {
     { title: "Configuración", link: "/configuration", icon: icono.iconoConfiguracion },
     {
       title: "Politicas privacidad",
-      link: "/poli",
+      link: "/privacy-policy",
       icon: icono.iconoPrivacidad,
     },
   ];

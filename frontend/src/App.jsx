@@ -20,6 +20,7 @@ import UsersT from "./pages/UsersT";
 import { DepartamentoT } from "./pages/DepartamentoT";
 import MiSubastaT from "./pages/MiSubastaT";
 import TipoVariedadT from "./pages/TipoVariedadT"
+import QuienesSomosA from "./pages/QuienesSomosA";
 
 function App() {
   const storedUser = localStorage.getItem("user");
@@ -63,7 +64,8 @@ function App() {
               <Route element={<Dashboard />}>
                 <Route index element={<DashboardContentOrganims />} />
                 <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
-                <Route path="/poli" element={<PoliticasYCondicionesPage />} />
+                <Route path="/privacy-policy" element={<PoliticasYCondicionesPage />} />
+                <Route path="/somos" element={<QuienesSomosA />} />
                 <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
                 <Route path="/ayudapujar" element={<ComoPujarUnaSubasta />} />

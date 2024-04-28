@@ -38,7 +38,7 @@ const FooterOrganism = () => {
           <div className="sm:col-span-1 md:col-span-1 lg:col-span-2">
             <FooterSectionMolecule title="Información">
               <FooterLinkAtom to="/somos">¿Quiénes somos?</FooterLinkAtom>
-              <FooterLinkAtom to="/politicas">Políticas y privacidad</FooterLinkAtom>
+              <FooterLinkAtom to="/privacy-policy">Políticas y privacidad</FooterLinkAtom>
               <FooterLinkAtom to="/ayuda">¿Cómo funciona?</FooterLinkAtom>
             </FooterSectionMolecule>
           </div>
