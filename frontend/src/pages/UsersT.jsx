@@ -3,12 +3,15 @@ import axiosClient from "../api/axios";
 import UsersTable from "../components/Guard/UsersTable.jsx";
 import FormUserOrganism from "../components/organisms/FormUserOrganism.jsx";
 import toast from "react-hot-toast";
+import ModalMessage from "../nextui/ModalMessage.jsx";
 
 export function UsersT() {
   const [modalOpen, setModalOpen] = useState(false);
   const [mode, setMode] = useState("create");
   const [initialData, setInitialData] = useState(null);
   const [results, setResults] = useState([]);
+  const [modalMessage, setModalMessage] = useState(false);
+  const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
     fetchUserList(); //  Lista los usuarios al cargar la página
@@ -23,10 +26,12 @@ export function UsersT() {
     }
   };
 
-  const peticionDesactivar = async (pk_cedula_user) => {
+  const DesactivarUser = async (pk_cedula_user) => {
     try {
       const response = await axiosClient.put(`/v1/usersdes/${pk_cedula_user}`);
       if (response.status === 200) {
+        setMensaje("¡Usuario desactivado con éxito! Ahora este no podrá iniciar sesión.");
+        setModalMessage(true);
         toast.success(response.data.message);
         fetchUserList(); // Actualizar la lista de usuarios después de desactivar
       }
@@ -34,11 +39,13 @@ export function UsersT() {
       toast.error("Error en el sistema " + error);
     }
   };
-  
-  const peticionActivarUser = async (pk_cedula_user) => {
+
+  const ActivarUser = async (pk_cedula_user) => {
     try {
       const response = await axiosClient.put(`/v1/usersac/${pk_cedula_user}`);
       if (response.status === 200) {
+        setMensaje("¡Usuario activado con éxito! Ahora está listo para iniciar sesión.");
+        setModalMessage(true);
         toast.success(response.data.message);
         fetchUserList(); // Actualizar la lista de usuarios después de activar
       }
@@ -58,15 +65,14 @@ export function UsersT() {
     { uid: "actions", name: "Acciones", sortable: false },
   ];
 
-const id =localStorage.getItem('idUser')
-  
+  const id = localStorage.getItem("idUser");
+
   const handleSubmit = async (data, e) => {
     e.preventDefault();
     try {
       const response = mode === "create"
-        ? await axiosClient.post("/v1/users", data)
-        : await axiosClient.put(`/v1/users/${initialData.pk_cedula_user}`, data);
-
+          ? await axiosClient.post("/v1/users", data)
+          : await axiosClient.put( `/v1/users/${initialData.pk_cedula_user}`, data );
       const message = response.data.message;
       if (response.status === 200) {
         toast.success(message);
@@ -88,7 +94,12 @@ const id =localStorage.getItem('idUser')
   };
 
   return (
-    <div className="w-full h-auto bg-gray-100 flex flex-col items-center px-10">
+    <div className="w-full h-auto bg-gray-100 flex flex-col items-center px-8">
+      <ModalMessage
+        isOpen={modalMessage}
+        onClose={() => setModalMessage(false)}
+        label={mensaje}
+      />
       <FormUserOrganism
         open={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -100,8 +111,8 @@ const id =localStorage.getItem('idUser')
       <UsersTable
         actualizarUser={() => handleToggle("update", id)}
         registrarUser={() => handleToggle("create")}
-        desactivarUser={peticionDesactivar}
-        activarUser={peticionActivarUser}
+        desactivarUser={DesactivarUser}
+        activarUser={ActivarUser}
         data={contenido}
         results={results}
       />
