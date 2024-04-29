@@ -45,35 +45,40 @@ function AyudaPage() {
   };
 
   return (
-    <div className={`p-8 px-44 mx-auto flex flex-col justify-center ${isScrolled ? 'scrolled' : ''}`}>
+    <div
+      className={`p-8 px-44 mx-auto flex flex-col justify-center ${
+        isScrolled ? "scrolled" : ""
+      }`}
+    >
       <div className="flex justify-center w-auto items-center">
         <ButtonGroup>
           <Button
             onClick={() => scrollToSection("comoCrear")}
-            className={`transition-opacity ${isScrolled ? 'opacity-40' : ''}`}
+            className={`transition-opacity ${isScrolled ? "opacity-40" : ""}`}
           >
             Como crear una subasta
           </Button>
           <Button
             onClick={() => scrollToSection("comoPujar")}
-            className={`transition-opacity ${isScrolled ? 'opacity-40' : ''}`}
+            className={`transition-opacity ${isScrolled ? "opacity-40" : ""}`}
           >
             Como pujar una subasta
           </Button>
           <Button
             onClick={() => scrollToSection("infoRoles")}
-            className={`transition-opacity ${isScrolled ? 'opacity-40' : ''}`}
+            className={`transition-opacity ${isScrolled ? "opacity-40" : ""}`}
           >
             Información de Roles
           </Button>
-          <Button
-            onClick={scrollToTop}
-            startContent={<FlechaArriba />}
-            className={`transition-opacity fixed bottom-8 right-8 ${isScrolled ? 'opacity-40' : ''}`}
-          >
-            Ir Arriba
-          </Button>
         </ButtonGroup>
+        <Button
+          onClick={scrollToTop}
+          startContent={<FlechaArriba />}
+          className={`transition-opacity fixed bottom-8 right-8 ${
+            isScrolled ? "opacity-40" : "" }`}
+        >
+          Ir Arriba
+        </Button>
       </div>
       <div>
         <div ref={comoCrearRef} data-section="comoCrear">

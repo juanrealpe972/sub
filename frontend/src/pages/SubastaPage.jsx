@@ -77,10 +77,6 @@ function SubastaPage() {
             <FaChevronRight size={25} />
           </div>
         </div>
-
-        <p className="left-0 right-0 text-center text-negro transition duration-300">
-          ¡Tu finca tiene una historia que contar!
-        </p>
       </div>
       <div className="w-full">
         <h1 className="font-semibold py-5">Borbon</h1>

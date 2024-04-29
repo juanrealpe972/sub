@@ -2,7 +2,7 @@ import React from 'react';
 
 function ComoPujarUnaSubasta() {
   return (
-    <div className='py-8'>
+    <div className='py-6'>
       <h2 className="text-2xl font-semibold mb-4">Cómo pujar en una subasta</h2>
       <p className="mb-4">
         Para pujar en una subasta en nuestra plataforma, sigue estos sencillos pasos:

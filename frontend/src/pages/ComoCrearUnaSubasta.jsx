@@ -2,7 +2,7 @@ import React from 'react';
 
 function ComoCrearSubasta() {
   return (
-    <div className='py-8'>
+    <div className='py-6'>
       <h2 className="text-2xl font-semibold mb-4">Cómo crear una subasta</h2>
       <p className="mb-4">
         Para crear una subasta en nuestra plataforma, primero necesitas registrar tu finca. Aquí te explicamos los pasos:

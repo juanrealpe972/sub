@@ -2,13 +2,13 @@ import React from 'react';
 
 function InfoRolesA() {
     return (
-        <div className="py-8">
+        <div className="py-6">
             <h2 className="text-2xl font-semibold mb-4">Información de Roles</h2>
             <p className="mb-4">
                 Aquí tienes información sobre los roles disponibles en nuestra
                 plataforma:
             </p>
-            <div className="grid grid-cols-1 gap-y-8">
+            <div className="grid grid-cols-1 gap-y-3">
                 <div className="border rounded-lg p-4 bg-gray-200">
                     <h3 className="font-semibold">Rol: Administrador</h3>
                     <p>

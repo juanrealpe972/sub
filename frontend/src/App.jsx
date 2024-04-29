@@ -14,13 +14,13 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AyudaPage from "./pages/AyudaPage";
 import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
 import UsersPage from "./pages/UsersPage";
-import PoliticasYCondicionesPage from "./pages/PoliticasYCondicionesPage";
 import GeografiaFullPage from "./pages/GeografiaFullPage";
 import UsersT from "./pages/UsersT";
 import { DepartamentoT } from "./pages/DepartamentoT";
 import MiSubastaT from "./pages/MiSubastaT";
 import TipoVariedadT from "./pages/TipoVariedadT"
 import QuienesSomosA from "./pages/QuienesSomosA";
+import PoliticasYCondicionesPageA from "./pages/PoliticasYCondicionesPageA";
 
 function App() {
   const storedUser = localStorage.getItem("user");
@@ -64,7 +64,7 @@ function App() {
               <Route element={<Dashboard />}>
                 <Route index element={<DashboardContentOrganims />} />
                 <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
-                <Route path="/privacy-policy" element={<PoliticasYCondicionesPage />} />
+                <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
                 <Route path="/somos" element={<QuienesSomosA />} />
                 <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />

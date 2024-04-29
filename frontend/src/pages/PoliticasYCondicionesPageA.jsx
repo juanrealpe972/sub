@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PoliticasYCondicionesPage() {
+function PoliticasYCondicionesPageA() {
     return (
         <div className="px-44 py-8">
             <h1 className="text-3xl font-bold text-center mb-8">Política de Privacidad y Uso de Datos</h1>
@@ -52,4 +52,4 @@ function PoliticasYCondicionesPage() {
     );
 }
 
-export default PoliticasYCondicionesPage;
+export default PoliticasYCondicionesPageA;
