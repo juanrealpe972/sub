@@ -19,13 +19,14 @@ import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
 import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
+import { EditIcon } from "../../nextui/EditIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-export default function FincaTable({ registrar, data, results, actualizar, desactivar, activar}) {
+export default function FincaTable({ registrar, data, results, actualizar, desactivar, activar }) {
   const [filterValue, setFilterValue] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -52,21 +53,21 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
 
     if (hasSearchFilter) {
       filteredResults = filteredResults.filter((results) =>
-          String(results.descripcion_fin).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.nombre_fin).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.nombre_vere).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.estado_fin).toLowerCase().includes(filterValue.toLowerCase())
+        String(results.descripcion_fin).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.nombre_fin).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.nombre_vere).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.estado_fin).toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
-    if ( statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
+    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
       filteredResults = filteredResults.filter((results) =>
         Array.from(statusFilter).includes(results.estado_fin)
       );
     }
 
     filteredResults = filteredResults.filter((result) =>
-        result.estado_vere === "activo" 
+      result.estado_vere === "activo"
     );
 
     return filteredResults;
@@ -82,16 +83,16 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-  
+
     // Verificar si filteredItems está definido y es un arreglo
     if (!Array.isArray(filteredItems)) {
       return []; // Devolver un arreglo vacío si filteredItems no es un arreglo
     }
-  
+
     // Aplicar slice solo si filteredItems es un arreglo válido
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
-  
+
 
   const sortedItems = useMemo(() => {
     return [...items].sort((a, b) => {
@@ -107,13 +108,13 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
     const cellValue = results[columnKey];
 
     switch (columnKey) {
-      case "nombre_vere" : 
-      return (
-        <div className="flex flex-col">
-          <p className="text-bold text-sm capitalize">{cellValue}</p>
-          <p className="text-bold text-sm capitalize text-default-400">{results.fk_vereda}</p>
-        </div>
-      );
+      case "nombre_vere":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize">{cellValue}</p>
+            <p className="text-bold text-sm capitalize text-default-400">{results.fk_vereda}</p>
+          </div>
+        );
       case "estado_fin":
         return (
           <Chip className="capitalize" color={statusColorMap[results.estado_fin]} size="sm" variant="flat">
@@ -122,28 +123,19 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="lg" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateUser(results.pk_id_fin)} >
-                  Editar
-                </DropdownItem>
-                {results.estado_fin === "activo" ? (
-                  <DropdownItem onClick={() => desactivar(results.pk_id_fin)} >
-                    Desactivar
-                  </DropdownItem>
-                ) : (
-                  <DropdownItem onClick={() => activar(results.pk_id_fin)} >
-                    Activar
-                  </DropdownItem>
-                )}
-              </DropdownMenu>
-            </Dropdown>
+          <div className="relative flex justify-center items-center gap-2">
+            <Button color="default"  onClick={() => handleUpdateUser(results.pk_id_fin)}>
+              Editar
+            </Button>
+            {results.estado_fin === "activo" ? (
+              <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_fin)}>
+                Desactivar
+              </Button>
+            ) : (
+              <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_id_fin)}>
+                Activar
+              </Button>
+            )}
           </div>
         );
       default:

@@ -2,7 +2,7 @@ import React from 'react';
 
 function QuienesSomosA() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="py-4">
       <h1 className="text-3xl font-bold text-center mb-8">Quiénes Somos</h1>
       <p className="mb-4">Somos una plataforma en línea especializada en la subasta de café de alta calidad. Nos dedicamos a conectar a productores de café excepcionales con consumidores apasionados que buscan la mejor experiencia en cada taza.</p>
       <p className="mb-4">En nuestra plataforma, los productores tienen la oportunidad de mostrar su trabajo artesanal y sus procesos de cultivo únicos, mientras que los compradores pueden descubrir una amplia variedad de cafés selectos y realizar ofertas para adquirirlos.</p>

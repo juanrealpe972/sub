@@ -42,7 +42,7 @@ const SidebarOrganims = () => {
 
   return (
     <>
-      <div className="flex min-h-screen bg-blancoMedio1">
+      <div className="flex min-h-screen bg-blancoMedio1 ">
         <div
           className={`${
             open ? "w-60" : "w-20"

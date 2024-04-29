@@ -88,7 +88,7 @@ const id =localStorage.getItem('idUser')
   };
 
   return (
-    <div className="w-full bg-gray-100 flex flex-col items-center px-10">
+    <div className="w-full h-auto bg-gray-100 flex flex-col items-center px-10">
       <FormUserOrganism
         open={modalOpen}
         onClose={() => setModalOpen(false)}

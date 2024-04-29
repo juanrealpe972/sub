@@ -19,7 +19,6 @@ import {
 import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
-import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -105,6 +104,10 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
             {results.email_user}
           </User>
         );
+      case "fecha_nacimiento_user":
+        return (
+          <p>{new Date(results.fecha_nacimiento_user).toLocaleDateString()}</p>
+        );
       case "descripcion_user":
         return (
           <>
@@ -123,29 +126,20 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="lg" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateUser(results.pk_cedula_user)} >
-                  Editar
-                </DropdownItem>
-                {results.estado_user === "activo" ? (
-                  <DropdownItem onClick={() => desactivarUser(results.pk_cedula_user)} >
-                    Desactivar
-                  </DropdownItem>
-                ) : (
-                  <DropdownItem onClick={() => activarUser(results.pk_cedula_user)} >
-                    Activar
-                  </DropdownItem>
-                )}
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+          <div className="relative flex justify-center items-center gap-2">
+          <Button color="default" onClick={() => handleUpdateUser(results.pk_cedula_user)}>
+            Editar
+          </Button>
+          {results.estado_user === "activo" ? (
+            <Button className="bg-red-500 text-white" onClick={() => desactivarUser(results.pk_cedula_user)}>
+              Desactivar
+            </Button>
+          ) : (
+            <Button className="bg-green-500 text-white" onClick={() => activarUser(results.pk_cedula_user)}>
+              Activar
+            </Button>
+          )}
+        </div>
         );
       default:
         return cellValue;

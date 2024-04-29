@@ -2,7 +2,7 @@ import React from 'react';
 
 function PoliticasYCondicionesPage() {
     return (
-        <div className="max-w-3xl mx-auto px-4 py-8">
+        <div className="px-44 py-8">
             <h1 className="text-3xl font-bold text-center mb-8">Política de Privacidad y Uso de Datos</h1>
             <p className="mb-4">Bienvenido/a a la plataforma de subastas de café en línea. En esta página, nos preocupamos profundamente por la privacidad y seguridad de nuestros usuarios. Por ello, hemos desarrollado esta política detallada que explica cómo recopilamos, usamos, compartimos y protegemos la información personal que usted nos proporciona. Al utilizar nuestros servicios, usted acepta los términos descritos a continuación.</p>
 

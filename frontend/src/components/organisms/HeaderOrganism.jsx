@@ -21,7 +21,6 @@ function HeaderOrganism() {
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
-  //const { users } = useContext(AuthContext);
   const storedUser = localStorage.getItem("user");
   const users = storedUser ? JSON.parse(storedUser) : null;
 
@@ -51,12 +50,10 @@ function HeaderOrganism() {
     setIsMoonSelected((prevValue) => !prevValue);
   };
 
-  console.log(users);
-
   return (
     <>
       {isAuthenticated ? (
-        <nav className="flex justify-between items-center bg-gray-300 w-full p-4 shadow-sm">
+        <nav className="flex justify-between items-center bg-gray-300 p-4 shadow-sm">
           <div className="flex flex-col">
             <TextSubAtom
               to="/subcoffee"
@@ -85,12 +82,14 @@ function HeaderOrganism() {
                 className="flex flex-col items-center h-8 -mt-3"
                 onClick={toggleCerrarSesionModal}
               >
-              <User   
-                name={`${users.nombre_user}`}
-                description={`${users.rol_user}`}
-                avatarProps={{
-                  src: `./public/img/${users.imagen_user ? users.imagen_user :  "usernotfound.png"}`
-              }}
+                <User
+                  name={`${users.nombre_user}`}
+                  description={`${users.rol_user}`}
+                  avatarProps={{
+                    src: `./img/${
+                      users.imagen_user ? users.imagen_user : "usernotfound.png"
+                    }`
+                  }}
                 />
               </button>
             )}

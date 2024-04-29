@@ -9,7 +9,6 @@ import {
   Input,
   Button,
   Chip,
-  User,
   Pagination,
   Dropdown,
   DropdownTrigger,
@@ -19,7 +18,7 @@ import {
 import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
-import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
+import { EditIcon } from "../../nextui/EditIcon";
 
 const statusColorMap = {
   activo: "success",
@@ -112,28 +111,19 @@ export default function DepartamentoTable({ registrar, data, results, actualizar
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="lg" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
+          <div className="relative flex justify-center items-center gap-2">
+              <Button color="default" onClick={() => handleUpdateUser(results.pk_codigo_depar)}>
+                Editar
+              </Button>
+              {results.estado_depar === "activo" ? (
+                <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_codigo_depar)}>
+                  Desactivar
                 </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateUser(results.pk_codigo_depar)} >
-                  Editar
-                </DropdownItem>
-                {results.estado_depar === "activo" ? (
-                  <DropdownItem onClick={() => desactivar(results.pk_codigo_depar)} >
-                    Desactivar
-                  </DropdownItem>
-                ) : (
-                  <DropdownItem onClick={() => activar(results.pk_codigo_depar)} >
-                    Activar
-                  </DropdownItem>
-                )}
-              </DropdownMenu>
-            </Dropdown>
+              ) : (              
+                <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_codigo_depar)}>
+                  Activar
+                </Button>
+              )}            
           </div>
         );
       default:

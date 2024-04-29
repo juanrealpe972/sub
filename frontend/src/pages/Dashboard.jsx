@@ -9,12 +9,11 @@ const Dashboard = () => {
   const auth = window.localStorage.getItem("token");
 
   return auth ? (
-    <div className="flex flex-auto h-auto">
+    <div className="flex flex-auto h-auto bg-gray-100">
       <SidebarOrganims />
       <div className="grow">
         <HeaderOrganism />
         <Outlet />
-        <FooterOrganism />
       </div>
     </div>
   ) : (

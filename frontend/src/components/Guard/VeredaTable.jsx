@@ -19,6 +19,7 @@ import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
 import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
+import { EditIcon } from "../../nextui/EditIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -118,28 +119,19 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="lg" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateUser(results.pk_id_vere)} >
-                  Editar
-                </DropdownItem>
-                {results.estado_vere === "activo" ? (
-                  <DropdownItem onClick={() => desactivar(results.pk_id_vere)} >
-                    Desactivar
-                  </DropdownItem>
-                ) : (
-                  <DropdownItem onClick={() => activar(results.pk_id_vere)} >
-                    Activar
-                  </DropdownItem>
-                )}
-              </DropdownMenu>
-            </Dropdown>
+          <div className="relative flex justify-center items-center gap-2">
+            <Button color="default" onClick={() => handleUpdateUser(results.pk_id_vere)}>
+              Editar
+            </Button>
+            {results.estado_vere === "activo" ? (
+              <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_vere)}>
+                Desactivar
+              </Button>
+            ) : (
+              <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_id_vere)}>
+                Activar
+              </Button>
+            )}
           </div>
         );
       default:

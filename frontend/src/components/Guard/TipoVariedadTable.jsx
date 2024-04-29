@@ -19,6 +19,7 @@ import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
 import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
+import { EditIcon } from "../../nextui/EditIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -111,28 +112,19 @@ export default function TipoVariedadTable({ registrar, data, results, actualizar
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="lg" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateUser(results.pk_id_tipo_vari)} >
-                  Editar
-                </DropdownItem>
-                {results.estado_tipo_vari === "activo" ? (
-                  <DropdownItem onClick={() => desactivar(results.pk_id_tipo_vari)} >
-                    Desactivar
-                  </DropdownItem>
-                ) : (
-                  <DropdownItem onClick={() => activar(results.pk_id_tipo_vari)} >
-                    Activar
-                  </DropdownItem>
-                )}
-              </DropdownMenu>
-            </Dropdown>
+          <div className="relative flex justify-center items-center gap-2">
+            <Button color="default" onClick={() => handleUpdateUser(results.pk_id_tipo_vari)}>
+              Editar
+            </Button>
+            {results.estado_tipo_vari === "activo" ? (
+              <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_tipo_vari)}>
+                Desactivar
+              </Button>
+            ) : (
+              <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_id_tipo_vari)}>
+                Activar
+              </Button>
+            )}
           </div>
         );
       default:
