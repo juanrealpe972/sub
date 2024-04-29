@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ModalDeInterrogacion from "./ModalInterroMolecule";
 import LinkButtonAtom from "../atoms/LinkButtonAtom";
-import ButtonAtomFull from "../atoms/ButtonAtomFull";
+import { Button } from "@nextui-org/react";
 
 function ModalLogoutMolecule() {
   const [mostrarAviso, setMostrarAviso] = useState(false);
@@ -14,10 +14,15 @@ function ModalLogoutMolecule() {
 
   return (
     <div className="bg-white rounded-xl flex flex-col justify-center items-center w-52 border border-grisOscuro shadow-md p-2 text-sm gap-y-2">
-      <LinkButtonAtom to={`/profile/${users.pk_cedula_user}`}>Perfil</LinkButtonAtom>
-      <ButtonAtomFull onClick={handleCerrarSesion} color="verdeSena1" colorHover="verdeSena2">
+      <LinkButtonAtom to={`/profile/${users.pk_cedula_user}`}>
+        Perfil
+      </LinkButtonAtom>
+      <Button
+        className="bg-red-600 text-white hover:bg-red-500 w-full rounded-lg flex justify-center items-center"
+        onClick={handleCerrarSesion}
+      >
         Cerrar sesión
-      </ButtonAtomFull>
+      </Button>
       {mostrarAviso && (
         <ModalDeInterrogacion onClose={() => setMostrarAviso(false)} />
       )}

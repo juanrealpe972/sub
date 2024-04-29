@@ -4,9 +4,9 @@ import FooterLinkAtom from "../atoms/FooterLinkAtom";
 import { icono } from "../atoms/IconsAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
 import FooterSectionMolecule from "../molecules/FooterSectionMolecule";
-import ButtonAtomFull from "../atoms/ButtonAtomFull";
 import toast from "react-hot-toast";
 import InputDudaWithIconAtom from "../atoms/InputDudaWithIconAtom";
+import { Button } from "@nextui-org/react";
 
 const FooterOrganism = () => {
   const [texto, setTexto] = useState("");
@@ -38,7 +38,9 @@ const FooterOrganism = () => {
           <div className="sm:col-span-1 md:col-span-1 lg:col-span-2">
             <FooterSectionMolecule title="Información">
               <FooterLinkAtom to="/somos">¿Quiénes somos?</FooterLinkAtom>
-              <FooterLinkAtom to="/privacy-policy">Políticas y privacidad</FooterLinkAtom>
+              <FooterLinkAtom to="/privacy-policy">
+                Políticas y privacidad
+              </FooterLinkAtom>
               <FooterLinkAtom to="/ayuda">¿Cómo funciona?</FooterLinkAtom>
             </FooterSectionMolecule>
           </div>
@@ -52,29 +54,39 @@ const FooterOrganism = () => {
                 icon={icono.iconoGmail}
                 id="text"
                 name="text"
+                placeholder="Su Email"
+                required
+                type="text"
+                value={texto}
+                onChange={(e) => setTexto(e.target.value)}
+              />
+              <InputDudaWithIconAtom
+                icon={icono.iconoGmail}
+                id="text"
+                name="text"
                 placeholder="Duda o sugerencia..."
                 required
                 type="text"
                 value={texto}
                 onChange={(e) => setTexto(e.target.value)}
               />
-              <ButtonAtomFull color="bg-gray-400" colorHover="bg-gray-500">
-                Enviar Duda
-              </ButtonAtomFull>
+              <Button className="bg-gray-400 text-white hover:bg-gray-500 w-full rounded-lg">
+                Enviar duda
+              </Button>
             </form>
           </div>
         </div>
       </div>
-        <div className="flex items-center justify-center py-3">
-          <div className="grow border-b border-gray-500"></div>
-          <span className="px-2 font-semibold text-lg text-gray-500">
-            Subcoffee
-          </span>
-          <div className="grow border-b border-gray-500"></div>
-        </div>
-        <p className="text-center text-sm font-medium text-gray-500 pb-3">
-          © Subcoffee, todos los derechos reservados
-        </p>
+      <div className="flex items-center justify-center py-3">
+        <div className="grow border-b border-gray-500"></div>
+        <span className="px-2 font-semibold text-lg text-gray-500">
+          Subcoffee
+        </span>
+        <div className="grow border-b border-gray-500"></div>
+      </div>
+      <p className="text-center text-sm font-medium text-gray-500 pb-3">
+        © Subcoffee, todos los derechos reservados
+      </p>
     </footer>
   );
 };

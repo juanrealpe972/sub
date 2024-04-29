@@ -1,6 +1,4 @@
 import React from "react";
-import ConfigButtonGroupMolecule from "../molecules/ConfigButtonGroupMolecule";
-import UserProfileConfigMolecule from "../molecules/UserProfileConfigMolecule";
 
 function NavbarConfiguration() {
   const user = [
@@ -15,13 +13,8 @@ function NavbarConfiguration() {
   ];
 
   return (
-    <div className="flex flex-col w-64 bg-blancoMedio p-4 shadow-md">
-      <UserProfileConfigMolecule
-        name={user.name}
-        email={user.email}
-        avatarSrc={user.img}
-      />
-      <ConfigButtonGroupMolecule buttons={buttons} />
+    <div>
+      holaa
     </div>
   );
 }
