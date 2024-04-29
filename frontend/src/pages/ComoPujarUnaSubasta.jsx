@@ -2,7 +2,7 @@ import React from 'react';
 
 function ComoPujarUnaSubasta() {
   return (
-    <div className='py-4'>
+    <div className='py-8'>
       <h2 className="text-2xl font-semibold mb-4">Cómo pujar en una subasta</h2>
       <p className="mb-4">
         Para pujar en una subasta en nuestra plataforma, sigue estos sencillos pasos:
@@ -23,8 +23,12 @@ function ComoPujarUnaSubasta() {
       <p className="mb-4">
         Dentro de la subasta, encontrarás la opción para realizar tus ofertas. Ingresa el monto que estás dispuesto a pagar por el lote de café y confirma tu oferta.
       </p>
-      <p>
+      <p className="mb-4">
         Recuerda que puedes realizar múltiples ofertas durante el período de la subasta, así que mantente atento a las actualizaciones y realiza tus pujas estratégicamente.
+      </p>
+      <h3 className="text-lg font-semibold mb-2">5. Chat después de la subasta</h3>
+      <p className="mb-4">
+        Una vez finalizada la subasta, se activará un chat entre el comprador ganador y el vendedor. En este chat, podrán comunicarse para acordar los detalles finales, como el método de pago, la entrega, etc.
       </p>
     </div>
   );

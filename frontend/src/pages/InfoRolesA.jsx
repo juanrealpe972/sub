@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 function InfoRolesA() {
     return (
-        <div className="py-4">
+        <div className="py-8">
             <h2 className="text-2xl font-semibold mb-4">Información de Roles</h2>
             <p className="mb-4">
                 Aquí tienes información sobre los roles disponibles en nuestra
                 plataforma:
             </p>
-            <div className="grid grid-cols-1 gap-y-4">
-                <div className="border rounded-lg p-4 bg-gray-100">
+            <div className="grid grid-cols-1 gap-y-8">
+                <div className="border rounded-lg p-4 bg-gray-200">
                     <h3 className="font-semibold">Rol: Administrador</h3>
                     <p>
                         El administrador tiene el control total sobre la plataforma. Sus
@@ -29,9 +29,12 @@ function InfoRolesA() {
                             Llevar un registro detallado de la actividad en la plataforma y
                             corregir información incorrecta si es necesario.
                         </li>
+                        <li>
+                            Administrar las políticas de uso y términos de servicio.
+                        </li>
                     </ul>
                 </div>
-                <div className="border rounded-lg p-4 bg-gray-100">
+                <div className="border rounded-lg p-4 bg-gray-200">
                     <h3 className="font-semibold">Rol: Vendedor</h3>
                     <p>
                         El vendedor es responsable de agregar productos a la subasta. Sus
@@ -46,9 +49,17 @@ function InfoRolesA() {
                             Crear y gestionar las subastas, utilizando la información
                             proporcionada anteriormente.
                         </li>
+                        <li>
+                            Gestionar la logística de entrega y envío de los productos
+                            subastados.
+                        </li>
+                        <li>
+                            Establecer precios y condiciones de venta para los productos
+                            ofertados.
+                        </li>
                     </ul>
                 </div>
-                <div className="border rounded-lg p-4 bg-gray-100">
+                <div className="border rounded-lg p-4 bg-gray-200">
                     <h3 className="font-semibold">Rol: Comprador</h3>
                     <p>
                         El comprador participa en las subastas realizando ofertas por los
@@ -64,6 +75,12 @@ function InfoRolesA() {
                             Al finalizar la subasta, utilizar el chat para comunicarse con
                             el vendedor y coordinar el método de pago.
                         </li>
+                        <li>
+                            Revisar el historial de subastas y ofertas realizadas.
+                        </li>
+                        <li>
+                            Acceder a información detallada sobre los productos y vendedores.
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -71,4 +88,4 @@ function InfoRolesA() {
     )
 }
 
-export default InfoRolesA
+export default InfoRolesA;
