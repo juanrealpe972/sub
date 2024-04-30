@@ -8,7 +8,6 @@ import Dashboard from "./pages/Dashboard";
 import ProfileUser from "./pages/ProfileUser";
 import ComoCrearUnaSubasta from "./pages/ComoCrearUnaSubasta";
 import ComoPujarUnaSubasta from "./pages/ComoPujarUnaSubasta";
-import Configuration from "./pages/Configuration";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import AyudaPage from "./pages/AyudaPage";
@@ -38,7 +37,6 @@ function App() {
                   <Route path="/profile/:id" element={<ProfileUser />} />
                   <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
                   <Route path="/ayudapujar" element={<ComoPujarUnaSubasta />} />
-                  <Route path="/configuration" element={<Configuration />} />
                   <Route path="/ayudaaa" element={<AyudaPage />} />
                   {users && users.rol_user === "admin" && (
                     <>

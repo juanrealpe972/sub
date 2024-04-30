@@ -29,7 +29,6 @@ const SidebarOrganims = () => {
       ? [{ title: "Usuarios", link: "/usuarios", icon: AiOutlineUser }]
       : []),
     { title: "Ayudaaa", link: "/ayudaaa", icon: icono.iconoAyuda, gap: true },
-    { title: "Configuración", link: "/configuration", icon: icono.iconoConfiguracion },
     {
       title: "Politicas privacidad",
       link: "/privacy-policy",
