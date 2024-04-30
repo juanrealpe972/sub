@@ -30,13 +30,14 @@ import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 
 function HeaderOrganism() {
   const [abrirModalLogin, setAbrirModalLogin] = useState(false);
-  const isAuthenticated = window.localStorage.getItem("token");
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const isAuthenticated = window.localStorage.getItem("token");
   const storedUser = localStorage.getItem("user");
   const users = storedUser ? JSON.parse(storedUser) : null;
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const navigate = useNavigate();
 
   const logoutt = () => {
@@ -61,10 +62,6 @@ function HeaderOrganism() {
 
   const toggleTheme = () => {
     setIsMoonSelected((prevValue) => !prevValue);
-  };
-
-  const goToProfile = () => {
-    navigate(`/profile/${users.pk_cedula_user}`); // Navega a la ruta del perfil al hacer clic en el elemento del menú desplegable
   };
 
   return (
@@ -106,7 +103,7 @@ function HeaderOrganism() {
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="User Actions" variant="flat">
-                  <DropdownItem key="profile" onClick={goToProfile} className="text-center bg-gray-400 hover:bg-gray-200 border text-white py-2">Perfil</DropdownItem>
+                  <DropdownItem key="profile" onClick={() => navigate(`/profile/${users.pk_cedula_user}`)} className="text-center bg-gray-400 hover:bg-gray-200 border text-white py-2">Perfil</DropdownItem>
                   <DropdownItem key="logout" onPress={onOpen} className="text-center bg-red-600 border text-white py-2"> Log Out </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -148,7 +145,7 @@ function HeaderOrganism() {
           )}
         </nav>
       ) : (
-        <nav className="flex justify-between items-center bg-gray-300 fixed w-full m-0 top-0 p-4 shadow-sm">
+        <nav className="flex justify-between items-center bg-gray-300 fixed w-full m-0 top-0 p-4 shadow-sm z-20">
           <div className="flex items-center">
             <AvatarAtom img="isotipo-SubCoffee.png" />
             <TextSubAtom to="/" color="gray-600" text="SubCoffee" />

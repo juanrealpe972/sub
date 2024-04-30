@@ -4,12 +4,22 @@ import InfoRolesA from "./InfoRolesA";
 import ComoPujarUnaSubasta from "./ComoPujarUnaSubasta";
 import { Button, ButtonGroup } from "@nextui-org/react";
 import FlechaArriba from "../nextui/FlechaArriba";
+import InputDudaWithIconAtom from "../components/atoms/InputDudaWithIconAtom";
+import toast from "react-hot-toast";
+import { icono } from "../components/atoms/IconsAtom";
 
 function AyudaPage() {
   const comoCrearRef = useRef(null);
   const comoPujarRef = useRef(null);
   const infoRolesRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [texto, setTexto] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast.success("Gracias por tu mensaje!");
+    setTexto("");
+  };
 
   const handleScroll = () => {
     setIsScrolled(window.scrollY > 0);
@@ -89,6 +99,28 @@ function AyudaPage() {
         </div>
         <div ref={infoRolesRef} data-section="infoRoles">
           <InfoRolesA />
+        </div>
+        <div>
+          <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
+            <p className="text-sm font-semibold text-gray-700 uppercase mb-2">
+              ¿Tienes alguna duda?
+            </p>
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
+              <InputDudaWithIconAtom
+                icon={icono.iconoGmail}
+                id="text"
+                name="text"
+                placeholder="Duda o sugerencia..."
+                required
+                type="text"
+                value={texto}
+                onChange={(e) => setTexto(e.target.value)}
+              />
+              <Button className="bg-gray-400 text-white hover:bg-gray-500 w-full rounded-lg">
+                Enviar duda
+              </Button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

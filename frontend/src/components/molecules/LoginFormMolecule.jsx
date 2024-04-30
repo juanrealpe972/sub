@@ -10,7 +10,7 @@ import { icono } from "../atoms/IconsAtom";
 import toast from "react-hot-toast";
 import AuthContext from "../../context/AuthContext";
 
-const LoginFormMolecule = () => {
+const LoginFormMolecule = ({ handleSubmit, actionLabel }) => {
   const navigation = useNavigate();
   const { setUsers } = useContext(AuthContext);
   const URL = "http://localhost:4000/auth/login";

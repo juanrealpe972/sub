@@ -64,9 +64,6 @@ function App() {
                 <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
                 <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
                 <Route path="/somos" element={<QuienesSomosA />} />
-                <Route path="/comosubastar" element={<ComoPujarUnaSubasta />} />
-                <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
-                <Route path="/ayudapujar" element={<ComoPujarUnaSubasta />} />
                 <Route path="/ayuda" element={<AyudaPage />} />
               </Route>
 

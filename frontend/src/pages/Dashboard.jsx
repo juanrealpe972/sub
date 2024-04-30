@@ -17,9 +17,9 @@ const Dashboard = () => {
       </div>
     </div>
   ) : (
-    <div className="flex-auto h-screen">
+    <div className="flex-auto h-auto">
       <HeaderOrganism />
-      <main>
+      <main className="grow mt-16">
         <Outlet />
       </main>
       <FooterOrganism />

@@ -45,7 +45,7 @@ function PoliticasYCondicionesPageA() {
             <p className="mb-4">Nos reservamos el derecho de actualizar esta política en cualquier momento. Le notificaremos sobre cambios significativos mediante un aviso en nuestro sitio web o por correo electrónico.</p>
 
             <h3 className="text-xl font-bold mb-2">Contacto</h3>
-            <p className="mb-4">Si tiene alguna pregunta sobre nuestra política de privacidad o desea acceder, corregir o eliminar su información personal, contáctenos a través de [correo electrónico] o nuestra dirección postal.</p>
+            <p className="mb-4">Si tiene alguna pregunta sobre nuestra política de privacidad o desea acceder, corregir o eliminar su información personal, contáctenos a través de [subcoffee@gmail.com] o nuestra dirección postal.</p>
 
             <p>Al utilizar nuestra plataforma, usted acepta esta política de privacidad. Le agradecemos por confiar en nosotros con su información personal y nos comprometemos a proteger su privacidad en todo momento.</p>
         </div>

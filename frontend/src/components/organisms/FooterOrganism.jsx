@@ -1,22 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import AvatarAtom from "../atoms/AvatarAtom";
 import FooterLinkAtom from "../atoms/FooterLinkAtom";
-import { icono } from "../atoms/IconsAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
-import FooterSectionMolecule from "../molecules/FooterSectionMolecule";
-import toast from "react-hot-toast";
-import InputDudaWithIconAtom from "../atoms/InputDudaWithIconAtom";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
+import GmailIcon from "../../nextui/GmailIcon";
+import YoutubeIcon from "../../nextui/YoutubeIcon";
 
 const FooterOrganism = () => {
-  const [texto, setTexto] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    toast.success("Gracias por tu mensaje!");
-    setTexto("");
-  };
-
   return (
     <footer className="py-8 pt-12 sm:pb-4 bg-gray-300">
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
@@ -36,44 +26,33 @@ const FooterOrganism = () => {
           </div>
 
           <div className="sm:col-span-1 md:col-span-1 lg:col-span-2">
-            <FooterSectionMolecule title="Información">
-              <FooterLinkAtom to="/somos">¿Quiénes somos?</FooterLinkAtom>
-              <FooterLinkAtom to="/privacy-policy">
-                Políticas y privacidad
-              </FooterLinkAtom>
+            <div className="flex flex-col items-center justify-center ml-8 md:ml-0">
+              <p className="text-lg font-semibold mb-4">Información</p>
+              <FooterLinkAtom to="/somos"> ¿Quiénes somos? </FooterLinkAtom>
+              <FooterLinkAtom to="/privacy-policy"> Políticas y privacidad </FooterLinkAtom>
               <FooterLinkAtom to="/ayuda">¿Cómo funciona?</FooterLinkAtom>
-            </FooterSectionMolecule>
+            </div>
           </div>
 
           <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
-            <p className="text-sm font-semibold text-gray-700 uppercase mb-2">
-              ¿Tienes alguna duda?
-            </p>
-            <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
-              <InputDudaWithIconAtom
-                icon={icono.iconoGmail}
-                id="text"
-                name="text"
-                placeholder="Su Email"
-                required
-                type="text"
-                value={texto}
-                onChange={(e) => setTexto(e.target.value)}
-              />
-              <InputDudaWithIconAtom
-                icon={icono.iconoGmail}
-                id="text"
-                name="text"
-                placeholder="Duda o sugerencia..."
-                required
-                type="text"
-                value={texto}
-                onChange={(e) => setTexto(e.target.value)}
-              />
-              <Button className="bg-gray-400 text-white hover:bg-gray-500 w-full rounded-lg">
-                Enviar duda
-              </Button>
-            </form>
+            <div className="flex flex-col items-center justify-center ">
+              <p className="text-lg font-semibold mb-4">Contáctenos</p>
+              <div className="flex gap-2">
+                <Button
+                  href="mailto:info@subcoffee.com"
+                  as={Link}
+                  className="bg-white"
+                  variant="solid"
+                  startContent={<GmailIcon />}
+                ></Button>
+                <Button
+                  href="https://www.youtube.com/channel/your-channel"
+                  as={Link}
+                  className="bg-white"
+                  startContent={<YoutubeIcon />}
+                ></Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
