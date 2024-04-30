@@ -31,7 +31,6 @@ import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 function HeaderOrganism() {
   const [abrirModalLogin, setAbrirModalLogin] = useState(false);
   const isAuthenticated = window.localStorage.getItem("token");
-  const [abrirCerrarSesion, setAbrirCerrarSesion] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
@@ -48,13 +47,11 @@ function HeaderOrganism() {
 
   const toggleAbrirBell = () => {
     setAbrirBell(!abrirBell);
-    setAbrirCerrarSesion(false);
     setAbrirBuscador(false);
   };
 
   const toggleAbrirModalBuscador = () => {
     setAbrirBuscador(!abrirBuscador);
-    setAbrirCerrarSesion(false);
     setAbrirBell(false);
   };
 
@@ -154,8 +151,7 @@ function HeaderOrganism() {
         <nav className="flex justify-between items-center bg-gray-300 fixed w-full m-0 top-0 p-4 shadow-sm">
           <div className="flex items-center">
             <AvatarAtom img="isotipo-SubCoffee.png" />
-            <TextSubAtom to="/" color="cafeClaroLogo" text="Sub" />
-            <TextSubAtom to="/" color="cafeOscuroLogo" text="Coffee" />
+            <TextSubAtom to="/" color="gray-600" text="SubCoffee" />
           </div>
           <div className="flex items-center gap-x-3">
             <div className="cursor-pointer">

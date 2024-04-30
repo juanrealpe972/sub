@@ -26,21 +26,18 @@ const LoginFormMolecule = () => {
       password: passwordRef.current.value,
     };
 
-    await axios
-      .post(URL, data)
-      .then((res) => {
-        if (res.status === 200) {
-          const { token, user } = res.data;
-          localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(user))
-          navigation("/subcoffee");
-          setUsers(user)
-          toast.success("Usuario validado con éxito", { duration: 5000 });
-        } else if (res.status === 401) {
-          toast.error("Usuario no registrado");
-        }
-      })
-      .catch((error) => console.log(error));
+    await axios.post(URL, data).then((res) => {
+      if (res.status === 200) {
+        toast.success(res.data.message, { duration: 5000 });
+        const { token, user } = res.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user))
+        navigation("/subcoffee");
+        setUsers(user)
+      } else if (res.status === 401) {
+        toast.error("Usuario no registrado");
+      }
+    }).catch((error) => console.log(error));
   };
 
   return (
