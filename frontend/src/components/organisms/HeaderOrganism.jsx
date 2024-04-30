@@ -1,18 +1,32 @@
 import React, { useState } from "react";
+import {
+  Modal,
+  User,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownTrigger,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { icono } from "../atoms/IconsAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
 import AvatarAtom from "../atoms/AvatarAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
 import SearchBarMolecule from "../molecules/SearchBarMolecule";
-import ModalCerrarSesion from "../molecules/ModalLogoutMolecule";
 import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
 import IconHeaderAtom from "../atoms/IconHeaderAtom";
 import ButtonCerrarModalAtom from "../atoms/ButtonCerrarModalAtom";
 import AbrirModalTemplate from "../templates/AbrirModalTemplate";
 import LoginPageOrganism from "./LoginPageOrganism";
 import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
-import { User } from "@nextui-org/react";
 
 function HeaderOrganism() {
   const [abrirModalLogin, setAbrirModalLogin] = useState(false);
@@ -23,11 +37,13 @@ function HeaderOrganism() {
   const [isMoonSelected, setIsMoonSelected] = useState(false);
   const storedUser = localStorage.getItem("user");
   const users = storedUser ? JSON.parse(storedUser) : null;
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const navigate = useNavigate();
 
-  const toggleCerrarSesionModal = () => {
-    setAbrirCerrarSesion(!abrirCerrarSesion);
-    setAbrirBell(false);
-    setAbrirBuscador(false);
+  const logoutt = () => {
+    localStorage.clear();
+    navigate("/");
+    toast.success("Cierre de sesión exitoso");
   };
 
   const toggleAbrirBell = () => {
@@ -48,6 +64,10 @@ function HeaderOrganism() {
 
   const toggleTheme = () => {
     setIsMoonSelected((prevValue) => !prevValue);
+  };
+
+  const goToProfile = () => {
+    navigate(`/profile/${users.pk_cedula_user}`); // Navega a la ruta del perfil al hacer clic en el elemento del menú desplegable
   };
 
   return (
@@ -77,30 +97,44 @@ function HeaderOrganism() {
                 className="text-blanco cursor-pointer"
               />
             )}
-            {users && (
-              <button
-                className="flex flex-col items-center h-8 -mt-3"
-                onClick={toggleCerrarSesionModal}
-              >
-                <User
-                  name={`${users.nombre_user}`}
-                  description={`${users.rol_user}`}
-                  avatarProps={{
-                    src: `./img/${
-                      users.imagen_user ? users.imagen_user : "usernotfound.png"
-                    }`
-                  }}
-                />
-              </button>
-            )}
-          </div>
-          {abrirCerrarSesion && (
-            <div className="absolute top-16 right-2 flex justify-center items-center z-20">
-              <div className="bg-blanco rounded-xl">
-                <ModalCerrarSesion onClose={toggleCerrarSesionModal} />
-              </div>
+            <div className="flex items-center gap-4">
+              <Dropdown placement="bottom-end">
+                <DropdownTrigger>
+                  <User
+                    as="button"
+                    avatarProps={{ src: `./img/${ users.imagen_user ? users.imagen_user : "usernotfound.png" }` }}
+                    className="transition-transform"
+                    description={`${users.rol_user}`}
+                    name={`${users.nombre_user}`}
+                  />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="User Actions" variant="flat">
+                  <DropdownItem key="profile" onClick={goToProfile} className="text-center bg-gray-400 hover:bg-gray-200 border text-white py-2">Perfil</DropdownItem>
+                  <DropdownItem key="logout" onPress={onOpen} className="text-center bg-red-600 border text-white py-2"> Log Out </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </div>
-          )}
+          </div>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              <ModalHeader className="flex justify-center">
+                <icono.iconoInterrogation className="text-red-600 w-32 h-32" />
+              </ModalHeader>
+              <ModalBody>
+                <p className="text-black font-semibold text-center">
+                  ¿Estás seguro de cerrar sesión?
+                </p>
+              </ModalBody>
+              <ModalFooter className="flex justify-center mb-4">
+                <Button
+                  className="bg-red-600 text-white hover:bg-red-500 w-40 rounded-lg"
+                  onClick={logoutt}
+                >
+                  Cerrar sesión
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
           {abrirBell && (
             <div className="absolute top-16 right-32 flex justify-center items-center">
               <div className="bg-blanco rounded-xl w-80">
