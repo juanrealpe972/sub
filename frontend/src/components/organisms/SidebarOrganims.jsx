@@ -20,7 +20,7 @@ const SidebarOrganims = () => {
           { title: "Geografía", link: "/geografia", icon: icono.iconoWorl },
         ]
       : []),
-    ...(users && users.rol_user === "vendedor"
+    ...(users && users.rol_user === "vendedor" || users && users.rol_user === "admin"
       ? [
           { title: "Mis subastas", link: "/mi_subasta", icon: icono.iconoType },
         ]

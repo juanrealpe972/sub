@@ -21,7 +21,7 @@ const RegisterMunicipioMolecule = ({
   useEffect(() => {
     const fetchDepartamentos = async () => {
       try {
-        const response = await axiosClient.get("/v1/departamentos");
+        const response = await axiosClient.get("/v1/departamentosactivos");
         setDepartamentos(response.data);
       } catch (error) {
         console.error("Error fetching departamentos:", error);

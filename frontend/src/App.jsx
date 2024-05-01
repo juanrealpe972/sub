@@ -46,7 +46,7 @@ function App() {
                       <Route path="/tipo_variedad" element={<TipoVariedadT />} />
                     </>
                   )}
-                  {users && users.rol_user === "vendedor" && (
+                  {users && users.rol_user === "vendedor" || users.rol_user === "admin" && (
                     <>
                       <Route path="/mi_subasta" element={<MiSubastaT />} />
                     </>

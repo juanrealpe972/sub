@@ -79,7 +79,7 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
         }}
         onChange={handleDepartamentoChange}
       >
-        {departamentos.map((departamento) => (
+        {departamentos.filter((departamento) => departamento.estado_depar === "activo").map((departamento) => (
           <SelectItem
             key={departamento.pk_codigo_depar}
             value={departamento.pk_codigo_depar}
