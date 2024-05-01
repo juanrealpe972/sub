@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Modal,
   User,
@@ -23,22 +23,41 @@ import ButtonAtom from "../atoms/ButtonAtom";
 import SearchBarMolecule from "../molecules/SearchBarMolecule";
 import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
 import IconHeaderAtom from "../atoms/IconHeaderAtom";
-import ButtonCerrarModalAtom from "../atoms/ButtonCerrarModalAtom";
 import AbrirModalTemplate from "../templates/AbrirModalTemplate";
-import LoginPageOrganism from "./LoginPageOrganism";
 import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
+import axios from "axios";
+import AuthContext from "../../context/AuthContext";
+import FormLoginOrganims from "./FormLoginOrganims";
 
 function HeaderOrganism() {
-  const [abrirModalLogin, setAbrirModalLogin] = useState(false);
   const [abrirBell, setAbrirBell] = useState(false);
   const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const isAuthenticated = window.localStorage.getItem("token");
   const storedUser = localStorage.getItem("user");
   const users = storedUser ? JSON.parse(storedUser) : null;
   const navigate = useNavigate();
+  const { setUsers } = useContext(AuthContext);
+  const URL = "http://localhost:4000/auth/login";
+
+  const login = async (data, e) => {
+    e.preventDefault();
+    await axios.post(URL, data).then((res) => {
+      if (res.status === 200) {
+        toast.success(res.data.message, { duration: 5000 });
+        const { token, user } = res.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/subcoffee");
+        setUsers(user);
+      } else if (res.status === 401) {
+        toast.error("Usuario no registrado");
+      }
+    }).catch((error) => console.log(error));
+  };
 
   const logoutt = () => {
     localStorage.clear();
@@ -56,12 +75,12 @@ function HeaderOrganism() {
     setAbrirBell(false);
   };
 
-  const toggleAbrirModalLogin = () => {
-    setAbrirModalLogin(!abrirModalLogin);
-  };
-
   const toggleTheme = () => {
     setIsMoonSelected((prevValue) => !prevValue);
+  };
+
+  const handleToggle = () => {
+    setModalOpen(true);
   };
 
   return (
@@ -96,15 +115,27 @@ function HeaderOrganism() {
                 <DropdownTrigger>
                   <User
                     as="button"
-                    avatarProps={{ src: `./img/${ users.imagen_user ? users.imagen_user : "usernotfound.png" }` }}
+                    avatarProps={{ src: `./img/${ users.imagen_user ? users.imagen_user : "usernotfound.png" }`, }}
                     className="transition-transform"
                     description={`${users.rol_user}`}
                     name={`${users.nombre_user}`}
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="User Actions" variant="flat">
-                  <DropdownItem key="profile" onClick={() => navigate(`/profile/${users.pk_cedula_user}`)} className="text-center bg-gray-400 hover:bg-gray-200 border text-white py-2">Perfil</DropdownItem>
-                  <DropdownItem key="logout" onPress={onOpen} className="text-center bg-red-600 border text-white py-2"> Log Out </DropdownItem>
+                  <DropdownItem
+                    key="profile"
+                    onClick={() => navigate(`/profile/${users.pk_cedula_user}`)}
+                    className="text-center bg-gray-400 hover:bg-gray-200 border text-white py-2"
+                  >
+                    Perfil
+                  </DropdownItem>
+                  <DropdownItem
+                    key="logout"
+                    onPress={onOpen}
+                    className="text-center bg-red-600 border text-white py-2"
+                  >
+                    Cerrar sesión
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -145,33 +176,34 @@ function HeaderOrganism() {
           )}
         </nav>
       ) : (
-        <nav className="flex justify-between items-center bg-gray-300 fixed w-full m-0 top-0 p-4 shadow-sm z-20">
-          <div className="flex items-center">
-            <AvatarAtom img="isotipo-SubCoffee.png" />
-            <TextSubAtom to="/" color="gray-600" text="SubCoffee" />
-          </div>
-          <div className="flex items-center gap-x-3">
-            <div className="cursor-pointer">
-              {isMoonSelected ? (
-                <icono.iconoLuna
-                  onClick={toggleTheme}
-                  className="text-blanco"
-                />
-              ) : (
-                <icono.iconoSol onClick={toggleTheme} className="text-blanco" />
-              )}
+        <>
+          <nav className="flex justify-between items-center bg-gray-300 fixed w-full m-0 top-0 p-4 shadow-sm z-20">
+            <div className="flex items-center">
+              <AvatarAtom img="isotipo-SubCoffee.png" />
+              <TextSubAtom to="/" color="gray-600" text="SubCoffee" />
             </div>
-            <ButtonAtom onClick={() => setAbrirModalLogin(true)}>
-              Iniciar sesión
-            </ButtonAtom>
-          </div>
-        </nav>
-      )}
-      {abrirModalLogin && (
-        <AbrirModalTemplate>
-          <LoginPageOrganism />
-          <ButtonCerrarModalAtom onClose={toggleAbrirModalLogin} />
-        </AbrirModalTemplate>
+            <div className="flex items-center gap-x-3">
+              <div className="cursor-pointer">
+                {isMoonSelected ? (
+                  <icono.iconoLuna
+                    onClick={toggleTheme}
+                    className="text-blanco"
+                  />
+                ) : (
+                  <icono.iconoSol onClick={toggleTheme} className="text-blanco" />
+                )}
+              </div>
+              <ButtonAtom onClick={() => handleToggle(true)}>
+                Iniciar sesión
+              </ButtonAtom>
+            </div>
+          </nav>
+          <FormLoginOrganims
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            handleSubmit={login}
+          />
+      </>
       )}
     </>
   );
