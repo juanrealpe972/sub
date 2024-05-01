@@ -30,7 +30,6 @@ export function DepartamentoT() {
     try {
       const response = await axiosClient.put( `/v1/departamentosdes/${pk_codigo_depar}` );
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Departamento desactivado con éxito! Ahora este no podrá ser utilizado por los usuarios.");
         setModalMessage(true);
         fetchDepartamentoList(); // Actualizar la lista de departamentos después de desactivar
@@ -44,7 +43,6 @@ export function DepartamentoT() {
     try {
       const response = await axiosClient.put( `/v1/departamentosac/${pk_codigo_depar}` );
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Departamento activado con éxito! Ahora este listo para ser utilizado por los usuarios.");
         setModalMessage(true);
         fetchDepartamentoList(); // Actualizar la lista de departamentos después de activar

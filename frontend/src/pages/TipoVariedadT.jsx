@@ -31,7 +31,6 @@ export function TipoVariedadT() {
       axiosClient.put(`/v1/tipo_varides/${pk_id_tipo_vari}`, null).then((response) => {
           console.log(response.data);
           if (response.status === 200) {
-            toast.success(response.data.message);
             setMensaje("¡Tipo de variedad desactivado con éxito! Ahora este no podrá ser utilizado por los usuarios.");
             setModalMessage(true);
             fetchVariedadList();
@@ -46,7 +45,6 @@ export function TipoVariedadT() {
     try {
       const response = await axiosClient.put(`/v1/tipo_variac/${pk_id_tipo_vari}`);
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Tipo de variedad activado con éxito! Ahora está listo para ser utilizado por los usuarios.");
         setModalMessage(true);
         fetchVariedadList();

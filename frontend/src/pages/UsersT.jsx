@@ -32,7 +32,6 @@ export function UsersT() {
       if (response.status === 200) {
         setMensaje("¡Usuario desactivado con éxito! Ahora este no podrá iniciar sesión.");
         setModalMessage(true);
-        toast.success(response.data.message);
         fetchUserList(); // Actualizar la lista de usuarios después de desactivar
       }
     } catch (error) {
@@ -46,7 +45,6 @@ export function UsersT() {
       if (response.status === 200) {
         setMensaje("¡Usuario activado con éxito! Ahora está listo para iniciar sesión.");
         setModalMessage(true);
-        toast.success(response.data.message);
         fetchUserList(); // Actualizar la lista de usuarios después de activar
       }
     } catch (error) {

@@ -30,7 +30,6 @@ export function VeredaT() {
     try {
       const response = await axiosClient.put(`/v1/veredasdes/${pk_id_vere}`);
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Vereda desactivada con éxito! Ahora esta no podrá ser utilizada por los usuarios.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de desactivar
@@ -44,7 +43,6 @@ export function VeredaT() {
     try {
       const response = await axiosClient.put(`/v1/veredasac/${pk_id_vere}`);
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Vereda activada con éxito! Ahora está lista para ser utilizada por los usuarios.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de activar

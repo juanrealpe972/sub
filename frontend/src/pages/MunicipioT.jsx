@@ -30,7 +30,6 @@ export function MunicipioT() {
     try {
       const response = await axiosClient.put( `/v1/municipiosdes/${pk_codigo_muni}` );
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Municipio desactivado con éxito! Ahora este no podrá ser utilizado los usuarios.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de desactivar
@@ -44,7 +43,6 @@ export function MunicipioT() {
     try {
       const response = await axiosClient.put( `/v1/municipiosac/${pk_codigo_muni}` );
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Municipio activado con éxito! Ahora está listo para ser utilizado por los usuarios.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de activar

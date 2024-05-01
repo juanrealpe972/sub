@@ -32,7 +32,6 @@ export default function VariedadT() {
     try {
       const response = await axiosClient.put(`/v1/variedaddes/${pk_id_vari}`);
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Variedad desactivada con éxito! Ahora no podrá ser utilizada para crear una subasta. Y si ya tienes registrada una subasta con esta variedad, esta se desactivará automáticamente.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de desactivar
@@ -46,7 +45,6 @@ export default function VariedadT() {
     try {
       const response = await axiosClient.put(`/v1/variedadac/${pk_id_vari}`);
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Variedad activada con éxito! Ahora está lista para ser utilizada.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de activar

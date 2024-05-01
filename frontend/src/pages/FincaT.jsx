@@ -32,7 +32,6 @@ export default function FincaT() {
     try {
       const response = await axiosClient.put(`/v1/fincades/${pk_id_vari}`);
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Finca desactivada con éxito! Ahora no se podrá utilizar para crear variedades de café ni subastar. Si ya has registrado una variedad o subasta con esta finca, se desactivarán automáticamente.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de desactivar
@@ -46,7 +45,6 @@ export default function FincaT() {
     try {
       const response = await axiosClient.put(`/v1/fincaac/${pk_id_vari}`);
       if (response.status === 200) {
-        toast.success(response.data.message);
         setMensaje("¡Variedad activada con éxito! Ahora está lista para ser utilizada.");
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de activar
