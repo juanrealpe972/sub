@@ -100,7 +100,7 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
         }}
         onChange={(e) => setMunicipiosRef(e.target.value)}
       >
-        {municipios.map((municipio) => (
+        {municipios.filter((municipio) => municipio.estado_muni === "activo").map((municipio) => (
           <SelectItem
             key={municipio.pk_codigo_muni}
             value={municipio.pk_codigo_muni}

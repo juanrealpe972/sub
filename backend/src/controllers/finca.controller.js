@@ -37,9 +37,11 @@ export const getFinca = async (req, res) => {
     const id = req.params.id;
     let sql = 
     `
-      SELECT f.*, v.* 
+      SELECT f.*, v.*, m.*, d.*
       FROM finca f
       INNER JOIN veredas v ON f.fk_vereda = v.pk_id_vere
+      INNER JOIN municipio m ON v.fk_municipio = m.pk_codigo_muni
+      INNER JOIN departamento d ON m.fk_departamento = d.pk_codigo_depar
       WHERE f.fk_id_usuario = '${id}';
     `;
     const [result] = await pool.query(sql);

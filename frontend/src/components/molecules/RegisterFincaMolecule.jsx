@@ -52,7 +52,7 @@ const RegisterFincaMolecule = ({
 
   const fetchVeredas = async (veredas) => {
     try {
-      const response = await axiosClient.get(`/v1/veredasdep/${veredas}`)
+      const response = await axiosClient.get(`/v1/veredasmun/${veredas}`)
       setVeredas(response.data)
     } catch (error) {
       console.error("Error fetching veredas:", error);

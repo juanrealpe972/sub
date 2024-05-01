@@ -66,10 +66,6 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
       );
     }
 
-    filteredResults = filteredResults.filter((result) =>
-      result.estado_vere === "activo"
-    );
-
     return filteredResults;
   }, [results, filterValue, statusFilter]);
 
@@ -113,6 +109,20 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize">{cellValue}</p>
             <p className="text-bold text-sm capitalize text-default-400">{results.fk_vereda}</p>
+          </div>
+        );
+      case "nombre_muni":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize">{cellValue}</p>
+            <p className="text-bold text-sm capitalize text-default-400">{results.fk_municipio}</p>
+          </div>
+        );
+      case "nombre_depar":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize">{cellValue}</p>
+            <p className="text-bold text-sm capitalize text-default-400">{results.fk_departamento}</p>
           </div>
         );
       case "estado_fin":

@@ -63,6 +63,8 @@ export default function FincaT() {
     { uid: "descripcion_fin", name: "Descripción Finca", sortable: true },
     { uid: "estado_fin", name: "Estado Finca", sortable: true },
     { uid: "nombre_vere", name: "Vereda", sortable: true },
+    { uid: "nombre_muni", name: "Municipio", sortable: true },
+    { uid: "nombre_depar", name: "Departamento", sortable: true },
     { uid: "actions", name: "Acciones", sortable: false },
   ];
 
@@ -95,7 +97,7 @@ export default function FincaT() {
   };
 
   return (
-    <div className="w-full flex bg-gray-100 flex-col items-center px-10">
+    <div className="w-full flex bg-gray-100 flex-col items-center">
       <ModalMessage
         isOpen={modalMessage}
         onClose={() => setModalMessage(false)}
