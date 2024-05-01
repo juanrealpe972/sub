@@ -65,9 +65,6 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
         Array.from(statusFilter).includes(results.estado_vari)
       );
     }
-    filteredResults = filteredResults.filter((result) =>
-    result.estado_vari === "activo" && result.estado_fin === "activo"
-  );
 
     return filteredResults;
   }, [results, filterValue, statusFilter]);
