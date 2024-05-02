@@ -1,27 +1,17 @@
-import React from "react";
+import React from 'react';
 
-function DateIconn() {
+function DateIcon() {
   return (
     <div>
-      <svg
-        width="30px"
-        height="30px"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M20 10V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V10M20 10V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V10M20 10H4M8 3V7M16 3V7"
-          stroke="#000000"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-        <rect x="6" y="12" width="3" height="3" rx="0.5" fill="#000000" />
-        <rect x="10.5" y="12" width="3" height="3" rx="0.5" fill="#000000" />
-        <rect x="15" y="12" width="3" height="3" rx="0.5" fill="#000000" />
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24,29H8a5,5,0,0,1-5-5V10A5,5,0,0,1,8,5H24a5,5,0,0,1,5,5V24A5,5,0,0,1,24,29ZM8,7a3,3,0,0,0-3,3V24a3,3,0,0,0,3,3H24a3,3,0,0,0,3-3V10a3,3,0,0,0-3-3Z"/>
+        <path d="M24,25H20a1,1,0,0,1-1-1V20a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v4A1,1,0,0,1,24,25Zm-3-2h2V21H21Z"/>
+        <path d="M28,13H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"/>
+        <path d="M11,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,11,9Z"/>
+        <path d="M21,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,21,9Z"/>
       </svg>
     </div>
   );
 }
 
-export default DateIconn;
+export default DateIcon;

@@ -7,6 +7,7 @@ import Phone from "../nextui/Phone";
 import DateIconn from "../nextui/DateIconn";
 import UserRol from "../nextui/UserRol";
 import Gmail from "../nextui/Gmail";
+import toast from "react-hot-toast";
 
 function ProfileUser() {
   const { id } = useParams();
@@ -19,6 +20,7 @@ function ProfileUser() {
       setUser(res.data.data[0]);
     })
     .catch((err) => {
+      toast.error("Error al traer los datos del usuario" + error)
       console.error(err);
     });
   }, [id]);
@@ -26,6 +28,8 @@ function ProfileUser() {
   useEffect(() => {
     if (user.rol_user === "comprador") {
       setActiveTab("ganadas");
+    } else {
+      setActiveTab("creadas")
     }
   }, [user.rol_user]);
 
@@ -64,14 +68,14 @@ function ProfileUser() {
                 ? `../../public/${user.imagen_user}`
                 : "../../public/imagen_de_usuario.webp"
             }
-            className="w-44 h-44"
+            className="w-56 h-56"
           />
           <div className="flex flex-col">
             <span className="text-2xl font-semibold my-4">
               {user.nombre_user}
             </span>
             <span className="text-sm text-gray-600 flex items-center">
-              <Phone />
+              {/* <Phone /> */}
               <div>
                 <p className="text-sm text-gray-900">{user.telefono_user}</p>
                 <p className="text-xs text-gray-500">Teléfono</p>
@@ -80,7 +84,7 @@ function ProfileUser() {
             <span className="text-sm text-gray-600 flex items-center">
               {/* <DateIconn /> */}
               <div>
-                <p>{user.fecha_nacimiento_user}</p>
+                <p className="text-sm text-gray-900">{new Date(user.fecha_nacimiento_user).toLocaleDateString()}</p>
                 <p className="text-xs text-gray-500">Fecha de Nacimiento</p>
               </div>
             </span>
@@ -112,7 +116,7 @@ function ProfileUser() {
         {user.rol_user !== "comprador" && (
           <button
             className={`text-lg font-semibold mr-4 focus:outline-none ${
-              activeTab === "creadas" ? "text-blue-600" : "text-gray-500"
+              activeTab === "creadas" ? "text-blue-600 border-b border-blue-600 mb-3 transition delay-150 duration-500 ease-in-out" : "text-gray-600"
             }`}
             onClick={() => setActiveTab("creadas")}
           >
@@ -121,7 +125,7 @@ function ProfileUser() {
         )}
         <button
           className={`text-lg font-semibold focus:outline-none ${
-            activeTab === "ganadas" ? "text-blue-600" : "text-gray-500"
+            activeTab === "ganadas" ? "text-blue-600 border-b border-blue-600 mb-3 transition delay-150 duration-500 ease-in-out" : "text-gray-600"
           }`}
           onClick={() => setActiveTab("ganadas")}
         >
