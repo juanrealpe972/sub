@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../api/axios";
 import { icono } from "../components/atoms/IconsAtom";
-import IconHeaderAtom from "../components/atoms/IconHeaderAtom";
 
 function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -49,9 +48,7 @@ function UsersPage() {
     <div className="max-w-72 mx-auto p-4">
       <div className="flex items-center justify-between mb-3">
         <h1 className="text-xl font-bold">Usuarios</h1>
-        <IconHeaderAtom>
           <icono.iconoBuscar className="h-5 w-5 text-negro" />
-        </IconHeaderAtom>
       </div>
       <UsersListOrganism users={users} />
     </div>

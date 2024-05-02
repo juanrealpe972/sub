@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Modal,
   User,
@@ -12,22 +12,24 @@ import {
   DropdownItem,
   DropdownTrigger,
   useDisclosure,
+  Autocomplete,
+  AutocompleteItem,
+  Avatar,
 } from "@nextui-org/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { icono } from "../atoms/IconsAtom";
 import TextSubAtom from "../atoms/TextSubAtom";
 import AvatarAtom from "../atoms/AvatarAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
-import SearchBarMolecule from "../molecules/SearchBarMolecule";
 import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
-import IconHeaderAtom from "../atoms/IconHeaderAtom";
-import AbrirModalTemplate from "../templates/AbrirModalTemplate";
+import { SearchIcon } from "../../nextui/SearchIcon";
 import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import FormLoginOrganims from "./FormLoginOrganims";
+import axiosClient from "../../api/axios";
 
 function HeaderOrganism() {
   const [abrirBell, setAbrirBell] = useState(false);
@@ -35,6 +37,7 @@ function HeaderOrganism() {
   const [isMoonSelected, setIsMoonSelected] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [userslist, setUserslist] = useState([]);
 
   const isAuthenticated = window.localStorage.getItem("token");
   const storedUser = localStorage.getItem("user");
@@ -45,18 +48,21 @@ function HeaderOrganism() {
 
   const login = async (data, e) => {
     e.preventDefault();
-    await axios.post(URL, data).then((res) => {
-      if (res.status === 200) {
-        toast.success(res.data.message, { duration: 5000 });
-        const { token, user } = res.data;
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        navigate("/subcoffee");
-        setUsers(user);
-      } else if (res.status === 401) {
-        toast.error("Usuario no registrado");
-      }
-    }).catch((error) => console.log(error));
+    await axios
+      .post(URL, data)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data.message, { duration: 5000 });
+          const { token, user } = res.data;
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user));
+          navigate("/subcoffee");
+          setUsers(user);
+        } else if (res.status === 401) {
+          toast.error("Usuario no registrado");
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   const logoutt = () => {
@@ -83,6 +89,19 @@ function HeaderOrganism() {
     setModalOpen(true);
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const fetchUser = async () => {
+    try {
+      const response = await axiosClient.get("/v1/users");
+      setUserslist(response.data.data);
+    } catch (error) {
+      toast.error("Error al listar a los usuarios" + error);
+    }
+  };
+
   return (
     <>
       {isAuthenticated ? (
@@ -94,11 +113,87 @@ function HeaderOrganism() {
               text="Bienvenido"
             />
           </div>
-          <SearchBarMolecule onClick={() => setAbrirBuscador(true)} />
+          <div>
+            <Autocomplete
+              classNames={{
+                base: "w-96",
+                listboxWrapper: "max-h-[320px]",
+                selectorButton: "text-default-500",
+              }}
+              defaultItems={userslist}
+              inputProps={{
+                classNames: {
+                  input: "ml-1",
+                  inputWrapper: "h-[48px]",
+                },
+              }}
+              listboxProps={{
+                hideSelectedIcon: true,
+                itemClasses: {
+                  base: [
+                    "rounded-medium",
+                    "text-default-500",
+                    "transition-opacity",
+                    "data-[hover=true]:text-foreground",
+                    "dark:data-[hover=true]:bg-default-50",
+                    "data-[pressed=true]:opacity-70",
+                    "data-[hover=true]:bg-default-200",
+                    "data-[selectable=true]:focus:bg-default-100",
+                    "data-[focus-visible=true]:ring-default-500",
+                  ],
+                },
+              }}
+              aria-label="Select an employee"
+              placeholder="Buscar usuario, subasta..."
+              popoverProps={{
+                offset: 10,
+                classNames: {
+                  base: "rounded-large",
+                  content: "p-1 border-small border-default-100 bg-background",
+                },
+              }}
+              startContent={
+                <SearchIcon
+                  className="text-default-400"
+                  strokeWidth={2.5}
+                  size={20}
+                />
+              }
+              radius="full"
+              variant="bordered"
+            >
+              {(user) => (
+                <AutocompleteItem
+                  key={user.pk_cedula_user}
+                  textValue={user.nombre_user}
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2 items-center">
+                      <Avatar
+                        alt={user.nombre_user}
+                        className="flex-shrink-0"
+                        size="sm"
+                        src={user.avatar}
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-small">{user.nombre_user}</span>
+                        <span className="text-tiny text-default-400">
+                          {user.email_user}
+                        </span>
+                      </div>
+                    </div>
+                    <Link
+                      key={user.pk_cedula_user}
+                      to={`/profile/${user.pk_cedula_user}`}
+                    >
+                      Visitar
+                    </Link>
+                  </div>
+                </AutocompleteItem>
+              )}
+            </Autocomplete>
+          </div>
           <div className="flex gap-x-3 items-center">
-            <IconHeaderAtom onClick={toggleAbrirBell}>
-              <icono.iconoCampana className="h-5 w-5" />
-            </IconHeaderAtom>
             {isMoonSelected ? (
               <icono.iconoLuna
                 onClick={toggleTheme}
@@ -115,7 +210,13 @@ function HeaderOrganism() {
                 <DropdownTrigger>
                   <User
                     as="button"
-                    avatarProps={{ src: `./img/${ users.imagen_user ? users.imagen_user : "usernotfound.png" }`, }}
+                    avatarProps={{
+                      src: `./img/${
+                        users.imagen_user
+                          ? users.imagen_user
+                          : "usernotfound.png"
+                      }`,
+                    }}
                     className="transition-transform"
                     description={`${users.rol_user}`}
                     name={`${users.nombre_user}`}
@@ -190,7 +291,10 @@ function HeaderOrganism() {
                     className="text-blanco"
                   />
                 ) : (
-                  <icono.iconoSol onClick={toggleTheme} className="text-blanco" />
+                  <icono.iconoSol
+                    onClick={toggleTheme}
+                    className="text-blanco"
+                  />
                 )}
               </div>
               <ButtonAtom onClick={() => handleToggle(true)}>
@@ -203,7 +307,7 @@ function HeaderOrganism() {
             onClose={() => setModalOpen(false)}
             handleSubmit={login}
           />
-      </>
+        </>
       )}
     </>
   );
