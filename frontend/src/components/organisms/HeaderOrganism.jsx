@@ -25,7 +25,6 @@ import AvatarAtom from "../atoms/AvatarAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
 import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
 import { SearchIcon } from "../../nextui/SearchIcon";
-import ModalBuscarMolecule from "../molecules/ModalBuscarMolecule";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import FormLoginOrganims from "./FormLoginOrganims";
@@ -33,15 +32,14 @@ import axiosClient from "../../api/axios";
 
 function HeaderOrganism() {
   const [abrirBell, setAbrirBell] = useState(false);
-  const [abrirBuscador, setAbrirBuscador] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [userslist, setUserslist] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const isAuthenticated = window.localStorage.getItem("token");
-  const storedUser = localStorage.getItem("user");
-  const users = storedUser ? JSON.parse(storedUser) : null;
+  const users = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const { setUsers } = useContext(AuthContext);
   const URL = "http://localhost:4000/auth/login";
@@ -65,6 +63,11 @@ function HeaderOrganism() {
       .catch((error) => console.log(error));
   };
 
+  const handleSearch = async (value) => {
+    // Lógica de búsqueda...
+    setSearchValue(""); // Restablece el valor del input
+  };
+
   const logoutt = () => {
     localStorage.clear();
     navigate("/");
@@ -73,24 +76,16 @@ function HeaderOrganism() {
 
   const toggleAbrirBell = () => {
     setAbrirBell(!abrirBell);
-    setAbrirBuscador(false);
-  };
-
-  const toggleAbrirModalBuscador = () => {
-    setAbrirBuscador(!abrirBuscador);
-    setAbrirBell(false);
   };
 
   const toggleTheme = () => {
     setIsMoonSelected((prevValue) => !prevValue);
   };
 
-  const handleToggle = () => {
-    setModalOpen(true);
-  };
-
   useEffect(() => {
-    fetchUser();
+    if (users) {
+      fetchUser();
+    }
   }, []);
 
   const fetchUser = async () => {
@@ -120,6 +115,8 @@ function HeaderOrganism() {
                 listboxWrapper: "max-h-[320px]",
                 selectorButton: "text-default-500",
               }}
+              value={searchValue} // Asigna el estado local al valor del input
+              onChange={(value) => handleSearch(value)} // Función para manejar cambios en el input
               defaultItems={userslist}
               inputProps={{
                 classNames: {
@@ -173,7 +170,11 @@ function HeaderOrganism() {
                         alt={user.nombre_user}
                         className="flex-shrink-0"
                         size="sm"
-                        src={user.avatar}
+                        src={
+                          user.imagen_user && user.imagen_user.length > 0
+                            ? `../../public/${user.imagen_user}`
+                            : "../../public/imagen_de_usuario.webp"
+                        }
                       />
                       <div className="flex flex-col">
                         <span className="text-small">{user.nombre_user}</span>
@@ -183,6 +184,7 @@ function HeaderOrganism() {
                       </div>
                     </div>
                     <Link
+                      className="border-small mr-0.5 font-medium shadow-small p-1 rounded-xl"
                       key={user.pk_cedula_user}
                       to={`/profile/${user.pk_cedula_user}`}
                     >
@@ -211,11 +213,11 @@ function HeaderOrganism() {
                   <User
                     as="button"
                     avatarProps={{
-                      src: `./img/${
-                        users.imagen_user
-                          ? users.imagen_user
-                          : "usernotfound.png"
-                      }`,
+                      src: `${
+                        users.imagen_user && users.imagen_user.length > 0
+                          ? `../../public/${users.imagen_user}`
+                          : "../../public/imagen_de_usuario.webp"
+                      }`
                     }}
                     className="transition-transform"
                     description={`${users.rol_user}`}
@@ -268,13 +270,6 @@ function HeaderOrganism() {
               </div>
             </div>
           )}
-          {abrirBuscador && (
-            <div className="absolute top-16 left-[585px] flex justify-center items-center">
-              <div className="bg-blanco rounded-xl w-[300px]">
-                <ModalBuscarMolecule onClose={toggleAbrirModalBuscador} />
-              </div>
-            </div>
-          )}
         </nav>
       ) : (
         <>
@@ -297,7 +292,7 @@ function HeaderOrganism() {
                   />
                 )}
               </div>
-              <ButtonAtom onClick={() => handleToggle(true)}>
+              <ButtonAtom onClick={() => setModalOpen(true)}>
                 Iniciar sesión
               </ButtonAtom>
             </div>

@@ -6,13 +6,10 @@ import { NextUIProvider } from "@nextui-org/react";
 import SubastaPage from "./pages/SubastaPage";
 import Dashboard from "./pages/Dashboard";
 import ProfileUser from "./pages/ProfileUser";
-import ComoCrearUnaSubasta from "./pages/ComoCrearUnaSubasta";
-import ComoPujarUnaSubasta from "./pages/ComoPujarUnaSubasta";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import AyudaPage from "./pages/AyudaPage";
 import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
-import UsersPage from "./pages/UsersPage";
 import GeografiaFullPage from "./pages/GeografiaFullPage";
 import UsersT from "./pages/UsersT";
 import { DepartamentoT } from "./pages/DepartamentoT";
@@ -22,8 +19,9 @@ import QuienesSomosA from "./pages/QuienesSomosA";
 import PoliticasYCondicionesPageA from "./pages/PoliticasYCondicionesPageA";
 
 function App() {
-  const storedUser = localStorage.getItem("user");
-  const users = storedUser ? JSON.parse(storedUser) : null;
+
+  const users = JSON.parse(localStorage.getItem("user"));
+
   return (
     <>
       <NextUIProvider>
@@ -35,8 +33,6 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                   <Route path="/subcoffee" element={<SubastaPage />} />
                   <Route path="/profile/:id" element={<ProfileUser />} />
-                  <Route path="/ayudaCrear" element={<ComoCrearUnaSubasta />} />
-                  <Route path="/ayudapujar" element={<ComoPujarUnaSubasta />} />
                   <Route path="/ayudaaa" element={<AyudaPage />} />
                   {users && users.rol_user === "admin" && (
                     <>
@@ -46,14 +42,9 @@ function App() {
                       <Route path="/tipo_variedad" element={<TipoVariedadT />} />
                     </>
                   )}
-                  {users && users.rol_user === "vendedor" || users.rol_user === "admin" && (
+                  {users && users.rol_user !== "comprador" && (
                     <>
                       <Route path="/mi_subasta" element={<MiSubastaT />} />
-                    </>
-                  )}
-                  {users && users.rol_user === "comprador" && (
-                    <>
-                      <Route path="/usuarios" element={<UsersPage />} />
                     </>
                   )}
                 </Route>
@@ -61,7 +52,6 @@ function App() {
 
               <Route element={<Dashboard />}>
                 <Route index element={<DashboardContentOrganims />} />
-                <Route path="/comopujar" element={<ComoCrearUnaSubasta />} />
                 <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
                 <Route path="/somos" element={<QuienesSomosA />} />
                 <Route path="/ayuda" element={<AyudaPage />} />

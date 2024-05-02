@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { RiSettings4Line } from "react-icons/ri";
-import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { icono } from "../atoms/IconsAtom";
 
-const storedUser = localStorage.getItem("user");
-const users = storedUser ? JSON.parse(storedUser) : null;
+const users = JSON.parse(localStorage.getItem("user"));
 
 const SidebarOrganims = () => {
   const [open, setOpen] = useState(true);
@@ -24,9 +21,6 @@ const SidebarOrganims = () => {
       ? [
           { title: "Mis subastas", link: "/mi_subasta", icon: icono.iconoType },
         ]
-      : []),
-    ...(users && users.rol_user === "comprador"
-      ? [{ title: "Usuarios", link: "/usuarios", icon: AiOutlineUser }]
       : []),
     { title: "Ayudaaa", link: "/ayudaaa", icon: icono.iconoAyuda, gap: true },
     {
@@ -64,8 +58,8 @@ const SidebarOrganims = () => {
               className={`text-gray-300 origin-left ml-2 font-medium text-xl duration-200 overflow-hidden whitespace-nowrap ${
                 !open && "scale-0"
               }`}
-              style={{ maxWidth: "calc(100% - 4rem)" }} // Establecer un ancho máximo para evitar que el título se desborde
-              title="Subcoffee" // Agregar un título para mostrar el texto completo al pasar el mouse
+              style={{ maxWidth: "calc(100% - 4rem)" }} 
+              title="Subcoffee"
             >
               Subcoffee
             </h1>
@@ -84,8 +78,8 @@ const SidebarOrganims = () => {
                 <span
                   className={`${!open && "hidden"}
                          origin-left duration-200 overflow-hidden whitespace-nowrap`}
-                  style={{ maxWidth: "calc(100% - 3rem)" }} // Establecer un ancho máximo para evitar que el título se desborde
-                  title={Menu.title} // Agregar un título para mostrar el texto completo al pasar el mouse
+                  style={{ maxWidth: "calc(100% - 3rem)" }} 
+                  title={Menu.title}
                 >
                   {Menu.title}
                 </span>
