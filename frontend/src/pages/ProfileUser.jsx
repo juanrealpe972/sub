@@ -66,7 +66,7 @@ function ProfileUser() {
             src={
               user.imagen_user && user.imagen_user.length > 0
                 ? `../../public/${user.imagen_user}`
-                : "../../public/imagen_de_usuario.webp"
+                : "../../imagen_de_usuario.webp"
             }
             className="w-56 h-56"
           />

@@ -173,7 +173,7 @@ function HeaderOrganism() {
                         src={
                           user.imagen_user && user.imagen_user.length > 0
                             ? `../../public/${user.imagen_user}`
-                            : "../../public/imagen_de_usuario.webp"
+                            : "../../imagen_de_usuario.webp"
                         }
                       />
                       <div className="flex flex-col">
@@ -216,7 +216,7 @@ function HeaderOrganism() {
                       src: `${
                         users.imagen_user && users.imagen_user.length > 0
                           ? `../../public/${users.imagen_user}`
-                          : "../../public/imagen_de_usuario.webp"
+                          : "../../imagen_de_usuario.webp"
                       }`
                     }}
                     className="transition-transform"

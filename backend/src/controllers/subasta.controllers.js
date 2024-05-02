@@ -31,10 +31,8 @@ export const registrar = async (req, res) => {
       fecha_inicio_sub,
       fecha_fin_sub,
       precio_inicial_sub,
-      precio_final_sub,
       unidad_peso_sub,
       cantidad_sub,
-      estado_sub,
       descripcion_sub,
       fk_variedad,
     } = req.body;
@@ -49,16 +47,15 @@ export const registrar = async (req, res) => {
         : null;
 
     const [resultado] = await pool.query(
-      "INSERT INTO subasta (fecha_inicio_sub, fecha_fin_sub, imagen_sub, precio_inicial_sub, precio_final_sub, unidad_peso_sub, cantidad_sub, estado_sub, certificado_sub, descripcion_sub, fk_variedad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO subasta (fecha_inicio_sub, fecha_fin_sub, imagen_sub, precio_inicial_sub, unidad_peso_sub, cantidad_sub, estado_sub, certificado_sub, descripcion_sub, fk_variedad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         fecha_inicio_sub,
         fecha_fin_sub,
         imagen_sub,
         precio_inicial_sub,
-        precio_final_sub,
         unidad_peso_sub,
         cantidad_sub,
-        estado_sub,
+        "abierta",
         certificado_sub,
         descripcion_sub,
         fk_variedad,
