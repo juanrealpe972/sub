@@ -12,7 +12,6 @@ import AyudaPage from "./pages/AyudaPage";
 import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
 import GeografiaFullPage from "./pages/GeografiaFullPage";
 import UsersT from "./pages/UsersT";
-import { DepartamentoT } from "./pages/DepartamentoT";
 import MiSubastaT from "./pages/MiSubastaT";
 import TipoVariedadT from "./pages/TipoVariedadT"
 import QuienesSomosA from "./pages/QuienesSomosA";
@@ -38,7 +37,6 @@ function App() {
                     <>
                       <Route path="/users" element={<UsersT />} />
                       <Route path="/geografia" element={<GeografiaFullPage />} />
-                      <Route path="/departamentos" element={<DepartamentoT/>} />
                       <Route path="/tipo_variedad" element={<TipoVariedadT />} />
                     </>
                   )}

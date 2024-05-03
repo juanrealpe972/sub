@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import ButtonAtom from "../atoms/ButtonAtom";
@@ -6,11 +6,10 @@ import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import { icono } from "../atoms/IconsAtom";
 import TextTareaAtom from "../atoms/TextTareaAtom";
 import TitleForModal from "../atoms/TitleForModal";
-// import { DateRangePicker } from "@nextui-org/react";
-import { parseZonedDateTime } from "@internationalized/date";
+import { Button, Select, SelectItem } from "@nextui-org/react";
+import { SelectorIcon } from "../../nextui/SelectorIcon"
 
 const RegisterSubastaMolecule = ({ mode, initialData, handleSubmit, actionLabel }) => {
-
     const fechaInicialRef = useRef(null);
     const fechaFinalRef = useRef(null);
     const cantidadRef = useRef(null);
@@ -19,6 +18,7 @@ const RegisterSubastaMolecule = ({ mode, initialData, handleSubmit, actionLabel 
     const certificadoRef = useRef(null);
     const tipoVariedadRef = useRef(null);
     const descripcionRef = useRef(null);
+    const [unidadPeso, setUnidadPeso] = useState("Libra");
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -29,17 +29,26 @@ const RegisterSubastaMolecule = ({ mode, initialData, handleSubmit, actionLabel 
             formData.append("fecha_inicio_sub", fechaInicialRef.current.value);
             formData.append("fecha_fin_sub", fechaFinalRef.current.value);
             formData.append("precio_inicial_sub", precioInicialRef.current.value);
-            formData.append("unidad_peso_sub", precioInicialRef.current.value);
+            formData.append("unidad_peso_sub", unidadPeso);
             formData.append("cantidad_sub", cantidadRef.current.value);
             formData.append("imagen_sub", imagenRef.current.files[0]);
             formData.append("certificado_sub", certificadoRef.current.files[0]);
             formData.append("descripcion_sub", descripcionRef.current.value);
             formData.append("fk_variedad", tipoVariedadRef.current.value);
 
+            // Enviar formData al handleSubmit
+            handleSubmit(formData);
         } catch (error) {
             toast.error("Error en el sistema: " + error.message);
         }
     };
+
+    const unidadesPeso = [
+        { value: "Libra", label: "Libra" },
+        { value: "Gramo", label: "Gramo" },
+        { value: "Kilogramo", label: "Kilogramo" },
+        { value: "Tonelada", label: "Tonelada" },
+    ];
 
     return (
         <form onSubmit={onSubmit} className="space-y-4 p-4">
@@ -62,18 +71,32 @@ const RegisterSubastaMolecule = ({ mode, initialData, handleSubmit, actionLabel 
                     ref={fechaFinalRef}
                 />
             </div>
-            {/* <div className="w-full max-w-xl flex flex-row gap-4">
-                <DateRangePicker
-                    label="Event duration"
-                    hideTimeZone
-                    visibleMonths={2}
-                    defaultValue={{
-                        start: parseZonedDateTime("2024-04-01T00:45[America/Los_Angeles]"),
-                        end: parseZonedDateTime("2024-04-08T11:15[America/Los_Angeles]"),
-                    }}
+            <div className="grid grid-cols-2 ">
+                <InputWithIconAtom
+                    icon={icono.iconoPrice}
+                    placeholder="Precio Inicial"
+                    required
+                    type="number"
+                    ref={precioInicialRef}
                 />
-            </div> */}
-            <div className="grid grid-cols-2 gap-x-2">
+                <Select
+                    label=" "
+                    className="max-w-xs h-8"
+                    radius="sm"
+                    variant="bordered"
+                    labelPlacement="outside-left"
+                    placeholder="Unidad de peso"
+                    disableSelectorIconRotation
+                    selectorIcon={<SelectorIcon />}
+                >
+                    {unidadesPeso.map((unidad) => (
+                        <SelectItem key={unidad.value} value={unidad.value}>
+                            {unidad.label}
+                        </SelectItem>
+                    ))}
+                </Select>
+            </div>
+            <div className="grid grid-cols-2">
                 <InputWithIconAtom
                     icon={icono.iconoQuantity}
                     placeholder="Cantidad"
@@ -82,21 +105,21 @@ const RegisterSubastaMolecule = ({ mode, initialData, handleSubmit, actionLabel 
                     ref={cantidadRef}
                 />
                 <InputWithIconAtom
-                    icon={icono.iconoPrice}
-                    placeholder="Precio Inicial"
+                    icon={icono.iconoPush}
+                    placeholder="Imagen del producto"
                     required
-                    type="number"
-                    ref={precioInicialRef}
+                    type="file"
+                    ref={imagenRef}
                 />
             </div>
-            <InputWithIconAtom
-                icon={icono.iconoPush}
-                placeholder="Imagen del producto"
-                required
-                type="file"
-                ref={imagenRef}
-            />
             <div className="grid grid-cols-2">
+                <InputWithIconAtom
+                    icon={icono.iconoPush}
+                    placeholder="Imagen del producto"
+                    required
+                    type="file"
+                    ref={imagenRef}
+                />
                 <InputWithIconAtom
                     icon={icono.iconoType}
                     placeholder="Tipo de variedad"
@@ -111,7 +134,9 @@ const RegisterSubastaMolecule = ({ mode, initialData, handleSubmit, actionLabel 
                 ref={descripcionRef}
             />
             <center>
-                <ButtonAtom type="submit">Crear subasta</ButtonAtom>
+                <Button type="submit" color="primary">
+                    {actionLabel}
+                </Button>
             </center>
         </form>
     );
