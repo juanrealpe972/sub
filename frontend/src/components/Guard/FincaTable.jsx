@@ -42,8 +42,8 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
   };
 
   const statusOptions = [
-    { name: "Inactivo", uid: "activo" },
-    { name: "Activo", uid: "inactivo" },
+    { name: "Inactivo", uid: "inactivo" },
+    { name: "Activo", uid: "activo" },
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -224,7 +224,7 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={registrar} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={registrar} >
               Registrar Finca
             </Button>
           </div>
@@ -249,6 +249,7 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
     );
   }, [
     filterValue,
+    statusFilter,
     onRowsPerPageChange,
     onSearchChange,
     onClear,

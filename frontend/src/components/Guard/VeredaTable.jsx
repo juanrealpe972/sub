@@ -42,8 +42,8 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
   };
 
   const statusOptions = [
-    { name: "Inactivo", uid: "activo" },
-    { name: "Activo", uid: "inactivo" },
+    { name: "Inactivo", uid: "inactivo" },
+    { name: "Activo", uid: "activo" },
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -124,9 +124,9 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
               Editar
             </Button>
             {results.estado_vere === "activo" ? (
-              <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_vere)}>
+              <Button className="bg-red-500 text-white" startContent={a} onClick={() => desactivar(results.pk_id_vere)}>
                 Desactivar
-              </Button>
+              </Button> 
             ) : (
               <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_id_vere)}>
                 Activar
@@ -210,7 +210,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={registrar} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={registrar} >
               Registrar
             </Button>
           </div>
@@ -235,6 +235,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
     );
   }, [
     filterValue,
+    statusFilter,
     onRowsPerPageChange,
     onSearchChange,
     onClear,

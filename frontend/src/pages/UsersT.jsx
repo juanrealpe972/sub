@@ -53,8 +53,8 @@ export function UsersT() {
   };
 
   const contenido = [
-    { uid: "pk_cedula_user", name: "Cedula", sortable: true },
     { uid: "nombre_user", name: "Usuario", sortable: true },
+    { uid: "pk_cedula_user", name: "Cedula", sortable: true },
     { uid: "descripcion_user", name: "Descripción", sortable: true },
     { uid: "telefono_user", name: "Telefono", sortable: true },
     { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },

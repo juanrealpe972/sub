@@ -19,13 +19,16 @@ import {
 import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
+import { EditIcon } from "../../nextui/EditIcon.jsx";
+import ActivarIcon from "../../nextui/ActivarIcon.jsx";
+import DesactivarIcon from "../../nextui/DesactivarIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-export default function UsersTable({ registrarUser, data, results, actualizarUser, desactivarUser, activarUser}) {
+export default function UsersTable({ registrarUser, data, results, actualizarUser, desactivarUser, activarUser }) {
   const [filterValue, setFilterValue] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -41,8 +44,8 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
   };
 
   const statusOptions = [
-    { name: "Inactivo", uid: "activo" },
-    { name: "Activo", uid: "inactivo" },
+    { name: "Inactivo", uid: "inactivo" },
+    { name: "Activo", uid: "activo" },
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -52,17 +55,17 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
 
     if (hasSearchFilter) {
       filteredResults = filteredResults.filter((results) =>
-          String(results.pk_cedula_user).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.fecha_nacimiento_user).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.nombre_user).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.rol_user).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.telefono_user).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.email_user).toLowerCase().includes(filterValue.toLowerCase()) ||
-          String(results.estado_user).toLowerCase().includes(filterValue.toLowerCase())
+        String(results.pk_cedula_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.fecha_nacimiento_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.nombre_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.rol_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.telefono_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.email_user).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(results.estado_user).toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
-    if ( statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
+    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
       filteredResults = filteredResults.filter((results) =>
         Array.from(statusFilter).includes(results.estado_user)
       );
@@ -127,19 +130,19 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-          <Button color="default" onClick={() => handleUpdateUser(results.pk_cedula_user)}>
-            Editar
-          </Button>
-          {results.estado_user === "activo" ? (
-            <Button className="bg-red-500 text-white" onClick={() => desactivarUser(results.pk_cedula_user)}>
-              Desactivar
+            <Button color="default" startContent={<EditIcon />} onClick={() => handleUpdateUser(results.pk_cedula_user)}>
+              Editar
             </Button>
-          ) : (
-            <Button className="bg-green-500 text-white" onClick={() => activarUser(results.pk_cedula_user)}>
-              Activar
-            </Button>
-          )}
-        </div>
+            {results.estado_user === "activo" ? (
+              <Button className="bg-red-500 text-white" startContent={<DesactivarIcon />} onClick={() => desactivarUser(results.pk_cedula_user)}>
+                Desactivar
+              </Button>
+            ) : (
+              <Button className="bg-green-500 text-white px-[27px]" startContent={<ActivarIcon />} onClick={() => activarUser(results.pk_cedula_user)}>
+                Activar
+              </Button>
+            )}
+          </div>
         );
       default:
         return cellValue;
@@ -217,7 +220,7 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={registrarUser} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={registrarUser} >
               Registrar
             </Button>
           </div>
@@ -242,6 +245,7 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
     );
   }, [
     filterValue,
+    statusFilter,
     onRowsPerPageChange,
     onSearchChange,
     onClear,

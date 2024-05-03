@@ -42,8 +42,8 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
   };
 
   const statusOptions = [
-    { name: "Inactivo", uid: "activo" },
-    { name: "Activo", uid: "inactivo" },
+    { name: "Inactivo", uid: "inactivo" },
+    { name: "Activo", uid: "activo" },
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -210,7 +210,7 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={registrar} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={registrar} >
               Registrar Variedad
             </Button>
           </div>
@@ -235,6 +235,7 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
     );
   }, [
     filterValue,
+    statusFilter,
     onRowsPerPageChange,
     onSearchChange,
     onClear,

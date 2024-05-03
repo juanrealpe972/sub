@@ -42,8 +42,8 @@ export default function MunicipioTable({ registrar, data, results, actualizar, d
   };
 
   const statusOptions = [
-    { name: "Inactivo", uid: "activo" },
-    { name: "Activo", uid: "inactivo" },
+    { name: "Inactivo", uid: "inactivo" },
+    { name: "Activo", uid: "activo" },
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -211,7 +211,7 @@ export default function MunicipioTable({ registrar, data, results, actualizar, d
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={registrar} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={registrar} >
               Registrar
             </Button>
           </div>
@@ -236,6 +236,7 @@ export default function MunicipioTable({ registrar, data, results, actualizar, d
     );
   }, [
     filterValue,
+    statusFilter,
     onRowsPerPageChange,
     onSearchChange,
     onClear,
