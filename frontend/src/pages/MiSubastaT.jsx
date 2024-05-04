@@ -47,7 +47,7 @@ export default function MiSubastaT() {
               key="photos"
               title={
                 <div className="flex items-center space-x-2">
-                  {/* <FincaIcon /> */}
+                  <FincaIcon />
                   <span>Fincas</span>
                   <Chip size="sm" variant="faded">
                     9
@@ -65,7 +65,7 @@ export default function MiSubastaT() {
               key="music"
               title={
                 <div className="flex items-center space-x-2">
-                  {/* <VariedadIcon /> */}
+                  <VariedadIcon />
                   <span>Variedades</span>
                   <Chip size="sm" variant="faded">
                     3
@@ -87,7 +87,7 @@ export default function MiSubastaT() {
               key="videos"
               title={
                 <div className="flex items-center space-x-2">
-                  {/* <SubastaIcon /> */}
+                  <SubastaIcon />
                   <span>Subastas</span>
                   <Chip size="sm" variant="faded">
                     1
