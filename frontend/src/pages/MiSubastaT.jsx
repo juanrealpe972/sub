@@ -9,14 +9,24 @@ import FincaIcon from "../nextui/FincaIcon";
 
 export default function MiSubastaT() {
   return (
-    <div className="w-full flex bg-gray-100 flex-col items-center">
+    <div className="w-full flex bg-gray-100 flex-col items-center px-8">
       <div className="pb-2">
         <div className="flex justify-center pt-8 pb-2">
-          <img src="./cafe.png" alt="Cafe_imagen" className="rounded-s-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto" />
-          <img src="./carrofinca.png" alt="Finca_imagen" className="rounded-e-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto" />
+          <img
+            src="./cafe.png"
+            alt="Cafe_imagen"
+            className="rounded-s-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto"
+          />
+          <img
+            src="./carrofinca.png"
+            alt="Finca_imagen"
+            className="rounded-e-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto"
+          />
         </div>
         <p className="text-center mt-3 text-black">
-          Para crear una subasta primero debes crear una finca. Luego, agregas las variedades que tienes en tu finca y ya por fin puedes agregar una subasta 
+          Para crear una subasta primero debes crear una finca. Luego, agregas
+          las variedades que tienes en tu finca y ya por fin puedes agregar una
+          subasta
         </p>
       </div>
       <div className="flex flex-col justify-center gap-y-4">
@@ -66,7 +76,8 @@ export default function MiSubastaT() {
               <Card>
                 <CardBody>
                   <p className="text-center">
-                    Registra todas las maravillosas variedades de café que tienes en tu finca
+                    Registra todas las maravillosas variedades de café que
+                    tienes en tu finca
                   </p>
                   <VariedadT />
                 </CardBody>
