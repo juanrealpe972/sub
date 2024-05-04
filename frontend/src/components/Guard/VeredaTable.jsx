@@ -20,6 +20,8 @@ import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
 import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
 import { EditIcon } from "../../nextui/EditIcon.jsx";
+import DesactivarIcon from "../../nextui/DesactivarIcon.jsx";
+import ActivarIcon from "../../nextui/ActivarIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -120,15 +122,15 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-            <Button color="default" onClick={() => handleUpdateUser(results.pk_id_vere)}>
+            <Button color="default" startContent={<EditIcon />} onClick={() => handleUpdateUser(results.pk_id_vere)}>
               Editar
             </Button>
             {results.estado_vere === "activo" ? (
-              <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_vere)}>
+              <Button className="bg-red-600 text-white" startContent={<DesactivarIcon />} onClick={() => desactivar(results.pk_id_vere)}>
                 Desactivar
               </Button> 
             ) : (
-              <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_id_vere)}>
+              <Button className="bg-green-600 text-white px-[27px]" startContent={<ActivarIcon />} onClick={() => activar(results.pk_id_vere)}>
                 Activar
               </Button>
             )}
@@ -176,7 +178,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
 
   const topContent = useMemo(() => {
     return (
-      <div className="flex flex-col gap-4 px-10 pt-10">
+      <div className="flex flex-col gap-4 pt-8">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -244,7 +246,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
 
   const bottomContent = useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center m-4">
+      <div className="flex justify-between items-center py-4">
         <Pagination
           isCompact
           showControls

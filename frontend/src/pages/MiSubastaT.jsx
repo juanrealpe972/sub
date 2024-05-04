@@ -5,7 +5,7 @@ import SubastaT from "./SubastaT";
 
 export default function MiSubastaT() {
   return (
-    <div className="w-full flex bg-gray-100 flex-col items-center px-10 pb-12">
+    <div className="w-full flex bg-gray-100 flex-col items-center px-4 ">
       <div className="pb-2">
         <div className="flex justify-center pt-8 pb-2">
           <img src="./cafe.png" alt="Cafe_imagen" className="rounded-s-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto" />

@@ -19,6 +19,8 @@ import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
 import { EditIcon } from "../../nextui/EditIcon";
+import ActivarIcon from "../../nextui/ActivarIcon.jsx";
+import DesactivarIcon from "../../nextui/DesactivarIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -112,15 +114,15 @@ export default function DepartamentoTable({ registrar, data, results, actualizar
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-              <Button color="default" onClick={() => handleUpdateUser(results.pk_codigo_depar)}>
+              <Button color="default" startContent={<EditIcon />} onClick={() => handleUpdateUser(results.pk_codigo_depar)}>
                 Editar
               </Button>
               {results.estado_depar === "activo" ? (
-                <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_codigo_depar)}>
+                <Button className="bg-red-600 text-white" startContent={<DesactivarIcon />} onClick={() => desactivar(results.pk_codigo_depar)}>
                   Desactivar
                 </Button>
               ) : (              
-                <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_codigo_depar)}>
+                <Button className="bg-green-600 text-white px-[27px]" startContent={<ActivarIcon />} onClick={() => activar(results.pk_codigo_depar)}>
                   Activar
                 </Button>
               )}
@@ -168,7 +170,7 @@ export default function DepartamentoTable({ registrar, data, results, actualizar
 
   const topContent = useMemo(() => {
     return (
-      <div className="flex flex-col gap-4 px-10 pt-10">
+      <div className="flex flex-col gap-4 pt-8">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -236,7 +238,7 @@ export default function DepartamentoTable({ registrar, data, results, actualizar
 
   const bottomContent = useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center m-4">
+      <div className="flex justify-between items-center py-4">
         <Pagination
           isCompact
           showControls

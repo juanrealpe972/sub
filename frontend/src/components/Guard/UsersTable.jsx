@@ -134,11 +134,11 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
               Editar
             </Button>
             {results.estado_user === "activo" ? (
-              <Button className="bg-red-500 text-white" startContent={<DesactivarIcon />} onClick={() => desactivarUser(results.pk_cedula_user)}>
+              <Button className="bg-red-600 text-white" startContent={<DesactivarIcon />} onClick={() => desactivarUser(results.pk_cedula_user)}>
                 Desactivar
               </Button>
             ) : (
-              <Button className="bg-green-500 text-white px-[27px]" startContent={<ActivarIcon />} onClick={() => activarUser(results.pk_cedula_user)}>
+              <Button className="bg-green-600 text-white px-[27px]" startContent={<ActivarIcon />} onClick={() => activarUser(results.pk_cedula_user)}>
                 Activar
               </Button>
             )}

@@ -20,6 +20,8 @@ import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
 import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
 import { EditIcon } from "../../nextui/EditIcon.jsx";
+import DesactivarIcon from "../../nextui/DesactivarIcon.jsx";
+import ActivarIcon from "../../nextui/ActivarIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -120,15 +122,15 @@ export default function VariedadUserTable({ registrar, data, results, actualizar
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-          <Button color="default" onClick={() => handleUpdateUser(results.pk_id_vari)}>
+          <Button color="default" startContent={<EditIcon />} onClick={() => handleUpdateUser(results.pk_id_vari)}>
             Editar
           </Button>
           {results.estado_vari === "activo" ? (
-            <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_vari)}>
+            <Button className="bg-red-600 text-white" startContent={<DesactivarIcon />} onClick={() => desactivar(results.pk_id_vari)}>
               Desactivar
             </Button>
           ) : (
-            <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_id_vari)}>
+            <Button className="bg-green-600 text-white px-[27px]" startContent={<ActivarIcon />} onClick={() => activar(results.pk_id_vari)}>
               Activar
             </Button>
           )}

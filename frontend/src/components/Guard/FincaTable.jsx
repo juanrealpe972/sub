@@ -18,8 +18,9 @@ import {
 import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon.jsx";
 import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
-import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon.jsx";
 import { EditIcon } from "../../nextui/EditIcon.jsx";
+import DesactivarIcon from "../../nextui/DesactivarIcon.jsx";
+import ActivarIcon from "../../nextui/ActivarIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -134,15 +135,15 @@ export default function FincaTable({ registrar, data, results, actualizar, desac
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-            <Button color="default"  onClick={() => handleUpdateUser(results.pk_id_fin)}>
+            <Button color="default" startContent={<EditIcon />} onClick={() => handleUpdateUser(results.pk_id_fin)}>
               Editar
             </Button>
             {results.estado_fin === "activo" ? (
-              <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_fin)}>
+              <Button className="bg-red-600 text-white" startContent={<DesactivarIcon />} onClick={() => desactivar(results.pk_id_fin)}>
                 Desactivar
               </Button>
             ) : (
-              <Button className="bg-green-500 text-white" onClick={() => activar(results.pk_id_fin)}>
+              <Button className="bg-green-600 text-white px-[27px]" startContent={<ActivarIcon />} onClick={() => activar(results.pk_id_fin)}>
                 Activar
               </Button>
             )}

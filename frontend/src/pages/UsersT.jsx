@@ -92,7 +92,7 @@ export function UsersT() {
   };
 
   return (
-    <div className="w-full h-auto bg-gray-100 flex flex-col items-center px-4">
+    <div className="w-full h-auto bg-gray-100 flex flex-col items-center px-2">
       <ModalMessage
         isOpen={modalMessage}
         onClose={() => setModalMessage(false)}
