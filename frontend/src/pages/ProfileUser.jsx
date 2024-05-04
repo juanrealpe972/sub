@@ -3,11 +3,12 @@ import { Avatar, Button } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
 import axiosClient from "../api/axios";
 
-import Phone from "../nextui/Phone";
-import DateIconn from "../nextui/DateIconn";
 import UserRol from "../nextui/UserRol";
-import Gmail from "../nextui/Gmail";
+import GmailIcon from "../nextui/GmailIcon";
 import toast from "react-hot-toast";
+import DateIcon from "../nextui/DateIcon";
+import Phone from "../nextui/Phone";
+import DescriptionIcon from "../nextui/DescriptionIcon";
 
 function ProfileUser() {
   const { id } = useParams();
@@ -16,20 +17,22 @@ function ProfileUser() {
   const localUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    axiosClient.get(`/v1/users/${id}`).then((res) => {
-      setUser(res.data.data[0]);
-    })
-    .catch((err) => {
-      toast.error("Error al traer los datos del usuario" + error)
-      console.error(err);
-    });
+    axiosClient
+      .get(`/v1/users/${id}`)
+      .then((res) => {
+        setUser(res.data.data[0]);
+      })
+      .catch((err) => {
+        toast.error("Error al traer los datos del usuario" + error);
+        console.error(err);
+      });
   }, [id]);
 
   useEffect(() => {
     if (user.rol_user === "comprador") {
       setActiveTab("ganadas");
     } else {
-      setActiveTab("creadas")
+      setActiveTab("creadas");
     }
   }, [user.rol_user]);
 
@@ -59,64 +62,73 @@ function ProfileUser() {
   );
 
   return (
-    <div className="px-28 mb-9">
+    <div className="px-28 mb-9 bg-gray-100">
       <div className="flex">
-        <div className="flex my-6 items-center gap-x-4">
-          <Avatar
-            src={
-              user.imagen_user && user.imagen_user.length > 0
-                ? `../../public/${user.imagen_user}`
-                : "../../imagen_de_usuario.webp"
-            }
-            className="w-56 h-56"
-          />
+        <div className="flex py-4 items-center gap-x-4">
+          <div>
+            <Avatar
+              src={
+                user.imagen_user && user.imagen_user.length > 0
+                  ? `../../public/${user.imagen_user}`
+                  : "../../imagen_de_usuario.webp"
+              }
+              className="w-56 h-56"
+            />
+            {user.pk_cedula_user === localUser.pk_cedula_user && (
+              <Button className="bg-slate-400 text-white w-full mt-2">
+                Editar perfil
+              </Button>
+            )}
+          </div>
           <div className="flex flex-col">
-            <span className="text-2xl font-semibold my-4">
+            <span className="text-4xl font-semibold my-2">
               {user.nombre_user}
             </span>
             <span className="text-sm text-gray-600 flex items-center">
-              {/* <Phone /> */}
+              <Phone />
               <div>
                 <p className="text-sm text-gray-900">{user.telefono_user}</p>
                 <p className="text-xs text-gray-500">Teléfono</p>
               </div>
             </span>
             <span className="text-sm text-gray-600 flex items-center">
-              {/* <DateIconn /> */}
+              <DateIcon />
               <div>
-                <p className="text-sm text-gray-900">{new Date(user.fecha_nacimiento_user).toLocaleDateString()}</p>
+                <p className="text-sm text-gray-900">
+                  {new Date(user.fecha_nacimiento_user).toLocaleDateString()}
+                </p>
                 <p className="text-xs text-gray-500">Fecha de Nacimiento</p>
               </div>
             </span>
             <span className="text-sm text-gray-600 flex items-center">
-              {/* <Gmail /> */}
+              <GmailIcon />
               <div>
                 <p className="text-sm text-gray-900">{user.email_user}</p>
                 <p className="text-xs text-gray-500">Correo Electrónico</p>
               </div>
             </span>
             <span className="text-sm text-gray-600 flex items-center">
-              {/* <UserRol /> */}
+              <UserRol />
               <div>
                 <p className="text-sm text-gray-900">{user.rol_user}</p>
                 <p className="text-xs text-gray-500">Rol de Usuario</p>
               </div>
             </span>
+            <span className="text-sm text-gray-600 py-2 flex">
+              {/* <DescriptionIcon /> */}
+              {user.descripcion_user}
+            </span>
           </div>
         </div>
-      </div>
-      <div className="flex justify-between">
-        <span className="text-sm text-gray-600">{user.descripcion_user}</span>
-        {user.pk_cedula_user === localUser.pk_cedula_user && (
-          <Button color="primary">Editar perfil</Button>
-        )}
       </div>
       <div className="grow border-b border-gray-400 my-4"></div>
       <div className="flex items-center w-full mb-4">
         {user.rol_user !== "comprador" && (
           <button
             className={`text-lg font-semibold mr-4 focus:outline-none ${
-              activeTab === "creadas" ? "text-blue-600 border-b border-blue-600 mb-3 transition delay-150 duration-500 ease-in-out" : "text-gray-600"
+              activeTab === "creadas"
+                ? "text-gray-400 mb-3 transition delay-150 duration-500 ease-in-out"
+                : "text-gray-800"
             }`}
             onClick={() => setActiveTab("creadas")}
           >
@@ -125,7 +137,9 @@ function ProfileUser() {
         )}
         <button
           className={`text-lg font-semibold focus:outline-none ${
-            activeTab === "ganadas" ? "text-blue-600 border-b border-blue-600 mb-3 transition delay-150 duration-500 ease-in-out" : "text-gray-600"
+            activeTab === "ganadas"
+              ? "text-gray-400 mb-3 transition delay-150 duration-500 ease-in-out"
+              : "text-gray-800"
           }`}
           onClick={() => setActiveTab("ganadas")}
         >

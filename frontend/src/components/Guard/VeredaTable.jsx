@@ -124,7 +124,7 @@ export default function VeredaTable({ registrar, data, results, actualizar, desa
               Editar
             </Button>
             {results.estado_vere === "activo" ? (
-              <Button className="bg-red-500 text-white" startContent={a} onClick={() => desactivar(results.pk_id_vere)}>
+              <Button className="bg-red-500 text-white" onClick={() => desactivar(results.pk_id_vere)}>
                 Desactivar
               </Button> 
             ) : (

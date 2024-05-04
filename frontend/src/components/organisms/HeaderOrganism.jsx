@@ -46,9 +46,7 @@ function HeaderOrganism() {
 
   const login = async (data, e) => {
     e.preventDefault();
-    await axios
-      .post(URL, data)
-      .then((res) => {
+    await axios.post(URL, data).then((res) => {
         if (res.status === 200) {
           toast.success(res.data.message, { duration: 5000 });
           const { token, user } = res.data;
@@ -64,8 +62,7 @@ function HeaderOrganism() {
   };
 
   const handleSearch = async (value) => {
-    // Lógica de búsqueda...
-    setSearchValue(""); // Restablece el valor del input
+    setSearchValue(""); 
   };
 
   const logoutt = () => {
@@ -164,33 +161,28 @@ function HeaderOrganism() {
                   key={user.pk_cedula_user}
                   textValue={user.nombre_user}
                 >
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-2 items-center">
-                      <Avatar
-                        alt={user.nombre_user}
-                        className="flex-shrink-0"
-                        size="sm"
-                        src={
-                          user.imagen_user && user.imagen_user.length > 0
-                            ? `../../public/${user.imagen_user}`
-                            : "../../imagen_de_usuario.webp"
-                        }
-                      />
-                      <div className="flex flex-col">
-                        <span className="text-small">{user.nombre_user}</span>
-                        <span className="text-tiny text-default-400">
-                          {user.email_user}
-                        </span>
+                  <Link to={`/profile/${user.pk_cedula_user}`}>
+                    <div className="flex justify-between items-center">
+                      <div className="flex gap-2 items-center">
+                        <Avatar
+                          alt={user.nombre_user}
+                          className="flex-shrink-0"
+                          size="sm"
+                          src={
+                            user.imagen_user && user.imagen_user.length > 0
+                              ? `../../public/${user.imagen_user}`
+                              : "../../imagen_de_usuario.webp"
+                          }
+                        />
+                        <div className="flex flex-col">
+                          <span className="text-small">{user.nombre_user}</span>
+                          <span className="text-tiny text-default-400">
+                            {user.email_user}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <Link
-                      className="border-small mr-0.5 font-medium shadow-small p-1 rounded-xl"
-                      key={user.pk_cedula_user}
-                      to={`/profile/${user.pk_cedula_user}`}
-                    >
-                      Visitar
-                    </Link>
-                  </div>
+                  </Link>
                 </AutocompleteItem>
               )}
             </Autocomplete>
@@ -217,7 +209,7 @@ function HeaderOrganism() {
                         users.imagen_user && users.imagen_user.length > 0
                           ? `../../public/${users.imagen_user}`
                           : "../../imagen_de_usuario.webp"
-                      }`
+                      }`,
                     }}
                     className="transition-transform"
                     description={`${users.rol_user}`}

@@ -4,26 +4,37 @@ function UserRol() {
   return (
     <div>
       <svg
-        width="30px"
-        height="30px"
-        viewBox="0 0 24 24"
-        fill="none"
+        width="40"
+        height="25"
+        viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg"
+        fill="#000000"
+        stroke="#000000"
       >
-        <path
-          d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
-          stroke="#000000"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"
-          stroke="#000000"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
+        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+        <g
+          id="SVGRepo_tracerCarrier"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        ></g>
+        <g id="SVGRepo_iconCarrier">
+          <g id="user-circle-2" transform="translate(-2 -2)">
+            <path
+              id="secondary"
+              fill="#747f81"
+              d="M12,3A9,9,0,0,0,5.55,18.27a7,7,0,0,1,4.28-3.92h0a4,4,0,1,1,4.34,0h0a7,7,0,0,1,4.28,3.92A9,9,0,0,0,12,3Z"
+            ></path>
+            <path
+              id="primary"
+              d="M16,11a4,4,0,1,1-4-4A4,4,0,0,1,16,11Zm-1.83,3.35a3.95,3.95,0,0,1-4.34,0,7,7,0,0,0-4.28,3.92,9,9,0,0,0,12.81.09l.09-.09a7,7,0,0,0-4.28-3.92ZM21,12h0a9,9,0,0,0-9-9h0a9,9,0,0,0-9,9H3a9,9,0,0,0,9,9h0a9,9,0,0,0,9-9Z"
+              fill="none"
+              stroke="#000000"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            ></path>
+          </g>
+        </g>
       </svg>
     </div>
   );
