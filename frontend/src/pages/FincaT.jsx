@@ -34,7 +34,7 @@ export default function FincaT() {
       if (response.status === 200) {
         setMensaje("¡Finca desactivada con éxito! Ahora no se podrá utilizar para crear variedades de café ni subastar. Si ya has registrado una variedad o subasta con esta finca, se desactivarán automáticamente.");
         setModalMessage(true);
-        fetchList(); // Actualizar la lista de datos después de desactivar
+        fetchList(); 
       }
     } catch (error) {
       toast.error("Error en el sistema " + error);
@@ -45,26 +45,14 @@ export default function FincaT() {
     try {
       const response = await axiosClient.put(`/v1/fincaac/${pk_id_vari}`);
       if (response.status === 200) {
-        setMensaje("¡Variedad activada con éxito! Ahora está lista para ser utilizada.");
+        setMensaje("¡Finca activada con éxito! Ahora está lista para ser utilizada.");
         setModalMessage(true);
-        fetchList(); // Actualizar la lista de datos después de activar
+        fetchList();
       }
     } catch (error) {
       toast.error("Error en el sistema " + error);
     }
   };
-
-  const contenido = [
-    // { uid: "pk_id_fin", name: "Codigo Finca", sortable: true },
-    { uid: "nombre_fin", name: "Nombre Finca", sortable: false },
-    { uid: "imagen_fin", name: "Imagen Finca", sortable: true },
-    { uid: "descripcion_fin", name: "Descripción Finca", sortable: true },
-    { uid: "estado_fin", name: "Estado Finca", sortable: true },
-    { uid: "nombre_vere", name: "Vereda", sortable: true },
-    { uid: "nombre_muni", name: "Municipio", sortable: true },
-    { uid: "nombre_depar", name: "Departamento", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
 
   const id = localStorage.getItem("id_finca");
 
@@ -78,7 +66,7 @@ export default function FincaT() {
       if (response.status === 200) {
         toast.success(message);
         setModalOpen(false);
-        fetchList(); // Actualizar la lista de datos después de crear o actualizar
+        fetchList();
       } else {
         toast.error(message);
       }
@@ -95,7 +83,7 @@ export default function FincaT() {
   };
 
   return (
-    <div className="w-full flex bg-gray-100 flex-col items-center">
+    <div className="w-full flex flex-col items-center">
       <ModalMessage
         isOpen={modalMessage}
         onClose={() => setModalMessage(false)}
@@ -114,7 +102,6 @@ export default function FincaT() {
         registrar={() => handleToggle("create")}
         desactivar={desactivarFinca}
         activar={activarFinca}
-        data={contenido}
         results={results}
       />
     </div>

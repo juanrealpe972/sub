@@ -44,7 +44,7 @@ export default function MiSubastaT() {
             }}
           >
             <Tab
-              key="photos"
+              key="fincas"
               title={
                 <div className="flex items-center space-x-2">
                   <FincaIcon />
