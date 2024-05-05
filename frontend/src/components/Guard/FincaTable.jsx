@@ -17,7 +17,7 @@ import { PlusIcon } from "../../nextui/PlusIcon";
 import { SearchIcon } from "../../nextui/SearchIcon";
 
 function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
-  const handleUpdateUser = (id) => {
+  const handleUpdateFinca = (id) => {
     localStorage.setItem("id_fin", id);
     actualizar(id);
   };
@@ -159,7 +159,7 @@ function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
                   <Button
                     color="default"
                     startContent={<EditIcon />}
-                    onClick={() => handleUpdateUser(result.pk_id_fin)}
+                    onClick={() => handleUpdateFinca(result.pk_id_fin)}
                   >
                     Editar finca
                   </Button>

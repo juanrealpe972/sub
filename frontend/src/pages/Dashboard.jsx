@@ -6,7 +6,7 @@ import FooterOrganism from "../components/organisms/FooterOrganism";
 import SidebarOrganims from  "../components/organisms/SidebarOrganims"
 
 const Dashboard = () => {
-  const auth = window.localStorage.getItem("token");
+  const auth = localStorage.getItem("token");
 
   return auth ? (
     <div className="flex flex-auto h-auto bg-gray-100">

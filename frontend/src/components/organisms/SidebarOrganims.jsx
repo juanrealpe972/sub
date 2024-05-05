@@ -3,35 +3,47 @@ import { Link, useLocation } from "react-router-dom";
 import { icono } from "../atoms/IconsAtom";
 
 const users = JSON.parse(localStorage.getItem("user"));
+const auth = localStorage.getItem("token");
 
 const SidebarOrganims = () => {
   const [open, setOpen] = useState(true);
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    { title: "Inicio", link: "/subcoffee", icon: icono.iconoHome },
-    ...(users && users.rol_user === "admin"
-      ? [
-          { title: "Usuarios", link: "/users", icon: icono.iconoRol },
-          { title: "Tipo Variedad", link: "/tipo_variedad", icon: icono.iconoFlor },
-          { title: "Geografía", link: "/geografia", icon: icono.iconoWorl },
-        ]
-      : []),
-    ...(users && users.rol_user === "vendedor" || users && users.rol_user === "admin"
-      ? [
-          { title: "Mis subastas", link: "/mi_subasta", icon: icono.iconoType },
-        ]
-      : []),
-    { title: "Ayudaaa", link: "/ayudaaa", icon: icono.iconoAyuda, gap: true },
-    {
-      title: "Politicas privacidad",
-      link: "/privacy-policy",
-      icon: icono.iconoPrivacidad,
-    },
+    ...(auth && users && [
+      { title: "Inicio", link: "/subcoffee", icon: icono.iconoHome },
+      ...(users && users.rol_user === "admin"
+        ? [
+            { title: "Usuarios", link: "/users", icon: icono.iconoRol },
+            {
+              title: "Tipo Variedad",
+              link: "/tipo_variedad",
+              icon: icono.iconoFlor,
+            },
+            { title: "Geografía", link: "/geografia", icon: icono.iconoWorl },
+          ]
+        : []),
+      ...((users && users.rol_user === "vendedor") ||
+      (users && users.rol_user === "admin")
+        ? [
+            {
+              title: "Mis subastas",
+              link: "/mi_subasta",
+              icon: icono.iconoType,
+            },
+          ]
+        : []),
+      { title: "Ayudaaa", link: "/ayudaaa", icon: icono.iconoAyuda, gap: true },
+      {
+        title: "Politicas privacidad",
+        link: "/privacy-policy",
+        icon: icono.iconoPrivacidad,
+      },
+    ]),
   ];
   useEffect(() => {
-    setOpen(true)
-  }, [])
+    setOpen(true);
+  }, []);
 
   return (
     <>
@@ -58,7 +70,7 @@ const SidebarOrganims = () => {
               className={`text-gray-300 origin-left ml-2 font-medium text-xl duration-200 overflow-hidden whitespace-nowrap ${
                 !open && "scale-0"
               }`}
-              style={{ maxWidth: "calc(100% - 4rem)" }} 
+              style={{ maxWidth: "calc(100% - 4rem)" }}
               title="Subcoffee"
             >
               Subcoffee
@@ -78,7 +90,7 @@ const SidebarOrganims = () => {
                 <span
                   className={`${!open && "hidden"}
                          origin-left duration-200 overflow-hidden whitespace-nowrap`}
-                  style={{ maxWidth: "calc(100% - 3rem)" }} 
+                  style={{ maxWidth: "calc(100% - 3rem)" }}
                   title={Menu.title}
                 >
                   {Menu.title}

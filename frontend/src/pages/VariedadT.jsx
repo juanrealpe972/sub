@@ -12,8 +12,7 @@ export default function VariedadT() {
   const [results, setResults] = useState([]);
   const [modalMessage, setModalMessage] = useState(false);
   const [mensaje, setMensaje] = useState("");
-  const storedUser = localStorage.getItem("user");
-  const users = storedUser ? JSON.parse(storedUser) : null;
+  const users = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     fetchList(); //  Lista los datos al cargar la página
@@ -54,17 +53,8 @@ export default function VariedadT() {
     }
   };
 
-  const contenido = [
-    // { uid: "pk_id_vari", name: "Codigo Variedad", sortable: true },
-    { uid: "nombre_tipo_vari", name: "Tipo Variedad", sortable: false },
-    { uid: "descripcion_vari", name: "Descripción Variedad", sortable: true },
-    { uid: "imagen_vari", name: "Imagen Variedad", sortable: true },
-    { uid: "estado_vari", name: "Estado Variedad", sortable: true },
-    { uid: "nombre_fin", name: "Finca", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
 
-  const id = localStorage.getItem("id_variedad");
+  const id = localStorage.getItem("id_vari");
 
   const handleSubmit = async (data, e) => {
     e.preventDefault();
@@ -112,7 +102,6 @@ export default function VariedadT() {
         registrar={() => handleToggle("create")}
         desactivar={desactivarVariedad}
         activar={activarVariedad}
-        data={contenido}
         results={results}
       />
     </div>
