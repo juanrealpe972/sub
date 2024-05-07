@@ -28,11 +28,15 @@ function SubastaT() {
     }
   };
 
-  const desactivarMunicipio = async (pk_codigo_muni) => {
+  const desactivarSubasta = async (pk_codigo_muni) => {
     try {
-      const response = await axiosClient.put(`/v1/municipiosdes/${pk_codigo_muni}`);
+      const response = await axiosClient.put(
+        `/v1/Subastasdes/${pk_codigo_muni}`
+      );
       if (response.status === 200) {
-        setMensaje("Subasta desactivado con éxito! Ahora este no podrá ser utilizado los usuarios.");
+        setMensaje(
+          "Subasta desactivado con éxito! Ahora este no podrá ser utilizado los usuarios."
+        );
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de desactivar
       }
@@ -41,11 +45,15 @@ function SubastaT() {
     }
   };
 
-  const activarMunicipio = async (pk_codigo_muni) => {
+  const activarSubasta = async (pk_codigo_muni) => {
     try {
-      const response = await axiosClient.put(`/v1/municipiosac/${pk_codigo_muni}`);
+      const response = await axiosClient.put(
+        `/v1/municipiosac/${pk_codigo_muni}`
+      );
       if (response.status === 200) {
-        setMensaje("Subasta activado con éxito! Ahora está listo para ser utilizado por los usuarios.");
+        setMensaje(
+          "Subasta activado con éxito! Ahora está listo para ser utilizado por los usuarios."
+        );
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de activar
       }
@@ -56,9 +64,13 @@ function SubastaT() {
 
   const cambiarEspera = async (pk_codigo_muni) => {
     try {
-      const response = await axiosClient.put(`/v1/municipiosdes/${pk_codigo_muni}`);
+      const response = await axiosClient.put(
+        `/v1/municipiosdes/${pk_codigo_muni}`
+      );
       if (response.status === 200) {
-        setMensaje("Subasta desactivado con éxito! Ahora este no podrá ser utilizado los usuarios.");
+        setMensaje(
+          "Subasta desactivado con éxito! Ahora este no podrá ser utilizado los usuarios."
+        );
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de desactivar
       }
@@ -69,9 +81,13 @@ function SubastaT() {
 
   const cambiarProceso = async (pk_codigo_muni) => {
     try {
-      const response = await axiosClient.put(`/v1/municipiosac/${pk_codigo_muni}`);
+      const response = await axiosClient.put(
+        `/v1/municipiosac/${pk_codigo_muni}`
+      );
       if (response.status === 200) {
-        setMensaje("Subasta activado con éxito! Ahora está listo para ser utilizado por los usuarios.");
+        setMensaje(
+          "Subasta activado con éxito! Ahora está listo para ser utilizado por los usuarios."
+        );
         setModalMessage(true);
         fetchList(); // Actualizar la lista de datos después de activar
       }
@@ -83,9 +99,13 @@ function SubastaT() {
   const handleSubmit = async (data, e) => {
     e.preventDefault();
     try {
-      const response = mode === "create"
-        ? await axiosClient.post("/v1/municipios", data)
-        : await axiosClient.put(`/v1/municipios/${initialData.pk_codigo_muni}`, data);
+      const response =
+        mode === "create"
+          ? await axiosClient.post("/v1/municipios", data)
+          : await axiosClient.put(
+              `/v1/municipios/${initialData.pk_codigo_muni}`,
+              data
+            );
       const message = response.data.message;
       if (response.status === 200) {
         toast.success(message);
@@ -113,7 +133,12 @@ function SubastaT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <Button color="primary" className="w-44" endContent={<PlusIcon />} onClick={() => setModalOpen(true)} >
+      <Button
+        color="primary"
+        className="w-44"
+        endContent={<PlusIcon />}
+        onClick={() => setModalOpen(true)}
+      >
         Registrar Subasta
       </Button>
       <FormSubastaOrganism
@@ -124,9 +149,15 @@ function SubastaT() {
         handleSubmit={handleSubmit}
         mode={mode}
       />
-      <SubastaTable />
+      <SubastaTable
+        actualizar={() => handleToggle("update", id)}
+        registrar={() => handleToggle("create")}
+        desactivar={desactivarSubasta}
+        activar={activarSubasta}
+        results={results}
+      />
     </div>
   );
 }
 
-export default SubastaT
+export default SubastaT;

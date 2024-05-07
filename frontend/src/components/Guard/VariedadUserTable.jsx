@@ -41,7 +41,7 @@ function VariedadUserTable({
   return (
     <div className="w-full">
       <div className="flex py-4 gap-x-3 items-center">
-        <Autocomplete
+        <AutocompleteItem
           value={searchValue}
           onChange={(value) => handleSearch(value)}
           defaultItems={results}
@@ -96,7 +96,7 @@ function VariedadUserTable({
               </div>
             </AutocompleteItem>
           )}
-        </Autocomplete>
+        </AutocompleteItem>
         <Button
           className="bg-slate-400 text-white"
           endContent={<PlusIcon />}
