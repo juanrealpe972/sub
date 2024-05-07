@@ -108,7 +108,7 @@ function VariedadUserTable({
       <div className="grid grid-cols-3 justify-center items-center gap-4 p-3">
         {results.map((result, i) => (
           <Card shadow="sm" key={i} >
-            <CardBody className="overflow-visible px-2">
+            <CardBody className="overflow-visible px-2 items-center">
               <b className="text-center">{result.nombre_tipo_vari}</b>
               <Image
                 shadow="sm"

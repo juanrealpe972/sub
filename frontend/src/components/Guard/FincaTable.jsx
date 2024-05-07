@@ -150,9 +150,11 @@ function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
                 <CardBody className="overflow-visible py-2 flex items-center">
                   <Image
                     alt={result.imagen_fin}
-                    className="object-cover rounded-xl"
+                    shadow="sm"
+                    radius="md"
+                    width="100%"
+                    className="rounded-xl w-80 h-[180px]"
                     src={`http://localhost:4000/public/fincas/${result.imagen_fin}`}
-                    width={270}
                   />
                 </CardBody>
                 <div className="relative flex justify-center items-center gap-2">
