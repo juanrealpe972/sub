@@ -101,9 +101,9 @@ function SubastaT() {
     try {
       const response =
         mode === "create"
-          ? await axiosClient.post("/v1/municipios", data)
+          ? await axiosClient.post("/v1/registrar", data)
           : await axiosClient.put(
-              `/v1/municipios/${initialData.pk_codigo_muni}`,
+              `/v1/actualizar/${initialData.pk_codigo_muni}`,
               data
             );
       const message = response.data.message;
