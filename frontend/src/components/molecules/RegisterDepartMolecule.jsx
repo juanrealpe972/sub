@@ -5,37 +5,39 @@ import toast from "react-hot-toast";
 import { icono } from "../atoms/IconsAtom";
 import { Button } from "@nextui-org/react";
 
-const RegisterDepartMolecule = ({ mode, initialData, handleSubmit, actionLabel }) => {
-  const codigoDepartamento = useRef(null);
-  const nombreDepartamento = useRef(null);
+const RegisterDepartMolecule = ({
+  mode,
+  initialData,
+  handleSubmit,
+  actionLabel,
+}) => {
+  const pk_codigo_depar = useRef(null);
+  const nombre_depar = useRef(null);
 
   useEffect(() => {
     if (mode === "update" && initialData) {
       try {
-          console.log(initialData);
-
-          codigoDepartamento.current.value = initialData.pk_codigo_depar
-          nombreDepartamento.current.value = initialData.nombre_depar
-        } catch (error) {
-          console.error("Error fetching departamento data:", error);
-        }
+        console.log(initialData);
+        pk_codigo_depar.current.value = initialData.pk_codigo_depar;
+        nombre_depar.current.value = initialData.nombre_depar;
+      } catch (error) {
+        console.error("Error fetching departamento data:", error);
       }
-
+    }
   }, [mode, initialData]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     try {
-    const data = {
-      pk_codigo_depar: codigoDepartamento.current.value,
-      nombre_depar: nombreDepartamento.current.value,
-    };
-    handleSubmit(data,e)
-  } catch (error) {
-    console.log(error);
-    toast.success("Error en el servidor " + error);
-  }
+      const data = {
+        pk_codigo_depar: pk_codigo_depar.current.value,
+        nombre_depar: nombre_depar.current.value,
+      };
+      handleSubmit(data, e);
+    } catch (error) {
+      console.log(error);
+      toast.success("Error en el servidor " + error);
+    }
   };
 
   return (
@@ -50,14 +52,14 @@ const RegisterDepartMolecule = ({ mode, initialData, handleSubmit, actionLabel }
         placeholder="Código del Departamento"
         required
         type="text"
-        ref={codigoDepartamento}
+        ref={pk_codigo_depar}
       />
       <InputWithIconAtom
         icon={icono.iconoUser}
         placeholder="Nombre del Departamento"
         required
         type="text"
-        ref={nombreDepartamento}
+        ref={nombre_depar}
       />
       <center>
         <Button type="submit" color="primary">
