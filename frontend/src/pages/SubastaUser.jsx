@@ -52,22 +52,39 @@ function SubastaUser() {
       <h1 className="text-3xl font-bold mb-4">
         Subasta: {subasta.nombre_tipo_vari} - {subasta.nombre_fin}
       </h1>
-      <Card shadow className="grid grid-cols-2 gap-3 justify-between">
-        <CardBody className="bg-gray-200">
-          <div>
-            <h3 className="text-lg font-semibold">Subasta</h3>
+      <div shadow className="flex gap-3 w-full">
+        <div className="bg-gray-200 w-full p-4">
+          <div className="flex gap-4">
             <Image
               shadow="sm"
               radius="md"
               alt={subasta.imagen_sub}
-              className="object-cover w-full h-40"
+              className="object-cover w-[360px] h-[180px]"
               src={subasta.imagen_sub}
             />
+            <div className="flex flex-col gap-4">
+              <Image
+                shadow="sm"
+                radius="md"
+                alt={subasta.imagen_fin}
+                className="object-cover w-[120px] h-[120px]"
+                src={subasta.imagen_fin}
+              />
+              <Image
+                shadow="sm"
+                radius="md"
+                alt={subasta.imagen_vari}
+                className="object-cover w-[120px] h-[120px]"
+                src={subasta.imagen_vari}
+              />
+            </div>
+          </div>
+          <div>
             <p>{subasta.descripcion_sub}</p>
             <p>Precio Inicial: {subasta.precio_inicial_sub}</p>
             <p>Precio Final: {subasta.precio_final_sub}</p>
             <p className="text-gray-700 text-sm">
-              {"Fecha de inicio "}
+              Fecha de inicio:{" "}
               {new Date(subasta.fecha_inicio_sub).toLocaleString("es-ES", {
                 weekday: "long",
                 year: "numeric",
@@ -79,7 +96,7 @@ function SubastaUser() {
               })}
             </p>
             <p className="text-gray-700 text-sm">
-              {" Fecha fin "}
+              Fecha de fin:{" "}
               {new Date(subasta.fecha_fin_sub).toLocaleString("es-ES", {
                 weekday: "long",
                 year: "numeric",
@@ -91,40 +108,36 @@ function SubastaUser() {
               })}
             </p>
           </div>
-        </CardBody>
-        <CardBody className="bg-gray-200">
-          <div>
-            <h3 className="text-lg font-semibold">Usuario</h3>
-            <Avatar src={subasta.imagen_user} />
-            <p>{subasta.nombre_user}</p>
-            <p>{subasta.email_user}</p>
-          </div>
-        </CardBody>
-      </Card>
-      <Card shadow className="mt-4 grid grid-cols-2">
-        <CardBody className="bg-gray-200">
-          <div>
-            <h3 className="text-lg font-semibold">Ofertas</h3>
+        </div>
+        <div className="bg-gray-200 p-4 items-center flex flex-col">
+          <h3 className="text-lg font-semibold">Usuario</h3>
+          <Avatar src={subasta.imagen_user} className="w-24 h-24" />
+          <p>{subasta.nombre_user}</p>
+          <p>{subasta.email_user}</p>
+        </div>
+      </div>
+      <div shadow className="mt-4 flex w-full bg-gray-100 gap-x-4">
+        <div className="bg-gray-200 p-4 w-full">
+          <h3 className="text-lg font-semibold">Ofertas</h3>
+          <div className="flex items-center gap-x-4">
             <Input
               type="number"
               value={oferta}
               onChange={(e) => setOferta(e.target.value)}
               placeholder="Ingrese su oferta"
             />
-            <Button className="mt-2" onClick={handleSubmitOferta}>
+            <Button onClick={handleSubmitOferta}>
               Realizar Oferta
             </Button>
           </div>
-        </CardBody>
-        <CardBody className="bg-gray-200">
-          <div>
-            <Button className="mr-2" onClick={handleChatClick}>
-              Chat
-            </Button>
-            <Button onClick={handlePostulantesClick}>Ver Postulantes</Button>
-          </div>
-        </CardBody>
-      </Card>
+        </div>
+        <div className="bg-gray-200 p-4 flex-col gap-4 flex justify-center">
+          <Button className="mr-2 w-full" onClick={handleChatClick}>
+            Chat
+          </Button>
+          <Button onClick={handlePostulantesClick}>Ver Postulantes</Button>
+        </div>
+      </div>
     </div>
   );
 }
