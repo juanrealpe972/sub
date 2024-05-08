@@ -38,7 +38,7 @@ export default function TipoVariedadTable({ registrar, data, results, actualizar
   const [page, setPage] = useState(1);
 
   const handleUpdateUser = (id) => {
-    localStorage.setItem("idUser", id);
+    localStorage.setItem("id_tip_vari", id);
     actualizar(id);
   };
 

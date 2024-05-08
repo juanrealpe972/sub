@@ -34,7 +34,6 @@ function App() {
                   <Route path="/subcoffee" element={<SubastaPage />} />
                   <Route path="/profile/:id" element={<ProfileUser />} />
                   <Route path="/subasta/:id" element={<SubastaUser />} />
-                  <Route path="/ayudaaa" element={<AyudaPage />} />
                   {users && users.rol_user === "admin" && (
                     <>
                       <Route path="/users" element={<UsersT />} />
