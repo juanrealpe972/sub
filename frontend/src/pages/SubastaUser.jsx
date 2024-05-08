@@ -52,16 +52,44 @@ function SubastaUser() {
       <h1 className="text-3xl font-bold mb-4">
         Subasta: {subasta.nombre_tipo_vari} - {subasta.nombre_fin}
       </h1>
-      <Card shadow className="flex space-3">
+      <Card shadow className="grid grid-cols-2 gap-3 justify-between">
         <CardBody className="bg-gray-200">
           <div>
             <h3 className="text-lg font-semibold">Subasta</h3>
-            <Image src={subasta.imagen_sub} />
+            <Image
+              shadow="sm"
+              radius="md"
+              alt={subasta.imagen_sub}
+              className="object-cover w-full h-40"
+              src={subasta.imagen_sub}
+            />
             <p>{subasta.descripcion_sub}</p>
             <p>Precio Inicial: {subasta.precio_inicial_sub}</p>
             <p>Precio Final: {subasta.precio_final_sub}</p>
-            <p>Fecha de Inicio: {subasta.fecha_inicio_sub}</p>
-            <p>Fecha de Fin: {subasta.fecha_fin_sub}</p>
+            <p className="text-gray-700 text-sm">
+              {"Fecha de inicio "}
+              {new Date(subasta.fecha_inicio_sub).toLocaleString("es-ES", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              })}
+            </p>
+            <p className="text-gray-700 text-sm">
+              {" Fecha fin "}
+              {new Date(subasta.fecha_fin_sub).toLocaleString("es-ES", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              })}
+            </p>
           </div>
         </CardBody>
         <CardBody className="bg-gray-200">
@@ -73,8 +101,8 @@ function SubastaUser() {
           </div>
         </CardBody>
       </Card>
-      <Card shadow className="mt-4">
-        <CardHeader className="bg-gray-200">
+      <Card shadow className="mt-4 grid grid-cols-2">
+        <CardBody className="bg-gray-200">
           <div>
             <h3 className="text-lg font-semibold">Ofertas</h3>
             <Input
@@ -87,17 +115,15 @@ function SubastaUser() {
               Realizar Oferta
             </Button>
           </div>
-        </CardHeader>
-      </Card>
-      <Card shadow className="mt-4">
-        <CardHeader className="bg-gray-200">
+        </CardBody>
+        <CardBody className="bg-gray-200">
           <div>
             <Button className="mr-2" onClick={handleChatClick}>
               Chat
             </Button>
             <Button onClick={handlePostulantesClick}>Ver Postulantes</Button>
           </div>
-        </CardHeader>
+        </CardBody>
       </Card>
     </div>
   );
