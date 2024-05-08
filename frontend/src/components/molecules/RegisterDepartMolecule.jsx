@@ -5,12 +5,7 @@ import toast from "react-hot-toast";
 import { icono } from "../atoms/IconsAtom";
 import { Button } from "@nextui-org/react";
 
-const RegisterDepartMolecule = ({
-  mode,
-  initialData,
-  handleSubmit,
-  actionLabel,
-}) => {
+const RegisterDepartMolecule = ({ mode, title, initialData, handleSubmit, actionLabel }) => {
   const pk_codigo_depar = useRef(null);
   const nombre_depar = useRef(null);
 
@@ -43,9 +38,7 @@ const RegisterDepartMolecule = ({
   return (
     <form onSubmit={onSubmit} className="space-y-4 p-4">
       <TitleForModal>
-        {mode === "update"
-          ? "Actualizar Departamento"
-          : "Registrar Departamento"}
+        {title}
       </TitleForModal>
       <InputWithIconAtom
         icon={icono.iconoNumber}
@@ -62,7 +55,7 @@ const RegisterDepartMolecule = ({
         ref={nombre_depar}
       />
       <center>
-        <Button type="submit" color="primary">
+       <Button type="submit" className="bg-gray-600 text-white">
           {actionLabel}
         </Button>
       </center>

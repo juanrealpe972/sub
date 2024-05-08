@@ -97,6 +97,7 @@ export function MunicipioT() {
       <FormMunicipioOrganism
         open={modalOpen}
         onClose={() => setModalOpen(false)}
+        title={mode === 'create' ? 'Registrar Municipio' : 'Actualizar Municipio'}
         actionLabel={mode === "create" ? "Registrar" : "Actualizar"}
         initialData={initialData}
         handleSubmit={handleSubmit}

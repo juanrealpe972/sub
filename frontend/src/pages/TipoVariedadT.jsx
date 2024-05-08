@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axios";
 import toast from "react-hot-toast";
-import TipoVariedadTable from "../components/Guard/TipoVaridadTable.jsx";
+import TipoVariedadTable from "../components/Guard/TipoVariedadTable.jsx";
 import FormTipovariedadOrganism from "../components/organisms/FormTipovariedadOrganism.jsx";
 import ModalMessage from "../nextui/ModalMessage.jsx";
 

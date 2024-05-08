@@ -98,6 +98,7 @@ export function VeredaT() {
       <FormVeredaMolecule
         open={modalOpen}
         onClose={() => setModalOpen(false)}
+        title={mode === 'create' ? 'Registrar Vereda' : 'Actualizar Vereda'}
         actionLabel={mode === "create" ? "Registrar" : "Actualizar"}
         initialData={initialData}
         handleSubmit={handleSubmit}

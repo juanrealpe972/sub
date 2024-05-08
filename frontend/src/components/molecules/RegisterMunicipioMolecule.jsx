@@ -6,7 +6,7 @@ import { Button, Select, SelectItem } from "@nextui-org/react";
 import { icono } from "../atoms/IconsAtom";
 import axiosClient from "../../api/axios";
 
-const RegisterMunicipioMolecule = ({ mode, initialData, handleSubmit, actionLabel }) => {
+const RegisterMunicipioMolecule = ({ mode, title, initialData, handleSubmit, actionLabel }) => {
   const pk_codigo_muni = useRef(null);
   const nombre_muni = useRef(null);
   const [departamentoIdRef, setDepartamentoIdRef] = useState("");
@@ -55,7 +55,7 @@ const RegisterMunicipioMolecule = ({ mode, initialData, handleSubmit, actionLabe
   return (
     <form onSubmit={onSubmit} className="space-y-4 p-4">
       <TitleForModal>
-        {mode === "update" ? "Actualizar Municipio" : "Registrar Municipio"}
+        {title}
       </TitleForModal>
       <InputWithIconAtom
         icon={icono.iconoNumber}
@@ -89,7 +89,7 @@ const RegisterMunicipioMolecule = ({ mode, initialData, handleSubmit, actionLabe
         ))}
       </Select>
       <center>
-        <Button type="submit" color="primary">
+        <Button type="submit" className="bg-gray-600 text-white">
           {actionLabel}
         </Button>
       </center>

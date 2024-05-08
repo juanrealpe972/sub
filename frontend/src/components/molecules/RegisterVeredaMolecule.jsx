@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { icono } from "../atoms/IconsAtom";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 
-const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
+const RegisterVeredaMolecule = ({ mode, title, initialData, handleSubmit, actionLabel }) => {
   const nombreVeredaRef = useRef(null);
   const [municipios, setMunicipios] = useState([]);
   const [municipiosRef, setMunicipiosRef] = useState("");
@@ -24,7 +24,16 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
       }
     };
     fetchDepar();
-  }, []);
+    if (mode === "update" && initialData) {
+      try {
+        nombreVeredaRef.current.value = initialData.nombreVeredaRef;
+        setMunicipiosRef(initialData.fk_departamento);
+      } catch (error) {
+        console.error("Error fetching departamento data:", error);
+        toast.error("Error al cargar datos del municipio");
+      }
+    }
+  }, [mode, initialData]);
 
   const fetchMunicipios = async (departamentos) => {
     try {
@@ -59,7 +68,7 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
   return (
     <form onSubmit={onSubmit} className="space-y-4 p-4">
       <TitleForModal>
-        {mode === "update" ? "Actualizar Vereda" : "Registrar Vereda"}
+        {title}
       </TitleForModal>
       <Select
         label=""
@@ -104,7 +113,7 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
         ref={nombreVeredaRef}
       />
       <center>
-        <Button type="submit" color="primary">
+        <Button type="submit" className="bg-gray-600 text-white">
           {actionLabel}
         </Button>
       </center>
