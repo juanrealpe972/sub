@@ -187,7 +187,7 @@ export const buscar = async (req, res) => {
     }
 
     const [resultado] = await pool.query(
-      `SELECT s.*, t.nombre_tipo_vari, v.*, u.nombre_user, u.imagen_user, u.telefono_user, u.rol_user, f.   nombre_fin, f.imagen_fin, f.descripcion_fin, e.nombre_vere, m.nombre_muni, d.nombre_depar 
+      `SELECT s.*, t.nombre_tipo_vari, v.*, u.*, f.nombre_fin, f.imagen_fin, f.descripcion_fin, e.nombre_vere, m.nombre_muni, d.nombre_depar 
         FROM subasta s 
         INNER JOIN variedad v ON s.fk_variedad = v.pk_id_vari 
         INNER JOIN finca f ON v.fk_finca = f.pk_id_fin 

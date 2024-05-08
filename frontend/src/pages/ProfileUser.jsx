@@ -8,7 +8,6 @@ import GmailIcon from "../nextui/GmailIcon";
 import toast from "react-hot-toast";
 import DateIcon from "../nextui/DateIcon";
 import Phone from "../nextui/Phone";
-import DescriptionIcon from "../nextui/DescriptionIcon";
 
 function ProfileUser() {
   const { id } = useParams();
@@ -23,7 +22,7 @@ function ProfileUser() {
         setUser(res.data.data[0]);
       })
       .catch((err) => {
-        toast.error("Error al traer los datos del usuario" + error);
+        toast.error("Error al traer los datos del usuario" + err);
         console.error(err);
       });
   }, [id]);

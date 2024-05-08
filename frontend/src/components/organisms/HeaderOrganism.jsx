@@ -170,7 +170,7 @@ function HeaderOrganism() {
                           size="sm"
                           src={
                             user.imagen_user && user.imagen_user.length > 0
-                              ? `../../public/${user.imagen_user}`
+                              ? `../../${user.imagen_user}`
                               : "../../imagen_de_usuario.webp"
                           }
                         />
