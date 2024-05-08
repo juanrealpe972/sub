@@ -61,22 +61,13 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
       <TitleForModal>
         {mode === "update" ? "Actualizar Vereda" : "Registrar Vereda"}
       </TitleForModal>
-      <InputWithIconAtom
-        icon={icono.iconoUser}
-        placeholder="Nombre de la Vereda"
-        required
-        ref={nombreVeredaRef}
-      />
       <Select
-        label="Departamento"
+        label=""
+        placeholder="Seleccionar Departamento"
         value={departamentosRef}
+        startContent={<icono.iconoDepar />}
         variant="bordered"
-        popoverProps={{
-          classNames: {
-            base: "before:bg-default-200",
-            content: "p-0 border-small border-divider bg-background",
-          },
-        }}
+        aria-label="Seleccionar Departamento"
         onChange={handleDepartamentoChange}
       >
         {departamentos.filter((departamento) => departamento.estado_depar === "activo").map((departamento) => (
@@ -89,15 +80,12 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
         ))}
       </Select>
       <Select
-        label="Municipio"
+        label=""
+        placeholder="Seleccionar Municipio"
         value={municipiosRef}
         variant="bordered"
-        popoverProps={{
-          classNames: {
-            base: "before:bg-default-200",
-            content: "p-0 border-small border-divider bg-background",
-          },
-        }}
+        startContent={<icono.iconoMuni />}
+        aria-label="Seleccionar Municipio"
         onChange={(e) => setMunicipiosRef(e.target.value)}
       >
         {municipios.filter((municipio) => municipio.estado_muni === "activo").map((municipio) => (
@@ -109,6 +97,12 @@ const RegisterVeredaMolecule = ({ mode, handleSubmit, actionLabel }) => {
           </SelectItem>
         ))}
       </Select>
+      <InputWithIconAtom
+        icon={icono.iconoReName}
+        placeholder="Nombre de la Vereda"
+        required
+        ref={nombreVeredaRef}
+      />
       <center>
         <Button type="submit" color="primary">
           {actionLabel}

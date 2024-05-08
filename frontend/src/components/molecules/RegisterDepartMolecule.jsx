@@ -48,14 +48,14 @@ const RegisterDepartMolecule = ({
           : "Registrar Departamento"}
       </TitleForModal>
       <InputWithIconAtom
-        icon={icono.iconoCampana}
+        icon={icono.iconoNumber}
         placeholder="Código del Departamento"
         required
         type="text"
         ref={pk_codigo_depar}
       />
       <InputWithIconAtom
-        icon={icono.iconoUser}
+        icon={icono.iconoReName}
         placeholder="Nombre del Departamento"
         required
         type="text"
