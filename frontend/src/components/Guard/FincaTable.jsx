@@ -51,12 +51,7 @@ function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
   return (
     <div className="w-full">
       <div className="flex py-4 gap-x-3 items-center">
-        {/* <Autocomplete
-          classNames={{
-            base: "w-96",
-            listboxWrapper: "max-h-[320px]",
-            selectorButton: "text-default-500",
-          }}
+        <Autocomplete
           value={searchValue}
           onChange={(value) => handleSearch(value)}
           defaultItems={results}
@@ -90,6 +85,7 @@ function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
               base: "rounded-large",
               content: "p-1 border-small border-default-100 bg-background",
             },
+            wrapper: "w-full", // Esta línea ajusta el ancho del popover para que sea igual al ancho del Autocomplete
           }}
           startContent={
             <SearchIcon
@@ -111,7 +107,7 @@ function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
               </div>
             </AutocompleteItem>
           )}
-        </Autocomplete> */}
+        </Autocomplete>
         <Button
           className="bg-slate-400 text-white"
           endContent={<PlusIcon />}
@@ -143,7 +139,8 @@ function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
                   <h4 className="text-tiny">{result.descripcion_fin}</h4>
                   <div className="flex">
                     <p className="text-xs gap-x-4 text-gray-500">
-                      {result.nombre_depar} - {result.nombre_muni} - {result.nombre_vere}
+                      {result.nombre_depar} - {result.nombre_muni} -{" "}
+                      {result.nombre_vere}
                     </p>
                   </div>
                 </CardHeader>

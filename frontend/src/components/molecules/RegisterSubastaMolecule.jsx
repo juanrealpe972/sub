@@ -2,20 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 
-import ButtonAtom from "../atoms/ButtonAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import TextTareaAtom from "../atoms/TextTareaAtom";
 import TitleForModal from "../atoms/TitleForModal";
-import { SelectorIcon } from "../../nextui/SelectorIcon";
 import axiosClient from "../../api/axios";
 import { icono } from "../atoms/IconsAtom";
 
-const RegisterSubastaMolecule = ({
-  mode,
-  initialData,
-  handleSubmit,
-  actionLabel,
-}) => {
+const RegisterSubastaMolecule = ({ mode, initialData, handleSubmit, actionLabel }) => {
   const fechaInicialRef = useRef(null);
   const fechaFinalRef = useRef(null);
   const imagenRef = useRef(null);
@@ -28,7 +21,6 @@ const RegisterSubastaMolecule = ({
   const cantidadRef = useRef(null);
   const certificadoRef = useRef(null);
   const descripcionRef = useRef(null);
-  const tipoVariedadRef = useRef(null);
 
   const usuario = JSON.parse(localStorage.getItem("user"));
 

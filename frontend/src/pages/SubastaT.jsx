@@ -14,6 +14,7 @@ function SubastaT() {
   const [results, setResults] = useState([]);
   const [modalMessage, setModalMessage] = useState(false);
   const [mensaje, setMensaje] = useState("");
+  const usuario = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     fetchList(); //  Lista los datos al cargar la página
@@ -21,8 +22,8 @@ function SubastaT() {
 
   const fetchList = async () => {
     try {
-      const response = await axiosClient.get("/v1/municipios");
-      setResults(response.data);
+      const response = await axiosClient.get(`/v1/buscarsubforuser/${usuario.pk_cedula_user}`);
+      setResults(response.data.data);
     } catch (error) {
       console.error("Error fetching dates list:", error);
     }
@@ -133,14 +134,6 @@ function SubastaT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <Button
-        color="primary"
-        className="w-44"
-        endContent={<PlusIcon />}
-        onClick={() => setModalOpen(true)}
-      >
-        Registrar Subasta
-      </Button>
       <FormSubastaOrganism
         open={modalOpen}
         onClose={() => setModalOpen(false)}

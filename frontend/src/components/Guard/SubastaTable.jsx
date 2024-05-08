@@ -6,10 +6,13 @@ import {
   CardFooter,
   Avatar,
   Button,
+  Autocomplete,
+  Image,
   AutocompleteItem,
 } from "@nextui-org/react";
 import { SearchIcon } from "../../nextui/SearchIcon";
 import { PlusIcon } from "../../nextui/PlusIcon";
+import { EditIcon } from "../../nextui/EditIcon";
 
 export default function SubastaTable({
   registrar,
@@ -18,27 +21,27 @@ export default function SubastaTable({
   desactivar,
   activar,
 }) {
-  const [isFollowed, setIsFollowed] = useState("visitar");
-
   const [filteredResults, setFilteredResults] = useState(results);
   const [searchValue, setSearchValue] = useState("");
+  const usuario = JSON.parse(localStorage.getItem("user"));
 
-  const handleUpdateVari = (id) => {
-    localStorage.setItem("id_vari", id);
+  const handleUpdateSubasta = (id) => {
+    localStorage.setItem("id_sub", id);
     actualizar(id);
   };
 
   const handleSearch = (value) => {
     setSearchValue(value);
     const filtered = results.filter((subasta) =>
-      subasta.fk_vari.toLowerCase().includes(value.toLowerCase())
+      subasta.nombre_tipo_vari.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredResults(filtered);
   };
+
   return (
-    <div>
+    <div className="w-full">
       <div className="flex py-4 gap-x-3 items-center">
-        <AutocompleteItem
+      <Autocomplete
           value={searchValue}
           onChange={(value) => handleSearch(value)}
           defaultItems={results}
@@ -65,7 +68,7 @@ export default function SubastaTable({
             },
           }}
           aria-label="Select a farm"
-          placeholder="Buscar Variedad"
+          placeholder="Buscar Subasta"
           popoverProps={{
             offset: 10,
             classNames: {
@@ -83,74 +86,140 @@ export default function SubastaTable({
           radius="full"
           variant="bordered"
         >
-          {(variedad) => (
+          {(subasta) => (
             <AutocompleteItem
-              key={variedad.pk_id_vari}
-              textValue={variedad.nombre_tipo_vari}
+              key={subasta.pk_id_sub}
+              textValue={subasta.nombre_tipo_vari}
             >
               <div className="flex justify-between items-center">
-                <p className="text-small">{variedad.nombre_tipo_vari}</p>
+                <p className="text-small">{subasta.nombre_tipo_vari}</p>
               </div>
             </AutocompleteItem>
           )}
-        </AutocompleteItem>
+        </Autocomplete>
+        <Button
+          color="primary"
+          className="w-44"
+          endContent={<PlusIcon />}
+          onClick={registrar}
+        >
+          Registrar Subasta
+        </Button>
       </div>
-      <Card className="max-w-[340px]">
-        <CardHeader className="justify-between">
-          <div className="flex gap-5">
-            <Avatar
-              isBordered
-              radius="full"
-              size="md"
-              src="https://nextui.org/avatars/avatar-1.png"
-            />
-            <div className="flex flex-col gap-1 items-start justify-center">
-              <h4 className="text-small font-semibold leading-none text-default-600">
-                Zoey Lang
-              </h4>
-              <h5 className="text-small tracking-tight text-default-400">
-                @zoeylang
-              </h5>
-            </div>
-          </div>
-          <Button
-            className={
-              isFollowed
-                ? "bg-transparent text-foreground border-default-200"
-                : ""
-            }
-            color="primary"
-            radius="full"
-            size="sm"
-            variant={isFollowed ? "bordered" : "solid"}
-            onPress={() => setIsFollowed(!isFollowed)}
-          >
-            {isFollowed && "Visitar"}
-          </Button>
-        </CardHeader>
-        <CardBody className="px-3 py-6 text-small text-default-400">
-          <p>
-            Frontend developer and UI/UX enthusiast. Join me on this coding
-            adventure!
-          </p>
-          <span className="pt-2">
-            #FrontendWithZoey
-            <span className="py-2" aria-label="computer" role="img">
-              💻
-            </span>
-          </span>
-        </CardBody>
-        <CardFooter className="gap-3">
-          <div className="flex gap-1">
-            <p className="font-semibold text-default-400 text-small">4</p>
-            <p className=" text-default-400 text-small">Following</p>
-          </div>
-          <div className="flex gap-1">
-            <p className="font-semibold text-default-400 text-small">97.1K</p>
-            <p className="text-default-400 text-small">Followers</p>
-          </div>
-        </CardFooter>
-      </Card>
+      <div className="grid grid-cols-2 justify-center items-center gap-4 p-3">
+        {results.map((subasta) => (
+          <Card key={subasta.pk_id_sub} className="max-w-[500px] p-2">
+            <CardHeader className="justify-between">
+              <div className="flex gap-3">
+                <Avatar
+                  isBordered
+                  radius="full"
+                  size="md"
+                  src={subasta.imagen_user}
+                />
+                <div className="flex flex-col gap-1 items-start justify-center">
+                  <h4 className="text-small font-semibold leading-none text-default-600">
+                    {subasta.nombre_user}
+                  </h4>
+                  <h5 className="text-small tracking-tight text-default-400">
+                    @{subasta.email_user}
+                  </h5>
+                </div>
+              </div>
+              <Button
+                className="bg-gray-100 text-foreground border-default-200"
+                radius="md"
+                variant="bordered"
+                size="sm"
+                onPress={() => handleUpdateSubasta(subasta.pk_id_sub)}
+              >
+                Visualizar perfil
+              </Button>
+            </CardHeader>
+            <CardBody className=" items-start">
+              <span className="w-full text-center">
+                <b className="text-lg">
+                  {subasta.nombre_tipo_vari}-{subasta.nombre_fin}
+                </b>
+                <p className="text-sm text-default-400">{subasta.estado_sub}</p>
+              </span>
+              <CardBody className="flex items-center">
+                <Image
+                  shadow="sm"
+                  radius="md"
+                  alt={subasta.imagen_sub}
+                  className="w-[380px] object-cover h-[200px]"
+                  src={subasta.imagen_sub}
+                />
+                <div className="flex flex-col gap-1 pt-4">
+                  <div className="text-gray-400 text-sm flex justify-between">
+                    <p>
+                      Cantidad: {subasta.cantidad_sub} -{" "}
+                      {subasta.unidad_peso_sub}
+                    </p>
+                    <p>Precio inicial: {subasta.precio_inicial_sub}</p>
+                  </div>
+                  <div className="flex">
+                    <p className="text-gray-400 text-sm">
+                      {"Fecha de inicio "}
+                      {new Date(subasta.fecha_inicio_sub).toLocaleString(
+                        "es-ES",
+                        {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
+                          second: "numeric",
+                        }
+                      )}
+                    </p>
+                    <p className="text-gray-400 text-sm">
+                      {" Fecha fin "}
+                      {new Date(subasta.fecha_fin_sub).toLocaleString("es-ES", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                        second: "numeric",
+                      })}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm">
+                      {subasta.nombre_vere} - {subasta.nombre_muni} - {subasta.nombre_depar}
+                    </p>
+                  </div>
+                </div>
+              </CardBody>
+              <CardFooter className="flex justify-center gap-x-4">
+                <Button
+                  className="bg-gray-400"
+                  radius="md"
+                  size="lg"
+                  onPress={() => handleUpdateSubasta(subasta.pk_id_sub)}
+                >
+                  Visualizar Subasta
+                </Button>
+                {subasta.pk_cedula_user === usuario.pk_cedula_user && (
+                  <Button
+                    className="bg-gray-400"
+                    radius="md"
+                    size="lg"
+                    startContent={<EditIcon />}
+                    onPress={() => handleUpdateSubasta(subasta.pk_id_sub)}
+                  >
+                    Editar Subasta
+                  </Button>
+                )}
+              </CardFooter>
+            </CardBody>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

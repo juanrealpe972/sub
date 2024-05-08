@@ -10,6 +10,7 @@ import {
   actualizar,
   buscar,
   eliminar,
+  buscarSubastaForUser,
 } from "../controllers/subasta.controllers.js";
 import {
   validarActualizarSubasta,
@@ -23,6 +24,7 @@ router.post("/registrar",subastaFiles,verificarUserToken, registrar);
 router.get("/listar", verificarUserToken, listar);
 router.put("/actualizar/:id",subastaFiles,verificarUserToken,validarActualizarSubasta,actualizar);
 router.get("/buscar/:id", verificarUserToken, buscar); 
+router.get("/buscarsubforuser/:id", verificarUserToken, buscarSubastaForUser); 
 router.delete("/eliminar/:id", verificarUserToken, eliminar);
 router.put("/abierta/:id", verificarUserToken, SubastaAbierta);
 router.put("/cerrada/:id", verificarUserToken, SubastaCerrada);
