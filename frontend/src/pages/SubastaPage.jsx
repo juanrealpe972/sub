@@ -58,6 +58,7 @@ function SubastaPage() {
       console.error("Error fetching dates list:", error);
     }
   };
+  console.log(results);
 
   const handleUpdateSubasta = (id) => {
     localStorage.setItem("id_sub", id);
