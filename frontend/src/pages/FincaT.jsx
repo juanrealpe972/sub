@@ -54,14 +54,14 @@ export default function FincaT() {
     }
   };
 
-  const id = localStorage.getItem("id_finca");
-
+  const id = localStorage.getItem("id_fin");
+  console.log(id);
   const handleSubmit = async (data, e) => {
     e.preventDefault();
     try {
       const response = mode === "create"
           ? await axiosClient.post("/v1/finca", data)
-          : await axiosClient.put(`/v1/finca/${initialData.pk_id_vari}`, data);
+          : await axiosClient.put(`/v1/finca/${id}`, data);
       const message = response.data.message;
       if (response.status === 200) {
         toast.success(message);

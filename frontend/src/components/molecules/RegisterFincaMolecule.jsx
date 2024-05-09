@@ -10,7 +10,7 @@ import axiosClient from "../../api/axios";
 const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionLabel }) => {
   const nombreFincaRef = useRef(null);
   const imagenRef = useRef(null);
-  const descripcionRef = useRef(null);
+  const descripcion_fin = useRef(null);
 
   const [departamentos, setDepartamentos] = useState([]);
   const [departamentosRef, setDepartamentosRef] = useState("");
@@ -19,8 +19,7 @@ const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionL
   const [veredas, setVeredas] = useState([]);
   const [veredasRef, setVeredasRef] = useState("");
 
-  const storedUser = localStorage.getItem("user");
-  const users = storedUser ? JSON.parse(storedUser) : null;
+  const users = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchDepar = async () => {
@@ -33,11 +32,22 @@ const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionL
       }
     };
     fetchDepar();
-  }, []);
+
+    if (mode === "update" && initialData) {
+      try {
+        descripcion_fin.current = initialData.descripcion_fin;
+        setVeredasRef(initialData.fk_finca);
+      } catch (error) {
+        toast.error("Error setting initial data:", error);
+      }
+    }
+  }, [mode, initialData]);
 
   const fetchMunicipios = async (departamentos) => {
     try {
-      const response = await axiosClient.get(`/v1/municipiosdep/${departamentos}`);
+      const response = await axiosClient.get(
+        `/v1/municipiosdep/${departamentos}`
+      );
       setMunicipios(response.data);
     } catch (error) {
       console.error("Error fetching municipios:", error);
@@ -47,13 +57,13 @@ const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionL
 
   const fetchVeredas = async (veredas) => {
     try {
-      const response = await axiosClient.get(`/v1/veredasmun/${veredas}`)
-      setVeredas(response.data)
+      const response = await axiosClient.get(`/v1/veredasmun/${veredas}`);
+      setVeredas(response.data);
     } catch (error) {
       console.error("Error fetching veredas:", error);
       toast.error("Error al cargar la lista de veredas");
     }
-  }
+  };
 
   const handleDepartamentoChange = (e) => {
     const selectedDepartamentoId = e.target.value;
@@ -62,19 +72,10 @@ const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionL
   };
 
   const handleMunicipio = (e) => {
-    const selectedMunicipioId = e.target.value
-    setMunicipiosRef(selectedMunicipioId)
-    fetchVeredas(selectedMunicipioId)
-  }
-
-  if (mode === "update" && initialData) {
-    try {
-      descripcionRef.current = initialData.descripcion_fin;
-      setVeredasRef(initialData.fk_finca);
-    } catch (error) {
-      toast.error("Error setting initial data:", error);
-    }
-  }
+    const selectedMunicipioId = e.target.value;
+    setMunicipiosRef(selectedMunicipioId);
+    fetchVeredas(selectedMunicipioId);
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -82,7 +83,7 @@ const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionL
       const formData = new FormData();
       formData.append("nombre_fin", nombreFincaRef.current.value);
       formData.append("imagen_fin", imagenRef.current.files[0]);
-      formData.append("descripcion_fin", descripcionRef.current.value);
+      formData.append("descripcion_fin", descripcion_fin.current.value);
       formData.append("fk_id_usuario", users.pk_cedula_user);
       formData.append("fk_vereda", veredasRef);
 
@@ -94,9 +95,7 @@ const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionL
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 p-4">
-      <TitleForModal>
-        {title}
-      </TitleForModal>
+      <TitleForModal>{title}</TitleForModal>
       <InputWithIconAtom
         icon={icono.iconoNamePropiedad}
         placeholder="Nombre de la Finca"
@@ -111,75 +110,62 @@ const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionL
         type="file"
         ref={imagenRef}
       />
-      <div className="flex">
+      <div className="grid grid-cols-2 gap-x-2">
         <Select
-          label="Departamento"
+          label=""
           value={departamentosRef}
+          placeholder="Seleccionar Departamento"
+          startContent={<icono.iconoDepar />}
           variant="bordered"
-          popoverProps={{
-            classNames: {
-              base: "before:bg-default-200",
-              content: "p-0 border-small border-divider bg-background",
-            },
-          }}
+          aria-label="Seleccionar Departamento"
           onChange={handleDepartamentoChange}
         >
           {departamentos.filter((departamento) => departamento.estado_depar === "activo").map((departamento) => (
-            <SelectItem
-              key={departamento.pk_codigo_depar}
-              value={departamento.pk_codigo_depar}
-            >
-              {departamento.nombre_depar}
-            </SelectItem>
-          ))}
+              <SelectItem
+                key={departamento.pk_codigo_depar}
+                value={departamento.pk_codigo_depar}
+              >
+                {departamento.nombre_depar}
+              </SelectItem>
+            ))}
         </Select>
         <Select
-          label="Municipio"
+          label=""
           value={municipiosRef}
+          placeholder="Seleccionar Municipio"
+          startContent={<icono.iconoMuni />}
           variant="bordered"
-          popoverProps={{
-            classNames: {
-              base: "before:bg-default-200",
-              content: "p-0 border-small border-divider bg-background",
-            },
-          }}
+          aria-label="Seleccionar Municipio"
           onChange={handleMunicipio}
         >
           {municipios.filter((municipio) => municipio.estado_muni === "activo").map((municipio) => (
-            <SelectItem
-              key={municipio.pk_codigo_muni}
-              value={municipio.pk_codigo_muni}
-            >
-              {municipio.nombre_muni}
-            </SelectItem>
-          ))}
+              <SelectItem
+                key={municipio.pk_codigo_muni}
+                value={municipio.pk_codigo_muni}
+              >
+                {municipio.nombre_muni}
+              </SelectItem>
+            ))}
         </Select>
       </div>
       <Select
-        label="Vereda"
         value={veredasRef}
+        placeholder="Seleccionar Vereda"
+        startContent={<icono.iconoVere />}
         variant="bordered"
-        popoverProps={{
-          classNames: {
-            base: "before:bg-default-200",
-            content: "p-0 border-small border-divider bg-background",
-          },
-        }}
+        aria-label="Seleccionar Vereda"
         onChange={(e) => setVeredasRef(e.target.value)}
       >
         {veredas.filter((vereda) => vereda.estado_vere === "activo").map((vereda) => (
-            <SelectItem 
-              key={vereda.pk_id_vere} 
-              value={vereda.pk_id_vere}
-            >
+            <SelectItem key={vereda.pk_id_vere} value={vereda.pk_id_vere}>
               {vereda.nombre_vere}
             </SelectItem>
           ))}
       </Select>
       <TextTareaAtom
         icon={icono.iconoDescript}
-        ref={descripcionRef}
-      ></TextTareaAtom>
+        ref={descripcion_fin}
+      />
       <center>
         <Button type="submit" className="bg-gray-600 text-white">
           {actionLabel}

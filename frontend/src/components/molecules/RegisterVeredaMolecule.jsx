@@ -72,8 +72,8 @@ const RegisterVeredaMolecule = ({ mode, title, initialData, handleSubmit, action
       </TitleForModal>
       <Select
         label=""
-        placeholder="Seleccionar Departamento"
         value={departamentosRef}
+        placeholder="Seleccionar Departamento"
         startContent={<icono.iconoDepar />}
         variant="bordered"
         aria-label="Seleccionar Departamento"
