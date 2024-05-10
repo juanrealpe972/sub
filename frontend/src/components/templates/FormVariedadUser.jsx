@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import RegisterVariedadUserMolecule from "../molecules/RegisterVariedadUserMolecule"
 
-function FormVariedadUserOrganim ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
+function FormVariedadUser ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose}>
@@ -12,4 +12,4 @@ function FormVariedadUserOrganim ({ open, onClose, title, handleSubmit, actionLa
   );
 };
 
-export default FormVariedadUserOrganim
+export default FormVariedadUser

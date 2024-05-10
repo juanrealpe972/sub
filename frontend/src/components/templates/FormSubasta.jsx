@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import RegisterSubastaMolecule from "../molecules/RegisterSubastaMolecule";
 
-function FormSubastaOrganism ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
+function FormSubasta ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose}>
@@ -12,4 +12,4 @@ function FormSubastaOrganism ({ open, onClose, title, handleSubmit, actionLabel,
   );
 };
 
-export default FormSubastaOrganism
+export default FormSubasta

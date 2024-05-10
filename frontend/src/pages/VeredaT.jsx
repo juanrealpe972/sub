@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axios";
 import toast from "react-hot-toast";
 import VeredaTable from "../components/Guard/VeredaTable.jsx";
-import FormVeredaMolecule from "../components/organisms/FormVeredaMolecule.jsx";
 import ModalMessage from "../nextui/ModalMessage.jsx";
+import FormVereda from "../components/templates/FormVereda.jsx";
 
 export function VeredaT() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -95,7 +95,7 @@ export function VeredaT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <FormVeredaMolecule
+      <FormVereda
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         title={mode === 'create' ? 'Registrar Vereda' : 'Actualizar Vereda'}

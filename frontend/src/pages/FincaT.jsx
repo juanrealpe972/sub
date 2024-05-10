@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../api/axios";
 import toast from "react-hot-toast";
-import FormFincaOrganims from "../components/organisms/FormFincaOrganims";
 import FincaTable from "../components/Guard/FincaTable";
 import ModalMessage from "../nextui/ModalMessage";
+import FormFinca from "../components/templates/FormFinca";
 
 export default function FincaT() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -89,7 +89,7 @@ export default function FincaT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <FormFincaOrganims
+      <FormFinca
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         title={mode === 'create' ? 'Registrar Finca' : 'Actualizar Finca'}

@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import RegisterTipoVariMolecule from "../molecules/RegisterTipoVariMolecule"
 
-function FormTipovariedadOrganism ({ open, onClose, handleSubmit, title, actionLabel, initialData, mode }) {
+function FormTipovariedad ({ open, onClose, handleSubmit, title, actionLabel, initialData, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose}>
@@ -12,4 +12,4 @@ function FormTipovariedadOrganism ({ open, onClose, handleSubmit, title, actionL
   );
 };
 
-export default FormTipovariedadOrganism
+export default FormTipovariedad

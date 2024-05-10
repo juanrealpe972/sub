@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axios";
 import toast from "react-hot-toast";
 import TipoVariedadTable from "../components/Guard/TipoVariedadTable.jsx";
-import FormTipovariedadOrganism from "../components/organisms/FormTipovariedadOrganism.jsx";
 import ModalMessage from "../nextui/ModalMessage.jsx";
+import FormTipovariedad from "../components/templates/FormTipovariedad.jsx";
 
 export function TipoVariedadT() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -96,7 +96,7 @@ export function TipoVariedadT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <FormTipovariedadOrganism
+      <FormTipovariedad
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         title={mode === 'create' ? 'Registrar Tipo variedad' : 'Actualizar Tipo variedad'}

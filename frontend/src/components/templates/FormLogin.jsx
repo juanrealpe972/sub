@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import LoginFormMolecule from "../molecules/LoginFormMolecule";
 
-function FormLoginOrganims({ open, onClose, handleSubmit }) {
+function FormLogin({ open, onClose, handleSubmit }) {
   return (
     <div>
       <ModalForm open={open} onClose={onClose} >
@@ -12,4 +12,4 @@ function FormLoginOrganims({ open, onClose, handleSubmit }) {
   );
 }
 
-export default FormLoginOrganims;
+export default FormLogin;

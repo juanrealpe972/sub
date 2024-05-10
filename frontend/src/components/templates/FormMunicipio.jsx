@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import RegisterMunicipioMolecule from "../molecules/RegisterMunicipioMolecule";
 
-function FormMunicipioOrganism ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
+function FormMunicipio ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose}>
@@ -12,4 +12,4 @@ function FormMunicipioOrganism ({ open, onClose, title, handleSubmit, actionLabe
   );
 };
 
-export default FormMunicipioOrganism
+export default FormMunicipio

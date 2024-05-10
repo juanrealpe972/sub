@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import RegisterFincaMolecule from "../molecules/RegisterFincaMolecule";
 
-function FormFincaOrganims ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
+function FormFinca ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose}>
@@ -12,4 +12,4 @@ function FormFincaOrganims ({ open, onClose, title, handleSubmit, actionLabel, i
   );
 };
 
-export default FormFincaOrganims
+export default FormFinca

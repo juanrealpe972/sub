@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import RegisterUser from "../molecules/RegisterUser"
 
-function FormUserOrganism ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
+function FormUser ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose}>
@@ -12,4 +12,4 @@ function FormUserOrganism ({ open, onClose, title, handleSubmit, actionLabel, in
   );
 };
 
-export default FormUserOrganism
+export default FormUser

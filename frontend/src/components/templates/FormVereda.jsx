@@ -1,8 +1,8 @@
 import React from "react";
-import { ModalForm } from "./ModalForm";
+import { ModalForm } from "../organisms/ModalForm";
 import RegisterVeredaMolecule from "../molecules/RegisterVeredaMolecule";
 
-function FormVeredaMolecule ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
+function FormVereda ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose}>
@@ -12,4 +12,4 @@ function FormVeredaMolecule ({ open, onClose, title, handleSubmit, actionLabel, 
   );
 };
 
-export default FormVeredaMolecule
+export default FormVereda

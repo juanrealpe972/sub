@@ -21,8 +21,8 @@ import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
 import { SearchIcon } from "../../nextui/SearchIcon";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import FormLoginOrganims from "./FormLoginOrganims";
 import axiosClient from "../../api/axios";
+import FormLogin from "../templates/FormLogin";
 
 function HeaderOrganism() {
   const [abrirBell, setAbrirBell] = useState(false);
@@ -272,7 +272,7 @@ function HeaderOrganism() {
               </ButtonAtom>
             </div>
           </nav>
-          <FormLoginOrganims
+          <FormLogin
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             handleSubmit={login}

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axios";
 import UsersTable from "../components/Guard/UsersTable.jsx";
-import FormUserOrganism from "../components/organisms/FormUserOrganism.jsx";
 import toast from "react-hot-toast";
 import ModalMessage from "../nextui/ModalMessage.jsx";
+import FormUser from "../components/templates/FormUser.jsx";
 
 export function UsersT() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -98,7 +98,7 @@ export function UsersT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <FormUserOrganism
+      <FormUser
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         title={mode === 'create' ? 'Registrar Usuario' : 'Actualizar Usuario'}

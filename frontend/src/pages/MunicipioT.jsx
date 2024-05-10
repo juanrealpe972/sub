@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axios";
 import toast from "react-hot-toast";
 import MunicipioTable from "../components/Guard/MunicipioTable.jsx";
-import FormMunicipioOrganism from "../components/organisms/FormMunicipioOrganism.jsx";
 import ModalMessage from "../nextui/ModalMessage.jsx";
+import FormMunicipio from "../components/templates/FormMunicipio.jsx";
 
 export function MunicipioT() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -94,7 +94,7 @@ export function MunicipioT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <FormMunicipioOrganism
+      <FormMunicipio
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         title={mode === 'create' ? 'Registrar Municipio' : 'Actualizar Municipio'}
