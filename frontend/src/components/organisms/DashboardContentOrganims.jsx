@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import LinkButtonAtom from "../atoms/LinkButtonAtom";
 import TiposDeCafeOrganism from "./TiposDeCafeOrganism";
 import Text4xlSemiboldAtom from "../atoms/Text4xlSemiboldAtom";
-import TextXlSemiboldAtom from "../atoms/TextXlSemiboldAtom";
 
 function DashboardContentOrganims() {
   const navigate = useNavigate();
@@ -31,9 +30,9 @@ function DashboardContentOrganims() {
         <Text4xlSemiboldAtom>
           Una plataforma de café perfecta para todos
         </Text4xlSemiboldAtom>
-        <TextXlSemiboldAtom>
+        <p className="text-lg font-semibold mt-8 text-center">
           Subasta o puja por el café de tu gusto.
-        </TextXlSemiboldAtom>
+        </p>
         <TiposDeCafeOrganism />
       </div>
       <div className="w-full flex justify-center p-12 gap-x-20 items-center">

@@ -1,7 +1,6 @@
 import React from "react";
 import AvatarAtom from "../atoms/AvatarAtom";
 import FooterLinkAtom from "../atoms/FooterLinkAtom";
-import TextSubAtom from "../atoms/TextSubAtom";
 import { Button, Link } from "@nextui-org/react";
 import GmailIcon from "../../nextui/GmailIcon";
 import YoutubeIcon from "../../nextui/YoutubeIcon";
@@ -15,7 +14,7 @@ const FooterOrganism = () => {
             <div className="flex items-center">
               <AvatarAtom img="isotipo-SubCoffee.png" alt="Logo" />
               <div className="ml-2">
-                <TextSubAtom to="/" color="gray-600" text="SubCoffee" />
+                <Link to="/" color="gray-600" >SubCoffee</Link>
               </div>
             </div>
             <p className="text-sm lg:text-base text-gray-500 mt-2">
