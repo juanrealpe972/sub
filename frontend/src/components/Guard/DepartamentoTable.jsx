@@ -54,13 +54,12 @@ export default function DepartamentoTable() {
     { uid: "actions", name: "Acciones", sortable: false },
   ];
 
-  const { getDepartamentos, departamentos, desactivarDepartamento, activarDepartamento, setIdDepartamento } = useContext(DeparContext);
+  const { getDepartamentos, departamentos, desactivarDepartamento, activarDepartamento } = useContext(DeparContext);
 
   const handleToggle = (mode, initialData) => {
     setInitialData(initialData);
     setAbrirModal(true);
     setMode(mode);
-    setIdDepartamento
   };
 
   const statusOptions = [

@@ -47,7 +47,6 @@ function HeaderOrganism() {
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
           navigate("/subcoffee");
-          setUsers(user);
         } else if (res.status === 401) {
           toast.error("Usuario no registrado");
         }

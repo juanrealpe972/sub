@@ -1,13 +1,13 @@
 import React, { useRef, useEffect } from "react";
+import { Button, ModalFooter } from "@nextui-org/react";
+
 import InputWithToggleIconAtom from "../atoms/InputWithToggleIconAtom";
 import InputWithIconAtom from "../atoms/InputWithIconAtom";
 import SelectInputAtom from "../atoms/SelectInputAtom";
 import OptionAtom from "../atoms/OptionAtom";
-import TitleForModal from "../atoms/TitleForModal";
 import { icono } from "../atoms/IconsAtom";
-import { Button } from "@nextui-org/react";
 
-const RegisterUser = ({ mode, title, initialData, handleSubmit, actionLabel }) => {
+const RegisterUser = ({ mode, idUser, titleBtn }) => {
   const cedula = useRef(null);
   const fullName = useRef(null);
   const email = useRef(null);
@@ -17,21 +17,21 @@ const RegisterUser = ({ mode, title, initialData, handleSubmit, actionLabel }) =
   const rol = useRef(null);
 
   useEffect(() => {
-    if (mode === "update" && initialData) {
+    if (mode === "update" && idUser) {
       try {
-        console.log(initialData);
+        console.log(idUser);
 
-        cedula.current.value = initialData.cedula_user;
-        fullName.current.value = initialData.nombre_user;
-        email.current.value = initialData.email_user;
-        phoneNumber.current.value = initialData.telefono_user;
-        birthdate.current.value = initialData.fechanacimiento_user;
-        rol.current.value = initialData.rol_user;
+        cedula.current.value = idUser.cedula_user;
+        fullName.current.value = idUser.nombre_user;
+        email.current.value = idUser.email_user;
+        phoneNumber.current.value = idUser.telefono_user;
+        birthdate.current.value = idUser.fechanacimiento_user;
+        rol.current.value = idUser.rol_user;
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     }
-  }, [mode, initialData]);
+  }, [mode, idUser]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -54,9 +54,6 @@ const RegisterUser = ({ mode, title, initialData, handleSubmit, actionLabel }) =
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 p-4">
-      <TitleForModal>
-        {title}
-      </TitleForModal>
       <InputWithIconAtom
         icon={icono.iconoUser}
         placeholder="Nombre Completo"
@@ -108,11 +105,11 @@ const RegisterUser = ({ mode, title, initialData, handleSubmit, actionLabel }) =
         type="password"
         ref={password}
       />
-      <center>
+      <ModalFooter className="flex justify-center">
         <Button type="submit" className="bg-gray-600 text-white">
-          {actionLabel}
+          {titleBtn}
         </Button>
-      </center>
+      </ModalFooter>
     </form>
   );
 };

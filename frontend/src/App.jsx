@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { NextUIProvider } from "@nextui-org/react";
 import { AuthProvider } from "./context/AuthContext";
+import { DeparProvider } from "./context/DeparContext";
 
 import SubastaPage from "./pages/SubastaPage";
 import Dashboard from "./pages/Dashboard";
@@ -17,7 +18,6 @@ import TipoVariedadT from "./pages/TipoVariedadT";
 import QuienesSomosA from "./pages/QuienesSomosA";
 import PoliticasYCondicionesPageA from "./pages/PoliticasYCondicionesPageA";
 import SubastaUser from "./pages/SubastaUser";
-import { DeparProvider } from "./context/DeparContext";
 
 function App() {
   const users = JSON.parse(localStorage.getItem("user"));

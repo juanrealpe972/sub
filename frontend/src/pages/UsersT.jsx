@@ -6,15 +6,13 @@ import ModalMessage from "../nextui/ModalMessage.jsx";
 import FormUser from "../components/templates/FormUser.jsx";
 
 export function UsersT() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [mode, setMode] = useState("create");
-  const [initialData, setInitialData] = useState(null);
+
   const [results, setResults] = useState([]);
   const [modalMessage, setModalMessage] = useState(false);
   const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
-    fetchUserList(); //  Lista los usuarios al cargar la página
+    fetchUserList();
   }, []);
 
   const fetchUserList = async () => {
@@ -52,17 +50,6 @@ export function UsersT() {
     }
   };
 
-  const contenido = [
-    { uid: "nombre_user", name: "Usuario", sortable: true },
-    { uid: "pk_cedula_user", name: "Cedula", sortable: true },
-    { uid: "descripcion_user", name: "Descripción", sortable: true },
-    { uid: "telefono_user", name: "Telefono", sortable: true },
-    { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
-    { uid: "rol_user", name: "Rol", sortable: true },
-    { uid: "estado_user", name: "Estado", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
-
   const id = localStorage.getItem("idUser");
 
   const handleSubmit = async (data, e) => {
@@ -93,20 +80,6 @@ export function UsersT() {
 
   return (
     <div className="w-full h-auto bg-gray-100 flex flex-col items-center px-2">
-      <ModalMessage
-        isOpen={modalMessage}
-        onClose={() => setModalMessage(false)}
-        label={mensaje}
-      />
-      <FormUser
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={mode === 'create' ? 'Registrar Usuario' : 'Actualizar Usuario'}
-        actionLabel={mode === "create" ? "Registrar" : "Actualizar"}
-        initialData={initialData}
-        handleSubmit={handleSubmit}
-        mode={mode}
-      />
       <UsersTable
         actualizarUser={() => handleToggle("update", id)}
         registrarUser={() => handleToggle("create")}

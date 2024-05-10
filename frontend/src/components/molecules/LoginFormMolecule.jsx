@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+
 import { Button, Input, ModalFooter } from "@nextui-org/react";
-import { Link } from "react-router-dom";
 import {EyeSlashFilledIcon} from "../../nextui/EyeSlashFilledIcon"
 import {EyeFilledIcon} from "../../nextui/EyeFilledIcon"
-
-import InputWithToggleIconAtom from "../atoms/InputWithToggleIconAtom";
 import { icono } from "../atoms/IconsAtom";
+import AuthContext from "../../context/AuthContext";
 
-const LoginFormMolecule = ({ handleSubmit }) => {
+const LoginFormMolecule = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const { loginUsers, isAuthenticated } = useContext(AuthContext)
+  const navigate = useNavigate()
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,15 +20,19 @@ const LoginFormMolecule = ({ handleSubmit }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = {
+      const dataForm = {
         correo: email,
         password: password,
       };
-      handleSubmit(data, e);
+      loginUsers(dataForm);
     } catch (error) {
       toast.error("Error del sistema:", error);
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) return navigate("/subcoffee")
+  }, [isAuthenticated])
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 px-4">

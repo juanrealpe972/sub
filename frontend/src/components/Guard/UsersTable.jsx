@@ -22,13 +22,14 @@ import { ChevronDownIcon } from "../../nextui/ChevronDownIcon";
 import { EditIcon } from "../../nextui/EditIcon.jsx";
 import ActivarIcon from "../../nextui/ActivarIcon.jsx";
 import DesactivarIcon from "../../nextui/DesactivarIcon.jsx";
+import FormUser from "../templates/FormUser.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-export default function UsersTable({ registrarUser, data, results, actualizarUser, desactivarUser, activarUser }) {
+export default function UsersTable({ registrarUser, results, actualizarUser, desactivarUser, activarUser }) {
   const [filterValue, setFilterValue] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -38,10 +39,27 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
   });
   const [page, setPage] = useState(1);
 
+  const [abrirModa, setAbrirModa] = useState(false);
+  const [mode, setMode] = useState("create");
+  const [initialData, setInitialData] = useState(null);
+
+  const data = [
+    { uid: "nombre_user", name: "Usuario", sortable: true },
+    { uid: "pk_cedula_user", name: "Cedula", sortable: true },
+    { uid: "descripcion_user", name: "Descripción", sortable: true },
+    { uid: "telefono_user", name: "Telefono", sortable: true },
+    { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
+    { uid: "rol_user", name: "Rol", sortable: true },
+    { uid: "estado_user", name: "Estado", sortable: true },
+    { uid: "actions", name: "Acciones", sortable: false },
+  ];
+
   const handleUpdateUser = (id) => {
     localStorage.setItem("idUser", id);
     actualizarUser(id)
   };
+
+
 
   const statusOptions = [
     { name: "Inactivo", uid: "inactivo" },
@@ -220,7 +238,7 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={registrarUser} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={setAbrirModa(true)} >
               Registrar
             </Button>
           </div>
@@ -278,6 +296,14 @@ export default function UsersTable({ registrarUser, data, results, actualizarUse
 
   return (
     <>
+      <FormUser
+        open={abrirModa}
+        onClose={() => setAbrirModa(false)}
+        title={mode === 'create' ? 'Registrar Usuario' : 'Actualizar Usuario'}
+        titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
+        idUser={initialData}
+        mode={mode}
+      />
       <Table
         aria-label="Example table with custom cells, pagination and sorting"
         isHeaderSticky
