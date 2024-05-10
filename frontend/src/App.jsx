@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import { NextUIProvider } from "@nextui-org/react";
+import { AuthProvider } from "./context/AuthContext";
 
 import SubastaPage from "./pages/SubastaPage";
 import Dashboard from "./pages/Dashboard";
@@ -31,10 +31,6 @@ function App() {
             <BrowserRouter>
               <Routes>
                 <Route element={<Dashboard />}>
-                  <Route index element={<DashboardContentOrganims />} />
-                  <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
-                  <Route path="/somos" element={<QuienesSomosA />} />
-                  <Route path="/ayuda" element={<AyudaPage />} />
                   <Route element={<ProtectedRoute />}>
                     <Route path="/subcoffee" element={<SubastaPage />} />
                     <Route path="/profile/:id" element={<ProfileUser />} />
@@ -52,6 +48,12 @@ function App() {
                       </>
                     )}
                   </Route>
+                </Route>
+                <Route element={<Dashboard />}>
+                  <Route index element={<DashboardContentOrganims />} />
+                  <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
+                  <Route path="/somos" element={<QuienesSomosA />} />
+                  <Route path="/ayuda" element={<AyudaPage />} />
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

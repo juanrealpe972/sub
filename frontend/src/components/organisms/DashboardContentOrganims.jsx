@@ -11,7 +11,6 @@ function DashboardContentOrganims() {
     const storedUser = localStorage.getItem("user");
     const token = localStorage.getItem("token");
 
-    // Si hay un usuario y un token en el localStorage, redirigir a la página de "Subcoffee"
     if (storedUser && token) {
       navigate("/subcoffee");
     }

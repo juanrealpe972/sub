@@ -275,6 +275,7 @@ function HeaderOrganism() {
           </nav>
           <FormLogin
             open={modalOpen}
+            title="Iniciar sesión"
             onClose={() => setModalOpen(false)}
             handleSubmit={login}
           />
