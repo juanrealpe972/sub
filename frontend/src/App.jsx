@@ -12,12 +12,12 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AyudaPage from "./pages/AyudaPage";
 import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
 import GeografiaFullPage from "./pages/GeografiaFullPage";
-import UsersT from "./pages/UsersT";
 import MiSubastaT from "./pages/MiSubastaT";
 import TipoVariedadT from "./pages/TipoVariedadT";
 import QuienesSomosA from "./pages/QuienesSomosA";
 import PoliticasYCondicionesPageA from "./pages/PoliticasYCondicionesPageA";
 import SubastaUser from "./pages/SubastaUser";
+import UsersTable from "./components/Guard/UsersTable";
 
 function App() {
   const users = JSON.parse(localStorage.getItem("user"));
@@ -37,7 +37,7 @@ function App() {
                     <Route path="/subasta/:id" element={<SubastaUser />} />
                     {users && users.rol_user === "admin" && (
                       <>
-                        <Route path="/users" element={<UsersT />} />
+                        <Route path="/users" element={<UsersTable />} />
                         <Route path="/geografia" element={<GeografiaFullPage />} />
                         <Route path="/tipo_variedad" element={<TipoVariedadT />} />
                       </>

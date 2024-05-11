@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-
 import { Button, Input, ModalFooter } from "@nextui-org/react";
-import {EyeSlashFilledIcon} from "../../nextui/EyeSlashFilledIcon"
-import {EyeFilledIcon} from "../../nextui/EyeFilledIcon"
+
+import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon"
+import { EyeFilledIcon } from "../../nextui/EyeFilledIcon"
 import { icono } from "../atoms/IconsAtom";
 import AuthContext from "../../context/AuthContext";
 

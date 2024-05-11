@@ -39,6 +39,8 @@ export default function DepartamentoTable() {
   });
   const [page, setPage] = useState(1);
 
+  const { getDepartamentos, departamentos, desactivarDepartamento, activarDepartamento } = useContext(DeparContext);
+
   useEffect(() => {
     getDepartamentos();
   }, []);
@@ -53,8 +55,6 @@ export default function DepartamentoTable() {
     { uid: "estado_depar", name: "Estado Departamento", sortable: true },
     { uid: "actions", name: "Acciones", sortable: false },
   ];
-
-  const { getDepartamentos, departamentos, desactivarDepartamento, activarDepartamento } = useContext(DeparContext);
 
   const handleToggle = (mode, initialData) => {
     setInitialData(initialData);

@@ -13,7 +13,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const [modalMessage, setModalMessage] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [errors, setErrors] = useState([]);
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   const getUsers = async () => {
     try {
       const response = await getUser();
-      setUsers(response.data);
+      setUsers(response.data.data);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        user,
+        users,
         errors,
         setIsAuthenticated,
         loginUsers,
