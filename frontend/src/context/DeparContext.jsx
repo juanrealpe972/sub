@@ -15,6 +15,7 @@ export const DeparProvider = ({ children }) => {
   const [mensaje, setMensaje] = useState("");
   const [errors, setErrors] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
+  const [idDepartamento, setIdDepartamento] = useState(0)
 
   const getDepartamentos = async () => {
     try {
@@ -74,6 +75,8 @@ export const DeparProvider = ({ children }) => {
       value={{
         errors,
         departamentos,
+        idDepartamento, 
+        setIdDepartamento,
         setDepartamentos,
         getDepartamentos,
         createDepartamento,

@@ -39,19 +39,14 @@ export default function DepartamentoTable() {
   });
   const [page, setPage] = useState(1);
 
-  const { getDepartamentos, departamentos, desactivarDepartamento, activarDepartamento } = useContext(DeparContext);
+  const { getDepartamentos, setIdDepartamento, departamentos, desactivarDepartamento, activarDepartamento } = useContext(DeparContext);
 
   useEffect(() => {
     getDepartamentos();
   }, []);
-
-  const handleCloseModal = () => {
-    setAbrirModal(false);
-  };
   
   const [abrirModal, setAbrirModal] = useState(false)
   const [mode, setMode] = useState("create");
-  const [initialData, setInitialData] = useState(null);
 
   const data = [
     { uid: "pk_codigo_depar", name: "Codigo Departamento", sortable: true },
@@ -60,8 +55,7 @@ export default function DepartamentoTable() {
     { uid: "actions", name: "Acciones", sortable: false },
   ];
 
-  const handleToggle = (mode, initialData) => {
-    setInitialData(initialData);
+  const handleToggle = (mode) => {
     setAbrirModal(true);
     setMode(mode);
   };
@@ -138,7 +132,7 @@ export default function DepartamentoTable() {
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-              <Button color="default" startContent={<EditIcon />} onClick={() => handleToggle('update', departamento)}>
+              <Button color="default" startContent={<EditIcon />} onClick={() => {handleToggle('update'); setIdDepartamento(departamento)}}>
                 Editar
               </Button>
               {departamento.estado_depar === "activo" ? (
@@ -228,7 +222,7 @@ export default function DepartamentoTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={() => setAbrirModal(true)} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={() => handleToggle("create")} >
               Registrar
             </Button>
           </div>
@@ -291,9 +285,7 @@ export default function DepartamentoTable() {
         onClose={() => setAbrirModal(false)}
         title={mode === "create" ? "Registrar Departamento": "Actualizar Departamento"}
         titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
-        idDepar={initialData}
         mode={mode}
-        onCloseModal={handleCloseModal}
       />
       <Table
         aria-label="Example table with custom cells, pagination and sorting"

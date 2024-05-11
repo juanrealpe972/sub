@@ -4,31 +4,31 @@ import { icono } from "../atoms/IconsAtom";
 import { Button, Input, ModalFooter } from "@nextui-org/react";
 import DeparContext from "../../context/DeparContext";
 
-const RegisterDepartMolecule = ({ mode, idDepar, titleBtn, onCloseModal }) => {
+const RegisterDepartMolecule = ({ mode, titleBtn, onClose }) => {
   const [formData, setFormData] = useState({
     pk_codigo_depar: "",
     nombre_depar: "",
   });
-  const { createDepartamento, updateDepartamento } = useContext(DeparContext);
+  const { idDepartamento, createDepartamento, updateDepartamento } = useContext(DeparContext);
 
   useEffect(() => {
-    if (mode === "update" && idDepar) {
+    if (mode === "update" && idDepartamento) {
       setFormData({
-        pk_codigo_depar: idDepar.pk_codigo_depar,
-        nombre_depar: idDepar.nombre_depar,
+        pk_codigo_depar: idDepartamento.pk_codigo_depar,
+        nombre_depar: idDepartamento.nombre_depar,
       });
     }
-  }, [mode, idDepar]);
+  }, [mode, idDepartamento]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
       if (mode === "update") {
-        await updateDepartamento(idDepar.pk_codigo_depar, formData);
+        await updateDepartamento(idDepartamento.pk_codigo_depar, formData);
       } else {
         await createDepartamento(formData);
       }
-      onCloseModal()
+      onClose()
     } catch (error) {
       console.error(error);
       toast.error("Error en el servidor: " + error.message);
