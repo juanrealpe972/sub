@@ -171,8 +171,8 @@ function HeaderOrganism() {
                           size="sm"
                           src={
                             user.imagen_user && user.imagen_user.length > 0
-                              ? `../../${user.imagen_user}`
-                              : "../../imagen_de_usuario.webp"
+                              ? `http://localhost:4000/img/${user.imagen_user}`
+                              : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
                           }
                         />
                         <div className="flex flex-col">
@@ -208,8 +208,8 @@ function HeaderOrganism() {
                     avatarProps={{
                       src: `${
                         users.imagen_user && users.imagen_user.length > 0
-                          ? `../../${users.imagen_user}`
-                          : "../../imagen_de_usuario.webp"
+                        ? `http://localhost:4000/img/${users.imagen_user}`
+                        : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
                       }`,
                     }}
                     className="transition-transform"

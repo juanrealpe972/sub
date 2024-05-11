@@ -151,7 +151,7 @@ function FincaTable({ registrar, results, actualizar, desactivar, activar }) {
                     radius="md"
                     width="100%"
                     className="rounded-xl w-80 h-[180px]"
-                    src={`http://localhost:4000/public/fincas/${result.imagen_fin}`}
+                    src={`http://localhost:4000/fincas/${result.imagen_fin}`}
                   />
                 </CardBody>
                 <div className="relative flex justify-center items-center gap-2">

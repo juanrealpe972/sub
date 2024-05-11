@@ -116,7 +116,7 @@ function VariedadUserTable({
                 width="100%"
                 alt={result.imagen_vari}
                 className="w-full object-cover h-[140px]"
-                src={result.imagen_vari}
+                src={`http://localhost:4000/variedades/${result.imagen_vari}`}
               />
             </CardBody>
             <CardFooter className="text-small flex-col justify-between">

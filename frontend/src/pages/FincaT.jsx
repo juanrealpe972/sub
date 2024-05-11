@@ -55,7 +55,6 @@ export default function FincaT() {
   };
 
   const id = localStorage.getItem("id_fin");
-  console.log(id);
   const handleSubmit = async (data, e) => {
     e.preventDefault();
     try {
