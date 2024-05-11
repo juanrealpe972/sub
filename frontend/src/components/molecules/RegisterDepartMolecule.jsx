@@ -4,7 +4,7 @@ import { icono } from "../atoms/IconsAtom";
 import { Button, Input, ModalFooter } from "@nextui-org/react";
 import DeparContext from "../../context/DeparContext";
 
-const RegisterDepartMolecule = ({ mode, idDepar, titleBtn }) => {
+const RegisterDepartMolecule = ({ mode, idDepar, titleBtn, onCloseModal }) => {
   const [formData, setFormData] = useState({
     pk_codigo_depar: "",
     nombre_depar: "",
@@ -28,6 +28,7 @@ const RegisterDepartMolecule = ({ mode, idDepar, titleBtn }) => {
       } else {
         await createDepartamento(formData);
       }
+      onCloseModal()
     } catch (error) {
       console.error(error);
       toast.error("Error en el servidor: " + error.message);

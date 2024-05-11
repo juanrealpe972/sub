@@ -44,6 +44,10 @@ export default function DepartamentoTable() {
   useEffect(() => {
     getDepartamentos();
   }, []);
+
+  const handleCloseModal = () => {
+    setAbrirModal(false);
+  };
   
   const [abrirModal, setAbrirModal] = useState(false)
   const [mode, setMode] = useState("create");
@@ -289,6 +293,7 @@ export default function DepartamentoTable() {
         titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
         idDepar={initialData}
         mode={mode}
+        onCloseModal={handleCloseModal}
       />
       <Table
         aria-label="Example table with custom cells, pagination and sorting"

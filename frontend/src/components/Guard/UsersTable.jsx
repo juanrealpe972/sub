@@ -42,13 +42,17 @@ export default function UsersTable() {
 
   const { getUsers, users, updateUserActive, updateUserDesactive } = useContext(AuthContext)
 
+  const [abrirModal, setAbrirModal] = useState(false);
+  const [mode, setMode] = useState("create");
+  const [initialData, setInitialData] = useState(null);
+
   useEffect(() => {
     getUsers();
   }, []);
 
-  const [abrirModal, setAbrirModal] = useState(false);
-  const [mode, setMode] = useState("create");
-  const [initialData, setInitialData] = useState(null);
+  const handleCloseModal = () => {
+    setAbrirModal(false);
+  };
 
   const data = [
     { uid: "nombre_user", name: "Usuario", sortable: true },
@@ -313,6 +317,7 @@ export default function UsersTable() {
         titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
         idUser={initialData}
         mode={mode}
+        onCloseModal={handleCloseModal}
       />
       <Table
         aria-label="Example table with custom cells, pagination and sorting"

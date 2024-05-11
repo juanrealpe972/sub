@@ -13,7 +13,7 @@ import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
 import { icono } from "../atoms/IconsAtom";
 import AuthContext from "../../context/AuthContext";
 
-const RegisterUser = ({ mode, idUser, titleBtn }) => {
+const RegisterUser = ({ mode, idUser, titleBtn, onCloseModal }) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const { createUsers, updateUsers } = useContext(AuthContext);
@@ -79,6 +79,7 @@ const RegisterUser = ({ mode, idUser, titleBtn }) => {
       } else {
         await createUsers(datosAEnviar);
       }
+      onCloseModal()
     } catch (error) {
       console.log(error);
       alert("Error en el servidor " + error);
