@@ -2,9 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import ComoCrearSubasta from "./ComoCrearUnaSubasta";
 import InfoRolesA from "./InfoRolesA";
 import ComoPujarUnaSubasta from "./ComoPujarUnaSubasta";
-import { Button, ButtonGroup } from "@nextui-org/react";
+import { Button, ButtonGroup, Input } from "@nextui-org/react";
 import FlechaArriba from "../nextui/FlechaArriba";
-import InputDudaWithIconAtom from "../components/atoms/InputDudaWithIconAtom";
 import toast from "react-hot-toast";
 import { icono } from "../components/atoms/IconsAtom";
 
@@ -106,12 +105,14 @@ function AyudaPage() {
               ¿Tienes alguna duda?
             </p>
             <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
-              <InputDudaWithIconAtom
-                icon={icono.iconoGmail}
-                id="text"
+              <Input
+                startContent={<icono.iconoGmail/>}
                 name="text"
+                variant="bordered"
+                label=""
+                aria-label="Duda o sugerencia..."
                 placeholder="Duda o sugerencia..."
-                required
+                required={true}
                 type="text"
                 value={texto}
                 onChange={(e) => setTexto(e.target.value)}

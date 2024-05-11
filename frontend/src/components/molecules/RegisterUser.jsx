@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Button,
-  ModalFooter,
-  Input,
-  Select,
-  SelectItem,
-  Textarea,
-} from "@nextui-org/react";
+import { Button, ModalFooter, Input, Textarea } from "@nextui-org/react";
 
 import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
@@ -79,7 +72,7 @@ const RegisterUser = ({ mode, idUser, titleBtn, onCloseModal }) => {
       } else {
         await createUsers(datosAEnviar);
       }
-      onCloseModal()
+      onCloseModal();
     } catch (error) {
       console.log(error);
       alert("Error en el servidor " + error);
@@ -101,7 +94,7 @@ const RegisterUser = ({ mode, idUser, titleBtn, onCloseModal }) => {
         />
         <label
           htmlFor="fileInput"
-          className="cursor-pointer items-center w-auto flex justify-center bg-blue-200 rounded-full border"
+          className="cursor-pointer items-center w-auto flex justify-center bg-blue-100 rounded-full border"
         >
           {formData.imagen_user ? (
             <div className="relative">
@@ -125,19 +118,18 @@ const RegisterUser = ({ mode, idUser, titleBtn, onCloseModal }) => {
                   />
                 </svg>
               </button>
-              {formData.imagen_user &&
-              typeof formData.imagen_user === "object" ? (
+              {mode === "update" ? (
+                <img
+                  src={`http://localhost:4000/img/${formData.imagen_user}`}
+                  alt="user"
+                  className="h-28 w-28 object-cover rounded-full mx-auto"
+                />
+              ) : (
                 <img
                   src={URL.createObjectURL(formData.imagen_user)}
                   alt="user"
                   className="h-28 w-28 object-cover rounded-full mx-auto"
                 />
-              ) : (
-                <div className="flex items-center justify-center w-28 h-28 border border-gray-300 rounded-full hover:bg-gray-50 transition duration-300">
-                  <span className="text-gray-500 text-center">
-                    Seleccionar imagen
-                  </span>
-                </div>
               )}
             </div>
           ) : (
@@ -177,7 +169,11 @@ const RegisterUser = ({ mode, idUser, titleBtn, onCloseModal }) => {
           variant="bordered"
           type="date"
           name="fechanacimiento_user"
-          value={formData.fechanacimiento_user}
+          value={
+            mode === "update"
+              ? new Date(formData.fechanacimiento_user).toDateString("es-ES", {day: '2-digit', month: '2-digit', year: 'numeric'})
+              : formData.fechanacimiento_user
+          }
           onChange={handleChange}
           startContent={<icono.iconoFecha />}
         />
@@ -205,49 +201,60 @@ const RegisterUser = ({ mode, idUser, titleBtn, onCloseModal }) => {
           startContent={<icono.iconoGmail />}
         />
       </div>
-      <div className="grid grid-cols-2 items-center gap-x-2">
-        <Select
-          label=""
-          startContent={<icono.iconoRol />}
-          placeholder="Seleccionar Rol"
-          labelPlacement="outside"
-          variant="bordered"
-          className="max-w-xs"
-          aria-label="Seleccionar Rol"
-          value={formData.rol_user}
-          onChange={handleChange}
-          name="rol_user"
-        >
-          {userAdmin.rol_user === "admin" && (
-            <SelectItem key="admin" value="admin" textValue="Admin"> Admin </SelectItem>
-          )}
-          <SelectItem key="vendedor" value="vendedor" textValue="Vendedor"> Vendedor </SelectItem>
-          <SelectItem key="comprador" value="comprador" textValue="Comprador"> Comprador </SelectItem>
-        </Select>
-        <Input
-          label=""
-          aria-label="Contraseña"
-          variant="bordered"
-          placeholder="Contraseña"
-          startContent={<icono.iconoContraseña />}
-          endContent={
-            <button
-              type="button"
-              onClick={toggleVisibility}
-              className="focus:outline-none"
-            >
-              {isVisible ? (
-                <EyeSlashFilledIcon className="text-2xl text-default-400" />
-              ) : (
-                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-              )}
-            </button>
-          }
-          type={isVisible ? "text" : "password"}
-          value={formData.password_user}
-          name="password_user"
-          onChange={handleChange}
-        />
+      <div
+        className={`grid ${
+          mode !== "update" ? "grid-cols-2" : "grid-cols-1"
+        } items-center gap-x-2`}
+      >
+        <div className="relative">
+          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+            {<icono.iconoRol />}
+          </span>
+          <select
+            name="rol_user"
+            value={formData.rol_user}
+            onChange={handleChange}
+            required={true}
+            className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+          >
+            <option value="" hidden className="text-gray-400">
+              Seleccionar Rol
+            </option>
+            {userAdmin.rol_user === "admin" && (
+              <option value="admin">Administrador</option>
+            )}
+            <option value="usuario">Usuario</option>
+            <option value="vendedor">Vendedor</option>
+          </select>
+        </div>
+        {mode !== "update" ? (
+          <Input
+            label=""
+            aria-label="Contraseña"
+            variant="bordered"
+            placeholder="Contraseña"
+            startContent={<icono.iconoContraseña />}
+            endContent={
+              <button
+                type="button"
+                onClick={toggleVisibility}
+                className="focus:outline-none"
+              >
+                {isVisible ? (
+                  <EyeSlashFilledIcon className="text-2xl text-default-400" />
+                ) : (
+                  <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+            type={isVisible ? "text" : "password"}
+            value={formData.password_user}
+            name="password_user"
+            onChange={handleChange}
+          />
+        ) : (
+          ""
+        )}
       </div>
       <Textarea
         label="Descripción de usuario"

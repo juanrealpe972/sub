@@ -132,7 +132,12 @@ export default function UsersTable() {
       case "nombre_user":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.imagen_user }}
+            avatarProps={{ radius: "full",                       
+            src: `${
+              user.imagen_user && user.imagen_user.length > 0
+                ? `http://localhost:4000/img/${user.imagen_user}`
+                : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}`, 
+            }}
             description={user.email_user}
             name={cellValue}
           >
