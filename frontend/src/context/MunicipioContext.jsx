@@ -5,6 +5,7 @@ import {
   updateMunicipios,
   UpdateMunicipioActivar,
   UpdateMunicipioDesact,
+  getMuniForDepartamento,
 } from "../api/api.municipios";
 import ModalMessage from "../nextui/ModalMessage";
 
@@ -15,7 +16,7 @@ export const MunicipioProvider = ({ children }) => {
   const [mensaje, setMensaje] = useState("");
   const [errors, setErrors] = useState([]);
   const [municipios, setMunicipios] = useState([]);
-  const [idMunicipio, setIdMunicipio] = useState(0)
+  const [idMunicipio, setIdMunicipio] = useState(0);
 
   const getMunis = async () => {
     try {
@@ -25,6 +26,15 @@ export const MunicipioProvider = ({ children }) => {
       console.error(error);
     }
   };
+
+  const getMunisForDepar = async (departamento) => {
+    try {
+      const response = await getMuniForDepartamento(departamento)
+      setMunicipios(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const createMunis = async (data) => {
     try {
@@ -79,6 +89,7 @@ export const MunicipioProvider = ({ children }) => {
         setIdMunicipio,
         setMunicipios,
         getMunis,
+        getMunisForDepar,
         createMunis,
         updateMunis,
         desactivarMunis,
