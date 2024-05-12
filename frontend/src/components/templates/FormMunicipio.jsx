@@ -2,11 +2,11 @@ import React from "react";
 import { ModalForm } from "../organisms/ModalForm";
 import RegisterMunicipioMolecule from "../molecules/RegisterMunicipioMolecule";
 
-function FormMunicipio ({ open, onClose, title, handleSubmit, actionLabel, initialData, mode }) {
+function FormMunicipio ({ open, onClose, title, titleBtn, mode }) {
   return (
     <>
-      <ModalForm open={open} onClose={onClose}>
-        <RegisterMunicipioMolecule initialData={initialData} title={title} mode={mode} handleSubmit={handleSubmit} actionLabel={actionLabel} />
+      <ModalForm open={open} onClose={onClose} title={title}>
+        <RegisterMunicipioMolecule mode={mode} titleBtn={titleBtn} onClose={onClose} />
       </ModalForm>
     </>
   );

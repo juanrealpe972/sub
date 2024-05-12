@@ -1,8 +1,8 @@
 import React from "react";
-import MunicipioT from "./MunicipioT";
 import VeredaT from "./VeredaT";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import DepartamentoTable from "../components/Guard/DepartamentoTable";
+import MunicipioTable from "../components/Guard/MunicipioTable";
 
 function GeografiaFullPage() {
   return (
@@ -18,7 +18,7 @@ function GeografiaFullPage() {
         <Tab key="municipios" title="Municipios">
           <Card>
             <CardBody>
-              <MunicipioT />
+              <MunicipioTable />
             </CardBody>
           </Card>
         </Tab>

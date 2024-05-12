@@ -6,8 +6,7 @@ import ModalMessage from "../nextui/ModalMessage.jsx";
 import FormMunicipio from "../components/templates/FormMunicipio.jsx";
 
 export function MunicipioT() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [mode, setMode] = useState("create");
+
   const [initialData, setInitialData] = useState(null);
   const [results, setResults] = useState([]);
   const [modalMessage, setModalMessage] = useState(false);
@@ -52,14 +51,6 @@ export function MunicipioT() {
     }
   };
 
-  const contenido = [
-    { uid: "pk_codigo_muni", name: "Codigo Municipio", sortable: true },
-    { uid: "nombre_muni", name: "Nombre Municipio", sortable: true },
-    { uid: "estado_muni", name: "Estado Municipio", sortable: true },
-    { uid: "nombre_depar", name: "Departamento", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
-
   const id = localStorage.getItem("id_muni");
 
   const handleSubmit = async (data, e) => {
@@ -94,21 +85,12 @@ export function MunicipioT() {
         onClose={() => setModalMessage(false)}
         label={mensaje}
       />
-      <FormMunicipio
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={mode === 'create' ? 'Registrar Municipio' : 'Actualizar Municipio'}
-        actionLabel={mode === "create" ? "Registrar" : "Actualizar"}
-        initialData={initialData}
-        handleSubmit={handleSubmit}
-        mode={mode}
-      />
+
       <MunicipioTable
         actualizar={() => handleToggle("update", id)}
         registrar={() => handleToggle("create")}
         desactivar={desactivarMunicipio}
         activar={activarMunicipio}
-        data={contenido}
         results={results}
       />
     </div>
