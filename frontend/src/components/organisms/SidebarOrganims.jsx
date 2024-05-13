@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { icono } from "../atoms/IconsAtom";
 
-const auth = localStorage.getItem("token");
 const users = JSON.parse(localStorage.getItem("user"));
 
 const SidebarOrganims = () => {
@@ -10,7 +9,7 @@ const SidebarOrganims = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    ...(auth && users && [
+    ...(users && [
       { title: "Inicio", link: "/subcoffee", icon: icono.iconoHome },
       ...(users && users.rol_user === "admin" ? [
             { title: "Usuarios", link: "/users", icon: icono.iconoRol },

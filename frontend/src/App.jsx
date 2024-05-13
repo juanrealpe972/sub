@@ -6,6 +6,7 @@ import { DeparProvider } from "./context/DeparContext";
 import { TipoVariProvider } from "./context/TipoVariContext";
 import { MunicipioProvider } from "./context/MunicipioContext";
 import { VeredaProvider } from "./context/VeredaContext";
+import { FincaProvider } from "./context/FincaContext";
 
 import SubastaPage from "./pages/SubastaPage";
 import Dashboard from "./pages/Dashboard";
@@ -22,6 +23,7 @@ import SubastaUser from "./pages/SubastaUser";
 import UsersTable from "./components/Guard/UsersTable";
 import TipoVariedadTable from "./components/Guard/TipoVariedadTable";
 
+
 function App() {
   const users = JSON.parse(localStorage.getItem("user"));
 
@@ -34,36 +36,38 @@ function App() {
             <TipoVariProvider>
               <MunicipioProvider>
                 <VeredaProvider>
-                  <BrowserRouter>
-                    <Routes>
-                      <Route element={<Dashboard />}>
-                        <Route element={<ProtectedRoute />}>
-                          <Route path="/subcoffee" element={<SubastaPage />} />
-                          <Route path="/profile/:id" element={<ProfileUser />} />
-                          <Route path="/subasta/:id" element={<SubastaUser />} />
-                          {users && users.rol_user === "admin" && (
-                            <>
-                              <Route path="/users" element={<UsersTable />} />
-                              <Route path="/geografia" element={<GeografiaFullPage />} />
-                              <Route path="/tipo_variedad" element={<TipoVariedadTable />} />
-                            </>
-                          )}
-                          {users && users.rol_user !== "comprador" && (
-                            <>
-                              <Route path="/mi_subasta" element={<MiSubastaT />} />
-                            </>
-                          )}
+                  <FincaProvider>
+                    <BrowserRouter>
+                      <Routes>
+                        <Route element={<Dashboard />}>
+                          <Route element={<ProtectedRoute />}>
+                            <Route path="/subcoffee" element={<SubastaPage />} />
+                            <Route path="/profile/:id" element={<ProfileUser />} />
+                            <Route path="/subasta/:id" element={<SubastaUser />} />
+                            {users && users.rol_user === "admin" && (
+                              <>
+                                <Route path="/users" element={<UsersTable />} />
+                                <Route path="/geografia" element={<GeografiaFullPage />} />
+                                <Route path="/tipo_variedad" element={<TipoVariedadTable />} />
+                              </>
+                            )}
+                            {users && users.rol_user !== "comprador" && (
+                              <>
+                                <Route path="/mi_subasta" element={<MiSubastaT />} />
+                              </>
+                            )}
+                          </Route>
                         </Route>
-                      </Route>
-                      <Route element={<Dashboard />}>
-                        <Route index element={<DashboardContentOrganims />} />
-                        <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
-                        <Route path="/somos" element={<QuienesSomosA />} />
-                        <Route path="/ayuda" element={<AyudaPage />} />
-                      </Route>
-                      <Route path="*" element={<NotFoundPage />} />
-                    </Routes>
-                  </BrowserRouter>
+                        <Route element={<Dashboard />}>
+                          <Route index element={<DashboardContentOrganims />} />
+                          <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
+                          <Route path="/somos" element={<QuienesSomosA />} />
+                          <Route path="/ayuda" element={<AyudaPage />} />
+                        </Route>
+                        <Route path="*" element={<NotFoundPage />} />
+                      </Routes>
+                    </BrowserRouter>
+                  </FincaProvider>
                 </VeredaProvider>
               </MunicipioProvider>
             </TipoVariProvider>

@@ -1,176 +1,262 @@
-import React, { useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
-import InputWithIconAtom from "../atoms/InputWithIconAtom";
-import TextTareaAtom from "../atoms/TextTareaAtom";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, ModalFooter, Input, Textarea } from "@nextui-org/react";
+
+import FincaContext from "../../context/FincaContext";
+import DeparContext from "../../context/DeparContext";
 import { icono } from "../atoms/IconsAtom";
-import { Button, Select, SelectItem } from "@nextui-org/react";
-import TitleForModal from "../atoms/TitleForModal";
-import axiosClient from "../../api/axios";
+import MunicipioContext from "../../context/MunicipioContext";
+import VeredaContext from "../../context/VeredaContext";
 
-const RegisterFincaMolecule = ({ mode, title, initialData, handleSubmit, actionLabel }) => {
-  const nombreFincaRef = useRef(null);
-  const imagenRef = useRef(null);
-  const descripcion_fin = useRef(null);
+const RegisterFincaMolecule = ({ mode, onClose, titleBtn }) => {
+  const [formData, setFormData] = useState({
+    nombre_fin: "",
+    imagen: null,
+    descripcionFin: "",
+    departamento: "",
+    municipio: "",
+    vereda: "",
+  });
 
-  const [departamentos, setDepartamentos] = useState([]);
-  const [departamentosRef, setDepartamentosRef] = useState("");
-  const [municipios, setMunicipios] = useState([]);
-  const [municipiosRef, setMunicipiosRef] = useState("");
-  const [veredas, setVeredas] = useState([]);
-  const [veredasRef, setVeredasRef] = useState("");
+  const { idFinca, createFincas, updateFincas } = useContext(FincaContext);
+  const { departamentos, getDepartamentos } = useContext(DeparContext);
+  const { getMunisForDepar, municipiosForDepar, setMunicipiosForDepar } = useContext(MunicipioContext);
+  const { getVeresForMuni, veredasForMuni, setVeredasForMuni } = useContext(VeredaContext)
 
-  const users = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    const fetchDepar = async () => {
-      try {
-        const response = await axiosClient.get("/v1/departamentos");
-        setDepartamentos(response.data);
-      } catch (error) {
-        console.error("Error fetching departamentos:", error);
-        toast.error("Error al cargar la lista de departamentos");
-      }
-    };
-    fetchDepar();
+    getDepartamentos();
+  }, []);
 
-    if (mode === "update" && initialData) {
-      try {
-        descripcion_fin.current = initialData.descripcion_fin;
-        setVeredasRef(initialData.fk_finca);
-      } catch (error) {
-        toast.error("Error setting initial data:", error);
-      }
+  useEffect(() => {
+    if (mode === "update" && idFinca) {
+      setFormData({
+        nombre_fin: idFinca.nombre_fin,
+        imagen: idFinca.imagen_fin,
+        descripcionFin: idFinca.descripcion_fin,
+        departamento: idFinca.fk_departamento,
+        municipio: idFinca.fk_municipio,
+        vereda: idFinca.fk_vereda,
+      });
+      getMunisForDepar(idFinca.fk_departamento);
+      getVeresForMuni(idFinca.fk_municipio)
+    } else {
+      setMunicipiosForDepar([])
+      setVeredasForMuni([])
     }
-  }, [mode, initialData]);
+  }, [mode, idFinca]);
 
-  const fetchMunicipios = async (departamentos) => {
-    try {
-      const response = await axiosClient.get(
-        `/v1/municipiosdep/${departamentos}`
-      );
-      setMunicipios(response.data);
-    } catch (error) {
-      console.error("Error fetching municipios:", error);
-      toast.error("Error al cargar la lista de municipios");
-    }
+  const handleDepartamentoChange = (departamento) => {
+    setFormData((prevData) => ({...prevData, departamento, municipio: "", vereda: "",}));
+    getMunisForDepar(departamento);
   };
 
-  const fetchVeredas = async (veredas) => {
-    try {
-      const response = await axiosClient.get(`/v1/veredasmun/${veredas}`);
-      setVeredas(response.data);
-    } catch (error) {
-      console.error("Error fetching veredas:", error);
-      toast.error("Error al cargar la lista de veredas");
-    }
+  const handleMunicipioChange = (e) => {
+    const selectedMunicipio = e.target.value;
+    setFormData((prevData) => ({...prevData, municipio: selectedMunicipio, vereda: "",}));
+    getVeresForMuni(selectedMunicipio);
   };
 
-  const handleDepartamentoChange = (e) => {
-    const selectedDepartamentoId = e.target.value;
-    setDepartamentosRef(selectedDepartamentoId);
-    fetchMunicipios(selectedDepartamentoId);
-  };
-
-  const handleMunicipio = (e) => {
-    const selectedMunicipioId = e.target.value;
-    setMunicipiosRef(selectedMunicipioId);
-    fetchVeredas(selectedMunicipioId);
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: files ? files[0] : value,
+    }));
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("nombre_fin", nombreFincaRef.current.value);
-      formData.append("imagen_fin", imagenRef.current.files[0]);
-      formData.append("descripcion_fin", descripcion_fin.current.value);
-      formData.append("fk_id_usuario", users.pk_cedula_user);
-      formData.append("fk_vereda", veredasRef);
+      const data = new FormData();
+      data.append("nombre_fin", formData.nombre_fin);
+      data.append("imagen_fin", formData.imagen);
+      data.append("descripcion_fin", formData.descripcionFin);
+      data.append("fk_id_usuario", user.pk_cedula_user);
+      data.append("fk_vereda", formData.vereda);
 
-      handleSubmit(formData, e);
+      if (mode === "update") {
+        updateFincas(idFinca.pk_id_fin, data, user.pk_cedula_user);
+      } else {
+        createFincas(data, user.pk_cedula_user);
+      }
+      onClose();
     } catch (error) {
-      toast.error("Error del sistema:", error);
+      console.error("Error del sistema:", error);
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 p-4">
-      <TitleForModal>{title}</TitleForModal>
-      <InputWithIconAtom
-        icon={icono.iconoNamePropiedad}
+    <form onSubmit={onSubmit} className="space-y-4 px-4">
+      <div className="flex w-full justify-center rounded-xl">
+        <input
+          placeholder="Imagen de usuario"
+          required
+          type="file"
+          name="imagen"
+          className="hidden"
+          id="fileInput"
+          onChange={handleChange}
+        />
+        <label
+          htmlFor="fileInput"
+          className="cursor-pointer items-center w-48 flex justify-center bg-blue-100 rounded-xl border"
+        >
+          {formData.imagen ? (
+            <div className="relative">
+              <button
+                type="button"
+                className="absolute -top-3 -right-3 p-1 bg-gray-300 rounded-full"
+                onClick={() => setFormData({ ...formData, imagen: null })}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-gray-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              {mode === "update" ? (
+                <img
+                  src={`http://localhost:4000/fincas/${formData.imagen}`}
+                  alt="user"
+                  className="h-28 w-48 object-cover rounded-xl mx-auto"
+                />
+              ) : (
+                <img
+                  src={URL.createObjectURL(formData.imagen)}
+                  alt="user"
+                  className="h-28 w-48 object-cover rounded-xl mx-auto"
+                />
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center w-48 h-28 border border-gray-300 rounded-xl hover:bg-gray-50 transition duration-300">
+              <span className="text-gray-500 text-center">
+                Seleccionar imagen
+              </span>
+            </div>
+          )}
+        </label>
+      </div>
+      <Input
+        label=""
+        aria-label="Nombre de la Finca"
+        startContent={<icono.iconoNamePropiedad />}
         placeholder="Nombre de la Finca"
-        required
+        variant="bordered"
+        isRequired
         type="text"
-        ref={nombreFincaRef}
-      />
-      <InputWithIconAtom
-        icon={icono.iconoPush}
-        placeholder="Imagen"
-        required
-        type="file"
-        ref={imagenRef}
+        name="nombre_fin"
+        value={formData.nombre_fin}
+        onChange={handleChange}
       />
       <div className="grid grid-cols-2 gap-x-2">
-        <Select
-          label=""
-          value={departamentosRef}
-          placeholder="Seleccionar Departamento"
-          startContent={<icono.iconoDepar />}
-          variant="bordered"
-          aria-label="Seleccionar Departamento"
-          onChange={handleDepartamentoChange}
-        >
-          {departamentos.filter((departamento) => departamento.estado_depar === "activo").map((departamento) => (
-              <SelectItem
-                key={departamento.pk_codigo_depar}
-                value={departamento.pk_codigo_depar}
-              >
-                {departamento.nombre_depar}
-              </SelectItem>
+        <div className="relative">
+          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+            {<icono.iconoDepar />}
+          </span>
+          <select
+            name="departamento"
+            value={formData.departamento}
+            onChange={(e) => handleDepartamentoChange(e.target.value)}
+            required={true}
+            className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+          >
+            <option value="" hidden className="text-gray-400">
+              Seleccionar Departamento
+            </option>
+            {departamentos.map(({ pk_codigo_depar, nombre_depar }) => (
+              <option key={pk_codigo_depar} value={pk_codigo_depar}>
+                {nombre_depar}
+              </option>
             ))}
-        </Select>
-        <Select
-          label=""
-          value={municipiosRef}
-          placeholder="Seleccionar Municipio"
-          startContent={<icono.iconoMuni />}
-          variant="bordered"
-          aria-label="Seleccionar Municipio"
-          onChange={handleMunicipio}
-        >
-          {municipios.filter((municipio) => municipio.estado_muni === "activo").map((municipio) => (
-              <SelectItem
-                key={municipio.pk_codigo_muni}
-                value={municipio.pk_codigo_muni}
-              >
-                {municipio.nombre_muni}
-              </SelectItem>
-            ))}
-        </Select>
+          </select>
+        </div>
+        <div className="relative">
+          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+            {<icono.iconoMuni />}
+          </span>
+          <select
+            name="municipio"
+            value={formData.municipio}
+            onChange={handleMunicipioChange}
+            required={true}
+            className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+          >
+            <option value="" hidden className="text-gray-600">
+              Seleccionar Municipio
+            </option>
+            {municipiosForDepar.length > 0 ? (
+              municipiosForDepar.map(({ pk_codigo_muni, nombre_muni }) => (
+                <option key={pk_codigo_muni} value={pk_codigo_muni}>
+                  {nombre_muni}
+                </option>
+              ))
+            ) : (
+              <option value="" className="text-gray-600">
+                Por favor seleccionar un departamento
+              </option>
+            )}
+          </select>
+        </div>
       </div>
-      <Select
-        value={veredasRef}
-        placeholder="Seleccionar Vereda"
-        startContent={<icono.iconoVere />}
+      <div className="relative">
+        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+          {<icono.iconoMuni />}
+        </span>
+        <select
+          name="vereda"
+          value={formData.vereda}
+          onChange={handleChange}
+          required={true}
+          className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="" hidden className="text-gray-600">
+            Seleccionar Vereda
+          </option>
+          {veredasForMuni.length > 0 ? (
+            veredasForMuni.map(({ pk_id_vere, nombre_vere }) => (
+              <option key={pk_id_vere} value={pk_id_vere}>
+                {nombre_vere}
+              </option>
+            ))
+          ) : (
+            <option value="" className="text-gray-600">
+              Por favor seleccionar un municipio
+            </option>
+          )}
+        </select>
+      </div>
+      <Textarea
+        label=""
+        aria-label="Descripción de la finca"
+        startContent={<icono.iconoDescript />}
         variant="bordered"
-        aria-label="Seleccionar Vereda"
-        onChange={(e) => setVeredasRef(e.target.value)}
-      >
-        {veredas.filter((vereda) => vereda.estado_vere === "activo").map((vereda) => (
-            <SelectItem key={vereda.pk_id_vere} value={vereda.pk_id_vere}>
-              {vereda.nombre_vere}
-            </SelectItem>
-          ))}
-      </Select>
-      <TextTareaAtom
-        icon={icono.iconoDescript}
-        ref={descripcion_fin}
+        placeholder="Descripción de la finca"
+        disableAnimation
+        disableAutosize
+        classNames={{
+          base: "w-full",
+          input: "resize-y min-h-[40px]",
+        }}
+        value={formData.descripcionFin}
+        onChange={handleChange}
+        name="descripcionFin"
       />
-      <center>
+      <ModalFooter className="flex justify-center">
         <Button type="submit" className="bg-gray-600 text-white">
-          {actionLabel}
+          {titleBtn}
         </Button>
-      </center>
+      </ModalFooter>
     </form>
   );
 };

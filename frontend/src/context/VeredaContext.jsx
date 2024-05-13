@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import {
   getVeredas,
+  getVeredasForMunis,
   createVeredas,
   updateVeredas,
   updateVeredaActivar,
@@ -16,6 +17,7 @@ export const VeredaProvider = ({ children }) => {
   const [errors, setErrors] = useState([]);
   const [veredas, setVeredas] = useState([]);
   const [idVereda, setIdVereda] = useState(0)
+  const [veredasForMuni, setVeredasForMuni] = useState([])
 
   const getVeres = async () => {
     try {
@@ -25,6 +27,15 @@ export const VeredaProvider = ({ children }) => {
       console.error(error);
     }
   };
+
+  const getVeresForMuni = async (municipio) => {
+    try {
+      const response = await getVeredasForMunis(municipio)
+      setVeredasForMuni(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const createVeres = async (data) => {
     try {
@@ -76,9 +87,12 @@ export const VeredaProvider = ({ children }) => {
         errors,
         veredas,
         idVereda,
+        veredasForMuni, 
         setIdVereda,
         setVeredas,
+        setVeredasForMuni,
         getVeres,
+        getVeresForMuni,
         createVeres,
         updateVeres,
         desactivarVeres,
