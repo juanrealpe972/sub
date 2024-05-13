@@ -17,6 +17,7 @@ export const MunicipioProvider = ({ children }) => {
   const [errors, setErrors] = useState([]);
   const [municipios, setMunicipios] = useState([]);
   const [idMunicipio, setIdMunicipio] = useState(0);
+  const [municipiosForDepar, setMunicipiosForDepar] = useState([])
 
   const getMunis = async () => {
     try {
@@ -30,7 +31,7 @@ export const MunicipioProvider = ({ children }) => {
   const getMunisForDepar = async (departamento) => {
     try {
       const response = await getMuniForDepartamento(departamento)
-      setMunicipios(response.data)
+      setMunicipiosForDepar(response.data)
     } catch (error) {
       console.error(error);
     }
@@ -85,7 +86,9 @@ export const MunicipioProvider = ({ children }) => {
       value={{
         errors,
         municipios,
-        idMunicipio, 
+        idMunicipio,
+        municipiosForDepar, 
+        setMunicipiosForDepar,
         setIdMunicipio,
         setMunicipios,
         getMunis,

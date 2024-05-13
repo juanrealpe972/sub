@@ -1,8 +1,8 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Button, Input, ModalFooter } from "@nextui-org/react";
 
-import MunicipioContext from "../../context/MunicipioContext";
 import DeparContext from "../../context/DeparContext";
+import MunicipioContext from "../../context/MunicipioContext";
 import VeredaContext from "../../context/VeredaContext";
 import { icono } from "../atoms/IconsAtom";
 
@@ -14,7 +14,7 @@ const RegisterVeredaMolecule = ({ mode, titleBtn, onClose }) => {
   });
 
   const { departamentos, getDepartamentos } = useContext(DeparContext);
-  const { municipios, getMunisForDepar } = useContext(MunicipioContext);
+  const { getMunisForDepar, municipiosForDepar, setMunicipiosForDepar } = useContext(MunicipioContext);
   const { createVeres, updateVeres, idVereda } = useContext(VeredaContext);
 
   useEffect(() => {
@@ -26,8 +26,11 @@ const RegisterVeredaMolecule = ({ mode, titleBtn, onClose }) => {
       setFormData({
         nombre: idVereda.nombre_vere,
         departamento: idVereda.fk_departamento,
-        municipio: idVereda.fk_municipio
+        municipio: idVereda.fk_municipio,
       });
+      getMunisForDepar(idVereda.fk_departamento)
+    } else {
+      setMunicipiosForDepar([])
     }
   }, [mode, idVereda]);
 
@@ -91,14 +94,18 @@ const RegisterVeredaMolecule = ({ mode, titleBtn, onClose }) => {
           required={true}
           className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
         >
-          <option value="" hidden className="text-gray-400">
+          <option value="" hidden className="text-gray-600">
             Seleccionar Municipio
           </option>
-          {municipios.map(({ pk_codigo_muni, nombre_muni }) => (
+          {municipiosForDepar.length > 0 ? municipiosForDepar.map(({ pk_codigo_muni, nombre_muni }) => (
             <option key={pk_codigo_muni} value={pk_codigo_muni}>
               {nombre_muni}
             </option>
-          ))}
+          )):
+          <option value="" className="text-gray-600">
+            Por favor seleccionar un departemento
+          </option> 
+        }
         </select>
       </div>
       <Input
