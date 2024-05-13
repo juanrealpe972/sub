@@ -8,6 +8,7 @@ import {
   Autocomplete,
   AutocompleteItem,
   Avatar,
+  Button,
 } from "@nextui-org/react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -15,7 +16,6 @@ import Swal from "sweetalert2";
 
 import { icono } from "../atoms/IconsAtom";
 import AvatarAtom from "../atoms/AvatarAtom";
-import ButtonAtom from "../atoms/ButtonAtom";
 import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
 import { SearchIcon } from "../../nextui/SearchIcon";
 import axios from "axios";
@@ -267,9 +267,9 @@ function HeaderOrganism() {
                   />
                 )}
               </div>
-              <ButtonAtom onClick={() => setModalOpen(true)}>
+              <Button onClick={() => setModalOpen(true)} className="border border-gray-400 bg-gray-200 text-gray-500 rounded-md hover:bg-gray-400 duration-500 transition-all ease-in-out hover:text-gray-200">
                 Iniciar sesión
-              </ButtonAtom>
+              </Button>
             </div>
           </nav>
           <FormLogin

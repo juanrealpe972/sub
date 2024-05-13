@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LinkButtonAtom from "../atoms/LinkButtonAtom";
 import TiposDeCafeOrganism from "./TiposDeCafeOrganism";
-import Text4xlSemiboldAtom from "../atoms/Text4xlSemiboldAtom";
 
 function DashboardContentOrganims() {
   const navigate = useNavigate();
@@ -26,18 +25,18 @@ function DashboardContentOrganims() {
         <img src="./src/assets/dashboard.png" />
       </div>
       <div className="w-full py-12">
-        <Text4xlSemiboldAtom>
+        <p className="text-center text-4xl font-semibold">
           Una plataforma de café perfecta para todos
-        </Text4xlSemiboldAtom>
+        </p>
         <p className="text-lg font-semibold mt-8 text-center">
           Subasta o puja por el café de tu gusto.
         </p>
         <TiposDeCafeOrganism />
       </div>
-      <div className="w-full flex justify-center p-12 gap-x-20 items-center">
+      <div className="w-full flex justify-center p-12 gap-x-4 items-center">
         <div className="px-12">
           <h2 className="text-3xl font-semibold my-4">Crear subasta</h2>
-          <p className=" text-gray-700">
+          <p className="text-gray-700">
             Crea una subasta con el tipo de café de tu preferencia, agrega la
             descripción del mismo e información que llame la atención de los
             demás. Asi, Los usuarios podrán verlo e interesarse en él. Puede ser
@@ -45,25 +44,21 @@ function DashboardContentOrganims() {
             mundo.
           </p>
           <div className="flex gap-x-8 mt-8">
-            <LinkButtonAtom to="/comosubastar">Crear subasta</LinkButtonAtom>
-            <LinkButtonAtom to="/comosubastar">Como subastar</LinkButtonAtom>
+            <LinkButtonAtom to="/subcoffee">Crear subasta</LinkButtonAtom>
+            <LinkButtonAtom to="/ayuda">Como subastar</LinkButtonAtom>
           </div>
         </div>
-        <img
-          src="./src/assets/crearsubasta.jpg"
-          alt=""
-          className="w-lvw mr-32 rounded-3xl"
-        />
+        <div className="w-11/12">
+          <img src="./src/assets/crearsubasta.jpg" alt="" className="w-lvw mr-32 rounded-3xl" />
+        </div>
       </div>
-      <div className="w-full flex justify-center p-12 gap-x-20 items-center">
-        <img
-          src="./src/assets/comunidadfeliz.avif"
-          alt=""
-          className="mx-auto rounded-3xl"
-        />
+      <div className="w-full flex justify-center p-12 gap-x-4 items-center">
+        <div className="w-11/12">
+          <img src="./src/assets/comunidadfeliz.avif" alt="" className="mx-auto rounded-3xl" />
+        </div>
         <div className="px-12">
           <h2 className="text-3xl font-semibold my-4">Pujar Por Una Subasta</h2>
-          <p className=" text-gray-700">
+          <p className="text-gray-700">
             Crea una subasta con el tipo de café de tu preferencia, agrega la
             descripción del mismo e información que llame la atención de los
             demás. Asi, Los usuarios podrán verlo e interesarse en él. Puede ser
@@ -71,8 +66,8 @@ function DashboardContentOrganims() {
             mundo.
           </p>
           <div className="flex gap-x-8 mt-8">
-            <LinkButtonAtom to="/comosubastar">Empezar Puja</LinkButtonAtom>
-            <LinkButtonAtom to="/comosubastar">Como Pujar</LinkButtonAtom>
+            <LinkButtonAtom to="/subcoffee">Empezar Puja</LinkButtonAtom>
+            <LinkButtonAtom to="/ayuda">Como Pujar</LinkButtonAtom>
           </div>
         </div>
       </div>

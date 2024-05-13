@@ -39,43 +39,25 @@ function App() {
                       <Route element={<Dashboard />}>
                         <Route element={<ProtectedRoute />}>
                           <Route path="/subcoffee" element={<SubastaPage />} />
-                          <Route
-                            path="/profile/:id"
-                            element={<ProfileUser />}
-                          />
-                          <Route
-                            path="/subasta/:id"
-                            element={<SubastaUser />}
-                          />
+                          <Route path="/profile/:id" element={<ProfileUser />} />
+                          <Route path="/subasta/:id" element={<SubastaUser />} />
                           {users && users.rol_user === "admin" && (
                             <>
                               <Route path="/users" element={<UsersTable />} />
-                              <Route
-                                path="/geografia"
-                                element={<GeografiaFullPage />}
-                              />
-                              <Route
-                                path="/tipo_variedad"
-                                element={<TipoVariedadTable />}
-                              />
+                              <Route path="/geografia" element={<GeografiaFullPage />} />
+                              <Route path="/tipo_variedad" element={<TipoVariedadTable />} />
                             </>
                           )}
                           {users && users.rol_user !== "comprador" && (
                             <>
-                              <Route
-                                path="/mi_subasta"
-                                element={<MiSubastaT />}
-                              />
+                              <Route path="/mi_subasta" element={<MiSubastaT />} />
                             </>
                           )}
                         </Route>
                       </Route>
                       <Route element={<Dashboard />}>
                         <Route index element={<DashboardContentOrganims />} />
-                        <Route
-                          path="/privacy-policy"
-                          element={<PoliticasYCondicionesPageA />}
-                        />
+                        <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
                         <Route path="/somos" element={<QuienesSomosA />} />
                         <Route path="/ayuda" element={<AyudaPage />} />
                       </Route>

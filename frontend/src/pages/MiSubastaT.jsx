@@ -13,12 +13,12 @@ export default function MiSubastaT() {
       <div className="pb-2">
         <div className="flex justify-center pt-8 pb-2">
           <img
-            src="./cafe.png"
+            src="./src/assets/cafe_mi_subasta.png"
             alt="Cafe_imagen"
             className="rounded-s-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto"
           />
           <img
-            src="./carrofinca.png"
+            src="./src/assets/carrofinca_mi_subasta.png"
             alt="Finca_imagen"
             className="rounded-e-2xl transition-width duration-300 md:max-w-[25%] lg:max-w-[33.33%] xl:max-w-[50%] w-full lg:w-auto xl:w-auto"
           />
