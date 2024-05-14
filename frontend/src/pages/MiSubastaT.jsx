@@ -7,6 +7,7 @@ import SubastaIcon from "../nextui/SubastaIcon";
 import VariedadIcon from "../nextui/VariedadIcon";
 import FincaIcon from "../nextui/FincaIcon";
 import FincaTable from "../components/Guard/FincaTable";
+import VariedadUserTable from "../components/Guard/VariedadUserTable";
 
 export default function MiSubastaT() {
   return (
@@ -55,7 +56,7 @@ export default function MiSubastaT() {
               <Card>
                 <CardBody>
                   <p className="text-center"> Registra todas las maravillosas variedades de café que tienes en tu finca </p>
-                  <VariedadT />
+                  <VariedadUserTable />
                 </CardBody>
               </Card>
             </Tab>
