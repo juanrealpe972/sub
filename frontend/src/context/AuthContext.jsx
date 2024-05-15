@@ -1,11 +1,13 @@
 import { createContext, useState } from "react";
 import {
   getUser,
+  getUserForId,
   createUser,
   updateUser,
   activarUser,
   desactivarUser,
   loginUser,
+  updatePasswordUser,
 } from "../api/api.users";
 import ModalMessage from "../nextui/ModalMessage";
 
@@ -14,14 +16,25 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([])
   const [modalMessage, setModalMessage] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [errors, setErrors] = useState([]);
+  const [idUser, setIdUser] = useState([])
 
   const getUsers = async () => {
     try {
       const response = await getUser();
       setUsers(response.data.data);
+    } catch (error) {
+      setErrors([error.response.data.message]);
+    }
+  }
+
+  const getUserID = async (id) => {
+    try {
+      const response = await getUserForId(id)
+      setUser(response.data.data[0]);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
@@ -63,6 +76,16 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const updatePassword = async (id, data) => {
+    try {
+      const response = await updatePasswordUser(id, data)
+      setMensaje(response.data.message)
+      setModalMessage(true)
+    } catch (error) {
+      setErrors([error.response.data.message])
+    }
+  }
+
   const updateUserActive = async (id) => {
     try {
       const response = await activarUser(id)
@@ -90,10 +113,16 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         users,
         errors,
+        idUser,
+        user, 
+        setUser,
+        setIdUser,
+        getUserID,
         setIsAuthenticated,
         loginUsers,
         getUsers,
         createUsers,
+        updatePassword,
         updateUsers,
         updateUserActive,
         updateUserDesactive,

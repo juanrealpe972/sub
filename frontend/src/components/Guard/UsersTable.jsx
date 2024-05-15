@@ -40,20 +40,15 @@ export default function UsersTable() {
   });
   const [page, setPage] = useState(1);
 
-  const { getUsers, users, updateUserActive, updateUserDesactive } = useContext(AuthContext)
+  const { getUsers, users, updateUserActive, updateUserDesactive, setIdUser } = useContext(AuthContext)
 
   const [abrirModal, setAbrirModal] = useState(false);
   const [mode, setMode] = useState("create");
-  const [initialData, setInitialData] = useState(null);
 
   useEffect(() => {
     getUsers();
   }, []);
-
-  const handleCloseModal = () => {
-    setAbrirModal(false);
-  };
-
+  
   const data = [
     { uid: "nombre_user", name: "Usuario", sortable: true },
     { uid: "pk_cedula_user", name: "Cedula", sortable: true },
@@ -65,8 +60,7 @@ export default function UsersTable() {
     { uid: "actions", name: "Acciones", sortable: false },
   ];
 
-  const handleToggle = (mode, initialData) => {
-    setInitialData(initialData);
+  const handleToggle = (mode) => {
     setAbrirModal(true);
     setMode(mode);
   };
@@ -167,7 +161,7 @@ export default function UsersTable() {
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-            <Button color="default" startContent={<EditIcon />} onClick={() => handleToggle('update', user)}>
+            <Button color="default" startContent={<EditIcon />} onClick={() => {handleToggle('update'); setIdUser(user)}}>
               Editar
             </Button>
             {user.estado_user === "activo" ? (
@@ -257,7 +251,7 @@ export default function UsersTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={() => setAbrirModal(true)} >
+            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={() => handleToggle("create")} >
               Registrar
             </Button>
           </div>
@@ -320,9 +314,7 @@ export default function UsersTable() {
         onClose={() => setAbrirModal(false)}
         title={mode === 'create' ? 'Registrar Usuario' : 'Actualizar Usuario'}
         titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
-        idUser={initialData}
         mode={mode}
-        onCloseModal={handleCloseModal}
       />
       <Table
         aria-label="Example table with custom cells, pagination and sorting"
