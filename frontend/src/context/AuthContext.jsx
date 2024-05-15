@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   getUser,
   getUserForId,
@@ -106,6 +106,15 @@ export const AuthProvider = ({ children }) => {
       setErrors([error.response.data.message])
     }
   }
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      const timer = setTimeout(() => {
+        setErrors([]);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [errors]);
 
   return (
     <AuthContext.Provider

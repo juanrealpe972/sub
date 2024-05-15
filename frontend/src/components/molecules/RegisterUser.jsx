@@ -9,7 +9,7 @@ import AuthContext from "../../context/AuthContext";
 const RegisterUser = ({ mode, titleBtn, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const { createUsers, updateUsers, idUser } = useContext(AuthContext);
+  const { createUsers, updateUsers, idUser, errors } = useContext(AuthContext);
   const userAdmin = JSON.parse(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
     imagen_user: "",
@@ -41,7 +41,7 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
         telefono_user: idUser.telefono_user,
         fechanacimiento_user: formattedDate,
         rol_user: idUser.rol_user,
-        descripcion_user: idUser.descripcion_user,
+        descripcion_user: idUser?.descripcion_user || "",
       });
     }
   }, [mode, idUser]);
@@ -82,6 +82,13 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
 
   return (
     <form onSubmit={onSubmit} className="space-y-2 px-4">
+      {
+        errors.map((error, i) => (
+          <div className='bg-red-500 p-2 text-white text-center my-2' key={i}>
+            {error}
+          </div>
+        ))
+      }
       <div className="flex w-full justify-center rounded-full">
         <input
           placeholder="Imagen de usuario"
