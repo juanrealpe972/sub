@@ -23,8 +23,8 @@ function FincaTable() {
 
   const { getFinca, fincas, desactivarFincas, activarFincas, setIdFinca } = useContext(FincaContext);
 
-  const [ abrirModal, setAbrirModal ] = useState(false);
-  const [ mode, setMode ] = useState("create");
+  const [abrirModal, setAbrirModal] = useState(false);
+  const [mode, setMode] = useState("create");
 
   useEffect(() => {
     getFinca(user.pk_cedula_user);
@@ -144,23 +144,18 @@ function FincaTable() {
             {filteredResults.map((result) => (
               <Card key={result.pk_id_fin} className="py-4">
                 <CardHeader className="pb-0 px-8 flex-col items-start">
-                  <div className="flex justify-between gap-x-2">
-                    <div>
-                      <p className="uppercase font-bold text-xl">
-                        {result.nombre_fin}
-                      </p>
-                    </div>
-                    <div>
-                      <p
-                        className={`rounded-lg px-2 text-white ${
-                          result.estado_fin === "activo"
-                            ? "bg-green-500"
-                            : "bg-red-500"
+                  <div className="flex justify-between items-center gap-x-2">
+                    <p className="uppercase font-bold text-xl">
+                      {result.nombre_fin}
+                    </p>
+                    <p
+                      className={`rounded-lg px-2 text-white ${result.estado_fin === "activo"
+                          ? "bg-green-500"
+                          : "bg-red-500"
                         } text-center`}
-                      >
-                        {result.estado_fin === "activo" ? "Activa" : "Inactiva"}
-                      </p>
-                    </div>
+                    >
+                      {result.estado_fin === "activo" ? "Activa" : "Inactiva"}
+                    </p>
                   </div>
                   <h4 className="text-tiny">{result.descripcion_fin}</h4>
                   <div className="flex">
@@ -184,7 +179,7 @@ function FincaTable() {
                     color="default"
                     className="w-full"
                     startContent={<EditIcon />}
-                    onClick={() => {handleToggle("update"); setIdFinca(result.pk_id_fin)}}
+                    onClick={() => { handleToggle("update"); setIdFinca(result) }}
                   >
                     Editar finca
                   </Button>
@@ -192,7 +187,7 @@ function FincaTable() {
                     <Button
                       className="bg-red-600 text-white w-full"
                       startContent={<DesactivarIcon />}
-                      onClick={() => {desactivarFincas(result.pk_id_fin, user.pk_cedula_user)}}
+                      onClick={() => { desactivarFincas(result.pk_id_fin, user.pk_cedula_user) }}
                     >
                       Desactivar finca
                     </Button>
@@ -200,7 +195,7 @@ function FincaTable() {
                     <Button
                       className="bg-green-600 text-white px-[27px] w-full mx-4"
                       startContent={<ActivarIcon />}
-                      onClick={() => {activarFincas(result.pk_id_fin, user.pk_cedula_user)}}
+                      onClick={() => { activarFincas(result.pk_id_fin, user.pk_cedula_user) }}
                     >
                       Activar finca
                     </Button>

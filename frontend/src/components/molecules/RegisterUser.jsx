@@ -12,7 +12,7 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
   const { createUsers, updateUsers, idUser, errors } = useContext(AuthContext);
   const userAdmin = JSON.parse(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
-    imagen_user: "",
+    imagen: "",
     pk_cedula_user: "",
     nombre_user: "",
     email_user: "",
@@ -34,14 +34,14 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
         }
       }
       setFormData({
-        imagen_user: idUser.imagen_user,
+        imagen: idUser.imagen_user,
         pk_cedula_user: idUser.pk_cedula_user,
         nombre_user: idUser.nombre_user,
         email_user: idUser.email_user,
         telefono_user: idUser.telefono_user,
         fechanacimiento_user: formattedDate,
         rol_user: idUser.rol_user,
-        descripcion_user: idUser?.descripcion_user || "",
+        descripcion_user: idUser.descripcion_user,
       });
     }
   }, [mode, idUser]);
@@ -56,14 +56,13 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const fechaValue = new Date(formData.fechanacimiento_user).toISOString().slice(0, 10);
     const datosAEnviar = new FormData();
-    datosAEnviar.append("imagen_user", formData.imagen_user);
+    datosAEnviar.append("imagen_user", formData.imagen);
     datosAEnviar.append("pk_cedula_user", formData.pk_cedula_user);
     datosAEnviar.append("nombre_user", formData.nombre_user);
     datosAEnviar.append("email_user", formData.email_user);
     datosAEnviar.append("telefono_user", formData.telefono_user);
-    datosAEnviar.append("fechanacimiento_user", fechaValue);
+    datosAEnviar.append("fechanacimiento_user", formData.fechanacimiento_user);
     datosAEnviar.append("rol_user", formData.rol_user);
     datosAEnviar.append("descripcion_user", formData.descripcion_user);
     try {
@@ -73,11 +72,10 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
         datosAEnviar.append("password_user", formData.password_user);
         await createUsers(datosAEnviar);
       }
-      onClose();
+      // onClose();
     } catch (error) {
       console.log(error);
     }
-    console.log("formData después del envío:", formData);
   };
 
   return (
@@ -93,7 +91,7 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
         <input
           placeholder="Imagen de usuario"
           type="file"
-          name="imagen_user"
+          name="imagen"
           className="hidden"
           id="fileInput"
           onChange={handleChange}
@@ -102,12 +100,12 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
           htmlFor="fileInput"
           className="cursor-pointer items-center w-auto flex justify-center bg-blue-100 rounded-full border"
         >
-          {formData.imagen_user ? (
+          {formData.imagen ? (
             <div className="relative">
               <button
                 type="button"
                 className="absolute top-0 right-0 p-1 bg-gray-300 rounded-full"
-                onClick={() => setFormData({ ...formData, imagen_user: "" })}
+                onClick={() => setFormData({ ...formData, imagen: "" })}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -124,18 +122,20 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
                   />
                 </svg>
               </button>
-              {mode === "update" && typeof formData.imagen_user === "string" ? (
+              {mode === "update" ? (
                 <img
-                  src={`http://localhost:4000/img/${formData.imagen_user}`}
+                  src={typeof formData.imagen === "string" ? `http://localhost:4000/img/${formData.imagen}` : URL.createObjectURL(formData.imagen)}
                   alt="user"
                   className="h-28 w-28 object-cover rounded-full mx-auto"
                 />
               ) : (
-                <img
-                  src={URL.createObjectURL(formData.imagen_user)}
-                  alt="user"
-                  className="h-28 w-28 object-cover rounded-full mx-auto"
-                />
+                formData.imagen instanceof File && (
+                  <img
+                    src={URL.createObjectURL(formData.imagen)}
+                    alt="user"
+                    className="h-28 w-28 object-cover rounded-full mx-auto"
+                  />
+                )
               )}
             </div>
           ) : (

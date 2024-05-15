@@ -9,15 +9,17 @@ import { AuthProvider } from "./AuthContext";
 export const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
+  const globalContextValue = {}
+
   return (
-    <GlobalContext.Provider>
+    <GlobalContext.Provider value={globalContextValue}>
       <AuthProvider>
         <DeparProvider>
           <TipoVariProvider>
             <MunicipioProvider>
               <VeredaProvider>
                 <FincaProvider>
-                    {children}
+                  {children}
                 </FincaProvider>
               </VeredaProvider>
             </MunicipioProvider>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Tabs, Tab, Chip, Card, CardBody } from "@nextui-org/react";
 
-import VariedadT from "./VariedadT";
 import SubastaT from "./SubastaT";
 import SubastaIcon from "../nextui/SubastaIcon";
 import VariedadIcon from "../nextui/VariedadIcon";
