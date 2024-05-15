@@ -5,6 +5,7 @@ import { MunicipioProvider } from "./MunicipioContext";
 import { VeredaProvider } from "./VeredaContext";
 import { FincaProvider } from "./FincaContext";
 import { AuthProvider } from "./AuthContext";
+import { VariedadUserProvider } from "./VariedadUserContext";
 
 export const GlobalContext = createContext();
 
@@ -19,7 +20,9 @@ const GlobalProvider = ({ children }) => {
             <MunicipioProvider>
               <VeredaProvider>
                 <FincaProvider>
-                  {children}
+                  <VariedadUserProvider>
+                    {children}
+                  </VariedadUserProvider>
                 </FincaProvider>
               </VeredaProvider>
             </MunicipioProvider>

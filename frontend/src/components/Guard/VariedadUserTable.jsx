@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -14,28 +14,39 @@ import DesactivarIcon from "../../nextui/DesactivarIcon";
 import ActivarIcon from "../../nextui/ActivarIcon";
 import { EditIcon } from "../../nextui/EditIcon";
 import { SearchIcon } from "../../nextui/SearchIcon";
+import VariedadUserContext from "../../context/VariedadUserContext";
+import FormVariedadUser from "../templates/FormVariedadUser";
 
-function VariedadUserTable({
-  registrar,
-  results,
-  actualizar,
-  desactivar,
-  activar,
-}) {
-  const [filteredResults, setFilteredResults] = useState(results);
-  const [searchValue, setSearchValue] = useState("");
+function VariedadUserTable() {
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const handleUpdateVari = (id) => {
-    localStorage.setItem("id_vari", id);
-    actualizar(id);
+  const { getVariForUser, setIdVariedad, variedadForuser, activarVaris, desactivarVaris, errors } = useContext(VariedadUserContext)
+
+  const [abrirModal, setAbrirModal] = useState(false)
+  const [mode, setMode] = useState("create");
+  
+  useEffect(() => {
+    getVariForUser(user.pk_cedula_user);
+  }, []);
+
+  const handleToggle = (mode) => {
+    setAbrirModal(true);
+    setMode(mode);
   };
-
+  
+  const [filteredResultss, setFilteredResults] = useState(variedadForuser);
+  const [searchValue, setSearchValue] = useState("");
+  
   const handleSearch = (value) => {
     setSearchValue(value);
-    const filtered = results.filter((variedad) =>
-      variedad.nombre_vari.toLowerCase().includes(value.toLowerCase())
+    if (!value) {
+      setFilteredResults(variedadForuser);
+      return;
+    }
+    const filteredResults = variedadForuser.filter((variedad) =>
+      variedad.nombre_tipo_vari.toLowerCase().includes(value.toLowerCase())
     );
-    setFilteredResults(filtered);
+    setFilteredResults(filteredResults);
   };
 
   return (
@@ -44,7 +55,7 @@ function VariedadUserTable({
         <Autocomplete
           value={searchValue}
           onChange={(value) => handleSearch(value)}
-          defaultItems={results}
+          defaultItems={variedadForuser}
           inputProps={{
             classNames: {
               input: "ml-1",
@@ -100,42 +111,49 @@ function VariedadUserTable({
         <Button
           className="bg-slate-400 text-white"
           endContent={<PlusIcon />}
-          onClick={registrar}
+          onClick={() => handleToggle("create")}
         >
           Registrar Variedad
         </Button>
       </div>
       <div className="grid grid-cols-3 justify-center items-center gap-4 p-3">
-        {results.map((result, i) => (
+        <FormVariedadUser
+          open={abrirModal}
+          onClose={() => setAbrirModal(false)}
+          title={mode === "create" ? "Registrar Variedad" : "Actualizar Variedad"}
+          titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
+          mode={mode}
+        />
+        {variedadForuser.map((variedad, i) => (
           <Card shadow="sm" key={i}>
             <CardBody className="overflow-visible px-2 items-center">
-              <b className="text-center">{result.nombre_tipo_vari}</b>
+              <b className="text-center">{variedad.nombre_tipo_vari}</b>
               <Image
                 shadow="sm"
                 radius="lg"
                 width="100%"
-                alt={result.imagen_vari}
+                alt={variedad.imagen_vari}
                 className="w-full object-cover h-[140px]"
-                src={`http://localhost:4000/variedades/${result.imagen_vari}`}
+                src={`http://localhost:4000/variedades/${variedad.imagen_vari}`}
               />
             </CardBody>
             <CardFooter className="text-small flex-col justify-between">
-              <p>finca: {result.nombre_fin}</p>
-              <p className="text-default-500">Descripción: {result.descripcion_vari}</p>
+              <p>finca: {variedad.nombre_fin}</p>
+              <p className="text-default-500">Descripción: {variedad.descripcion_vari}</p>
             </CardFooter>
             <div className="flex flex-col items-center w-full gap-2 pb-3">
               <Button
                 color="default"
                 startContent={<EditIcon />}
-                onClick={() => handleUpdateVari(result.pk_id_vari)}
+                onClick={() => { handleToggle("update"); setIdVariedad(variedad) }}
               >
                 Editar Variedad
               </Button>
-              {result.estado_vari === "activo" ? (
+              {variedad.estado_vari === "activo" ? (
                 <Button
                   className="bg-red-600 text-white"
                   startContent={<DesactivarIcon />}
-                  onClick={() => desactivar(result.pk_id_vari)}
+                  onClick={() => desactivarVaris(variedad.pk_id_vari)}
                 >
                   Desactivar variedad
                 </Button>
@@ -143,7 +161,7 @@ function VariedadUserTable({
                 <Button
                   className="bg-green-600 text-white px-[27px]"
                   startContent={<ActivarIcon />}
-                  onClick={() => activar(result.pk_id_vari)}
+                  onClick={() => activarVaris(variedad.pk_id_vari)}
                 >
                   Activar variedad
                 </Button>
@@ -157,3 +175,5 @@ function VariedadUserTable({
 }
 
 export default VariedadUserTable;
+
+
