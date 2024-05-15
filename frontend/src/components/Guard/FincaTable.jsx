@@ -140,7 +140,7 @@ function FincaTable() {
       </div>
       <div className="flex justify-center items-center px-12">
         {filteredResults.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredResults.map((result) => (
               <Card key={result.pk_id_fin} className="py-4">
                 <CardHeader className="pb-0 px-8 flex-col items-start">
@@ -187,7 +187,7 @@ function FincaTable() {
                     <Button
                       className="bg-red-600 text-white w-full"
                       startContent={<DesactivarIcon />}
-                      onClick={() => { desactivarFincas(result.pk_id_fin, user.pk_cedula_user) }}
+                      onClick={() => { desactivarFincas(result.pk_id_fin, user.pk_cedula_user)}}
                     >
                       Desactivar finca
                     </Button>
@@ -195,7 +195,7 @@ function FincaTable() {
                     <Button
                       className="bg-green-600 text-white px-[27px] w-full mx-4"
                       startContent={<ActivarIcon />}
-                      onClick={() => { activarFincas(result.pk_id_fin, user.pk_cedula_user) }}
+                      onClick={() => { activarFincas(result.pk_id_fin, user.pk_cedula_user)}}
                     >
                       Activar finca
                     </Button>

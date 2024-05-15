@@ -44,25 +44,25 @@ export const VariedadUserProvider = ({ children }) => {
     }
   };
 
-  const desactivarVaris = async (id) => {
-    try {
-      const response = await updateVariedadActivar(id);
-      getVariForUser(user);
-      setMensaje(response.data.message);
-      setModalMessage(true);
-    } catch (error) {
-      setErrors(error.response.data);
-    }
-  };
-
-  const activarVaris = async (id) => {
+  const desactivarVaris = async (id, user) => {
     try {
       const response = await updateVariedadDesact(id);
       getVariForUser(user);
       setMensaje(response.data.message);
       setModalMessage(true);
     } catch (error) {
-      setErrors(error.response.data);
+      setErrors([error.response.data.message]);
+    }
+  };
+
+  const activarVaris = async (id, user) => {
+    try {
+      const response = await updateVariedadActivar(id);
+      getVariForUser(user);
+      setMensaje(response.data.message);
+      setModalMessage(true);
+    } catch (error) {
+      setErrors([error.response.data.message]);
     }
   };
 

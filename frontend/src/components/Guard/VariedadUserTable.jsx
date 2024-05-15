@@ -20,11 +20,11 @@ import FormVariedadUser from "../templates/FormVariedadUser";
 function VariedadUserTable() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const { getVariForUser, setIdVariedad, variedadForuser, activarVaris, desactivarVaris, errors } = useContext(VariedadUserContext)
+  const { getVariForUser, setIdVariedad, variedadForuser, activarVaris, desactivarVaris } = useContext(VariedadUserContext);
 
-  const [abrirModal, setAbrirModal] = useState(false)
+  const [abrirModal, setAbrirModal] = useState(false);
   const [mode, setMode] = useState("create");
-  
+
   useEffect(() => {
     getVariForUser(user.pk_cedula_user);
   }, []);
@@ -33,21 +33,32 @@ function VariedadUserTable() {
     setAbrirModal(true);
     setMode(mode);
   };
-  
-  const [filteredResultss, setFilteredResults] = useState(variedadForuser);
+
   const [searchValue, setSearchValue] = useState("");
-  
+  const [filteredResultss, setFilteredResults] = useState(variedadForuser);
+
   const handleSearch = (value) => {
     setSearchValue(value);
     if (!value) {
       setFilteredResults(variedadForuser);
       return;
     }
-    const filteredResults = variedadForuser.filter((variedad) =>
-      variedad.nombre_tipo_vari.toLowerCase().includes(value.toLowerCase())
-    );
+    const filteredResults = variedadForuser.reduce((filtered, variedad) => {
+      const fincaNameLowerCase = variedad.nombre_tipo_vari.toLowerCase();
+      const searchValueLowerCase = value.toLowerCase();
+
+      if (fincaNameLowerCase.includes(searchValueLowerCase)) {
+        filtered.push(variedad);
+      }
+      return filtered;
+    }, []);
+
     setFilteredResults(filteredResults);
   };
+
+  const filteredResults = variedadForuser.filter((variedad) =>
+    variedad.nombre_tipo_vari.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <div className="w-full">
@@ -116,64 +127,73 @@ function VariedadUserTable() {
           Registrar Variedad
         </Button>
       </div>
-      <div className="grid grid-cols-3 justify-center items-center gap-4 p-3">
-        <FormVariedadUser
-          open={abrirModal}
-          onClose={() => setAbrirModal(false)}
-          title={mode === "create" ? "Registrar Variedad" : "Actualizar Variedad"}
-          titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
-          mode={mode}
-        />
-        {variedadForuser.map((variedad, i) => (
-          <Card shadow="sm" key={i}>
-            <CardBody className="overflow-visible px-2 items-center">
-              <b className="text-center">{variedad.nombre_tipo_vari}</b>
-              <Image
-                shadow="sm"
-                radius="lg"
-                width="100%"
-                alt={variedad.imagen_vari}
-                className="w-full object-cover h-[140px]"
-                src={`http://localhost:4000/variedades/${variedad.imagen_vari}`}
-              />
-            </CardBody>
-            <CardFooter className="text-small flex-col justify-between">
-              <p>finca: {variedad.nombre_fin}</p>
-              <p className="text-default-500">Descripción: {variedad.descripcion_vari}</p>
-            </CardFooter>
-            <div className="flex flex-col items-center w-full gap-2 pb-3">
-              <Button
-                color="default"
-                startContent={<EditIcon />}
-                onClick={() => { handleToggle("update"); setIdVariedad(variedad) }}
-              >
-                Editar Variedad
-              </Button>
-              {variedad.estado_vari === "activo" ? (
-                <Button
-                  className="bg-red-600 text-white"
-                  startContent={<DesactivarIcon />}
-                  onClick={() => desactivarVaris(variedad.pk_id_vari)}
-                >
-                  Desactivar variedad
-                </Button>
-              ) : (
-                <Button
-                  className="bg-green-600 text-white px-[27px]"
-                  startContent={<ActivarIcon />}
-                  onClick={() => activarVaris(variedad.pk_id_vari)}
-                >
-                  Activar variedad
-                </Button>
-              )}
-            </div>
-          </Card>
-        ))}
+      <FormVariedadUser
+        open={abrirModal}
+        onClose={() => setAbrirModal(false)}
+        title={mode === "create" ? "Registrar Variedad" : "Actualizar Variedad"}
+        titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
+        mode={mode}
+      />
+      <div className="flex justify-center items-center px-12">
+        {filteredResults.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {variedadForuser.map((variedad, i) => (
+              <Card shadow="sm" key={i} className="py-4">
+                <CardBody className="overflow-visible px-2 items-center">
+                  <b className="text-center">{variedad.nombre_tipo_vari}</b>
+                  <Image
+                    shadow="sm"
+                    radius="lg"
+                    width="100%"
+                    alt={variedad.imagen_vari}
+                    className="w-full object-cover h-[140px]"
+                    src={`http://localhost:4000/variedades/${variedad.imagen_vari}`}
+                  />
+                </CardBody>
+                <CardFooter className="text-small flex-col justify-between">
+                  <p>finca: {variedad.nombre_fin}</p>
+                  <p className="text-default-500">
+                    Descripción: {variedad.descripcion_vari}
+                  </p>
+                </CardFooter>
+                <div className="flex justify-center items-center gap-2 flex-col px-10">
+                  <Button
+                    color="default"
+                    className="w-full"
+                    startContent={<EditIcon />}
+                    onClick={() => {handleToggle("update"); setIdVariedad(variedad);}}
+                  >
+                    Editar Variedad
+                  </Button>
+                  {variedad.estado_vari === "activo" ? (
+                    <Button
+                      className="bg-red-600 text-white w-full"
+                      startContent={<DesactivarIcon />}
+                      onClick={() => {desactivarVaris(variedad.pk_id_vari, user.pk_cedula_user)}}
+                    >
+                      Desactivar variedad
+                    </Button>
+                  ) : (
+                    <Button
+                      className="bg-green-600 text-white px-[27px] w-full"
+                      startContent={<ActivarIcon />}
+                      onClick={() => {activarVaris(variedad.pk_id_vari, user.pk_cedula_user)}}
+                    >
+                      Activar variedad
+                    </Button>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-red-400 rounded-lg text-center p-4">
+            <p className="text-white">No se encontraron fincas</p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
 export default VariedadUserTable;
-
-

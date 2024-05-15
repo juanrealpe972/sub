@@ -48,13 +48,17 @@ const RegisterVariedadUserMolecule = ({ mode, onClose, titleBtn }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("descripcion_vari", formData.descripcion_vari);
-      formDataToSend.append("img", formData.imagen);
-      formDataToSend.append("fk_finca", formData.fincasRef);
-      formDataToSend.append("fk_tipo_variedad", formData.tipoVariRef);
+      const data = new FormData();
+      data.append("descripcion_vari", formData.descripcion_vari);
+      data.append("img", formData.imagen);
+      data.append("fk_finca", formData.fincasRef);
+      data.append("fk_tipo_variedad", formData.tipoVariRef);
 
-      mode === "update" ? updateVaris(idVariedad.pk_id_vari, formDataToSend, user.pk_cedula_user) : createVaris(formDataToSend, user.pk_cedula_user);
+      if (mode === "update") {
+        updateVaris(idVariedad.pk_id_vari, data, users.pk_cedula_user)
+      } else {
+        createVaris(data, users.pk_cedula_user)
+      }
     } catch (error) {
       console.error("Error del sistema:", error);
     }
