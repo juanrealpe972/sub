@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 
 import UserRol from "../nextui/UserRol";
 import GmailIcon from "../nextui/GmailIcon";
-import DateIcon from "../nextui/DateIcon";
 import Phone from "../nextui/Phone";
 import FormUser from "../components/templates/FormUser";
 import AuthContext from "../context/AuthContext";
@@ -62,7 +61,7 @@ function ProfileUser() {
   );
 
   return (
-    <div className="px-28 mb-9 bg-gray-100">
+    <div className="px-28 mb-9 ">
       <FormUser
         open={abrirModal}
         onClose={() => setAbrirModal(false)}
@@ -88,12 +87,12 @@ function ProfileUser() {
               className="w-56 h-56"
             />
             {user.pk_cedula_user === localUser.pk_cedula_user && (
-              <Button className="bg-slate-400 text-white w-full mt-2" onClick={() => {handleToggle("update"); setIdUser(user)}}>
+              <Button className="bg-[#e0e0e0] text-[#009100] w-full mt-2" onClick={() => {handleToggle("update"); setIdUser(user)}}>
                 Editar perfil
               </Button>
             )}
             {user.pk_cedula_user === localUser.pk_cedula_user && (
-              <Button className="bg-slate-400 text-white w-full mt-2" onClick={() => {setAbrirModalPassword(true); setIdUser(user)}}>
+              <Button className="bg-[#e0e0e0] text-[#009100] w-full mt-2" onClick={() => {setAbrirModalPassword(true); setIdUser(user)}}>
                 Cambiar contraseña
               </Button>
             )}
@@ -107,15 +106,6 @@ function ProfileUser() {
               <div>
                 <p className="text-sm text-gray-900">{user.telefono_user}</p>
                 <p className="text-xs text-gray-500">Teléfono</p>
-              </div>
-            </span>
-            <span className="text-sm text-gray-600 flex items-center">
-              <DateIcon />
-              <div>
-                <p className="text-sm text-gray-900">
-                  {new Date(user.fecha_nacimiento_user).toLocaleDateString()}
-                </p>
-                <p className="text-xs text-gray-500">Fecha de Nacimiento</p>
               </div>
             </span>
             <span className="text-sm text-gray-600 flex items-center">

@@ -100,9 +100,9 @@ function HeaderOrganism() {
   return (
     <>
       {isAuthenticated ? (
-        <nav className="flex justify-between items-center bg-gray-300 p-4 shadow-sm">
+        <nav className="flex justify-between items-center bg-[#009100] p-4 shadow-sm">
           <div className="flex flex-col">
-            <Link to="/" className="text-gray-500 text-2xl font-semibold">
+            <Link to="/" className="text-gray-200 text-2xl font-semibold">
               Bienvenido
             </Link>
           </div>
@@ -155,7 +155,7 @@ function HeaderOrganism() {
                 />
               }
               radius="full"
-              variant="bordered"
+              variant="faded"
             >
               {(user) => (
                 <AutocompleteItem
@@ -192,12 +192,12 @@ function HeaderOrganism() {
             {isMoonSelected ? (
               <icono.iconoLuna
                 onClick={toggleTheme}
-                className="text-blanco cursor-pointer"
+                className="text-white cursor-pointer"
               />
             ) : (
               <icono.iconoSol
                 onClick={toggleTheme}
-                className="text-blanco cursor-pointer"
+                className="text-white cursor-pointer"
               />
             )}
             <div className="flex items-center gap-4">
@@ -212,7 +212,7 @@ function HeaderOrganism() {
                         : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
                       }`,
                     }}
-                    className="transition-transform"
+                    className="transition-transform text-gray-200"
                     description={`${users.rol_user}`}
                     name={`${users.nombre_user}`}
                   />

@@ -18,7 +18,7 @@ export default function MiSubastaT() {
         </div>
         <p className="text-center mt-3 text-black"> Para crear una subasta primero debes crear una finca. Luego, agregas las variedades que tienes en tu finca y ya por fin puedes agregar una subasta </p>
       </div>
-      <div className="flex flex-col justify-center gap-y-4">
+      <div className="w-2/3 flex flex-col justify-center gap-y-4">
         <div className="flex w-full flex-col">
           <Tabs
             aria-label="Options"
@@ -39,7 +39,6 @@ export default function MiSubastaT() {
             }>
               <Card>
                 <CardBody>
-                  <p className="text-center"> Tu finca tiene una historia que contar </p>
                   <FincaTable />
                 </CardBody>
               </Card>
