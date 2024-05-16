@@ -54,7 +54,7 @@ export default function UsersTable() {
     { uid: "pk_cedula_user", name: "Cedula", sortable: true },
     // { uid: "descripcion_user", name: "Descripción", sortable: true },
     { uid: "telefono_user", name: "Telefono", sortable: true },
-    { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
+    // { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
     { uid: "rol_user", name: "Rol", sortable: true },
     { uid: "estado_user", name: "Estado", sortable: true },
     { uid: "actions", name: "Acciones", sortable: false },
@@ -308,7 +308,7 @@ export default function UsersTable() {
   }, [items.length, page, pages, hasSearchFilter]);
 
   return (
-    <>
+    <div className="mx-40">
       <FormUser
         open={abrirModal}
         onClose={() => setAbrirModal(false)}
@@ -322,7 +322,7 @@ export default function UsersTable() {
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
         classNames={{
-          wrapper: "max-h-[482px] ",
+          wrapper: "max-h-[482px]",
         }}
         sortDescriptor={sortDescriptor}
         topContent={topContent}
@@ -350,6 +350,6 @@ export default function UsersTable() {
           )}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 }

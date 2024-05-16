@@ -62,7 +62,7 @@ function FincaTable() {
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-4xl">
       <div className="flex py-4 gap-x-3 px-12 items-center">
         <Autocomplete
           value={searchValue}
@@ -140,7 +140,7 @@ function FincaTable() {
       </div>
       <div className="flex justify-center items-center px-12">
         {filteredResults.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             {filteredResults.map((result) => (
               <Card key={result.pk_id_fin} className="py-4">
                 <CardHeader className="pb-0 px-8 flex-col items-start">
@@ -182,6 +182,14 @@ function FincaTable() {
                     onClick={() => { handleToggle("update"); setIdFinca(result) }}
                   >
                     Editar finca
+                  </Button>
+                  <Button
+                    color="default"
+                    className="w-full"
+                    startContent={<EditIcon />}
+                    onClick={() => { handleToggle("update"); setIdFinca(result) }}
+                  >
+                    Añadir  variedad
                   </Button>
                   {result.estado_fin === "activo" ? (
                     <Button

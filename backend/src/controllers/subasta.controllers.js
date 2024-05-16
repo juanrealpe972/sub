@@ -193,7 +193,7 @@ export const SubastaAbierta = async (req, res) => {
   try {
     const [result] = await pool.query( `UPDATE subasta SET estado_sub = 1 WHERE pk_id_sub = '${id}'` );
     if (result.affectedRows > 0) {
-      res.status(200).json({ message: "Subasta Abierta " });
+      res.status(200).json({ message: "Subasta Abierta" });
     } else {
       res.status(404).json({ message: `No se encontró ninguna Subasta con el ID ${id}` });
     }

@@ -253,7 +253,7 @@ const RegisterSubastaMolecule = ({ mode, onClose, titleBtn }) => {
             className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           >
             <option value="" hidden>
-              Unidad De Peso
+              Seleccionar variedad
             </option>
             {variedadForuser.filter((variedad) => variedad.estado_vari === "activo").map((variedad) => (
                 <option value={variedad.pk_id_vari} key={variedad.pk_id_vari}>

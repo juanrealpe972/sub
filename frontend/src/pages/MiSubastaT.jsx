@@ -34,8 +34,7 @@ export default function MiSubastaT() {
             <Tab key="fincas" title={
               <div className="flex items-center space-x-2">
                 <FincaIcon />
-                <span>Fincas</span>
-                <Chip size="sm" variant="faded"> 9 </Chip>
+                <span>Fincas y variedades</span>
               </div>
             }>
               <Card>
@@ -49,7 +48,6 @@ export default function MiSubastaT() {
               <div className="flex items-center space-x-2">
                 <VariedadIcon />
                 <span>Variedades</span>
-                <Chip size="sm" variant="faded"> 3 </Chip>
               </div>
             }>
               <Card>
@@ -63,7 +61,6 @@ export default function MiSubastaT() {
               <div className="flex items-center space-x-2">
                 <SubastaIcon />
                 <span>Subastas</span>
-                <Chip size="sm" variant="faded"> 1 </Chip>
               </div>
             }>
               <Card>

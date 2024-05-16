@@ -50,7 +50,7 @@ export default function SubastaTable() {
   return (
     <div className="w-full">
       <div className="flex py-4 gap-x-3 items-center">
-      <Autocomplete
+        <Autocomplete
           value={searchValue}
           onChange={(value) => handleSearch(value)}
           defaultItems={subastaForuser}
@@ -109,7 +109,7 @@ export default function SubastaTable() {
         <Button
           className="bg-slate-400 text-white"
           endContent={<PlusIcon />}
-          onClick={() => {handleToggle("create")}}
+          onClick={() => { handleToggle("create") }}
         >
           Registrar Subasta
         </Button>
@@ -131,7 +131,7 @@ export default function SubastaTable() {
                   radius="full"
                   size="md"
                   src={
-                    subasta.imagen_user && subasta.imagen_user.length > 0
+                    subasta.imagen_user 
                       ? `http://localhost:4000/img/${subasta.imagen_user}`
                       : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
                   }
@@ -150,7 +150,7 @@ export default function SubastaTable() {
                 radius="md"
                 variant="bordered"
                 size="sm"
-                onPress={() => navigate(`/subasta/${subasta.pk_id_sub}`)}
+                onPress={() => navigate(`/profile/${usuario.pk_cedula_user}`)}
               >
                 Visualizar perfil
               </Button>
@@ -221,34 +221,34 @@ export default function SubastaTable() {
                   size="lg"
                   onPress={() => navigate(`/subasta/${subasta.pk_id_sub}`)}
                 >
-                  Visualizar Subasta
+                  Visualizar
                 </Button>
-                {subasta.estado_sub === "activo" ? (
-                    <Button
-                      className="bg-red-600 text-white w-full"
-                      startContent={<DesactivarIcon />}
-                      onClick={() => {desactivarSubs(subasta.pk_id_sub, usuario.pk_cedula_user)}}
-                    >
-                      Desactivar Subasta
-                    </Button>
-                  ) : (
-                    <Button
-                      className="bg-green-600 text-white px-[27px] w-full"
-                      startContent={<ActivarIcon />}
-                      onClick={() => {activarSubs(subasta.pk_id_sub, usuario.pk_cedula_user)}}
-                    >
-                      Activar Subasta
-                    </Button>
-                  )}
+                {subasta.estado_sub === "abierta" ? (
+                  <Button
+                    className="bg-red-600 text-white w-full"
+                    startContent={<DesactivarIcon />}
+                    onClick={() => desactivarSubs(subasta.pk_id_sub, usuario.pk_cedula_user)}
+                  >
+                    Desactivar Subasta
+                  </Button>
+                ) : (
+                  <Button
+                    className="bg-green-600 text-white px-[27px] w-full"
+                    startContent={<ActivarIcon />}
+                    onClick={() => activarSubs(subasta.pk_id_sub, usuario.pk_cedula_user)}
+                  >
+                    Activar Subasta
+                  </Button>
+                )}
                 {subasta.pk_cedula_user === usuario.pk_cedula_user && (
                   <Button
                     className="bg-gray-400"
                     radius="md"
                     size="lg"
                     startContent={<EditIcon />}
-                    onPress={() => {handleToggle(subasta); setIdSubasta(subasta)}}
+                    onPress={() => { handleToggle(subasta); setIdSubasta(subasta) }}
                   >
-                    Editar Subasta
+                    Editar
                   </Button>
                 )}
               </CardFooter>

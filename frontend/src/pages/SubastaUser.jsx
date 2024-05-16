@@ -106,10 +106,15 @@ function SubastaUser() {
           </div>
         </div>
         <div className="bg-gray-200 p-4 items-center flex flex-col">
-          <h3 className="text-lg font-semibold">Usuario</h3>
-          <Avatar src={subasta.imagen_user} className="w-24 h-24" />
-          <p>{subasta.nombre_user}</p>
-          <p>{subasta.email_user}</p>
+          <h3 className="text-lg font-semibold">Vendedor</h3>
+          <Avatar                     
+            src={
+              subasta.imagen_user && subasta.imagen_user.length > 0
+                ? `http://localhost:4000/img/${subasta.imagen_user}`
+                : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
+            } className="w-24 h-24" />
+          <p className="text-center">{subasta.nombre_user}</p>
+          <p className="text-center">{subasta.email_user}</p>
         </div>
       </div>
       <div className="mt-4 flex w-full bg-gray-100 gap-x-4 shadow">

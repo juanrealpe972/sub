@@ -11,7 +11,7 @@ import {
   Image,
 } from "@nextui-org/react";
 import { EditIcon } from "../nextui/EditIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SubastaPage() {
   const slides = [
@@ -25,7 +25,7 @@ function SubastaPage() {
       url: "https://www.solucionesparaladiabetes.com/magazine-diabetes/wp-content/uploads/cafe-696x464.jpeg",
     },
   ];
-
+  const navigate = useNavigate()
   const [currentIndex, setCurrentIndex] = useState(0);
   const prevSlide = () => {
     const newIndex = (currentIndex - 1 + slides.length) % slides.length;
@@ -81,9 +81,8 @@ function SubastaPage() {
             {slides.map((slide, index) => (
               <div
                 key={index}
-                className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${
-                  index === currentIndex ? "bg-black" : "bg-gray-300"
-                }`}
+                className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${index === currentIndex ? "bg-black" : "bg-gray-300"
+                  }`}
                 onClick={() => setCurrentIndex(index)}
               ></div>
             ))}
@@ -99,7 +98,7 @@ function SubastaPage() {
       <p className="pl-4 text-xl">Borbon</p>
       <div className="grid grid-cols-3 justify-center items-center gap-4 p-3">
         {results &&
-          results.map((subasta) => (
+          results.filter((subasta) => subasta.estado_sub === "abierta").map((subasta) => (
             <Card key={subasta.pk_id_sub} className="max-w-[500px] p-2">
               <CardHeader className="justify-between">
                 <div className="flex gap-3">
@@ -122,17 +121,15 @@ function SubastaPage() {
                     </h5>
                   </div>
                 </div>
-                <Link to={`/profile/${subasta.pk_cedula_user}`}>
-                  <Button
-                    className="bg-gray-100 text-foreground border-default-200"
-                    radius="md"
-                    variant="bordered"
-                    size="sm"
-                    onPress={() => handleUpdateSubasta(subasta.pk_id_sub)}
-                  >
-                    Visualizar perfil
-                  </Button>
-                </Link>
+                <Button
+                  className="bg-gray-100 text-foreground border-default-200"
+                  radius="md"
+                  variant="bordered"
+                  size="sm"
+                  onPress={() => navigate(`/profile/${subasta.pk_cedula_user}`)}
+                >
+                  Visualizar perfil
+                </Button>
               </CardHeader>
               <CardBody className="items-start">
                 <span className="w-full text-center">
@@ -193,29 +190,16 @@ function SubastaPage() {
                     </div>
                     <div>
                       <p className="text-gray-400 text-sm">
-                        {subasta.nombre_vere} - {subasta.nombre_muni} -{" "}
+                        {subasta.nombre_vere} - {subasta.nombre_muni} -
                         {subasta.nombre_depar}
                       </p>
                     </div>
                   </div>
                 </CardBody>
                 <CardFooter className="flex justify-center gap-x-4">
-                  <Link to={`/subasta/${subasta.pk_id_sub}`}>
-                    <Button className="bg-gray-400" radius="md" size="lg">
-                      Visualizar Subasta
-                    </Button>
-                  </Link>
-                  {subasta.pk_cedula_user === usuario.pk_cedula_user && (
-                    <Button
-                      className="bg-gray-400"
-                      radius="md"
-                      size="lg"
-                      startContent={<EditIcon />}
-                      onPress={() => handleUpdateSubasta(subasta.pk_id_sub)}
-                    >
-                      Editar Subasta
-                    </Button>
-                  )}
+                  <Button className="bg-gray-400" radius="md" size="lg" onPress={() => navigate(`/subasta/${subasta.pk_id_sub}`)}>
+                    Visualizar Subasta
+                  </Button>
                 </CardFooter>
               </CardBody>
             </Card>
