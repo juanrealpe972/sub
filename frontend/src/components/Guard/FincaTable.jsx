@@ -58,7 +58,7 @@ function FincaTable() {
       </div>
       <div className="flex justify-center items-center">
         {fincas ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-6">
             {fincas.map((result) => (
               <Card key={result.pk_id_fin} className="py-4 w-80">
                 <CardHeader className="pb-0 px-8 flex-col items-start">

@@ -165,7 +165,7 @@ function HeaderOrganism() {
               />
             )}
             <div className="flex items-center gap-4">
-              <Dropdown placement="bottom-end">
+              <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
                 <DropdownTrigger>
                   <User
                     as="button"
@@ -185,14 +185,16 @@ function HeaderOrganism() {
                   <DropdownItem
                     key="profile"
                     onClick={() => navigate(`/profile/${localUser.pk_cedula_user}`)}
-                    className="text-center bg-gray-400 hover:bg-gray-200 border text-white py-2"
+                    className="text-center bg-gray-400 hover:bg-gray-200 text-white"
+                    color="success"
                   >
                     Perfil
                   </DropdownItem>
                   <DropdownItem
                     key="logout"
                     onPress={handleLogout}
-                    className="text-center bg-red-600 border text-white py-2"
+                    className="text-center bg-gray-400 text-white"
+                    color="danger"
                   >
                     Cerrar sesión
                   </DropdownItem>
