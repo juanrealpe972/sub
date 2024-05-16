@@ -111,6 +111,15 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const logout = () => {
+    try {
+      localStorage.clear();
+      setIsAuthenticated(false)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     if (errors.length > 0) {
       const timer = setTimeout(() => {
@@ -128,8 +137,9 @@ export const AuthProvider = ({ children }) => {
         errors,
         idUser,
         user,
-        setUser,
         onClose,
+        logout,
+        setUser,
         setIdUser,
         getUserID,
         setIsAuthenticated,

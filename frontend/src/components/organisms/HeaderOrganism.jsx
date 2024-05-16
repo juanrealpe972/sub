@@ -11,52 +11,24 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+
+import AuthContext from "../../context/AuthContext";
 
 import { icono } from "../atoms/IconsAtom";
 import AvatarAtom from "../atoms/AvatarAtom";
 import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
 import { SearchIcon } from "../../nextui/SearchIcon";
-import axios from "axios";
-import AuthContext from "../../context/AuthContext";
-import axiosClient from "../../api/axios";
 import FormLogin from "../templates/FormLogin";
 
 function HeaderOrganism() {
   const [abrirBell, setAbrirBell] = useState(false);
   const [isMoonSelected, setIsMoonSelected] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [userslist, setUserslist] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
+  const localUser = JSON.parse(localStorage.getItem("user"))
 
-  const isAuthenticated = window.localStorage.getItem("token");
-  const users = JSON.parse(localStorage.getItem("user"));
-  const { setUsers } = useContext(AuthContext);
-  const URL = "http://localhost:4000/auth/login";
-
-  const login = async (data, e) => {
-    e.preventDefault();
-    await axios
-      .post(URL, data)
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success(res.data.message, { duration: 5000 });
-          const { token, user } = res.data;
-          localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(user));
-          navigate("/subcoffee");
-        } else if (res.status === 401) {
-          toast.error("Usuario no registrado");
-        }
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const handleSearch = async (value) => {
-    setSearchValue("");
-  };
+  const { getUsers, isAuthenticated, logout, users } = useContext(AuthContext);
 
   const handleLogout = () => {
     Swal.fire({
@@ -67,9 +39,12 @@ function HeaderOrganism() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.clear();
+        logout()
         navigate("/");
-        toast.success("Cierre de sesión exitoso");
+        Swal.fire({
+          text: "Cierre de sesión éxitoso",
+          icon: "success",
+        })
       }
     });
   };
@@ -83,23 +58,14 @@ function HeaderOrganism() {
   };
 
   useEffect(() => {
-    if (users) {
-      fetchUser();
+    if (isAuthenticated) {
+      getUsers();
     }
   }, []);
 
-  const fetchUser = async () => {
-    try {
-      const response = await axiosClient.get("/v1/users");
-      setUserslist(response.data.data);
-    } catch (error) {
-      toast.error("Error al listar a los usuarios" + error);
-    }
-  };
-
   return (
     <>
-      {isAuthenticated ? (
+      {localUser ? (
         <nav className="flex justify-between items-center bg-[#009100] p-4 shadow-sm">
           <div className="flex flex-col">
             <Link to="/" className="text-gray-200 text-2xl font-semibold">
@@ -113,9 +79,7 @@ function HeaderOrganism() {
                 listboxWrapper: "max-h-[320px]",
                 selectorButton: "text-default-500",
               }}
-              value={searchValue} // Asigna el estado local al valor del input
-              onChange={(value) => handleSearch(value)} // Función para manejar cambios en el input
-              defaultItems={userslist}
+              defaultItems={users}
               inputProps={{
                 classNames: {
                   input: "ml-1",
@@ -207,20 +171,20 @@ function HeaderOrganism() {
                     as="button"
                     avatarProps={{
                       src: `${
-                        users.imagen_user && users.imagen_user.length > 0
-                        ? `http://localhost:4000/img/${users.imagen_user}`
+                        localUser.imagen_user && localUser.imagen_user.length > 0
+                        ? `http://localhost:4000/img/${localUser.imagen_user}`
                         : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
                       }`,
                     }}
                     className="transition-transform text-gray-200"
-                    description={`${users.rol_user}`}
-                    name={`${users.nombre_user}`}
+                    description={`${localUser.rol_user}`}
+                    name={`${localUser.nombre_user}`}
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="User Actions" variant="flat">
                   <DropdownItem
                     key="profile"
-                    onClick={() => navigate(`/profile/${users.pk_cedula_user}`)}
+                    onClick={() => navigate(`/profile/${localUser.pk_cedula_user}`)}
                     className="text-center bg-gray-400 hover:bg-gray-200 border text-white py-2"
                   >
                     Perfil
@@ -276,7 +240,6 @@ function HeaderOrganism() {
             open={modalOpen}
             title="Iniciar sesión"
             onClose={() => setModalOpen(false)}
-            handleSubmit={login}
           />
         </>
       )}

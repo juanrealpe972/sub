@@ -4,6 +4,7 @@ import ModalMessage from "../nextui/ModalMessage";
 import {
   createSubasta,
   getSubastaForUser,
+  getSubastas,
   updateSubasta,
   updateSubastaActivar,
   updateSubastaDesact,
@@ -17,6 +18,16 @@ export const SubastaProvider = ({ children }) => {
   const [errors, setErrors] = useState([]);
   const [idSubasta, setIdSubasta] = useState(0);
   const [subastaForuser, setSubastaForUser] = useState([]);
+  const [subastas, setSubastas] = useState([])
+
+  const getSubs = async () => {
+    try {
+      const response = await getSubastas()
+      setSubastas(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const getSubForUser = async (user) => {
     try {
@@ -84,11 +95,13 @@ export const SubastaProvider = ({ children }) => {
     <SubastaContext.Provider
       value={{
         errors,
+        subastas,
         idSubasta,
         subastaForuser,
         setSubastaForUser,
         setIdSubasta,
         getSubForUser,
+        getSubs,
         createSubs,
         updateSubs,
         desactivarSubs,
