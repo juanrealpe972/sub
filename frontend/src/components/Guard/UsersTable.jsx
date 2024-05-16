@@ -54,7 +54,6 @@ export default function UsersTable() {
     { uid: "pk_cedula_user", name: "Cedula", sortable: true },
     // { uid: "descripcion_user", name: "Descripción", sortable: true },
     { uid: "telefono_user", name: "Telefono", sortable: true },
-    // { uid: "fecha_nacimiento_user", name: "Fecha Nacimiento", sortable: true },
     { uid: "rol_user", name: "Rol", sortable: true },
     { uid: "estado_user", name: "Estado", sortable: true },
     { uid: "actions", name: "Acciones", sortable: false },
@@ -137,10 +136,6 @@ export default function UsersTable() {
           >
             {user.email_user}
           </User>
-        );
-      case "fecha_nacimiento_user":
-        return (
-          <p>{new Date(user.fecha_nacimiento_user).toLocaleDateString()}</p>
         );
       case "descripcion_user":
         return (

@@ -9,7 +9,7 @@ import AuthContext from "../../context/AuthContext";
 const RegisterUser = ({ mode, titleBtn, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const { createUsers, updateUsers, idUser, errors } = useContext(AuthContext);
+  const { createUsers, updateUsers, idUser, errors, onClose :CerrarModal } = useContext(AuthContext);
   const userAdmin = JSON.parse(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
     imagen: "",
@@ -18,28 +18,18 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
     email_user: "",
     password_user: "",
     telefono_user: "",
-    fechanacimiento_user: "",
     rol_user: "",
     descripcion_user: "",
   });
 
   useEffect(() => {
     if (mode === "update" && idUser) {
-      const dateStr = idUser.fecha_nacimiento_user;
-      let formattedDate = "";
-      if (dateStr) {
-        const fechaDate = new Date(dateStr);
-        if (!isNaN(fechaDate)) {
-          formattedDate = fechaDate.toISOString().split('T')[0];
-        }
-      }
       setFormData({
         imagen: idUser.imagen_user,
         pk_cedula_user: idUser.pk_cedula_user,
         nombre_user: idUser.nombre_user,
         email_user: idUser.email_user,
         telefono_user: idUser.telefono_user,
-        fechanacimiento_user: formattedDate,
         rol_user: idUser.rol_user,
         descripcion_user: idUser.descripcion_user,
       });
@@ -62,17 +52,15 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
     datosAEnviar.append("nombre_user", formData.nombre_user);
     datosAEnviar.append("email_user", formData.email_user);
     datosAEnviar.append("telefono_user", formData.telefono_user);
-    datosAEnviar.append("fechanacimiento_user", formData.fechanacimiento_user);
     datosAEnviar.append("rol_user", formData.rol_user);
-    datosAEnviar.append("descripcion_user", formData.descripcion_user);
     try {
       if (mode === "update") {
+        datosAEnviar.append("descripcion_user", formData.descripcion_user);
         await updateUsers(idUser.pk_cedula_user, datosAEnviar);
       } else {
         datosAEnviar.append("password_user", formData.password_user);
         await createUsers(datosAEnviar);
       }
-      // onClose();
     } catch (error) {
       console.log(error);
     }
@@ -157,6 +145,16 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
         onChange={handleChange}
         startContent={<icono.iconoUser />}
       />
+      <Input
+          placeholder="Correo"
+          isRequired
+          type="email"
+          variant="bordered"
+          name="email_user"
+          value={formData.email_user}
+          onChange={handleChange}
+          startContent={<icono.iconoGmail />}
+        />
       <div className="grid grid-cols-2 items-center gap-x-2">
         <Input
           placeholder="Cédula"
@@ -170,18 +168,6 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
           startContent={<icono.iconoCedula />}
         />
         <Input
-          placeholder="Fecha de Nacimiento"
-          isRequired
-          variant="bordered"
-          type="date"
-          name="fechanacimiento_user"
-          value={formData.fechanacimiento_user}
-          onChange={handleChange}
-          startContent={<icono.iconoFecha />}
-        />
-      </div>
-      <div className="grid grid-cols-2 items-center gap-x-2">
-        <Input
           placeholder="Teléfono"
           isRequired
           type="number"
@@ -191,16 +177,6 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
           value={formData.telefono_user}
           onChange={handleChange}
           startContent={<icono.iconoCelular />}
-        />
-        <Input
-          placeholder="Correo"
-          isRequired
-          type="email"
-          variant="bordered"
-          name="email_user"
-          value={formData.email_user}
-          onChange={handleChange}
-          startContent={<icono.iconoGmail />}
         />
       </div>
       <div className={`grid ${mode !== "update" ? "grid-cols-2" : "grid-cols-1"} items-center gap-x-2`}>
@@ -252,21 +228,24 @@ const RegisterUser = ({ mode, titleBtn, onClose }) => {
           />
         )}
       </div>
-      <Textarea
-        label="Descripción de usuario"
-        startContent={<icono.iconoDescript />}
-        variant="bordered"
-        placeholder="Ingresa la descripción de usuario"
-        disableAnimation
-        disableAutosize
-        classNames={{
-          base: "w-full",
-          input: "resize-y min-h-[40px]",
-        }}
-        value={formData.descripcion_user}
-        onChange={handleChange}
-        name="descripcion_user"
-      />
+      {
+        mode === "update" && (
+          <Textarea
+            label=""
+            aria-label="Descripción de usuario"
+            startContent={<icono.iconoDescript />}
+            variant="bordered"
+            placeholder="Ingresa la descripción de usuario"
+            classNames={{
+              base: "w-full",
+              input: "resize-y min-h-[40px]",
+            }}
+            value={formData.descripcion_user || ''}
+            onChange={handleChange}
+            name="descripcion_user"
+          />
+        )
+      }
       <ModalFooter className="flex justify-center">
         <Button type="submit" className="bg-gray-600 text-white">
           {titleBtn}

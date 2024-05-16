@@ -28,9 +28,6 @@ export const validationUpdateUser = [
     .isEmpty()
     .isNumeric()
     .isLength({ max: 11 }),
-  check("fecha_nacimiento_user", "La fecha de nacimiento es obligatoria")
-    .not()
-    .isEmpty(),
   check("rol_user", "El rol es obligatorio")
     .not()
     .isEmpty()
@@ -71,9 +68,6 @@ export const validationRegisterUser = [
     .isEmpty()
     .isNumeric()
     .isLength({ max: 11 }),
-  check("fechanacimiento_user", "La fecha de nacimiento es obligatoria")
-    .not()
-    .isEmpty(),
   check("rol_user", "El rol es obligatorio")
     .not()
     .isEmpty()

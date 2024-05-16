@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
   const [mensaje, setMensaje] = useState("");
   const [errors, setErrors] = useState([]);
   const [idUser, setIdUser] = useState([])
+  const [onClose, setOnClose] = useState(false)
 
   const getUsers = async () => {
     try {
@@ -60,6 +61,9 @@ export const AuthProvider = ({ children }) => {
       getUsers()
       setMensaje(response.data.message)
       setModalMessage(true)
+      if(response.status === 200) {
+        setOnClose(true)
+      }
     } catch (error) {
       setErrors([error.response.data.message]);
     }
@@ -123,8 +127,9 @@ export const AuthProvider = ({ children }) => {
         users,
         errors,
         idUser,
-        user, 
+        user,
         setUser,
+        onClose,
         setIdUser,
         getUserID,
         setIsAuthenticated,
