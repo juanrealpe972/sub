@@ -18,7 +18,7 @@ export default function MiSubastaT() {
         </div>
         <p className="text-center mt-3 text-black"> Para crear una subasta primero debes crear una finca. Luego, agregas las variedades que tienes en tu finca y ya por fin puedes agregar una subasta </p>
       </div>
-      <div className="w-[1000px] flex flex-col justify-center gap-y-4">
+      <div className="w-[1030px] flex flex-col justify-center gap-y-4">
         <div className="flex w-full flex-col">
           <Tabs
             aria-label="Options"
@@ -40,19 +40,6 @@ export default function MiSubastaT() {
               <Card>
                 <CardBody>
                   <FincaTable />
-                </CardBody>
-              </Card>
-            </Tab>
-            <Tab key="music" title={
-              <div className="flex items-center space-x-2">
-                <VariedadIcon />
-                <span>Variedades</span>
-              </div>
-            }>
-              <Card>
-                <CardBody>
-                  <p className="text-center"> Registra todas las maravillosas variedades de café que tienes en tu finca </p>
-                  <VariedadUserTable />
                 </CardBody>
               </Card>
             </Tab>

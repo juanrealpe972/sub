@@ -27,7 +27,7 @@ function SubastaPage() {
       <p className="pl-4 text-xl">Borbon</p>
       <div className="grid grid-cols-3 justify-center items-center gap-4 p-3">
         {subastas &&
-          subastas.filter((subasta) => subasta.estado_sub === "abierta").map((subasta) => (
+          subastas.map((subasta) => (
             <Card key={subasta.pk_id_sub} className="max-w-[500px] p-2">
               <CardHeader className="justify-between">
                 <div className="flex gap-3">
