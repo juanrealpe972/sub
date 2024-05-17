@@ -170,11 +170,10 @@ function HeaderOrganism() {
                   <User
                     as="button"
                     avatarProps={{
-                      src: `${
-                        localUser.imagen_user && localUser.imagen_user.length > 0
+                      src: `${localUser.imagen_user && localUser.imagen_user.length > 0
                         ? `http://localhost:4000/img/${localUser.imagen_user}`
                         : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
-                      }`,
+                        }`,
                     }}
                     className="transition-transform text-gray-200"
                     description={`${localUser.rol_user}`}
@@ -212,10 +211,10 @@ function HeaderOrganism() {
         </nav>
       ) : (
         <>
-          <nav className="flex justify-between items-center bg-gray-300 fixed w-full m-0 top-0 p-4 shadow-sm z-20">
+          <nav className="flex justify-between items-center bg-[#009100] fixed w-full m-0 top-0 p-4 shadow-sm z-20">
             <div className="flex items-center">
               <AvatarAtom img="isotipo-SubCoffee.png" />
-              <Link to="/" className="text-gray-500 text-2xl font-semibold">
+              <Link to="/" className="text-gray-200 text-2xl font-semibold">
                 SubCoffee
               </Link>
             </div>
@@ -224,18 +223,19 @@ function HeaderOrganism() {
                 {isMoonSelected ? (
                   <icono.iconoLuna
                     onClick={toggleTheme}
-                    className="text-blanco"
+                    className="text-white"
                   />
                 ) : (
                   <icono.iconoSol
                     onClick={toggleTheme}
-                    className="text-blanco"
+                    className="text-white"
                   />
                 )}
               </div>
-              <Button onClick={() => setModalOpen(true)} className="border border-gray-400 bg-gray-200 text-gray-500 rounded-md hover:bg-gray-400 duration-500 transition-all ease-in-out hover:text-gray-200">
+              <Button onClick={() => setModalOpen(true)} className="border-2 border-[#009100] bg-gray-100 text-[#009100] font-bold rounded-lg shadow-lg hover:bg-[#f0fff0] hover:text-[#006600] hover:border-[#006600] hover:shadow-xl hover:scale-105 transform duration-300 transition-all ease-in-out">
                 Iniciar sesión
               </Button>
+
             </div>
           </nav>
           <FormLogin

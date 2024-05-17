@@ -16,7 +16,7 @@ function DashboardContentOrganims() {
   }, [navigate]);
 
   return (
-    <div className="bg-gray-200">
+    <div>
       <div className="flex items-center justify-center px-12">
         <span className="text-black text-4xl text-center">
           Bienvenido a Subcoffee una plataforma online donde te podras conectar
