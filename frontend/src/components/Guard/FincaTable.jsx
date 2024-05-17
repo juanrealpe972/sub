@@ -9,6 +9,7 @@ import { PlusIcon } from "../../nextui/PlusIcon";
 import FormFinca from "../templates/FormFinca";
 import FormVariedadUser from "../templates/FormVariedadUser.jsx";
 import VariedadUserContext from "../../context/VariedadUserContext.jsx";
+import ModaVariedadUser from "../../pages/ModaVariedadUser.jsx"
 
 function FincaTable() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -63,14 +64,11 @@ function FincaTable() {
           titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
           mode={mode}
         />
-        <FormVariedadUser
-          open={abrirModalVariedad}
+        <ModaVariedadUser
+          isOpen={abrirModalVariedad}
           onClose={() => setAbrirModalVariedad(false)}
-          title={
-            mode === "create" ? "Registrar Variedad" : "Actualizar Variedad"
-          }
-          titleBtn={mode === "create" ? "Registrar" : "Actualizar"}
           mode={mode}
+          fincaId={pkFinca}
         />
       </div>
       <div className="flex justify-center items-center">
@@ -111,6 +109,9 @@ function FincaTable() {
                   />
                 </CardBody>
                 <div className="flex justify-center items-center gap-2 flex-col px-10">
+                  <Button className="w-full flex" onPress={() => handleToggleVariedad("create", result.pk_id_fin)}>
+                    Ver variedades de la finca
+                  </Button>
                   <Button
                     color="default"
                     className="w-full"
@@ -122,30 +123,6 @@ function FincaTable() {
                   >
                     Editar finca
                   </Button>
-                  <div
-                    className={`grid ${
-                      variedadForuser.length > 0 ? "grid-cols-2" : "grid-cols-1"
-                    } gap-1`}
-                  >
-                    <Button
-                      color="default"
-                      className="w-full"
-                      onClick={() =>
-                        handleToggleVariedad("create", result.pk_id_fin)
-                      }
-                    >
-                      Registrar variedad
-                    </Button>
-                    <Button
-                      color="default"
-                      className="w-full"
-                      onClick={() =>
-                        handleToggleVariedad("create", result.pk_id_fin)
-                      }
-                    >
-                      Variedades
-                    </Button>
-                  </div>
                   {result.estado_fin === "activo" ? (
                     <Button
                       className="bg-red-600 text-white w-full"
