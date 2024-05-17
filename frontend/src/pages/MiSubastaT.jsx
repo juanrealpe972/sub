@@ -1,11 +1,9 @@
 import React from "react";
-import { Tabs, Tab, Chip, Card, CardBody } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 
 import SubastaIcon from "../nextui/SubastaIcon";
-import VariedadIcon from "../nextui/VariedadIcon";
 import FincaIcon from "../nextui/FincaIcon";
 import FincaTable from "../components/Guard/FincaTable";
-import VariedadUserTable from "../components/Guard/VariedadUserTable";
 import SubastaTable from "../components/Guard/SubastaTable";
 
 export default function MiSubastaT() {

@@ -2,23 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { icono } from "../atoms/IconsAtom";
 
+const user = JSON.parse(localStorage.getItem("user"));
 
 const SidebarOrganims = () => {
-  const users = JSON.parse(localStorage.getItem("user"));
-  
   const [open, setOpen] = useState(true);
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    ...(users && [
+    ...(user && [
       { title: "Inicio", link: "/subcoffee", icon: icono.iconoHome },
-      ...(users && users.rol_user === "admin" ? [
+      ...(user && user.rol_user === "admin" ? [
             { title: "Usuarios", link: "/users", icon: icono.iconoRol },
             { title: "Geografía", link: "/geografia", icon: icono.iconoWorl },
             { title: "Tipo Variedad", link: "/tipo_variedad", icon: icono.iconoFlor },
           ]
         : []),
-      ...((users && users.rol_user === "vendedor") ? [
+      ...((user && user.rol_user === "vendedor") ? [
             { title: "Mis subastas", link: "/mi_subasta", icon: icono.iconoType },
           ]
         : []),

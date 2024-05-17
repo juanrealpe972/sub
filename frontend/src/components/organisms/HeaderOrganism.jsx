@@ -68,7 +68,7 @@ function HeaderOrganism() {
       {localUser ? (
         <nav className="flex justify-between items-center bg-[#009100] p-4 shadow-sm">
           <div className="flex flex-col">
-            <Link to="/" className="text-gray-200 text-2xl font-semibold">
+            <Link to={`${localUser.rol_user === "admin" ? '/inicio' : '/'}`} className="text-gray-200 text-2xl font-semibold">
               Bienvenido
             </Link>
           </div>

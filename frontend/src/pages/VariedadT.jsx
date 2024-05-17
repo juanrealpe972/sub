@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../api/axios";
 import VariedadUserTable from "../components/Guard/VariedadUserTable";
-import toast from "react-hot-toast";
 import ModalMessage from "../nextui/ModalMessage";
 import FormVariedadUser from "../components/templates/FormVariedadUser";
 
@@ -15,7 +14,7 @@ export default function VariedadT() {
   const users = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    fetchList(); //  Lista los datos al cargar la página
+    fetchList(); 
   }, []);
 
   const fetchList = async () => {
@@ -36,7 +35,7 @@ export default function VariedadT() {
         fetchList(); // Actualizar la lista de datos después de desactivar
       }
     } catch (error) {
-      toast.error("Error en el sistema " + error);
+      console.error("Error en el sistema " + error);
     }
   };
 
@@ -49,7 +48,7 @@ export default function VariedadT() {
         fetchList(); // Actualizar la lista de datos después de activar
       }
     } catch (error) {
-      toast.error("Error en el sistema " + error);
+      console.error("Error en el sistema " + error);
     }
   };
 
@@ -64,15 +63,15 @@ export default function VariedadT() {
           : await axiosClient.put( `/v1/variedad/${initialData.pk_id_vari}`, data );
       const message = response.data.message;
       if (response.status === 200) {
-        toast.success(message);
+        console.success(message);
         setModalOpen(false);
         fetchList(); // Actualizar la lista de datos después de crear o actualizar
       } else {
-        toast.error(message);
+        console.error(message);
       }
     } catch (error) {
       console.error("Error en el servidor:", error);
-      toast.error("Error en el servidor");
+      console.error("Error en el servidor");
     }
   };
 

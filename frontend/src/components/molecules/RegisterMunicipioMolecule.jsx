@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import {
   Button,
   Input,
@@ -31,7 +30,6 @@ const RegisterMunicipioMolecule = ({ mode, onClose, titleBtn }) => {
         setDepartamentoIdRef(idMunicipio.fk_departamento);
       } catch (error) {
         console.error("Error fetching departamento data:", error);
-        toast.error("Error al cargar datos del municipio");
       }
     }
   }, [mode, idMunicipio]);
@@ -53,7 +51,6 @@ const RegisterMunicipioMolecule = ({ mode, onClose, titleBtn }) => {
       onClose();
     } catch (error) {
       console.error("Error en el servidor:", error);
-      toast.error("Error en el servidor " + error);
     }
   };
 
