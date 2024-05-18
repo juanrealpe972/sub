@@ -22,7 +22,7 @@ function SubastaPage() {
   }, []);
 
   return (
-    <div className="px-10 bg-gray-100">
+    <div className="px-10">
       {users.rol_user !== "admin" ? (
         <>
           <ImageSlider />
@@ -150,7 +150,10 @@ function SubastaPage() {
           </div>
         </>
       ) : (
-        ""
+        <div className="grid grid-cols-2 items-center justify-center mt-24 gap-y-4">
+          <h1 className="text-3xl font-bold text-center px-8">Administra los usuarios, la localización y los tipos de variedades que van a manejar los usuario</h1>
+          <img src="./image.png" alt="" />
+        </div>
       )}
     </div>
   );
