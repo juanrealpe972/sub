@@ -6,7 +6,7 @@ function FormDepartamento ({ open, onClose, title, titleBtn, mode }) {
   return (
     <>
       <ModalForm open={open} onClose={onClose} title={title} >
-        <RegisterDepartMolecule onClose={onClose} mode={mode} titleBtn={titleBtn} />
+        <RegisterDepartMolecule mode={mode} titleBtn={titleBtn} />
       </ModalForm>
     </>
   );

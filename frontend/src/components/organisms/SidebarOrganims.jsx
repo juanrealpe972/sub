@@ -9,22 +9,20 @@ const SidebarOrganims = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const Menus = [
-    ...(user ? [
-      { title: "Inicio", link: "/subcoffee", icon: icono.iconoHome },
-    ] : []),
-    ...(user && user.rol_user === "admin" ? [
+    ...(user ? [{ title: "Inicio", link: "/subcoffee", icon: icono.iconoHome }] : []),
+    ...(user?.rol_user === "admin" ? [
       { title: "Usuarios", link: "/users", icon: icono.iconoRol },
       { title: "Geografía", link: "/geografia", icon: icono.iconoWorl },
-      { title: "Tipo Variedad", link: "/tipo_variedad", icon: icono.iconoFlor },
+      { title: "Tipo Variedad", link: "/tipo_variedad", icon: icono.iconoFlor }
     ] : []),
-    ...(user && user.rol_user === "vendedor" ? [
-      { title: "Mis subastas", link: "/mi_subasta", icon: icono.iconoType },
+    ...(user?.rol_user === "vendedor" ? [
+      { title: "Mis subastas", link: "/mi_subasta", icon: icono.iconoType }
     ] : []),
     { title: "Ayuda", link: "/ayuda", icon: icono.iconoAyuda, gap: true },
-    { title: "Políticas de privacidad", link: "/privacy-policy", icon: icono.iconoPrivacidad },
+    { title: "Políticas de privacidad", link: "/privacy-policy", icon: icono.iconoPrivacidad }
   ];
   
-
+  
   useEffect(() => {
     setOpen(true);
   }, []);

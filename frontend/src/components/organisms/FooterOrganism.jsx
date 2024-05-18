@@ -34,18 +34,18 @@ const FooterOrganism = () => {
 
           <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
             <div className="flex flex-col items-center justify-center ">
-              <p className="text-lg font-semibold mb-4">Contáctenos</p>
+              <p className="text-lg font-semibold mb-4">Visitanos</p>
               <div className="flex gap-2">
                 <Button
                   href="mailto:info@subcoffee.com"
                   as={Link}
-                  className="bg-gray-200"
+                  className="bg-[#e0e0e0]"
                   startContent={<GmailIcon />}
                 ></Button>
                 <Button
                   href="https://www.youtube.com/channel/your-channel"
                   as={Link}
-                  className="bg-gray-200"
+                  className="bg-[#e0e0e0]"
                   startContent={<YoutubeIcon />}
                 ></Button>
               </div>

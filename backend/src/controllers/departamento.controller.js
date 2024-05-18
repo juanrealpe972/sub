@@ -35,7 +35,6 @@ export const createDepartamento = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    
     const { pk_codigo_depar, nombre_depar } = req.body;
 
     const [existing] = await pool.query('SELECT * FROM departamento WHERE pk_codigo_depar = ?', [pk_codigo_depar]);
@@ -60,9 +59,15 @@ export const updateDepartamento = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
+    
     const id = req.params.id;
     const { pk_codigo_depar, nombre_depar } = req.body;
+
+    const [existing] = await pool.query('SELECT * FROM departamento WHERE pk_codigo_depar = ?', [pk_codigo_depar]);
+    if (existing.length > 0) {
+      return res.status(400).json({ message: "El código de departamento ya existe" });
+    }
+
     const [result] = await pool.query(`UPDATE departamento SET pk_codigo_depar = '${pk_codigo_depar}', nombre_depar = '${nombre_depar}' WHERE pk_codigo_depar = '${id}'`);
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Departamento actualizado exitosamente" });
