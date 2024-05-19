@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-import ImagenSliderOne from "../../../public/imageSliderOne.png";
-import ImagenSliderTwo from "../../../public/imageSliderTwo.png";
-import ImagenSliderThree from "../../../public/imageSliderThree.png";
+const ImagenSliderOne = "/imageSliderOne.png";
+const ImagenSliderTwo = "/imageSliderTwo.png";
+const ImagenSliderThree = "/imageSliderThree.png";
 
 function ImageSlider() {
   const slides = [

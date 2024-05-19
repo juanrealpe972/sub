@@ -16,7 +16,6 @@ import SubastaUser from "./pages/SubastaUser";
 import UsersTable from "./components/Guard/UsersTable";
 import TipoVariedadTable from "./components/Guard/TipoVariedadTable";
 import GlobalProvider from "./context/GlobalContext";
-import ModalSubasta from "./pages/ModalSubasta";
 import PagAdmin from "./pages/PagAdmin";
 
 

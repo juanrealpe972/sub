@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   Avatar,
   Button,
@@ -10,16 +10,24 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import ImageSlider from "../components/molecules/ImageSlider";
-import SubastaContext from "../context/SubastaContext";
+import { useSubastaContext } from "../context/SubastaContext";
+import ModalSubasta from "./ModalSubasta"
+import ModalSubCoffee from "../components/templates/ModalSubCoffee";
 
 function SubastaPage() {
   const navigate = useNavigate();
-  const { getSubs, subastas } = useContext(SubastaContext);
+  const { getSubs, subastas, setIdSubasta } = useSubastaContext();
   const users = JSON.parse(localStorage.getItem("user"));
+  const [abrirModal, setAbrirModal] = useState(false)
 
   useEffect(() => {
     getSubs();
   }, []);
+
+  const handdleModaSub = (id) => {
+    setAbrirModal(true)
+    setIdSubasta(id)
+  }
 
   return (
     <div className="px-10">
@@ -27,7 +35,7 @@ function SubastaPage() {
         <>
           <ImageSlider />
           <p className="pl-4 text-xl">Subastas</p>
-          <div className="grid md:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4 p-3">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4 p-3">
             {subastas &&
               subastas.map((subasta) => (
                 <Card key={subasta.pk_id_sub} className="max-w-[500px] p-2">
@@ -65,7 +73,7 @@ function SubastaPage() {
                   <CardBody className="items-center w-full">
                     <span className="text-center flex justify-center items-center gap-x-3">
                       <b className="text-lg">
-                        {subasta.nombre_tipo_vari} - {subasta.nombre_fin}
+                        {subasta.pk_id_sub} - {subasta.nombre_tipo_vari}
                       </b>
                       <div
                         className={`w-auto rounded-lg ${
@@ -132,7 +140,7 @@ function SubastaPage() {
                         className="bg-gray-400"
                         radius="md"
                         size="lg"
-                        onPress={() => navigate(`/subasta/${subasta.pk_id_sub}`) }
+                        onClick={() => handdleModaSub(subasta.pk_id_sub) }
                       >
                         Visualizar Subasta
                       </Button>
@@ -141,6 +149,10 @@ function SubastaPage() {
                 </Card>
               ))}
           </div>
+          <ModalSubCoffee
+            open={abrirModal}
+            onClose={() => setAbrirModal(false)}
+          />
         </>
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-center mt-14 gap-y-4 px-4">
