@@ -27,7 +27,7 @@ function SubastaPage() {
         <>
           <ImageSlider />
           <p className="pl-4 text-xl">Subastas</p>
-          <div className="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 justify-center items-center gap-4 p-3">
+          <div className="grid md:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4 p-3">
             {subastas &&
               subastas.map((subasta) => (
                 <Card key={subasta.pk_id_sub} className="max-w-[500px] p-2">
@@ -100,36 +100,29 @@ function SubastaPage() {
                       <div className="flex flex-col gap-1 pt-4">
                         <div className="text-gray-400 text-sm justify-between">
                           <p>
-                            Cantidad: {subasta.cantidad_sub} - {subasta.unidad_peso_sub}
+                            Cantidad: {subasta.cantidad_sub} - {subasta.cantidad_sub > 1 && subasta.unidad_peso_sub + "s"}
                           </p>
                           <p>Precio inicial: {subasta.precio_inicial_sub}</p>
                         </div>
                         <div>
                           <p className="text-gray-400 text-sm">
-                            {"Fecha de inicio "}
+                            {"Fecha de inicio: "}
                             {new Date(subasta.fecha_inicio_sub).toLocaleString(
                               "es-ES",
-                              {
-                                weekday: "long", year: "numeric", month: "long", day: "numeric",
-                                hour: "numeric", minute: "numeric", second: "numeric",
-                              }
+                              { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", }
                             )}
                           </p>
                           <p className="text-gray-400 text-sm">
-                            {" Fecha fin "}
+                            {" Fecha fin: "}
                             {new Date(subasta.fecha_fin_sub).toLocaleString(
                               "es-ES",
-                              {
-                                weekday: "long", year: "numeric", month: "long", day: "numeric",
-                                hour: "numeric", minute: "numeric", second: "numeric",
-                              }
+                              { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", }
                             )}
                           </p>
                         </div>
                         <div>
                           <p className="text-gray-400 text-sm">
-                            {subasta.nombre_vere} - {subasta.nombre_muni} -
-                            {subasta.nombre_depar}
+                            {subasta.nombre_vere} - {subasta.nombre_muni} - {subasta.nombre_depar}
                           </p>
                         </div>
                       </div>
@@ -150,10 +143,20 @@ function SubastaPage() {
           </div>
         </>
       ) : (
-        <div className="grid grid-cols-2 items-center justify-center mt-24 gap-y-4">
-          <h1 className="text-3xl font-bold text-center px-8">Administra los usuarios, la localización y los tipos de variedades que van a manejar los usuario</h1>
-          <img src="./image.png" alt="" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-center mt-14 gap-y-4 px-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left">
+            Gestiona usuarios, ubicaciones y variedades de café
+          </h1>
         </div>
+        <div>
+          <img
+            src="./image.png"
+            alt="Imagen descriptiva"
+            className="mx-auto md:mx-0"
+          />
+        </div>
+      </div>
       )}
     </div>
   );
