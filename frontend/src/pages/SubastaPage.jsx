@@ -11,7 +11,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import ImageSlider from "../components/molecules/ImageSlider";
 import { useSubastaContext } from "../context/SubastaContext";
-import ModalSubasta from "./ModalSubasta"
 import ModalSubCoffee from "../components/templates/ModalSubCoffee";
 
 function SubastaPage() {

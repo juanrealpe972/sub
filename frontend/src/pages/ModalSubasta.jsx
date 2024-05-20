@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Image,
@@ -8,35 +8,94 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useSubastaContext } from "../context/SubastaContext";
+import { usePostulantesContext } from "../context/PostulantesContext";
 
 function ModalSubasta({ onClose }) {
   const { getSub, subasta, idSubasta } = useSubastaContext();
+  const { createPosts, getPosts, posts } = usePostulantesContext();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  console.log();
+  const [tiempoRestante, setTiempoRestante] = useState("");
+  const [subastaIniciada, setSubastaIniciada] = useState(false);
+  const [subastaTerminada, setSubastaTerminada] = useState(false);
+
+  const handleIniciarPuja = async () => {
+    try {
+      const data = {
+        fk_id_usuario: user.pk_cedula_user,
+        fk_id_subasta: subasta.pk_id_sub,
+      };
+
+      const usuarioPostulado = posts.find(
+        (post) => post.fk_id_usuario === user.pk_cedula_user
+      );
+
+      if (usuarioPostulado && usuarioPostulado.estado_post === "activo") {
+        navigate(`/subasta/${subasta.pk_id_sub}`);
+      } else {
+        await createPosts(data, idSubasta);
+        navigate(`/subasta/${subasta.pk_id_sub}`);
+      }
+    } catch (error) {
+      console.error("Error al registrar el postulante:", error);
+    }
+  };
+
+  useEffect(() => {
+    getPosts(idSubasta);
+  }, [idSubasta]);
 
   useEffect(() => {
     getSub(idSubasta);
-  }, []);
+  }, [idSubasta]);
 
-  const calcularDiferencia = (fechaInicio, fechaFin) => {
-    const inicio = new Date(fechaInicio);
-    const fin = new Date(fechaFin);
-
-    const diferenciaMs = fin - inicio;
-
-    const segundos = Math.floor((diferenciaMs / 1000) % 60);
-    const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
-    const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
-    const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
-
-    return `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-  };
-
-  const diferencia = calcularDiferencia(
-    subasta.fecha_inicio_sub,
-    subasta.fecha_fin_sub
-  );
+  useEffect(() => {
+    const calcularDiferencia = (fechaInicio, fechaFin) => {
+      const inicio = new Date(fechaInicio);
+      const fin = new Date(fechaFin);
+      const ahora = new Date();
+  
+      if (ahora < inicio) {
+        setSubastaIniciada(false);
+        setSubastaTerminada(false);
+        return `La subasta empezará dentro de ${calcularTiempoRestante(ahora, inicio)}`;
+      } else if (ahora > fin) {
+        setSubastaIniciada(false);
+        setSubastaTerminada(true);
+        return "Subasta terminada";
+      } else {
+        setSubastaIniciada(true);
+        setSubastaTerminada(false);
+        const diferenciaMs = fin - ahora;
+        const segundos = Math.floor((diferenciaMs / 1000) % 60);
+        const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
+        const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
+        const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
+        return `La subasta terminará en: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+      }
+    };
+  
+    const calcularTiempoRestante = (inicio, fin) => {
+      const diferenciaMs = fin - inicio;
+      const segundos = Math.floor((diferenciaMs / 1000) % 60);
+      const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
+      const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
+      const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
+      return `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+    };
+  
+    const actualizarTiempo = () => {
+      setTiempoRestante(
+        calcularDiferencia(subasta.fecha_inicio_sub, subasta.fecha_fin_sub)
+      );
+    };
+  
+    const intervalId = setInterval(actualizarTiempo, 1000);
+    actualizarTiempo(); // Para calcular el tiempo restante inmediatamente
+    return () => clearInterval(intervalId);
+  }, [subasta.fecha_inicio_sub, subasta.fecha_fin_sub]);
+  
 
   return (
     <div>
@@ -63,11 +122,8 @@ function ModalSubasta({ onClose }) {
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="font-semibold text-[#a1653d]">
-                Fecha fin de la subasta:
-              </p>
-              <p className="text-[#009100] font-semibold text-[16px] -mt-1">
-                {diferencia}
+              <p className="font-semibold text-[#a1653d] text-center">
+                {subastaTerminada ? "Subasta terminada" : tiempoRestante}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-x-2 py-2 px-2">
@@ -129,9 +185,22 @@ function ModalSubasta({ onClose }) {
       </ModalBody>
       <ModalFooter className="flex justify-center">
         <Button onClick={() => onClose()}>Salir</Button>
-        <Button type="submit" className="bg-gray-600 text-white" onClick={() => navigate(`/subasta/${subasta.pk_id_sub}`)}>
-          Ingresar a la puja
-        </Button>
+          <Button
+            type="submit"
+            className="bg-gray-600 text-white"
+            onClick={handleIniciarPuja}
+            isDisabled={!subastaIniciada} 
+          >
+            {posts.length === 0
+              ? "Postularme a la subasta"
+              : posts.some(
+                  (post) =>
+                    post.fk_id_usuario === user.pk_cedula_user &&
+                    post.estado_post === "activo"
+                )
+              ? "Ingresar a pujar"
+              : "Postularme a la subasta"}
+          </Button>
       </ModalFooter>
     </div>
   );
