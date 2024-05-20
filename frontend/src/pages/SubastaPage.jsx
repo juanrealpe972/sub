@@ -12,15 +12,17 @@ import { useNavigate } from "react-router-dom";
 import ImageSlider from "../components/molecules/ImageSlider";
 import { useSubastaContext } from "../context/SubastaContext";
 import ModalSubCoffee from "../components/templates/ModalSubCoffee";
+import { useAuthContext } from "../context/AuthContext";
 
 function SubastaPage() {
   const navigate = useNavigate();
   const { getSubs, subastas, setIdSubasta } = useSubastaContext();
-  const users = JSON.parse(localStorage.getItem("user"));
+  const { getUsers, users } = useAuthContext()
   const [abrirModal, setAbrirModal] = useState(false)
 
   useEffect(() => {
-    getSubs();
+    getSubs()
+    getUsers()
   }, []);
 
   const handdleModaSub = (id) => {
@@ -34,7 +36,7 @@ function SubastaPage() {
         <>
           <ImageSlider />
           <p className="pl-4 text-xl">Subastas</p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4 p-3">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4 p-3">
             {subastas &&
               subastas.map((subasta) => (
                 <Card key={subasta.pk_id_sub} className="max-w-[500px] p-2">

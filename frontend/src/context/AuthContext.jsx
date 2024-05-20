@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   getUser,
   getUserForId,
@@ -12,6 +12,14 @@ import {
 import ModalMessage from "../nextui/ModalMessage";
 
 const AuthContext = createContext();
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('Debes usar AuthProvider en el App')
+  }
+  return context;
+}
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -50,6 +58,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", token);
       setMensaje(response.data.message)
       setModalMessage(true)
+      getUserID(user.pk_cedula_user)
     } catch (error) {
       setErrors([error.response.message]);
     }

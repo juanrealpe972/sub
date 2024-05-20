@@ -21,6 +21,8 @@ import PagAdmin from "./pages/PagAdmin";
 
 function App() {
   const users = JSON.parse(localStorage.getItem("user"));
+  const isVendedor = users?.rol_user === "vendedor"
+  const isAdmin = users?.rol_user === "admin"
 
   return (
     <>
@@ -28,33 +30,31 @@ function App() {
         <GlobalProvider>
           <BrowserRouter>
             <Routes>
-              <Route element={<Dashboard />}>
+              <Route path="/" element={<Dashboard />}>
+                <Route index element={<DashboardContentOrganims />} />
+                <Route path="privacy-policy" element={<PoliticasYCondicionesPageA />} />
+                <Route path="somos" element={<QuienesSomosA />} />
+                <Route path="ayuda" element={<AyudaPage />} />
                 <Route element={<ProtectedRoute />}>
-                  <Route path="/subcoffee" element={<SubastaPage />} />
-                  <Route path="/profile/:id" element={<ProfileUser />} />
-                  <Route path="/subasta/:id" element={<SubastaUser />} />
-                  {users && users.rol_user === "admin" && (
+                  <Route path="subcoffee" element={<SubastaPage />} />
+                  <Route path="profile/:id" element={<ProfileUser />} />
+                  <Route path="subasta/:id" element={<SubastaUser />} />
+                  {isAdmin && (
                     <>
-                      <Route path="/inicio" element={<PagAdmin />} />
-                      <Route path="/users" element={<UsersTable />} />
-                      <Route path="/geografia" element={<GeografiaFullPage />} />
-                      <Route path="/tipo_variedad" element={<TipoVariedadTable />} />
+                      <Route path="inicio" element={<PagAdmin />} />
+                      <Route path="users" element={<UsersTable />} />
+                      <Route path="geografia" element={<GeografiaFullPage />} />
+                      <Route path="tipo_variedad" element={<TipoVariedadTable />} />
                     </>
                   )}
-                  {users && users.rol_user === "vendedor" && (
-                    <>
-                      <Route path="/mi_subasta" element={<MiSubastaT />} />
-                    </>
+                  {isVendedor && (
+                    <Route path="mi_subasta" element={<MiSubastaT />} />
                   )}
                 </Route>
               </Route>
-              <Route element={<Dashboard />}>
-                <Route index element={<DashboardContentOrganims />} />
-                <Route path="/privacy-policy" element={<PoliticasYCondicionesPageA />} />
-                <Route path="/somos" element={<QuienesSomosA />} />
-                <Route path="/ayuda" element={<AyudaPage />} />
+              <Route>
+                <Route path="*" element={<NotFoundPage />} />
               </Route>
-              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </BrowserRouter>
         </GlobalProvider>
