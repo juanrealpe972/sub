@@ -13,7 +13,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import AuthContext from "../../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 
 import { icono } from "../atoms/IconsAtom";
 import AvatarAtom from "../atoms/AvatarAtom";
@@ -28,7 +28,7 @@ function HeaderOrganism() {
   const navigate = useNavigate();
   const localUser = JSON.parse(localStorage.getItem("user"));
 
-  const { getUsers, isAuthenticated, logout, users } = useContext(AuthContext);
+  const { getUsers, isAuthenticated, logout, users } = useAuthContext();
 
   const handleLogout = () => {
     Swal.fire({

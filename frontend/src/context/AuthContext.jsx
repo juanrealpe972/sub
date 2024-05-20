@@ -8,6 +8,7 @@ import {
   desactivarUser,
   loginUser,
   updatePasswordUser,
+  createImagenUser,
 } from "../api/api.users";
 import ModalMessage from "../nextui/ModalMessage";
 
@@ -58,7 +59,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", token);
       setMensaje(response.data.message)
       setModalMessage(true)
-      getUserID(user.pk_cedula_user)
     } catch (error) {
       setErrors([error.response.message]);
     }
@@ -67,6 +67,20 @@ export const AuthProvider = ({ children }) => {
   const createUsers = async (data) => {
     try {
       const response = await createUser(data)
+      getUsers()
+      setMensaje(response.data.message)
+      setModalMessage(true)
+      if(response.status === 200) {
+        setOnClose(true)
+      }
+    } catch (error) {
+      setErrors([error.response.data.message]);
+    }
+  }
+
+  const createImgUsers = async (data) => {
+    try {
+      const response = await createImagenUser(data)
       getUsers()
       setMensaje(response.data.message)
       setModalMessage(true)
@@ -160,6 +174,8 @@ export const AuthProvider = ({ children }) => {
         updateUserActive,
         updateUserDesactive,
         setUsers,
+
+        createImgUsers,
       }}
     >
       <ModalMessage

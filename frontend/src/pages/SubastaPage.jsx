@@ -17,8 +17,9 @@ import { useAuthContext } from "../context/AuthContext";
 function SubastaPage() {
   const navigate = useNavigate();
   const { getSubs, subastas, setIdSubasta } = useSubastaContext();
-  const { getUsers, users } = useAuthContext()
+  const { getUsers } = useAuthContext()
   const [abrirModal, setAbrirModal] = useState(false)
+  const users = JSON.parse(localStorage.getItem('user'))
 
   useEffect(() => {
     getSubs()
