@@ -215,7 +215,7 @@ export const buscarSubastaForUser = async (req, res) => {
     if (resultado.length > 0) {
       res.status(200).json({ message: "Datos de subasta obtenidos correctamente", data: resultado, });
     } else {
-      res.status(404).json({message: "No se encontraron subastas para el usuario proporcionado.",})
+      res.status(204).json({message: "No se encontraron subastas para el usuario proporcionado.",})
     }
   } catch (error) {
     res.status(500).json({ message: "Error interno del servidor", });
@@ -245,7 +245,7 @@ export const SubastaAbierta = async (req, res) => {
   try {
     const [result] = await pool.query( `UPDATE subasta SET estado_sub = 1 WHERE pk_id_sub = '${id}'` );
     if (result.affectedRows > 0) {
-      res.status(200).json({ message: "Subasta Abierta" });
+      res.status(200).json({ message: "Subasta activada exitosamente" });
     } else {
       res.status(404).json({ message: `No se encontró ninguna Subasta con el ID ${id}` });
     }
@@ -273,7 +273,7 @@ export const SubastaCerrada = async (req, res) => {
   try {
     const [result] = await pool.query(`UPDATE subasta SET estado_sub = 3 WHERE pk_id_sub = '${id}'`);
     if (result.affectedRows > 0) {
-      res.status(200).json({ message: "Subasta Cerrada" });
+      res.status(200).json({ message: "Subasta cerrada exitosamente" });
     } else {
       res.status(404).json({ message: `No se encontró ninguna Subasta con el ID ${id}` });
     }

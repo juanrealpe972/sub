@@ -34,6 +34,8 @@ export const SubastaProvider = ({ children }) => {
   const [subastas, setSubastas] = useState([])
   const [subastasActivas, setSubastasActivas] = useState([])
   const [subasta, setSubasta] = useState([])
+  const [cerrarModal, serCerrarModal] = useState(false)
+
 
   const getSubs = async () => {
     try {
@@ -86,6 +88,7 @@ export const SubastaProvider = ({ children }) => {
       const response = await createSubasta(data);
       getSubForUser(user);
       setMensaje(response.data.message);
+      serCerrarModal(true)
       setModalMessage(true);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -97,34 +100,39 @@ export const SubastaProvider = ({ children }) => {
       const response = await updateSubasta(id, data);
       getSubForUser(user);
       setMensaje(response.data.message);
+      serCerrarModal(true)
       setModalMessage(true);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
   };
 
-  const desactivarSubs = async (id) => {
+  const desactivarSubs = async (id, user) => {
     try {
-      await updateSubastaDesact(id);
-      getSubsMenoCerradas()
+      const response = await updateSubastaDesact(id);
+      setMensaje(response.data.message);
+      setModalMessage(true);
+      getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
   };
 
-  const activarSubs = async (id) => {
+  const activarSubs = async (id, user) => {
     try {
-      await updateSubastaActivar(id);
-      getSubsMenoCerradas()
+      const response = await updateSubastaActivar(id);
+      setMensaje(response.data.message);
+      setModalMessage(true);
+      getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
   };
 
-  const EsperaSubs = async (id) => {
+  const EsperaSubs = async (id, user) => {
     try {
       await updateSubastaEspera(id);
-      getSubsMenoCerradas()
+      getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
@@ -133,7 +141,7 @@ export const SubastaProvider = ({ children }) => {
   const ProcesoSubs = async (id) => {
     try {
       await updateSubastaProceso(id);
-      getSubsMenoCerradas()
+      getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
@@ -173,6 +181,8 @@ export const SubastaProvider = ({ children }) => {
 
         subastasActivas,
         getSubsMenoCerradas,
+        cerrarModal, 
+        serCerrarModal,
       }}
     >
       <ModalMessage

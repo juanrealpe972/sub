@@ -12,7 +12,7 @@ import FormVariedadUser from "../templates/FormVariedadUser.jsx";
 function FincaTable() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const { getFinca, fincas, desactivarFincas, activarFincas, setIdFinca } = useFincaContext();
+  const { getFincaUser, fincas, desactivarFincas, activarFincas, setIdFinca } = useFincaContext();
 
   const [abrirModalFinca, setAbrirModalFinca] = useState(false);
   const [abrirModalVariedad, setAbrirModalVariedad] = useState(false);
@@ -20,8 +20,8 @@ function FincaTable() {
   const [pkFinca, setPkFinca] = useState(0);
 
   useEffect(() => {
-    getFinca(user.pk_cedula_user);
-  }, [user.pk_cedula_user, getFinca]);
+    getFincaUser(user.pk_cedula_user);
+  }, [user.pk_cedula_user, getFincaUser]);
 
   const handleToggleFinca = (mode) => {
     setAbrirModalFinca(true);

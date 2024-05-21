@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -98,33 +98,62 @@ function SubastaPage() {
                         className="w-[250px] object-cover h-[200px]"
                         src={`http://localhost:4000/img/subasta/${subasta.imagen_sub}`}
                       />
-                      <div className="flex flex-col gap-1 pt-4">
-                        <div className="text-gray-400 text-sm justify-between">
-                          <p>
-                            Cantidad: {subasta.cantidad_sub} - {subasta.cantidad_sub > 1 && subasta.unidad_peso_sub + "s"}
-                          </p>
-                          <p>Precio inicial: {subasta.precio_inicial_sub}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 text-sm">
-                            {"Fecha de inicio: "}
-                            {new Date(subasta.fecha_inicio_sub).toLocaleString(
-                              "es-ES",
-                              { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", }
-                            )}
-                          </p>
-                          <p className="text-gray-400 text-sm">
-                            {" Fecha fin: "}
-                            {new Date(subasta.fecha_fin_sub).toLocaleString(
-                              "es-ES",
-                              { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", }
-                            )}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 text-sm">
-                            {subasta.nombre_vere} - {subasta.nombre_muni} - {subasta.nombre_depar}
-                          </p>
+                      <div className="grid gap-x-2 py-2 px-2 text-sm">
+                        <div className="flex flex-col">
+                          <div className="flex w-full gap-x-2">
+                            <p className="font-semibold">Apertura:</p>
+                            <p>
+                              {new Date(
+                                subasta.fecha_inicio_sub
+                              ).toLocaleString("es-ES", {
+                                year: "numeric",
+                                month: "numeric",
+                                day: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                                second: "numeric",
+                              })}
+                            </p>
+                          </div>
+                          <div className="flex w-full gap-x-2">
+                            <p className="font-semibold">Cierre:</p>
+                            <p>
+                              {new Date(subasta.fecha_fin_sub).toLocaleString(
+                                "es-ES",
+                                {
+                                  year: "numeric",
+                                  month: "numeric",
+                                  day: "numeric",
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  second: "numeric",
+                                }
+                              )}
+                            </p>
+                          </div>
+                          <div className="flex w-full gap-x-2">
+                            <p className="font-semibold">Ubicación:</p>
+                            <p>
+                              {subasta.nombre_vere} - {subasta.nombre_muni} -
+                              {subasta.nombre_depar}{" "}
+                            </p>
+                          </div>
+                          <div className="flex w-full gap-x-2">
+                            <p className="font-semibold">Cantidad:</p>
+                            <p>
+                              {subasta.cantidad_sub} {subasta.unidad_peso_sub}
+                            </p>
+                          </div>
+                          <div className="flex w-full gap-x-2">
+                            <p className="font-semibold">Tipo Variedad:</p>
+                            <p>{subasta.nombre_tipo_vari}</p>
+                          </div>
+                          <div className="flex w-full gap-x-2">
+                            <p className="font-semibold">Certificado:</p>
+                            <p className="underline cursor-pointer">
+                              {subasta.certificado_sub}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </CardBody>
