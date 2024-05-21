@@ -9,6 +9,10 @@ import {
   updateSubasta,
   updateSubastaActivar,
   updateSubastaDesact,
+  updateSubastaEspera,
+  updateSubastaProceso,
+  updateSubastafecha,
+  getSubastasActivasMenosCerradas,
 } from "../api/api.subasta";
 
 const SubastaContext = createContext();
@@ -28,12 +32,32 @@ export const SubastaProvider = ({ children }) => {
   const [idSubasta, setIdSubasta] = useState(0);
   const [subastaForuser, setSubastaForUser] = useState([]);
   const [subastas, setSubastas] = useState([])
+  const [subastasActivas, setSubastasActivas] = useState([])
   const [subasta, setSubasta] = useState([])
 
   const getSubs = async () => {
     try {
       const response = await getSubastas()
       setSubastas(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getSubsMenoCerradas = async () => {
+    try {
+      const reponse = await getSubastasActivasMenosCerradas()
+      setSubastasActivas(reponse.data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const updateDate = (id, data) => {
+    try {
+      const response = updateSubastafecha(id, data)
+      getSubs()
+      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -79,23 +103,37 @@ export const SubastaProvider = ({ children }) => {
     }
   };
 
-  const desactivarSubs = async (id, user) => {
+  const desactivarSubs = async (id) => {
     try {
-      const response = await updateSubastaDesact(id);
-      getSubForUser(user);
-      setMensaje(response.data.message);
-      setModalMessage(true);
+      await updateSubastaDesact(id);
+      getSubsMenoCerradas()
     } catch (error) {
       setErrors([error.response.data.message]);
     }
   };
 
-  const activarSubs = async (id, user) => {
+  const activarSubs = async (id) => {
     try {
-      const response = await updateSubastaActivar(id);
-      getSubForUser(user);
-      setMensaje(response.data.message);
-      setModalMessage(true);
+      await updateSubastaActivar(id);
+      getSubsMenoCerradas()
+    } catch (error) {
+      setErrors([error.response.data.message]);
+    }
+  };
+
+  const EsperaSubs = async (id) => {
+    try {
+      await updateSubastaEspera(id);
+      getSubsMenoCerradas()
+    } catch (error) {
+      setErrors([error.response.data.message]);
+    }
+  };
+
+  const ProcesoSubs = async (id) => {
+    try {
+      await updateSubastaProceso(id);
+      getSubsMenoCerradas()
     } catch (error) {
       setErrors([error.response.data.message]);
     }
@@ -127,6 +165,14 @@ export const SubastaProvider = ({ children }) => {
         updateSubs,
         desactivarSubs,
         activarSubs,
+
+        EsperaSubs,
+        ProcesoSubs,
+
+        updateDate,
+
+        subastasActivas,
+        getSubsMenoCerradas,
       }}
     >
       <ModalMessage

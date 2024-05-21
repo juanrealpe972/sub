@@ -78,23 +78,14 @@ function SubastaPage() {
                         {subasta.pk_id_sub} - {subasta.nombre_tipo_vari}
                       </b>
                       <div
-                        className={`w-auto rounded-lg ${
-                          subasta.estado_sub === "abierta"
-                            ? "bg-green-400"
-                            : "bg-red-400"
-                        } border ${
-                          subasta.estado_sub === "abierta"
-                            ? "border-green-600"
-                            : "border-red-600"
-                        }`}
+                        className={`w-auto rounded-lg border
+                          ${subasta.estado_sub === "abierta"? "bg-green-500 border-green-600 text-green-50": ""}
+                          ${subasta.estado_sub === "proceso"? "bg-orange-500 border-orange-600 text-orange-50": ""}
+                          ${subasta.estado_sub === "espera"? "bg-blue-500 border-blue-600 text-blue-50": ""}
+                          ${subasta.estado_sub === "cerrada"? "bg-red-400 border-red-600 text-red-50": ""} 
+                        `}
                       >
-                        <p
-                          className={`text-sm text-default-400 p-1 ${
-                            subasta.estado_sub === "abierta"
-                              ? "text-green-50"
-                              : "text-red-50"
-                          }`}
-                        >
+                        <p className="text-sm text-default-50 p-1">
                           {subasta.estado_sub}
                         </p>
                       </div>

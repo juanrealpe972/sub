@@ -16,8 +16,6 @@ import SubastaUser from "./pages/SubastaUser";
 import UsersTable from "./components/Guard/UsersTable";
 import TipoVariedadTable from "./components/Guard/TipoVariedadTable";
 import GlobalProvider from "./context/GlobalContext";
-import PagAdmin from "./pages/PagAdmin";
-
 
 function App() {
   const users = JSON.parse(localStorage.getItem("user"));
@@ -41,7 +39,6 @@ function App() {
                   <Route path="subasta/:id" element={<SubastaUser />} />
                   {isAdmin && (
                     <>
-                      <Route path="inicio" element={<PagAdmin />} />
                       <Route path="users" element={<UsersTable />} />
                       <Route path="geografia" element={<GeografiaFullPage />} />
                       <Route path="tipo_variedad" element={<TipoVariedadTable />} />

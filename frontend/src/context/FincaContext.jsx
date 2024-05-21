@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import {
   getFincaForUser,
   createFinca,
@@ -9,6 +9,14 @@ import {
 import ModalMessage from "../nextui/ModalMessage";
 
 const FincaContext = createContext();
+
+export const useFincaContext = () => {
+  const context = useContext(FincaContext)
+  if (!context) {
+    throw new Error('Debes usar MunicipioProvider en el App')
+  }
+  return context;
+}
 
 export const FincaProvider = ({ children }) => {
   const [modalMessage, setModalMessage] = useState(false);
