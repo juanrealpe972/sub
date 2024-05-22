@@ -74,7 +74,12 @@ export const atualizarOfertas = async (req, res) => {
 export const buscarOferta = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT o.pk_id_ofer, o.oferta_ofer, o.fk_id_subasta, o.fecha_ofer,o.fk_id_usuario, u.nombre_user FROM ofertas o INNER JOIN usuarios u ON o.fk_id_usuario = u.pk_cedula_user WHERE pk_id_ofer = ?",
+      `
+        SELECT o.pk_id_ofer, o.oferta_ofer, o.fk_id_subasta, o.fecha_ofer,o.fk_id_usuario, u.nombre_user
+        FROM ofertas o
+        INNER JOIN usuarios u ON o.fk_id_usuario = u.pk_cedula_user
+        WHERE pk_id_ofer = ?
+      `,
       [req.params.id]
     );
     if (rows.length > 0) {

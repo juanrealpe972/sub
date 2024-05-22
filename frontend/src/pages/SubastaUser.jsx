@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Avatar, Image, Button, Input } from "@nextui-org/react";
+import { Avatar, Image, Button, Input, Slider } from "@nextui-org/react";
 import { useSubastaContext } from "../context/SubastaContext";
 import EstrellaLlena from "../nextui/EstrellaLlena";
 import EstrellaMediaLlena from "../nextui/EstrellaMediaLlena";
 import EstrellaVacia from "../nextui/EstrellaVacia";
 import { usePostulantesContext } from "../context/PostulantesContext";
+import { useOfertasContext } from "../context/OfertasContext";
 
 function SubastaUser() {
   const { id } = useParams();
-  const [oferta, setOferta] = useState("");
+  const [oferta, setOferta] = useState(0);
   const [tiempoRestante, setTiempoRestante] = useState("");
   const { getSub, subasta } = useSubastaContext();
   const { getPostsActivos, postsActivos, desactivarPosts } = usePostulantesContext();
+  const { createOfert, ofertas} = useOfertasContext();
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ function SubastaUser() {
   useEffect(() => {
     getSub(id);
     getPostsActivos(id);
-  }, []);
+  }, [id, getSub, getPostsActivos]);
 
   const calcularDiferencia = (fechaFin) => {
     const fin = new Date(fechaFin);
@@ -45,8 +47,20 @@ function SubastaUser() {
     return `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
   };
 
-  const handleSubmitOferta = async () => {
-    console.log("Oferta:", oferta);
+  const handleSubmitOferta = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        oferta_ofer: oferta,
+        fk_id_usuario: user.pk_cedula_user,
+        fk_id_subasta: id,
+      };
+      await createOfert(data);
+      setOferta('')
+      console.log("Oferta enviada:", data);
+    } catch (error) {
+      console.error("Error al enviar la oferta:", error);
+    }
   };
 
   const handlePostulantesClick = async () => {
@@ -158,17 +172,59 @@ function SubastaUser() {
           <div className="bg-[#e0e0e0] h-[460px] rounded-xl p-4">
             <h3 className="text-lg font-semibold text-center">Ofertas</h3>
             <div>
-              <p>Juan - 80000</p>
+              {ofertas.map((oferta) => {
+                  <p>{oferta.oferta_ofer}</p>
+                })
+              }
             </div>
           </div>
-          <div className="flex items-center gap-x-2 bg-[#e0e0e0] rounded-xl p-4 mt-2">
-            <Input
-              type="number"
-              value={oferta}
-              onChange={(e) => setOferta(e.target.value)}
-              placeholder="Ingrese su oferta"
-            />
-            <Button onClick={handleSubmitOferta}>Realizar Oferta</Button>
+          <div className="flex flex-col items-center gap-x-2 bg-[#e0e0e0] rounded-xl p-4 mt-2 w-full">
+            <p>Precio actual: ${Number(subasta.precio_inicial_sub).toLocaleString("es-ES")}</p>
+            <form onSubmit={handleSubmitOferta} className="w-full flex flex-col items-center">
+              <Slider
+                label="Añadir Puja"
+                step={100}
+                value={oferta}
+                onChange={(value) => setOferta(value)}
+                maxValue={1000}
+                minValue={0}
+                showSteps={true}
+                showTooltip={true}
+                showOutline={true}
+                disableThumbScale={true}
+                formatOptions={{ style: "currency", currency: "USD" }}
+                tooltipValueFormatOptions={{ style: "currency", currency: "USD", maximumFractionDigits: 0 }}
+                classNames={{
+                  base: "w-full",
+                  filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
+                  labelWrapper: "mb-2",
+                  label: "font-medium text-default-700 text-medium",
+                  value: "font-medium text-default-500 text-small",
+                  thumb: [
+                    "transition-size",
+                    "bg-gradient-to-r from-secondary-400 to-primary-500",
+                    "data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20",
+                    "data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6"
+                  ],
+                  step: "data-[in-range=true]:bg-black/30 dark:data-[in-range=true]:bg-white/50"
+                }}
+                tooltipProps={{
+                  offset: 10,
+                  placement: "bottom",
+                  classNames: {
+                    base: [
+                      // arrow color
+                      "before:bg-gradient-to-r before:from-secondary-400 before:to-primary-500",
+                    ],
+                    content: [
+                      "py-2 shadow-xl",
+                      "text-white bg-gradient-to-r from-secondary-400 to-primary-500",
+                    ],
+                  },
+                }}
+              />
+              <Button type="submit">Realizar Oferta</Button>
+            </form>
           </div>
         </div>
         <div className="grid">
@@ -196,12 +252,12 @@ function SubastaUser() {
           </div>
           <div className="mt-2 flex flex-col h-60 bg-[#e0e0e0] gap-y-1 rounded-lg">
             <h3 className="text-lg font-semibold text-center mt-3">Postulantes</h3>
-            <div className="flex-grow overflow-y-auto flex flex-wrap gap-2 justify-center">
+            <div className="flex-grow overflow-y-auto flex flex-wrap gap-1 items-center justify-center">
               {Array.isArray(postsActivos) && postsActivos.length > 0 ? (
                 postsActivos.map((postulante, i) => (
                   <div
                     key={i}
-                    className="bg-[#e0e0e0] rounded-xl w-52 gap-x-1 h-10 flex justify-center items-center"
+                    className="rounded-xl w-52 gap-x-1 h-10 flex px-2 items-center"
                   >
                     <Avatar
                       src={
@@ -211,7 +267,10 @@ function SubastaUser() {
                       }
                       className="w-8 h-8"
                     />
-                    <p>{postulante.nombre_user}</p>
+                    <div className="flex flex-col">
+                      <p className="text-sm font-semibold">{postulante.nombre_user}</p>
+                      <p className="text-xs -mt-1">{postulante.email_user}</p>
+                    </div>
                   </div>
                 ))
               ) : (
