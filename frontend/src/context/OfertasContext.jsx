@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
-import { createOferta, getOfertas } from "../api/api.ofertas";
+import { createOferta, getOfertas, getOfertasForSub } from "../api/api.ofertas";
+import ModalMessage from "../nextui/ModalMessage";
 
 const OfertasContext = createContext();
 
@@ -11,6 +12,8 @@ export const useOfertasContext = () => {
   return context;
 }
 export const OfertaProvider = ({ children }) => {
+  const [modalMessage, setModalMessage] = useState(false);
+  const [mensaje, setMensaje] = useState("");
   const [ofertas, setOfertas] = useState([])
 
   const getOferts = async () => {
@@ -21,10 +24,24 @@ export const OfertaProvider = ({ children }) => {
       console.log(error);
     }
   }
-  const createOfert = async (data) => {
+
+  const getOfertForSub = async (id) => {
+    try {
+      getOfertasForSub(id).then((response) => {
+        setOfertas(response.data.data)
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const createOfert = async (data, id) => {
     try {
       const response = await createOferta(data)
       setOfertas(response.data)
+      setMensaje(response.data.message);
+      setModalMessage(true);
+      getOfertForSub(id)
     } catch (error) {
       console.log(error);
     }
@@ -35,9 +52,15 @@ export const OfertaProvider = ({ children }) => {
       value={{
         ofertas,
         getOferts,
-        createOfert
+        createOfert,
+        getOfertForSub
       }}
     >
+      <ModalMessage
+        isOpen={modalMessage}
+        onClose={() => setModalMessage(false)}
+        label={mensaje}
+      />
       {children}
     </OfertasContext.Provider>
   );
