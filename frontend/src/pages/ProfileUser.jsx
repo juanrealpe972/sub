@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Avatar, Button, Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { Avatar, Button, Card, CardBody, Image } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
 
 import UserRol from "../nextui/UserRol";
 import GmailIcon from "../nextui/GmailIcon";
 import Phone from "../nextui/Phone";
 import FormUser from "../components/templates/FormUser";
-import AuthContext from "../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 import FormUserPassword from "../components/templates/FormUserPassword";
 import { useSubastaContext } from "../context/SubastaContext";
 
@@ -17,7 +17,7 @@ function ProfileUser() {
   const [abrirModal, setAbrirModal] = useState(false);
   const [abrirModalPassword, setAbrirModalPassword] = useState(false);
   const [mode, setMode] = useState("create");
-  const { getUserID, user, setIdUser } = useContext(AuthContext);
+  const { getUserID, user, setIdUser } = useAuthContext();
   const { getSubForUser, subastaForuser } = useSubastaContext()
 
   useEffect(() => {

@@ -2,12 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 
 import SubastaPage from "./pages/SubastaPage";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./components/organisms/Dashboard";
 import ProfileUser from "./pages/ProfileUser";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import AyudaPage from "./pages/AyudaPage";
-import DashboardContentOrganims from "./components/organisms/DashboardContentOrganims";
+import DashboardContentOrganims from "./pages/DashboardContentOrganims";
 import GeografiaFullPage from "./pages/GeografiaFullPage";
 import MiSubastaT from "./pages/MiSubastaT";
 import QuienesSomosA from "./pages/QuienesSomosA";

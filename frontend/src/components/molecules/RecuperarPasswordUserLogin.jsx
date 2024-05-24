@@ -1,26 +1,22 @@
-import { Button, Input, ModalFooter } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { Button, Input, ModalFooter } from '@nextui-org/react';
+import { useAuthContext } from '../../context/AuthContext';
+import { EyeSlashFilledIcon } from '../../nextui/EyeSlashFilledIcon';
+import { EyeFilledIcon } from '../../nextui/EyeFilledIcon';
+import { icono } from '../atoms/IconsAtom';
 
-import { icono } from "../atoms/IconsAtom";
-import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
-import { useAuthContext } from "../../context/AuthContext";
-
-function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
-  const [isVisibleOld, setIsVisibleOld] = useState(false);
+const RecuperarPasswordUserLogin = ({ titleBtn, onClose }) => {
   const [isVisibleNew, setIsVisibleNew] = useState(false);
   const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
 
-  const toggleVisibilityOld = () => setIsVisibleOld(!isVisibleOld);
   const toggleVisibilityNew = () => setIsVisibleNew(!isVisibleNew);
   const toggleVisibilityConfirm = () => setIsVisibleConfirm(!isVisibleConfirm);
 
-  const { updatePassword, idUser, errors } = useAuthContext();
-
+  const { updatePasswordLogin, errors } = useAuthContext();
   const [formData, setFormData] = useState({
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    email_user: '',
+    newPassword: '',
+    confirmPassword: '',
   });
 
   const handleChange = (e) => {
@@ -34,10 +30,8 @@ function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await updatePassword(idUser.pk_cedula_user, formData);
-      if(response.status === 200) {
-          onClose();
-      }
+      await updatePasswordLogin(formData);
+      onClose();
     } catch (error) {
       console.log(error);
     }
@@ -54,26 +48,15 @@ function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
       }  
       <Input
         label=""
-        aria-label="Contraseña anterior"
+        aria-label="Email de usuario"
         variant="bordered"
-        placeholder="Contraseña anterior"
-        startContent={<icono.iconoContraseña />}
-        endContent={
-          <button
-            type="button"
-            onClick={toggleVisibilityOld}
-            className="focus:outline-none"
-          >
-            {isVisibleOld ? (
-              <EyeSlashFilledIcon className="text-2xl text-default-400" />
-            ) : (
-              <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-            )}
-          </button>
-        }
-        type={isVisibleOld ? "text" : "password"}
-        value={formData.oldPassword}
-        name="oldPassword"
+        placeholder="Email de usuario"
+        startContent={<icono.iconoGmail />}
+        isRequired
+        isClearable
+        type="email"
+        value={formData.email_user}
+        name="email_user"
         onChange={handleChange}
       />
       <Input
@@ -95,7 +78,7 @@ function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
             )}
           </button>
         }
-        type={isVisibleNew ? "text" : "password"}
+        type={isVisibleNew ? 'text' : 'password'}
         value={formData.newPassword}
         name="newPassword"
         onChange={handleChange}
@@ -119,16 +102,19 @@ function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
             )}
           </button>
         }
-        type={isVisibleConfirm ? "text" : "password"}
+        type={isVisibleConfirm ? 'text' : 'password'}
         value={formData.confirmPassword}
         name="confirmPassword"
         onChange={handleChange}
       />
       <ModalFooter className="flex justify-center">
+        <Button type="button" color="default" onClick={onClose}>
+          Cancelar
+        </Button>
         <Button type="submit">{titleBtn}</Button>
       </ModalFooter>
     </form>
   );
-}
+};
 
-export default UpdateUserPasswordMolecule;
+export default RecuperarPasswordUserLogin;

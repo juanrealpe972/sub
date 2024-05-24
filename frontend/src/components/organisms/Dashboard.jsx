@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
-import HeaderOrganism from "../components/organisms/HeaderOrganism";
-import FooterOrganism from "../components/organisms/FooterOrganism";
-import SidebarOrganims from  "../components/organisms/SidebarOrganims"
-import AuthContext from "../context/AuthContext";
+import HeaderOrganism from "./HeaderOrganism";
+import FooterOrganism from "./FooterOrganism";
+import SidebarOrganims from  "./SidebarOrganims"
+import AuthContext from "../../context/AuthContext";
 
 const Dashboard = () => {
   const auth = localStorage.getItem("token");

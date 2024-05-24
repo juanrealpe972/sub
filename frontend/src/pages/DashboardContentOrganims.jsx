@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import LinkButtonAtom from "../atoms/LinkButtonAtom";
-import TiposDeCafeOrganism from "./TiposDeCafeOrganism";
+import LinkButtonAtom from "../components/atoms/LinkButtonAtom";
+import TiposDeCafeOrganism from "../components/organisms/TiposDeCafeOrganism";
 
 function DashboardContentOrganims() {
   const navigate = useNavigate();
