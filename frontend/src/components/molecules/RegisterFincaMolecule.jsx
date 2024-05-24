@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, ModalFooter, Input } from "@nextui-org/react";
 
-import FincaContext from "../../context/FincaContext";
-import DeparContext from "../../context/DeparContext";
+import { useFincaContext } from "../../context/FincaContext";
+import { useDepartContext } from "../../context/DeparContext";
 import { icono } from "../atoms/IconsAtom";
-import MunicipioContext from "../../context/MunicipioContext";
-import VeredaContext from "../../context/VeredaContext";
+import { useMunicipioContext } from "../../context/MunicipioContext";
+import { useVeredaContext } from "../../context/VeredaContext";
 
-const RegisterFincaMolecule = ({ mode, onClose, titleBtn }) => {
+const RegisterFincaMolecule = ({ mode, titleBtn }) => {
   const [formData, setFormData] = useState({
     nombre_fin: "",
     departamento: "",
@@ -16,12 +16,10 @@ const RegisterFincaMolecule = ({ mode, onClose, titleBtn }) => {
     imagen_fin: "",
   });
 
-  const { idFinca, createFincas, updateFincas } = useContext(FincaContext);
-  const { departamentos, getDepartamentos } = useContext(DeparContext);
-  const { getMunisForDepar, municipiosForDepar, setMunicipiosForDepar } =
-    useContext(MunicipioContext);
-  const { getVeresForMuni, veredasForMuni, setVeredasForMuni } =
-    useContext(VeredaContext);
+  const { idFinca, createFincas, updateFincas, errors } = useFincaContext();
+  const { departamentos, getDepartamentos } = useDepartContext();
+  const { getMunisForDepar, municipiosForDepar, setMunicipiosForDepar } = useMunicipioContext();
+  const { getVeresForMuni, veredasForMuni, setVeredasForMuni } = useVeredaContext();
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -67,10 +65,10 @@ const RegisterFincaMolecule = ({ mode, onClose, titleBtn }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, type, value, files } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: files ? files[0] : value,
+      [name]: type === "file" ? files[0] : value,
     }));
   };
 
@@ -80,15 +78,13 @@ const RegisterFincaMolecule = ({ mode, onClose, titleBtn }) => {
       const data = new FormData();
       data.append("nombre_fin", formData.nombre_fin);
       data.append("imagen_fin", formData.imagen_fin);
-      data.append("fk_id_usuario", user.pk_cedula_user);
       data.append("fk_vereda", formData.vereda);
-
       if (mode === "update") {
         updateFincas(idFinca.pk_id_fin, data, user.pk_cedula_user);
       } else {
+        data.append("fk_id_usuario", user.pk_cedula_user);
         createFincas(data, user.pk_cedula_user);
       }
-      onClose();
     } catch (error) {
       console.error("Error del sistema:", error);
     }
@@ -96,10 +92,15 @@ const RegisterFincaMolecule = ({ mode, onClose, titleBtn }) => {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 px-4">
+      {errors.map((error, i) => (
+          <div className='bg-red-500 p-2 text-white text-center my-2' key={i}>
+            {error}
+          </div>
+        ))
+      }
       <div className="flex w-full justify-center rounded-xl">
         <input
           placeholder="Imagen de usuario"
-          required
           type="file"
           name="imagen_fin"
           className="hidden"
@@ -139,15 +140,17 @@ const RegisterFincaMolecule = ({ mode, onClose, titleBtn }) => {
                       ? `http://localhost:4000/fincas/${formData.imagen_fin}`
                       : URL.createObjectURL(formData.imagen_fin)
                   }
-                  alt="imagen_fin"
+                  alt="finca"
                   className="h-28 w-48 object-cover rounded-xl mx-auto"
                 />
               ) : (
-                <img
+                formData.imagen_fin instanceof File && (
+                  <img
                   src={URL.createObjectURL(formData.imagen_fin)}
-                  alt="imagen_fin"
+                  alt="finca"
                   className="h-28 w-48 object-cover rounded-xl mx-auto"
-                />
+                  />
+                )
               )}
             </div>
           ) : (
