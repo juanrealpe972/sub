@@ -74,7 +74,7 @@ const SidebarOrganims = () => {
             style={{ maxWidth: "calc(100% - 4rem)" }}
             title="Subcoffee"
           >
-            Subcoffee
+            SubCoffee
           </h1>
           </div>
           <ul className="pt-6">

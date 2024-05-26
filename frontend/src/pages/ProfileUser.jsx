@@ -125,6 +125,11 @@ function ProfileUser() {
                 <p className="text-xs text-gray-500">Rol de Usuario</p>
               </div>
             </span>
+            <div>
+              <span className="">
+                4.8
+              </span>
+            </div>
               <Button onClick={() => setAbrirModalCalificacion(true)}>
                 Calificar usuario
               </Button>
