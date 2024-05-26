@@ -17,14 +17,15 @@ function ProfileUser() {
   const [abrirModal, setAbrirModal] = useState(false);
   const [abrirModalPassword, setAbrirModalPassword] = useState(false);
   const [mode, setMode] = useState("create");
-  const { getUserID, user, setIdUser } = useAuthContext();
+  const { getUserID, user, setIdUser, getUsers } = useAuthContext();
   const { getSubForUser, subastaForuser } = useSubastaContext()
 
   useEffect(() => {
-    getSubForUser(id);
-  }, [id]);
+    getUsers();
+  }, []);
 
   useEffect(() => {
+    getSubForUser(id);
     getUserID(id);
   }, [id]);
 
@@ -160,8 +161,8 @@ function ProfileUser() {
                 <h2 className="text-lg font-semibold mb-4 text-center">
                   Subastas Creadas
                 </h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-2 sm:grid-cols-1 justify-center items-center">
-                  {subastaForuser &&
+                <div className={`grid ${ subastaForuser ? 'md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-2 sm:grid-cols-1' : ''} justify-center items-center`}>
+                  {subastaForuser ?
                     subastaForuser.map((subasta) => (
                       <Card key={subasta.pk_id_sub} className="max-w-[320px] p-2">
                         <CardBody className="items-center w-full">
@@ -240,7 +241,11 @@ function ProfileUser() {
                           </CardBody>
                         </CardBody>
                       </Card>
-                    ))}
+                    )): (
+                      <div className="flex">
+                        <p className="w-full">No tienes ninguna subasta creada</p>
+                      </div>
+                    )}
                 </div>
               </div>
             )}

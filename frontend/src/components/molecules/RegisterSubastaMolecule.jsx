@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, ModalFooter, Textarea } from "@nextui-org/react";
+import { Button, DatePicker, Input, ModalFooter, Textarea } from "@nextui-org/react";
 import { useVariedadUserContext } from "../../context/VariedadUserContext";
 import { useSubastaContext } from "../../context/SubastaContext";
 import { icono } from "../atoms/IconsAtom";
@@ -16,12 +16,12 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
     descripcion_sub: "",
     certificado_sub: "",
     variedad: "",
-    finca: ""
+    finca: "",
   });
 
   const { idSubasta, createSubs, updateSubs } = useSubastaContext();
-  const { getFincaUser, fincas = [] } = useFincaContext();  // Inicializar fincas como un array vacío
-  const { variedadForuser = [], getVariForUser } = useVariedadUserContext();  // Inicializar variedadForuser como un array vacío
+  const { getFincaUser, fincas = [] } = useFincaContext(); // Inicializar fincas como un array vacío
+  const { variedadForuser = [], getVariForUser } = useVariedadUserContext(); // Inicializar variedadForuser como un array vacío
   const usuario = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -30,13 +30,13 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
 
   const handleFincaChange = (e) => {
     const finca = e.target.value;
-    setFormData(prevData => ({ ...prevData, finca, variedad: "" }));
+    setFormData((prevData) => ({ ...prevData, finca, variedad: "" }));
     getVariForUser(usuario.pk_cedula_user, finca);
   };
 
   const handleVariedadChange = (e) => {
     const selectedVariedad = e.target.value;
-    setFormData(prevData => ({ ...prevData, variedad: selectedVariedad }));
+    setFormData((prevData) => ({ ...prevData, variedad: selectedVariedad }));
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           imagen_sub: idSubasta.imagen_sub,
           descripcion_sub: idSubasta.descripcion_sub,
           variedad: idSubasta.fk_variedad,
-          finca: idSubasta.fk_finca, 
+          finca: idSubasta.fk_finca,
           certificado_sub: idSubasta.certificado_sub || "",
         });
         // Cargar variedades correspondientes a la finca
@@ -165,7 +165,9 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         </div>
       </div>
       <div className="grid grid-cols-2">
-        <Input
+      <DatePicker className="max-w-md" granularity="second" variant="bordered" label="Fecha de fin" />
+        <DatePicker className="max-w-md" granularity="second" variant="bordered" label="Fecha de inicio" />
+        {/* <Input
           placeholder="Fecha de Inicio"
           isRequired
           variant="bordered"
@@ -184,7 +186,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           value={formData.fecha_fin}
           onChange={handleChange}
           startContent={<icono.iconoFecha />}
-        />
+        /> */}
       </div>
       <div className="grid grid-cols-2 gap-x-2">
         <Input
@@ -199,7 +201,26 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           value={formData.precioInicial}
           onChange={handleChange}
         />
-        <input type="file" name="" id="" />
+        <div className="relative flex justify-center">
+          <input
+            placeholder="Imagen de usuario"
+            type="file"
+            name="certificado_sub"
+            className="hidden"
+            id="certificado_sub"
+            onChange={handleChange}
+          />
+          <label
+            htmlFor="certificado_sub"
+            className="cursor-pointer items-center w-[345px] flex bg-transparent border-2 rounded-xl border-gray-200"
+          >
+            <div className="flex items-center h-5 transition duration-300">
+              <span className="text-gray-500 w-full ml-2">
+                Seleccionar certificado
+              </span>
+            </div>
+          </label>
+        </div>
       </div>
       <div className="grid grid-cols-2">
         <div className="relative">
@@ -216,15 +237,18 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             <option value="" hidden>
               Seleccionar Finca
             </option>
-            {fincas.length > 0 ? fincas.filter((finca) => finca.estado_fin === "activo").map((finca) => (
-              <option value={finca.pk_id_fin} key={finca.pk_id_fin}>
-                {finca.nombre_fin}
+            {fincas.length > 0 ? (
+              fincas
+                .filter((finca) => finca.estado_fin === "activo")
+                .map((finca) => (
+                  <option value={finca.pk_id_fin} key={finca.pk_id_fin}>
+                    {finca.nombre_fin}
+                  </option>
+                ))
+            ) : (
+              <option value="" className="text-gray-600">
+                No has registrado ninguna finca
               </option>
-            )): (
-
-            <option value="" className="text-gray-600">
-              No has registrado ninguna finca
-            </option> 
             )}
           </select>
         </div>
@@ -242,15 +266,19 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             <option value="" hidden>
               Seleccionar variedad
             </option>
-            {variedadForuser.length > 0 ? variedadForuser.filter((variedad) => variedad.estado_vari === "activo").map((variedad) => (
-              <option value={variedad.pk_id_vari} key={variedad.pk_id_vari}>
-                {variedad.nombre_tipo_vari}
+            {variedadForuser.length > 0 ? (
+              variedadForuser
+                .filter((variedad) => variedad.estado_vari === "activo")
+                .map((variedad) => (
+                  <option value={variedad.pk_id_vari} key={variedad.pk_id_vari}>
+                    {variedad.nombre_tipo_vari}
+                  </option>
+                ))
+            ) : (
+              <option value="" className="text-gray-600">
+                Seleccionar finca o Finca sin variedades
               </option>
-            )): 
-            <option value="" className="text-gray-600">
-              Seleccionar finca o Finca sin variedades
-            </option> 
-            }
+            )}
           </select>
         </div>
       </div>

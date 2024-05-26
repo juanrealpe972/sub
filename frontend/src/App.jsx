@@ -17,10 +17,11 @@ import UsersTable from "./components/Guard/UsersTable";
 import TipoVariedadTable from "./components/Guard/TipoVariedadTable";
 import GlobalProvider from "./context/GlobalContext";
 
+const users = JSON.parse(localStorage.getItem("user"));
+const isVendedor = users?.rol_user === "vendedor"
+const isAdmin = users?.rol_user === "admin"
+
 function App() {
-  const users = JSON.parse(localStorage.getItem("user"));
-  const isVendedor = users?.rol_user === "vendedor"
-  const isAdmin = users?.rol_user === "admin"
 
   return (
     <>

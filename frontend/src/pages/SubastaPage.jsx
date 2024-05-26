@@ -30,6 +30,7 @@ function SubastaPage() {
     setAbrirModal(true)
     setIdSubasta(id)
   }
+  
   useEffect(() => {
     users.rol_user === "admin" && navigate('/users')
   }, [])
@@ -44,7 +45,7 @@ function SubastaPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4 p-3">
               {subastas &&
                 subastas.map((subasta) => (
-                  <Card key={subasta.pk_id_sub} className="max-w-[500px] p-2">
+                  <Card key={subasta.pk_id_sub} className="max-w-[530px] p-2">
                     <CardHeader className="justify-between">
                       <div className="flex gap-3">
                         <Avatar

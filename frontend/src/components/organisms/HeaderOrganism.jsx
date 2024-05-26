@@ -69,8 +69,8 @@ function HeaderOrganism() {
           <div>
             <Autocomplete
               classNames={{
-                base: "w-96",
-                listboxWrapper: "max-h-[320px]",
+                base: "w-80",
+                listboxWrapper: "max-h-[280px]",
                 selectorButton: "text-default-500",
               }}
               defaultItems={users}

@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 
 import SubastaIcon from "../nextui/SubastaIcon";
 import FincaIcon from "../nextui/FincaIcon";
 import FincaTable from "../components/Guard/FincaTable";
 import SubastaTable from "../components/Guard/SubastaTable";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function MiSubastaT() {
+  const { getUsers } = useAuthContext()
+  useEffect(() => {
+      getUsers()
+    }, []);
+    
   return (
     <div className="w-full flex bg-gray-100 flex-col items-center px-8">
       <div className="pb-2">
