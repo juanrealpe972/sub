@@ -55,6 +55,29 @@ export const getFinca = async (req, res) => {
   }
 };
 
+export const getFincasActivas = async (req, res) => {
+  try {
+    const id = req.params.id;
+    let sql = 
+    `
+      SELECT f.*, v.*, m.*, d.*
+      FROM finca f
+      INNER JOIN veredas v ON f.fk_vereda = v.pk_id_vere
+      INNER JOIN municipio m ON v.fk_municipio = m.pk_codigo_muni
+      INNER JOIN departamento d ON m.fk_departamento = d.pk_codigo_depar
+      WHERE f.fk_id_usuario = '${id}' AND estado_fin = 'activo';
+    `;
+    const [result] = await pool.query(sql);
+    if (result.length > 0) {
+      res.status(200).json({ message: "Finca encontrada", data: result });
+    } else {
+      res.status(204).json({ message: "No se encontraron fincas para el usuario" });
+    }
+  } catch (error) {
+     res.status(500).json({ message: "Error en el servidor" + error });
+  }
+};
+
 export const createFinca = async (req, res) => {
   try {
     let errors = validationResult(req);

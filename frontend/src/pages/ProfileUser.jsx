@@ -9,12 +9,15 @@ import FormUser from "../components/templates/FormUser";
 import { useAuthContext } from "../context/AuthContext";
 import FormUserPassword from "../components/templates/FormUserPassword";
 import { useSubastaContext } from "../context/SubastaContext";
+import Calificaciones from "../components/organisms/Calificaciones";
+import FormCalificaion from "../components/templates/FormCalificaion";
 
 function ProfileUser() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("creadas");
   const localUser = JSON.parse(localStorage.getItem("user"));
   const [abrirModal, setAbrirModal] = useState(false);
+  const [abrirModalCalificacion, setAbrirModalCalificacion] = useState(false);
   const [abrirModalPassword, setAbrirModalPassword] = useState(false);
   const [mode, setMode] = useState("create");
   const { getUserID, user, setIdUser, getUsers } = useAuthContext();
@@ -122,9 +125,18 @@ function ProfileUser() {
                 <p className="text-xs text-gray-500">Rol de Usuario</p>
               </div>
             </span>
+              <Button onClick={() => setAbrirModalCalificacion(true)}>
+                Calificar usuario
+              </Button>
             <span className="text-sm text-gray-600 py-2 flex">
               {user.descripcion_user}
             </span>
+            <FormCalificaion 
+              open={abrirModalCalificacion}
+              onClose={() => setAbrirModalCalificacion(false)}
+              title={"Calificar Usuario"}
+              titleBtn={"Calificar"}
+            />
           </div>
         </div>
       </div>

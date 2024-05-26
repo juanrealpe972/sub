@@ -19,10 +19,10 @@ import { verificarUserToken } from "../controllers/autenticacionController.js";
 
 const router = Router();
 
-router.post("/subasta", subastaFiles, verificarUserToken, validarSubasta,  registrar);
+router.post("/subasta", subastaFiles, verificarUserToken, registrar);
 router.get("/subasta", verificarUserToken, listar);
 router.get("/subastasActivasMenosCerradas", verificarUserToken, listarSubsActivas);
-router.put("/subasta/:id",subastaFiles,verificarUserToken, validarSubasta,actualizar);
+router.put("/subasta/:id",subastaFiles,verificarUserToken, actualizar);
 router.get("/buscar/:id", verificarUserToken, buscar); 
 router.get("/buscarsubforuser/:id", verificarUserToken, buscarSubastaForUser); 
 router.delete("/eliminar/:id", verificarUserToken, eliminar);

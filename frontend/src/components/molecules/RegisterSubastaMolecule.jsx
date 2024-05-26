@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Input, ModalFooter, Textarea } from "@nextui-org/react";
+import {
+  Button,
+  DatePicker,
+  Input,
+  ModalFooter,
+  Textarea,
+} from "@nextui-org/react";
 import { useVariedadUserContext } from "../../context/VariedadUserContext";
 import { useSubastaContext } from "../../context/SubastaContext";
 import { icono } from "../atoms/IconsAtom";
@@ -16,24 +22,29 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
     descripcion_sub: "",
     certificado_sub: "",
     variedad: "",
-    finca: "",
+    nombre_fin: "",
   });
 
   const { idSubasta, createSubs, updateSubs } = useSubastaContext();
-  const { getFincaUser, fincas = [] } = useFincaContext(); // Inicializar fincas como un array vacío
-  const { variedadForuser = [], getVariForUser } = useVariedadUserContext(); // Inicializar variedadForuser como un array vacío
+  const {  getFincaUserActivas, fincasActivas = [] } = useFincaContext();
+  const { variedadForuser = [], getVariForUser } = useVariedadUserContext();
   const usuario = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    getFincaUser(usuario.pk_cedula_user);
-  }, [usuario.pk_cedula_user, getFincaUser]);
+    getFincaUserActivas(usuario.pk_cedula_user);
+  }, [usuario.pk_cedula_user, getFincaUserActivas]);
 
   const handleFincaChange = (e) => {
-    const finca = e.target.value;
-    setFormData((prevData) => ({ ...prevData, finca, variedad: "" }));
-    getVariForUser(usuario.pk_cedula_user, finca);
+    const selectedFincaId = e.target.value; // Obtener el id de la finca seleccionada
+    console.log("Selected Finca ID:", selectedFincaId); // Verifica el ID de la finca seleccionada
+    const selectedFinca = fincasActivas.find(finca => finca.pk_id_fin === selectedFincaId); // Encontrar la finca seleccionada en la lista de fincas
+    console.log("Selected Finca:", selectedFinca); // Verifica la finca seleccionada
+    const nombre_fin = selectedFinca ? selectedFinca.nombre_fin : ''; // Obtener el nombre de la finca
+    console.log("Nombre de la Finca:", nombre_fin); // Verifica el nombre de la finca
+    setFormData((prevData) => ({ ...prevData, nombre_fin, variedad: "" }));
+    getVariForUser(usuario.pk_cedula_user, nombre_fin);
   };
-
+  
   const handleVariedadChange = (e) => {
     const selectedVariedad = e.target.value;
     setFormData((prevData) => ({ ...prevData, variedad: selectedVariedad }));
@@ -43,18 +54,17 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
     if (mode === "update" && idSubasta) {
       try {
         setFormData({
-          fecha_inicio: idSubasta.fecha_inicio_sub,
-          fecha_fin: idSubasta.fecha_fin_sub,
+          fecha_inicio: idSubasta.fecha_inicio_sub ? new Date(idSubasta.fecha_inicio_sub).toISOString().slice(0, 16) : "",
+          fecha_fin: idSubasta.fecha_fin_sub ? new Date(idSubasta.fecha_fin_sub).toISOString().slice(0, 16) : "",
           unidadPeso: idSubasta.unidad_peso_sub,
           precioInicial: idSubasta.precio_inicial_sub,
           cantidad: idSubasta.cantidad_sub,
           imagen_sub: idSubasta.imagen_sub,
           descripcion_sub: idSubasta.descripcion_sub,
           variedad: idSubasta.fk_variedad,
-          finca: idSubasta.fk_finca,
+          nombre_fin: idSubasta.fk_finca,
           certificado_sub: idSubasta.certificado_sub || "",
         });
-        // Cargar variedades correspondientes a la finca
         getVariForUser(usuario.pk_cedula_user, idSubasta.fk_finca);
       } catch (error) {
         console.error("Error en el sistema:", error);
@@ -76,8 +86,6 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
       data.append("certificado_sub", formData.certificado_sub);
       data.append("descripcion_sub", formData.descripcion_sub);
       data.append("fk_variedad", formData.variedad);
-      data.append("fk_finca", formData.finca); // Asegúrate de enviar la finca seleccionada
-
       if (mode === "create") {
         createSubs(data, usuario.pk_cedula_user);
       } else if (mode === "update") {
@@ -138,7 +146,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
                   <img
                     src={
                       typeof formData.imagen_sub === "string"
-                        ? `http://localhost:4000/subasta/${formData.imagen_sub}`
+                        ? `http://localhost:4000/img/subasta/${formData.imagen_sub}`
                         : URL.createObjectURL(formData.imagen_sub)
                     }
                     alt="user"
@@ -164,12 +172,11 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           </label>
         </div>
       </div>
-      <div className="grid grid-cols-2">
-      <DatePicker className="max-w-md" granularity="second" variant="bordered" label="Fecha de fin" />
-        <DatePicker className="max-w-md" granularity="second" variant="bordered" label="Fecha de inicio" />
-        {/* <Input
+      <div className="grid grid-cols-2 gap-x-2">
+        <Input
           placeholder="Fecha de Inicio"
           isRequired
+          label="Fecha de Inicio"
           variant="bordered"
           type="datetime-local"
           name="fecha_inicio"
@@ -180,13 +187,14 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         <Input
           placeholder="Fecha Fin"
           isRequired
+          label="Fecha final"
           variant="bordered"
           type="datetime-local"
           name="fecha_fin"
           value={formData.fecha_fin}
           onChange={handleChange}
           startContent={<icono.iconoFecha />}
-        /> */}
+        />
       </div>
       <div className="grid grid-cols-2 gap-x-2">
         <Input
@@ -194,7 +202,6 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           aria-label="Precio Inicial"
           startContent={<icono.iconoPrice />}
           placeholder="Precio Inicial"
-          isRequired
           variant="bordered"
           type="number"
           name="precioInicial"
@@ -222,14 +229,14 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           </label>
         </div>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-x-2">
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
-            {<icono.iconoQuantity />}
+            {<icono.iconoFlor />}
           </span>
           <select
-            name="finca"
-            value={formData.finca}
+            name="nombre_fin"
+            value={formData.nombre_fin}
             onChange={handleFincaChange}
             required
             className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
@@ -237,14 +244,12 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             <option value="" hidden>
               Seleccionar Finca
             </option>
-            {fincas.length > 0 ? (
-              fincas
-                .filter((finca) => finca.estado_fin === "activo")
-                .map((finca) => (
-                  <option value={finca.pk_id_fin} key={finca.pk_id_fin}>
-                    {finca.nombre_fin}
-                  </option>
-                ))
+            {fincasActivas.length > 0 ? (
+              fincasActivas.map((finca) => (
+                <option value={finca.pk_id_fin} key={finca.pk_id_fin}>
+                  {finca.nombre_fin}
+                </option>
+              ))
             ) : (
               <option value="" className="text-gray-600">
                 No has registrado ninguna finca
@@ -276,13 +281,13 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
                 ))
             ) : (
               <option value="" className="text-gray-600">
-                Seleccionar finca o Finca sin variedades
+                Seleccionar finca.
               </option>
             )}
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-x-2">
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
             {<icono.iconoQuantity />}
@@ -309,7 +314,6 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           variant="bordered"
           startContent={<icono.iconoQuantity />}
           placeholder="Cantidad"
-          isRequired
           name="cantidad"
           type="number"
           value={formData.cantidad}
