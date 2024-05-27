@@ -1,9 +1,11 @@
 import { Router } from "express"
-import { createCalificacion, updateCalificacion } from "../controllers/calificaciones.controller.js"
+import { createCalificacion, getCalificaciones, updateCalificacion } from "../controllers/calificaciones.controller.js"
+import { verificarUserToken } from "../controllers/autenticacionController.js";
 
 const routesCalificaciones = Router()
 
-routesCalificaciones.post('/calificaciones', createCalificacion)
-routesCalificaciones.put('/calificaciones', updateCalificacion)
+routesCalificaciones.get('/calificaciones/:id', verificarUserToken, getCalificaciones)
+routesCalificaciones.post('/calificaciones', verificarUserToken, createCalificacion)
+routesCalificaciones.put('/calificaciones', verificarUserToken, updateCalificacion)
 
 export default routesCalificaciones

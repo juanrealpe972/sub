@@ -9,7 +9,7 @@ import FormUser from "../components/templates/FormUser";
 import { useAuthContext } from "../context/AuthContext";
 import FormUserPassword from "../components/templates/FormUserPassword";
 import { useSubastaContext } from "../context/SubastaContext";
-import Calificaciones from "../components/organisms/Calificaciones";
+import Calificaciones from "../components/Guard/CalificacionesTable";
 import FormCalificaion from "../components/templates/FormCalificaion";
 
 function ProfileUser() {
@@ -119,32 +119,30 @@ function ProfileUser() {
               </div>
             </span>
             <span className="text-sm text-gray-600 flex items-center">
-              <UserRol />
+              <UserRol />,
               <div>
                 <p className="text-sm text-gray-900">{user.rol_user}</p>
                 <p className="text-xs text-gray-500">Rol de Usuario</p>
               </div>
             </span>
             <div>
-              <span className="">
+              <span className="text-2xl">
                 4.8
               </span>
             </div>
-              <Button onClick={() => setAbrirModalCalificacion(true)}>
-                Calificar usuario
-              </Button>
-            <span className="text-sm text-gray-600 py-2 flex">
-              {user.descripcion_user}
-            </span>
-            <FormCalificaion 
-              open={abrirModalCalificacion}
-              onClose={() => setAbrirModalCalificacion(false)}
-              title={"Calificar Usuario"}
-              titleBtn={"Calificar"}
-            />
+            <Button onClick={() => setAbrirModalCalificacion(true)}>
+              Calificaciones y opiniones
+            </Button>
           </div>
         </div>
       </div>
+      <FormCalificaion 
+        open={abrirModalCalificacion}
+        onClose={() => setAbrirModalCalificacion(false)}
+        fk_user={user.pk_cedula_user}
+        title={"Calificar Usuario"}
+        titleBtn={"Calificar"}
+      />
       {user.rol_user !== 'admin' && (
         <>
           <div className="grow border-b border-gray-400 my-4"></div>
