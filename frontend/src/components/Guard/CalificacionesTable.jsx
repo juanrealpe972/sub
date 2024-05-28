@@ -1,7 +1,8 @@
-import { Button, Textarea } from "@nextui-org/react";
+import { Avatar, Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { useCalificacionesContext } from "../../context/CalificacionesContext";
+import FormRegisCalificacion from "../templates/FormRegisCalificacion";
 
 const colors = {
   orange: "#FFBA5A",
@@ -9,122 +10,161 @@ const colors = {
 };
 
 function CalificacionesTable({ titleBtn, fk_user }) {
-  const [currentValue, setCurrentValue] = useState(0);
-  const [hoverValue, setHoverValue] = useState(undefined);
-  const [comentario, setComentario] = useState("");
+  const [abrirModalCalificacion, setAbrirModalCalificacion] = useState(false);
+  const { getCalificacionesUser, calificaciones, stats, setIdCalificacion } = useCalificacionesContext();
   const [mode, setMode] = useState("create");
-  const { createCalificacion, getCalificacionesUser, calificaciones } = useCalificacionesContext();
-  const user = JSON.parse(localStorage.getItem('user'));
-  const stars = Array(5).fill(0);
+  const userlocal = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    getCalificacionesUser(fk_user)
-      .catch((error) => {
-        console.error("Error fetching calificaciones:", error);
-        // Handle error appropriately
-      });
+    getCalificacionesUser(fk_user);
   }, [fk_user, getCalificacionesUser]);
-
-  const handleClick = (value) => {
-    setCurrentValue(value);
-  };
-
-  const handleMouseOver = (newHoverValue) => {
-    setHoverValue(newHoverValue);
-  };
-
-  const handleMouseLeave = () => {
-    setHoverValue(undefined);
-  };
-
-  const handleSubmit = async () => {
-    if (currentValue === 0 || comentario.trim() === "") {
-      alert("Por favor selecciona una calificación y escribe un comentario.");
-      return;
-    }
-
-    const data = {
-      idUsuario: user.pk_cedula_user,
-      estrellas: currentValue,
-      opiniones: comentario,
-      fk_usuario: fk_user
-    };
-
-    try {
-      await createCalificacion(data);
-      setCurrentValue(0);
-      setComentario("");
-      getCalificacionesUser(fk_user); 
-    } catch (error) {
-      alert("Error en el servidor: " + error.message);
-    }
-  };
 
   const renderStars = (count) => {
     return Array.from({ length: 5 }, (_, index) => (
       <FaStar
         key={index}
-        size={24}
+        size={14}
         color={index < count ? colors.orange : colors.grey}
         className="mr-1"
       />
     ));
   };
 
-  const userHasRated = calificaciones?.some(calificacion => calificacion.idUsuario === user.pk_cedula_user);
+  const renderAverageStars = (average) => {
+    const fullStars = Math.floor(average);
+    const hasHalfStar = average % 1 !== 0;
+    return (
+      <div className="flex items-center">
+        {Array.from({ length: fullStars }, (_, index) => (
+          <FaStar
+            key={index}
+            size={24}
+            color={colors.orange}
+            className="mr-1"
+          />
+        ))}
+        {hasHalfStar && (
+          <FaStarHalfAlt size={24} color={colors.orange} className="mr-1" />
+        )}
+        {Array.from(
+          { length: 5 - fullStars - (hasHalfStar ? 1 : 0) },
+          (_, index) => (
+            <FaStar
+              key={index + fullStars + 1}
+              size={18}
+              color={colors.grey}
+              className="mr-1"
+            />
+          )
+        )}
+      </div>
+    );
+  };
+
+  const handleCalif = (mode) => {
+    setAbrirModalCalificacion(true)
+    setMode(mode)
+  }
+
+  const renderProgressBar = (count, total) => {
+    const percentage = total > 0 ? (count / total) * 100 : 0;
+    return (
+      <div className="flex items-center w-full">
+        <div className="flex items-center mr-2">
+          <FaStar size={18} color={colors.orange} className="mr-1" />
+          <span>{count}</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-3">
+          <div
+            className="bg-orange-500 h-3 rounded-full"
+            style={{ width: `${percentage}%` }}
+          ></div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col items-center px-4 pb-4">
-      {!userHasRated && (
-        <div className="flex flex-col items-center">
-          <div className="flex mb-4">
-            {stars.map((_, index) => (
-              <FaStar
-                key={index}
-                size={24}
-                onClick={() => handleClick(index + 1)}
-                onMouseOver={() => handleMouseOver(index + 1)}
-                onMouseLeave={handleMouseLeave}
-                color={
-                  (hoverValue || currentValue) > index
-                    ? colors.orange
-                    : colors.grey
-                }
-                className="mr-2 cursor-pointer"
-              />
-            ))}
-          <p className="text-lg font-semibold text-gray-700">
-            {currentValue > 0 ? `${currentValue}` : ""}
+      <div className="w-full flex items-center gap-x-2 -mt-5">
+        {stats.promedio == null || isNaN(stats.promedio) ? (
+          <p className="text-center w-full text-red-600 -mt-1">
+            Usuario sin calificaciones
           </p>
+        ) : (
+        <>
+          <div className="flex flex-col items-start">
+            <div className="text-7xl font-bold">
+              {parseFloat(stats.promedio).toFixed(1)}
+            </div>
+            {renderAverageStars(stats.promedio)}
+            <div>{stats.total}</div>
           </div>
-          <Textarea
-            label="Opinión"
-            variant="bordered"
-            placeholder="Escribe tu opinión"
-            className="max-w-xs mb-4"
-            value={comentario}
-            onChange={(e) => setComentario(e.target.value)}
-          />
-          <Button onClick={handleSubmit}>{titleBtn}</Button>
-        </div>
+          <div className="flex flex-col mt-4 w-full">
+            {renderProgressBar(stats.cinco_estrellas, stats.total)}
+            {renderProgressBar(stats.cuatro_estrellas, stats.total)}
+            {renderProgressBar(stats.tres_estrellas, stats.total)}
+            {renderProgressBar(stats.dos_estrellas, stats.total)}
+            {renderProgressBar(stats.una_estrella, stats.total)}
+          </div>
+        </>
+        )}
+      </div>
+      {calificaciones.some((calificacion) => calificacion.id_usuario_cali === userlocal.pk_cedula_user) || fk_user === userlocal.pk_cedula_user ? (
+        ""
+      ) : (
+        <Button className="mt-2" onClick={() => handleCalif("create")} >
+          Registrar calificación
+        </Button>
       )}
+      <FormRegisCalificacion
+        open={abrirModalCalificacion}
+        onClose={() => setAbrirModalCalificacion(false)}
+        fk_user={fk_user}
+        mode={mode}
+        title={"Calificar"}
+        titleBtn={titleBtn}
+      />
       <div className="mt-4 w-full">
-        {calificaciones && calificaciones.length > 0 ? (
+        {stats.promedio == null || isNaN(stats.promedio) ? (
+          ""
+        ) : (
           calificaciones.map((calificacion) => (
-            <div key={calificacion.pk_id_cali} className="border-b-2 border-gray-200 py-2">
-              <p>{calificacion.nombre_user}</p>
-              <div className="flex items-center text-sm">
-                {renderStars(calificacion.estrellas_cali)}
+            <div key={calificacion.pk_id_cali} className="shadow-small p-2 rounded-xl">
+              <div className="flex gap-x-2 justify-between">
+                <div className="flex items-center gap-x-2"> 
+                  <Avatar
+                    alt={calificacion.nombre_user}
+                    className="flex-shrink-0"
+                    size="sm"
+                    src={
+                      calificacion.imagen_user &&
+                      calificacion.imagen_user.length > 0
+                        ? `http://localhost:4000/img/${calificacion.imagen_user}`
+                        : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
+                    }
+                  />
+                  <div className="flex flex-col">
+                    <span className="">{calificacion.nombre_user}</span>
+                    <div className="flex items-center text-sm gap-x-1">
+                      <div className="flex">
+                        {renderStars(calificacion.estrellas_cali)}
+                      </div>
+                      <p className="text-xs"> {new Date(calificacion.fecha_cali).toLocaleDateString()} </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  {calificacion.id_usuario_cali === userlocal.pk_cedula_user && (
+                    <Button className="bg-[#e0e0e0] text-[#009100]" onClick={() => {handleCalif("update"); setIdCalificacion(calificacion.pk_id_cali)}}>
+                      Editar
+                    </Button>
+                  )}
+                </div>
               </div>
               <p>{calificacion.opiniones_cali}</p>
-              <p>{new Date(calificacion.fecha_cali).toLocaleDateString()}</p>
-              {calificacion.idUsuario === user.pk_cedula_user && (
-                <Button onClick={() => setMode(calificacion.pk_id_cali)}>Editar</Button>
-              )}
             </div>
           ))
-        ) : (
-          <p>No hay calificaciones disponibles.</p>
         )}
       </div>
     </div>
