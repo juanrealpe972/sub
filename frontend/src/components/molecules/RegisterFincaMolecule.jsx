@@ -115,23 +115,10 @@ const RegisterFincaMolecule = ({ mode, titleBtn }) => {
             <div className="relative">
               <button
                 type="button"
-                className="absolute -top-3 -right-3 p-1 bg-gray-300 rounded-full"
+                className="absolute -top-3 -right-3 p-2 bg-gray-300 rounded-full"
                 onClick={() => setFormData({ ...formData, imagen_fin: "" })}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <icono.iconoCambiar/>
               </button>
               {mode === "update" ? (
                 <img
@@ -146,9 +133,9 @@ const RegisterFincaMolecule = ({ mode, titleBtn }) => {
               ) : (
                 formData.imagen_fin instanceof File && (
                   <img
-                  src={URL.createObjectURL(formData.imagen_fin)}
-                  alt="finca"
-                  className="h-28 w-48 object-cover rounded-xl mx-auto"
+                    src={URL.createObjectURL(formData.imagen_fin)}
+                    alt="finca"
+                    className="h-28 w-48 object-cover rounded-xl mx-auto"
                   />
                 )
               )}

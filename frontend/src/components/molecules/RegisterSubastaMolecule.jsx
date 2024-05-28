@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Input,
-  ModalFooter,
-  Textarea,
-} from "@nextui-org/react";
+import { Button, Input, ModalFooter, Textarea } from "@nextui-org/react";
 import { useVariedadUserContext } from "../../context/VariedadUserContext";
 import { useSubastaContext } from "../../context/SubastaContext";
 import { icono } from "../atoms/IconsAtom";
@@ -25,26 +20,13 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
   });
 
   const { idSubasta, createSubs, updateSubs } = useSubastaContext();
-  const {  getFincaUserActivas, fincasActivas = [] } = useFincaContext();
+  const { getFincaUserActivas, fincasActivas = [] } = useFincaContext();
   const { variedadForuser = [], getVariForUser } = useVariedadUserContext();
   const usuario = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     getFincaUserActivas(usuario.pk_cedula_user);
   }, [usuario.pk_cedula_user, getFincaUserActivas]);
-
-  const handleFincaChange = (e) => {
-    const selectedFincaId = e.target.value; 
-    const selectedFinca = fincasActivas.find(finca => finca.pk_id_fin === selectedFincaId); 
-    const nombre_fin = selectedFinca ? selectedFinca.nombre_fin : ''; 
-    setFormData((prevData) => ({ ...prevData, nombre_fin, variedad: "" }));
-    getVariForUser(usuario.pk_cedula_user, nombre_fin);
-  };
-  
-  const handleVariedadChange = (e) => {
-    const selectedVariedad = e.target.value;
-    setFormData((prevData) => ({ ...prevData, variedad: selectedVariedad }));
-  };
 
   useEffect(() => {
     if (mode === "update" && idSubasta) {
@@ -66,11 +48,25 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         console.error("Error en el sistema:", error);
       }
     }
-  }, [mode, idSubasta, usuario.pk_cedula_user, getVariForUser]);
+  }, [mode, idSubasta]);
+
+  const handleFincaChange = (e) => {
+    const selectedFincaId = e.target.value;
+    const selectedFinca = fincasActivas.find(finca => finca.pk_id_fin === selectedFincaId);
+    const nombre_fin = selectedFinca ? selectedFinca.nombre_fin : '';
+    setFormData((prevData) => ({ ...prevData, nombre_fin, variedad: "" }));
+    if (nombre_fin) {
+      getVariForUser(usuario.pk_cedula_user, nombre_fin);
+    }
+  };
+
+  const handleVariedadChange = (e) => {
+    const selectedVariedad = e.target.value;
+    setFormData((prevData) => ({ ...prevData, variedad: selectedVariedad }));
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const data = new FormData();
       data.append("fecha_inicio_sub", formData.fecha_inicio);
@@ -85,7 +81,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
       if (mode === "create") {
         createSubs(data, usuario.pk_cedula_user);
       } else if (mode === "update") {
-        updateSubs(data, idSubasta.pk_id_sub, usuario.pk_cedula_user);
+        updateSubs(usuario.pk_cedula_user, data, idSubasta.pk_id_sub);
       }
     } catch (error) {
       console.error("Error en el sistema: " + error.message);
@@ -93,7 +89,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, type, value, files } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "file" ? files[0] : value,
@@ -120,31 +116,14 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
               <div className="relative">
                 <button
                   type="button"
-                  className="absolute -top-2 -right-2 p-1 bg-gray-300 rounded-xl"
+                  className="absolute -top-2 -right-2 p-2 bg-gray-300 rounded-xl"
                   onClick={() => setFormData({ ...formData, imagen_sub: "" })}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-gray-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <icono.iconoCambiar />
                 </button>
-                {mode === "update" ? (
+                {mode === "update" && typeof formData.imagen_sub === "string" ? (
                   <img
-                    src={
-                      typeof formData.imagen_sub === "string"
-                        ? `http://localhost:4000/img/subasta/${formData.imagen_sub}`
-                        : URL.createObjectURL(formData.imagen_sub)
-                    }
+                    src={`http://localhost:4000/img/subasta/${formData.imagen_sub}`}
                     alt="user"
                     className="h-28 w-40 object-cover rounded-xl mx-auto"
                   />
@@ -206,7 +185,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         />
         <div className="relative flex justify-center">
           <input
-            placeholder="Imagen de usuario"
+            placeholder="Certificado de la subasta"
             type="file"
             name="certificado_sub"
             className="hidden"
@@ -219,7 +198,15 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           >
             <div className="flex items-center h-5 transition duration-300">
               <span className="text-gray-500 w-full ml-2">
-                Seleccionar certificado
+                {formData.certificado_sub ? (
+                  typeof formData.certificado_sub === "string" ? (
+                    formData.certificado_sub
+                  ) : (
+                    formData.certificado_sub.name
+                  )
+                ) : (
+                  "Seleccionar certificado"
+                )}
               </span>
             </div>
           </label>
@@ -234,7 +221,6 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             name="nombre_fin"
             value={formData.nombre_fin}
             onChange={handleFincaChange}
-            required
             className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           >
             <option value="" hidden>
