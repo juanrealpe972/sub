@@ -184,17 +184,17 @@ function ProfileUser() {
               <>
                 <div className="w-full flex items-center gap-x-2 mb-2">
                   <div className="flex flex-col items-start">
-                    {stats.promedio == null || isNaN(stats.promedio) ? (
-                      "Usuario sin calificaciones"
-                    ) : (
+                    {stats && stats.promedio != null && !isNaN(stats.promedio) ? (
                       <div className="flex gap-x-2">
                         <div className="text-2xl font-bold">{parseFloat(stats.promedio).toFixed(1)}</div>
                         {renderAverageStars(stats.promedio)}
                       </div>
+                    ) : (
+                      "Usuario sin calificaciones"
                     )}
                   </div>
                 </div>
-                <Button className="bg-red-200 p-0 m-0 hover:underline -mt-2" onClick={() => setAbrirModalCalificacion(true)} endContent={<ChevronDownIcon/>}>
+                <Button className="bg-transparent p-0 m-0 hover:underline -mt-2" onClick={() => setAbrirModalCalificacion(true)} endContent={<ChevronDownIcon/>}>
                   Calificaciones y opiniones
                 </Button>
               </>

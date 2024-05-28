@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  DatePicker,
   Input,
   ModalFooter,
   Textarea,
@@ -35,12 +34,9 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
   }, [usuario.pk_cedula_user, getFincaUserActivas]);
 
   const handleFincaChange = (e) => {
-    const selectedFincaId = e.target.value; // Obtener el id de la finca seleccionada
-    console.log("Selected Finca ID:", selectedFincaId); // Verifica el ID de la finca seleccionada
-    const selectedFinca = fincasActivas.find(finca => finca.pk_id_fin === selectedFincaId); // Encontrar la finca seleccionada en la lista de fincas
-    console.log("Selected Finca:", selectedFinca); // Verifica la finca seleccionada
-    const nombre_fin = selectedFinca ? selectedFinca.nombre_fin : ''; // Obtener el nombre de la finca
-    console.log("Nombre de la Finca:", nombre_fin); // Verifica el nombre de la finca
+    const selectedFincaId = e.target.value; 
+    const selectedFinca = fincasActivas.find(finca => finca.pk_id_fin === selectedFincaId); 
+    const nombre_fin = selectedFinca ? selectedFinca.nombre_fin : ''; 
     setFormData((prevData) => ({ ...prevData, nombre_fin, variedad: "" }));
     getVariForUser(usuario.pk_cedula_user, nombre_fin);
   };

@@ -36,16 +36,16 @@ function SubastaPage() {
   }, [])
 
   return (
-    <div className="px-auto">
+    <div className="px-auto pb-8">
       <ImageSlider />
       {
         users.rol_user !== "admin" && (
-          <>
+          <div className="px-24">
             <p className="pl-4 text-xl">Subastas</p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4 p-3">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 sm:grid-cols-1 justify-center items-center gap-4">
               {subastas &&
                 subastas.map((subasta) => (
-                  <Card key={subasta.pk_id_sub} className="max-w-[530px] p-2">
+                  <Card key={subasta.pk_id_sub} className="max-w-[360px] p-2">
                     <CardHeader className="justify-between">
                       <div className="flex gap-3">
                         <Avatar
@@ -180,7 +180,7 @@ function SubastaPage() {
               open={abrirModal}
               onClose={() => setAbrirModal(false)}
             />
-          </>
+          </div>
         )
       }
     </div>

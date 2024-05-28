@@ -35,21 +35,21 @@ export const getCalificaciones = async (req, res) => {
   try {
     const id = req.params.id;
     const sql = `
-        SELECT 
-          c.*,
-          u.nombre_user,
-          u.email_user,
-          u.imagen_user,
-          COUNT(*) OVER() as total_calificaciones,
-          AVG(c.estrellas_cali) OVER() as promedio_calificaciones,
-          SUM(CASE WHEN c.estrellas_cali = 5 THEN 1 ELSE 0 END) as cinco_estrellas,
-          SUM(CASE WHEN c.estrellas_cali = 4 THEN 1 ELSE 0 END) as cuatro_estrellas,
-          SUM(CASE WHEN c.estrellas_cali = 3 THEN 1 ELSE 0 END) as tres_estrellas,
-          SUM(CASE WHEN c.estrellas_cali = 2 THEN 1 ELSE 0 END) as dos_estrellas,
-          SUM(CASE WHEN c.estrellas_cali = 1 THEN 1 ELSE 0 END) as una_estrella
-        FROM calificaciones c
-        JOIN usuarios u ON c.id_usuario_cali = u.pk_cedula_user
-        WHERE c.fk_usuario = ?
+      SELECT 
+        c.*,
+        u.nombre_user,
+        u.email_user,
+        u.imagen_user,
+        COUNT(*) OVER() as total_calificaciones,
+        AVG(c.estrellas_cali) OVER() as promedio_calificaciones,
+        SUM(CASE WHEN c.estrellas_cali = 5 THEN 1 ELSE 0 END) OVER() as cinco_estrellas,
+        SUM(CASE WHEN c.estrellas_cali = 4 THEN 1 ELSE 0 END) OVER() as cuatro_estrellas,
+        SUM(CASE WHEN c.estrellas_cali = 3 THEN 1 ELSE 0 END) OVER() as tres_estrellas,
+        SUM(CASE WHEN c.estrellas_cali = 2 THEN 1 ELSE 0 END) OVER() as dos_estrellas,
+        SUM(CASE WHEN c.estrellas_cali = 1 THEN 1 ELSE 0 END) OVER() as una_estrella
+      FROM calificaciones c
+      JOIN usuarios u ON c.id_usuario_cali = u.pk_cedula_user
+      WHERE c.fk_usuario = ?
       `;
     const [response] = await pool.query(sql, [id]);
 

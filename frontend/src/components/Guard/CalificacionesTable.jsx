@@ -11,7 +11,7 @@ const colors = {
 
 function CalificacionesTable({ titleBtn, fk_user }) {
   const [abrirModalCalificacion, setAbrirModalCalificacion] = useState(false);
-  const { getCalificacionesUser, calificaciones, stats, setIdCalificacion } = useCalificacionesContext();
+  const { getCalificacionesUser, calificaciones, stats = {}, setIdCalificacion } = useCalificacionesContext();
   const [mode, setMode] = useState("create");
   const userlocal = JSON.parse(localStorage.getItem("user"));
 
@@ -62,9 +62,9 @@ function CalificacionesTable({ titleBtn, fk_user }) {
   };
 
   const handleCalif = (mode) => {
-    setAbrirModalCalificacion(true)
-    setMode(mode)
-  }
+    setAbrirModalCalificacion(true);
+    setMode(mode);
+  };
 
   const renderProgressBar = (count, total) => {
     const percentage = total > 0 ? (count / total) * 100 : 0;
@@ -92,28 +92,28 @@ function CalificacionesTable({ titleBtn, fk_user }) {
             Usuario sin calificaciones
           </p>
         ) : (
-        <>
-          <div className="flex flex-col items-start">
-            <div className="text-7xl font-bold">
-              {parseFloat(stats.promedio).toFixed(1)}
+          <>
+            <div className="flex flex-col items-start">
+              <div className="text-7xl font-bold">
+                {parseFloat(stats.promedio).toFixed(1)}
+              </div>
+              {renderAverageStars(stats.promedio)}
+              <div>{stats.total}</div>
             </div>
-            {renderAverageStars(stats.promedio)}
-            <div>{stats.total}</div>
-          </div>
-          <div className="flex flex-col mt-4 w-full">
-            {renderProgressBar(stats.cinco_estrellas, stats.total)}
-            {renderProgressBar(stats.cuatro_estrellas, stats.total)}
-            {renderProgressBar(stats.tres_estrellas, stats.total)}
-            {renderProgressBar(stats.dos_estrellas, stats.total)}
-            {renderProgressBar(stats.una_estrella, stats.total)}
-          </div>
-        </>
+            <div className="flex flex-col mt-4 w-full">
+              {renderProgressBar(stats.cinco_estrellas, stats.total)}
+              {renderProgressBar(stats.cuatro_estrellas, stats.total)}
+              {renderProgressBar(stats.tres_estrellas, stats.total)}
+              {renderProgressBar(stats.dos_estrellas, stats.total)}
+              {renderProgressBar(stats.una_estrella, stats.total)}
+            </div>
+          </>
         )}
       </div>
-      {calificaciones.some((calificacion) => calificacion.id_usuario_cali === userlocal.pk_cedula_user) || fk_user === userlocal.pk_cedula_user ? (
+      {calificaciones && calificaciones.some((calificacion) => calificacion.id_usuario_cali === userlocal.pk_cedula_user) || fk_user === userlocal.pk_cedula_user || userlocal.rol_user === "admin" ? (
         ""
       ) : (
-        <Button className="mt-2" onClick={() => handleCalif("create")} >
+        <Button className="mt-2" onClick={() => handleCalif("create")}>
           Registrar calificación
         </Button>
       )}
@@ -126,13 +126,13 @@ function CalificacionesTable({ titleBtn, fk_user }) {
         titleBtn={titleBtn}
       />
       <div className="mt-4 w-full">
-        {stats.promedio == null || isNaN(stats.promedio) ? (
+        {stats?.promedio == null || isNaN(stats.promedio) || stats.length === 0 ? (
           ""
         ) : (
           calificaciones.map((calificacion) => (
             <div key={calificacion.pk_id_cali} className="shadow-small p-2 rounded-xl">
               <div className="flex gap-x-2 justify-between">
-                <div className="flex items-center gap-x-2"> 
+                <div className="flex items-center gap-x-2">
                   <Avatar
                     alt={calificacion.nombre_user}
                     className="flex-shrink-0"
@@ -156,7 +156,7 @@ function CalificacionesTable({ titleBtn, fk_user }) {
                 </div>
                 <div>
                   {calificacion.id_usuario_cali === userlocal.pk_cedula_user && (
-                    <Button className="bg-[#e0e0e0] text-[#009100]" onClick={() => {handleCalif("update"); setIdCalificacion(calificacion.pk_id_cali)}}>
+                    <Button className="bg-[#e0e0e0] text-[#009100]" onClick={() => { handleCalif("update"); setIdCalificacion(calificacion.pk_id_cali); }}>
                       Editar
                     </Button>
                   )}
