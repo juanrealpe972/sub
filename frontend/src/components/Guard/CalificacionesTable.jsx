@@ -156,7 +156,7 @@ function CalificacionesTable({ titleBtn, fk_user }) {
                 </div>
                 <div>
                   {calificacion.id_usuario_cali === userlocal.pk_cedula_user && (
-                    <Button className="bg-[#e0e0e0] text-[#009100]" onClick={() => { handleCalif("update"); setIdCalificacion(calificacion.pk_id_cali); }}>
+                    <Button className="bg-[#e0e0e0] text-[#009100]" onClick={() => { handleCalif("update"); setIdCalificacion(calificacion); }}>
                       Editar
                     </Button>
                   )}
