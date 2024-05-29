@@ -130,7 +130,7 @@ function CalificacionesTable({ titleBtn, fk_user }) {
           ""
         ) : (
           calificaciones.map((calificacion) => (
-            <div key={calificacion.pk_id_cali} className="shadow-small p-2 rounded-xl">
+            <div key={calificacion.pk_id_cali} className="shadow-small p-2 rounded-xl mb-2">
               <div className="flex gap-x-2 justify-between">
                 <div className="flex items-center gap-x-2">
                   <Avatar

@@ -196,8 +196,9 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             htmlFor="certificado_sub"
             className="cursor-pointer items-center w-[345px] flex bg-transparent border-2 rounded-xl border-gray-200"
           >
+            
             <div className="flex items-center h-5 transition duration-300">
-              <span className="text-gray-500 w-full ml-2">
+              <span className="text-gray-500 w-full ml-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-[210px]">
                 {formData.certificado_sub ? (
                   typeof formData.certificado_sub === "string" ? (
                     formData.certificado_sub
@@ -312,7 +313,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         disableAutosize
         classNames={{
           base: "w-full",
-          input: "resize-y min-h-[40px]",
+          input: "resize-y min-h-[80px]",
         }}
         value={formData.descripcion_sub}
         onChange={handleChange}

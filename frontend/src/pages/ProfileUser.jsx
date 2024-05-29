@@ -214,25 +214,11 @@ function ProfileUser() {
           <div className="grow border-b border-gray-400 my-4"></div>
           <div className="flex items-center w-full mb-4">
             {user.rol_user !== "comprador" && (
-              <button
-                className={`text-lg font-semibold mr-4 focus:outline-none ${
-                  activeTab === "creadas"
-                    ? "text-gray-400 mb-3 transition delay-150 duration-500 ease-in-out"
-                    : "text-gray-800"
-                }`}
-                onClick={() => setActiveTab("creadas")}
-              >
+              <button className={`text-lg font-semibold mr-4 focus:outline-none ${ activeTab === "creadas" ? "text-gray-400 mb-3 transition delay-150 duration-500 ease-in-out" : "text-gray-800" }`} onClick={() => setActiveTab("creadas")} >
                 Subastas Creadas
               </button>
             )}
-            <button
-              className={`text-lg font-semibold focus:outline-none ${
-                activeTab === "ganadas"
-                  ? "text-gray-400 mb-3 transition delay-150 duration-500 ease-in-out"
-                  : "text-gray-800"
-              }`}
-              onClick={() => setActiveTab("ganadas")}
-            >
+            <button className={`text-lg font-semibold focus:outline-none ${ activeTab === "ganadas" ? "text-gray-400 mb-3 transition delay-150 duration-500 ease-in-out" : "text-gray-800" }`} onClick={() => setActiveTab("ganadas")} >
               Subastas Ganadas
             </button>
           </div>
@@ -245,10 +231,7 @@ function ProfileUser() {
                 <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-2 sm:grid-cols-1" : "" } justify-center items-center`} >
                   {subastaForuser ? (
                     subastaForuser.map((subasta) => (
-                      <Card
-                        key={subasta.pk_id_sub}
-                        className="max-w-[320px] p-2"
-                      >
+                      <Card key={subasta.pk_id_sub} className="max-w-[320px] p-2" >
                         <CardBody className="items-center w-full">
                           <span className="text-center flex justify-center items-center gap-x-3">
                             <b className="text-lg">
@@ -287,16 +270,14 @@ function ProfileUser() {
                                 </div>
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Ubicación:</p>
-                                  <p>{subasta.nombre_vere} -{" "}{subasta.nombre_muni} -{subasta.nombre_depar}{" "}</p>
+                                  <p>{subasta.nombre_vere} -{subasta.nombre_muni} -{subasta.nombre_depar}</p>
                                 </div>
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Cantidad:</p>
-                                  <p>{subasta.cantidad_sub}{" "}{subasta.cantidad_sub > 0? subasta.unidad_peso_sub + "s": subasta.unidad_peso_sub}</p>
+                                  <p>{subasta.cantidad_sub}{subasta.cantidad_sub > 0? subasta.unidad_peso_sub + "s": subasta.unidad_peso_sub}</p>
                                 </div>
                                 <div className="flex w-full gap-x-2">
-                                  <p className="font-semibold">
-                                    Tipo Variedad:
-                                  </p>
+                                  <p className="font-semibold">Tipo Variedad:</p>
                                   <p>{subasta.nombre_tipo_vari}</p>
                                 </div>
                                 <div className="flex w-full gap-x-2">

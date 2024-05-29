@@ -42,10 +42,10 @@ function SubastaPage() {
         users.rol_user !== "admin" && (
           <div className="px-16">
             <p className="pl-4 text-xl">Subastas</p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 sm:grid-cols-1 justify-center items-center gap-4">
               {subastas &&
                 subastas.map((subasta) => (
-                  <Card key={subasta.pk_id_sub} className="max-w-[320px] h-[560px] p-2">
+                  <Card key={subasta.pk_id_sub} className="max-w-[380px] h-[560px] p-2">
                     <CardHeader className="justify-between">
                       <div className="flex gap-x-3">
                         <Avatar
@@ -60,7 +60,7 @@ function SubastaPage() {
                         />
                         <div className="flex flex-col gap-1 items-start justify-center">
                           <h4 className="text-small font-semibold leading-none text-default-600"> {subasta.nombre_user} </h4>
-                          <h5 className="text-small -mt-1 tracking-tight text-default-400 overflow-hidden text-ellipsis whitespace-nowrap max-w-[120px]"> @{subasta.email_user} </h5>
+                          <h5 className="text-small -mt-1 tracking-tight text-default-400 overflow-hidden text-ellipsis whitespace-nowrap max-w-auto"> @{subasta.email_user} </h5>
                         </div>
                       </div>
                       <Button
@@ -85,12 +85,12 @@ function SubastaPage() {
                           <p className="text-sm text-default-50 p-0 px-1"> {subasta.estado_sub} </p>
                         </div>
                       </span>
-                      <CardBody className="flex items-center">
+                      <CardBody className="flex">
                         <Image
                           shadow="sm"
                           radius="md"
                           alt={subasta.imagen_sub}
-                          className="w-[230px] object-cover h-[200px]"
+                          className="w-[300px] object-cover h-[200px]"
                           src={`http://localhost:4000/img/subasta/${subasta.imagen_sub}`}
                         />
                         <div className="grid gap-x-2 py-2 px-2 text-sm">
@@ -117,7 +117,7 @@ function SubastaPage() {
                             </div>
                             <div className="flex w-full gap-x-2">
                               <p className="font-semibold">Certificado:</p>
-                              <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]"> {subasta.certificado_sub} </p>
+                              <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px]"> {subasta.certificado_sub} </p>
                             </div>
                           </div>
                         </div>

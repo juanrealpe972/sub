@@ -109,11 +109,11 @@ function ModalSubasta({ onClose }) {
               radius="md"
               shadow="sm"
               alt={subasta.imagen_sub}
-              className="object-cover w-[400px] h-[270px]"
+              className="object-cover w-[400px] max-h-[300px]"
               src={`http://localhost:4000/img/subasta/${subasta.imagen_sub}`}
             />
           </div>
-          <div className="shadow text-sm rounded-lg w-80">
+          <div className="shadow text-sm rounded-lg w-80 max-h-[300px]">
             <div className="bg-[#009100] p-2 rounded-t-lg">
               <p className="text-xl text-white font-semibold text-center"> Datos de la subasta </p>
             </div>
@@ -128,7 +128,7 @@ function ModalSubasta({ onClose }) {
                 <p className="font-semibold">Cantidad:</p>
                 <p className="font-semibold">Tipo Variedad:</p>
                 <p className="font-semibold">Certificado:</p>
-                <p className="font-semibold">Descripción:</p>
+                <p className="font-semibold text-center">Descripción:</p>
               </div>
               <div>
                 <p> {new Date(subasta.fecha_inicio_sub).toLocaleString("es-ES", { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", })} </p>
@@ -136,8 +136,8 @@ function ModalSubasta({ onClose }) {
                 <p> {subasta.nombre_vere} - {subasta.nombre_muni} - {subasta.nombre_depar} </p>
                 <p> {subasta.cantidad_sub} {subasta.cantidad_sub > 1 ? subasta.unidad_peso_sub + "s" : subasta.unidad_peso_sub} </p>
                 <p>{subasta.nombre_tipo_vari}</p>
-                <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]"> {subasta.certificado_sub} </p>
-                <p>{subasta.descripcion_sub}</p>
+                <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-auto"> {subasta.certificado_sub} </p>
+                <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-auto">{subasta.descripcion_sub}</p>
               </div>
             </div>
             <div className="flex flex-col items-center">
@@ -149,22 +149,29 @@ function ModalSubasta({ onClose }) {
       </ModalBody>
       <ModalFooter className="flex justify-center">
         <Button onClick={() => onClose()}>Salir</Button>
-          <Button
-            type="submit"
-            className="bg-gray-600 text-white"
-            onClick={handleIniciarPuja}
-            isDisabled={!subastaIniciada} 
-          >
-            {posts.length === 0
-              ? "Postularme a la subasta"
-              : posts.some(
-                  (post) =>
-                    post.fk_id_usuario === user.pk_cedula_user &&
-                    post.estado_post === "activo"
-                )
-              ? "Ingresar a pujar"
-              : "Postularme a la subasta"}
+        {subasta.pk_cedula_user === user.pk_cedula_user ? 
+          (
+            <Button
+              type="submit"
+              className="bg-gray-600 text-white"
+              onClick={() => navigate(`/subasta/${subasta.pk_id_sub}`)}
+              isDisabled={!subastaIniciada}
+            >
+              Ingresar a pujar
           </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="bg-gray-600 text-white"
+              onClick={handleIniciarPuja}
+              isDisabled={!subastaIniciada} 
+            >
+              {posts.length === 0
+                ? "Postularme a la subasta" : posts.some( (post) => post.fk_id_usuario === user.pk_cedula_user && post.estado_post === "activo" )
+                ? "Ingresar a pujar" : "Postularme a la subasta"}
+            </Button>
+          )
+        }
       </ModalFooter>
     </div>
   );
