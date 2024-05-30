@@ -12,9 +12,10 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
 export const subastaFiles = upload.fields([
-  { name: "imagen_sub" },
-  { name: "certificado_sub" },
+  { name: "imagen_sub", maxCount: 1 },
+  { name: "certificado_sub", maxCount: 1 },
 ]);
 
 export const registrar = async (req, res) => {
@@ -109,45 +110,74 @@ export const actualizarFechaFin = async() => {
   }
 }
 
+
 export const actualizar = async (req, res) => {
   try {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     const { id } = req.params;
-    const { fecha_inicio_sub, fecha_fin_sub, precio_inicial_sub, precio_final_sub, unidad_peso_sub, cantidad_sub, estado_sub, descripcion_sub, fk_variedad, } = req.body;
-
-    // Verificar si los archivos se subieron correctamente
-    let imagen_sub = req.files && req.files["imagen_sub"] ? req.files["imagen_sub"][0].originalname : "";
-    let certificado_sub = req.files && req.files["certificado_sub"] ? req.files["certificado_sub"][0].originalname : "";
-
-    const values = [
+    const {
       fecha_inicio_sub,
       fecha_fin_sub,
-      imagen_sub,
       precio_inicial_sub,
       precio_final_sub,
       unidad_peso_sub,
       cantidad_sub,
-      estado_sub,
-      certificado_sub,
       descripcion_sub,
       fk_variedad,
-      id, 
+    } = req.body;
+
+    const imagen_sub = req.files && req.files.imagen_sub ? req.files.imagen_sub[0].originalname : null;
+    const certificado_sub = req.files && req.files.certificado_sub ? req.files.certificado_sub[0].originalname : null;
+
+    let sql = `
+      UPDATE subasta SET 
+      fecha_inicio_sub = IFNULL(?, fecha_inicio_sub),
+      fecha_fin_sub = IFNULL(?, fecha_fin_sub),
+      precio_inicial_sub = IFNULL(?, precio_inicial_sub),
+      precio_final_sub = IFNULL(?, precio_final_sub),
+      unidad_peso_sub = IFNULL(?, unidad_peso_sub),
+      cantidad_sub = IFNULL(?, cantidad_sub),
+      descripcion_sub = IFNULL(?, descripcion_sub),
+      fk_variedad = IFNULL(?, fk_variedad)
+    `;
+    const params = [
+      fecha_inicio_sub,
+      fecha_fin_sub,
+      precio_inicial_sub,
+      precio_final_sub,
+      unidad_peso_sub,
+      cantidad_sub,
+      descripcion_sub,
+      fk_variedad,
     ];
 
-    const [resultado] = await pool.query("UPDATE subasta SET fecha_inicio_sub=IFNULL(?, fecha_inicio_sub), fecha_fin_sub=IFNULL(?, fecha_fin_sub), imagen_sub=IFNULL(?, imagen_sub), precio_inicial_sub=IFNULL(?, precio_inicial_sub), precio_final_sub=IFNULL(?, precio_final_sub), unidad_peso_sub=IFNULL(?, unidad_peso_sub), cantidad_sub=IFNULL(?, cantidad_sub), estado_sub=IFNULL(?, estado_sub), certificado_sub=IFNULL(?, certificado_sub), descripcion_sub=IFNULL(?, descripcion_sub), fk_variedad=IFNULL(?, fk_variedad) WHERE pk_id_sub=?",values);
+    if (imagen_sub) {
+      sql += `, imagen_sub = ?`;
+      params.push(imagen_sub);
+    }
 
-    if (resultado.affectedRows > 0) {
-      res.status(200).json({message: "La subasta ha sido actualizada exitosamente",});
+    if (certificado_sub) {
+      sql += `, certificado_sub = ?`;
+      params.push(certificado_sub);
+    }
+
+    sql += ` WHERE pk_id_sub = ?`;
+    params.push(id);
+
+    const [result] = await pool.query(sql, params);
+
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: "La subasta ha sido actualizada exitosamente" });
     } else {
-      res.status(404).json({message: "No se encontró ninguna subasta con el id proporcionado",});
+      res.status(404).json({ message: "No se encontró ninguna subasta con el id proporcionado" });
     }
   } catch (error) {
-    res.status(500).json({message: "Error interno del servidor",});
+    console.error("Error en el sistema:", error); // Agrega un log del error para debug
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

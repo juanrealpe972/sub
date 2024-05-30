@@ -28,6 +28,10 @@ function RegisterCalificacion({ titleBtn, fk_user, mode }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "opiniones" && value.length > 100) { // Cambia 100 por el máximo deseado
+      return;
+    }
+    
     setFormData({
       ...formData,
       [name]: value
@@ -88,6 +92,9 @@ function RegisterCalificacion({ titleBtn, fk_user, mode }) {
       </div>
       <Textarea
         label="Opinión"
+        max={5}
+        minLength={10}
+        maxRows={5}
         variant="bordered"
         placeholder="Escribe tu opinión"
         className="max-w-96 mb-4"

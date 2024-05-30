@@ -42,7 +42,7 @@ function SubastaPage() {
         users.rol_user !== "admin" && (
           <div className="px-16">
             <p className="pl-4 text-xl">Subastas</p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 sm:grid-cols-1 justify-center items-center gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4">
               {subastas &&
                 subastas.map((subasta) => (
                   <Card key={subasta.pk_id_sub} className="max-w-[380px] h-[560px] p-2">
@@ -117,7 +117,7 @@ function SubastaPage() {
                             </div>
                             <div className="flex w-full gap-x-2">
                               <p className="font-semibold">Certificado:</p>
-                              <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px]"> {subasta.certificado_sub} </p>
+                              <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]"> {subasta.certificado_sub} </p>
                             </div>
                           </div>
                         </div>
