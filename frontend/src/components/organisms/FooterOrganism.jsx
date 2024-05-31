@@ -9,8 +9,8 @@ import YoutubeIcon from "../../nextui/YoutubeIcon";
 const FooterOrganism = () => {
   return (
     <footer className="py-8 pt-12 sm:pb-4 bg-[#e0e0e0]">
-      <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-8">
+      <div className="mx-auto px-4 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-4 lg:gap-8">
           <div className="sm:col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
             <div className="flex items-center gap-x-1">
               <Link to="/" className="cursor-pointer"><img src="./src/assets/isotipo-SubCoffee.png" alt="Logo SubCoffee" className="w-9"/></Link>
@@ -32,7 +32,7 @@ const FooterOrganism = () => {
             </div>
           </div>
 
-          <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
+          {/* <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
             <div className="flex flex-col items-center justify-center ">
               <p className="text-lg font-semibold mb-4">Visitanos</p>
               <div className="flex gap-2">
@@ -50,7 +50,7 @@ const FooterOrganism = () => {
                 ></Button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex items-center justify-center py-3">

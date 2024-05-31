@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Image,
 } from "@nextui-org/react";
@@ -13,39 +12,71 @@ import ImageSlider from "../components/molecules/ImageSlider";
 import { useSubastaContext } from "../context/SubastaContext";
 import ModalSubCoffee from "../components/templates/ModalSubCoffee";
 import { useAuthContext } from "../context/AuthContext";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function SubastaPage() {
   const navigate = useNavigate();
-  const { getSubs, subastas, setIdSubasta } = useSubastaContext();
-  const { getUsers } = useAuthContext()
-  const [abrirModal, setAbrirModal] = useState(false)
-  const users = JSON.parse(localStorage.getItem('user'))
+  const { getSubsMenoCerradas, subastasActivas, setIdSubasta } = useSubastaContext();
+  const { getUsers } = useAuthContext();
+  const [abrirModal, setAbrirModal] = useState(false);
+  const users = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-    getSubs()
-    getUsers()
+    getSubsMenoCerradas();
+    getUsers();
   }, []);
 
   const handdleModaSub = (id) => {
-    setAbrirModal(true)
-    setIdSubasta(id)
-  }
+    setAbrirModal(true);
+    setIdSubasta(id);
+  };
   
   useEffect(() => {
     if (users.rol_user === "admin") navigate('/users');
   }, [users, navigate]);
 
+  // Agrupar subastas por nombre de tipo de variedad
+  const groupedSubastas = {};
+  if (subastasActivas) {
+    subastasActivas.forEach((subasta) => {
+      if (!groupedSubastas[subasta.nombre_tipo_vari]) {
+        groupedSubastas[subasta.nombre_tipo_vari] = [];
+      }
+      groupedSubastas[subasta.nombre_tipo_vari].push(subasta);
+    });
+  }
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const prevSlide = () => {
+    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+    setCurrentIndex(newIndex);
+  };
+
+  const nextSlide = () => {
+    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+    setCurrentIndex(newIndex);
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      nextSlide();
+    }, 10000);
+    return () => clearInterval(intervalId);
+  }, [currentIndex]);
+
   return (
     <div className="px-auto pb-8">
       <ImageSlider />
-      {
-        users.rol_user !== "admin" && (
-          <div className="px-16">
-            <p className="pl-4 text-xl">Subastas</p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 sm:grid-cols-1 justify-center items-center gap-4">
-              {subastas &&
-                subastas.map((subasta) => (
-                  <Card key={subasta.pk_id_sub} className="max-w-[380px] h-[560px] p-2">
+      {users.rol_user !== "admin" && (
+        <div className="px-16">
+          <p className="pl-4 text-2xl text-[#a1653d] text-center">Subastas</p>
+          {Object.entries(groupedSubastas).map(([tipoVari, subastas]) => (
+            <div key={tipoVari}>
+              <p className="pl-4 text-xl">{tipoVari}</p>
+              <div className="flex overflow-x-auto p-6 max-w-[1530px] overflow-hidden">
+                {subastas.map((subasta) => (
+                  <Card key={subasta.pk_id_sub} className="max-w-[380px] h-[540px] p-2 mr-4 shrink-0 shadow-small">
                     <CardHeader className="justify-between">
                       <div className="flex gap-x-3">
                         <Avatar
@@ -73,7 +104,7 @@ function SubastaPage() {
                         Visualizar perfil
                       </Button>
                     </CardHeader>
-                    <CardBody className="items-start w-full">
+                    <CardBody className="items-start w-full -mt-3">
                       <span className="flex justify-center items-center gap-x-3">
                         <b className="ml-5"> {subasta.pk_id_sub} - {subasta.nombre_tipo_vari} </b>
                         <div className={`rounded-lg border
@@ -121,28 +152,29 @@ function SubastaPage() {
                             </div>
                           </div>
                         </div>
+                        <div className="flex justify-center mt-2">
+                          <Button
+                            className="bg-gray-400"
+                            radius="md"
+                            size="lg"
+                            onClick={() => handdleModaSub(subasta.pk_id_sub)}
+                            >
+                            Visualizar Subasta
+                          </Button>
+                        </div>
                       </CardBody>
-                      <CardFooter className="flex justify-center gap-x-4">
-                        <Button
-                          className="bg-gray-400"
-                          radius="md"
-                          size="lg"
-                          onClick={() => handdleModaSub(subasta.pk_id_sub)}
-                        >
-                          Visualizar Subasta
-                        </Button>
-                      </CardFooter>
                     </CardBody>
                   </Card>
                 ))}
+              </div>
             </div>
-            <ModalSubCoffee
-              open={abrirModal}
-              onClose={() => setAbrirModal(false)}
-            />
-          </div>
-        )
-      }
+          ))}
+          <ModalSubCoffee
+            open={abrirModal}
+            onClose={() => setAbrirModal(false)}
+          />
+        </div>
+      )}
     </div>
   );
 }

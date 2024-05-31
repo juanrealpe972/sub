@@ -109,7 +109,7 @@ function ModalSubasta({ onClose }) {
               radius="md"
               shadow="sm"
               alt={subasta.imagen_sub}
-              className="object-cover w-[400px] max-h-[300px]"
+              className="object-cover w-[400px] h-[280px]"
               src={`http://localhost:4000/img/subasta/${subasta.imagen_sub}`}
             />
           </div>

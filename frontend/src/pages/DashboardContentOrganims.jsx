@@ -17,7 +17,7 @@ function DashboardContentOrganims() {
 
   return (
     <>
-      <div className="flex items-center justify-center px-12">
+      <div className="flex items-center justify-center px-12 mt-16">
         <span className="text-black text-4xl text-center">
           Bienvenido a Subcoffee una plataforma online donde te podras conectar
           con diferentes usuarios para subastar y pujar por café de alta calidad
@@ -33,7 +33,7 @@ function DashboardContentOrganims() {
         </p>
         <TiposDeCafeOrganism />
       </div>
-      <div className="w-full grid grid-cols-2 justify-center p-12 gap-x-4 items-center">
+      {/* <div className="w-full grid grid-cols-2 justify-center p-12 gap-x-4 items-center">
         <div className="px-12">
           <h2 className="text-3xl font-semibold my-4">Crear subasta</h2>
           <p className="text-gray-700">
@@ -70,7 +70,7 @@ function DashboardContentOrganims() {
             <LinkButtonAtom to="/ayuda">Como Pujar</LinkButtonAtom>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
