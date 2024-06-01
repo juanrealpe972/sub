@@ -28,7 +28,7 @@ function ProfileUser() {
   const [abrirModalPassword, setAbrirModalPassword] = useState(false);
   const [mode, setMode] = useState("create");
   const { getUserID, user, setIdUser, getUsers } = useAuthContext();
-  const { getSubForUser, subastaForuser } = useSubastaContext();
+  const { getSubForUser, subastaForuser, getSubGanador, subastaGanador } = useSubastaContext();
   const { getCalificacionesUser, stats } = useCalificacionesContext();
 
   useEffect(() => {
@@ -38,10 +38,11 @@ function ProfileUser() {
   useEffect(() => {
     getUsers();
   }, []);
-
+  
   useEffect(() => {
     getSubForUser(id);
     getUserID(id);
+    getSubGanador(id)
   }, [id]);
 
   const handleToggle = (mode) => {
@@ -56,24 +57,6 @@ function ProfileUser() {
       setActiveTab("creadas");
     }
   }, [user]);
-
-  const SubastasGanadas = [
-    { id: 1, titulo: "Subasta 3", descripcion: "Descripción de la subasta 3" },
-    { id: 2, titulo: "Subasta 4", descripcion: "Descripción de la subasta 4" },
-    { id: 3, titulo: "Subasta 3", descripcion: "Descripción de la subasta 3" },
-    { id: 4, titulo: "Subasta 4", descripcion: "Descripción de la subasta 4" },
-  ];
-
-  const renderSubastas = (subastas) => (
-    <div className="grid grid-cols-2 gap-4">
-      {subastas.map((subasta) => (
-        <div key={subasta.id} className="border rounded p-4">
-          <h3 className="text-md font-semibold">{subasta.titulo}</h3>
-          <p className="text-sm text-gray-600">{subasta.descripcion}</p>
-        </div>
-      ))}
-    </div>
-  );
 
   const renderAverageStars = (average) => {
     const fullStars = Math.floor(average);
@@ -231,7 +214,7 @@ function ProfileUser() {
                 <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-2 sm:grid-cols-1" : "" } justify-center items-center`} >
                   {subastaForuser ? (
                     subastaForuser.map((subasta) => (
-                      <Card key={subasta.pk_id_sub} className="max-w-[320px] p-2" >
+                      <Card key={subasta.pk_id_sub} className="max-w-[350px] max-h-[520px] p-2" >
                         <CardBody className="items-center w-full">
                           <span className="text-center flex justify-center items-center gap-x-3">
                             <b className="text-lg">
@@ -292,17 +275,15 @@ function ProfileUser() {
                                   <p className="font-semibold">Precio base:</p>
                                   <p>${Number( subasta.precio_inicial_sub ).toLocaleString("es-ES")}</p>
                                 </div>
-                                {subasta.estado_sub === "cerrada" ? (
-                                  <div className="flex gap-x-2">
-                                    <p className="font-semibold text-[#a1653d]">Precio Final:</p>
-                                    <p className="text-[#009100] font-semibold">${Number(subasta.precio_final_sub).toLocaleString("es-ES")}</p>
-                                  </div>
-                                ) : (
-                                  <div className="flex gap-x-2">
-                                    <p className="font-semibold text-[#a1653d]">Precio Final:</p>
-                                    <p className="text-[#009100] font-semibold">Desconocido</p>
-                                  </div>
-                                )}
+                                <div className="flex gap-x-2">
+                                  <p className="font-semibold text-[#a1653d]">Precio Final:</p>
+                                  <p className="text-[#009100] font-semibold">{subasta.precio_final_sub ? subasta.precio_final_sub : "Desconocido"}</p>
+                                </div>
+                                <div className="flex gap-x-2">
+                                  <p className="font-semibold text-[#a1653d]">Ganador:</p>
+                                  <p className="text-[#009100] font-semibold">{subasta.ganador_nombre ? subasta.ganador_nombre : "Desconocido"}
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </CardBody>
@@ -320,7 +301,93 @@ function ProfileUser() {
             {activeTab === "ganadas" && (
               <div>
                 <h2 className="text-lg font-semibold mb-4 text-center">Subastas Ganadas</h2>
-                {renderSubastas(SubastasGanadas)}
+                {subastaGanador.length > 0 ? subastaGanador.map((ganador) => (
+                  <Card key={ganador.pk_id_sub} className="max-w-[350px] max-h-[520px] p-2" >
+                    <CardBody className="items-center w-full">
+                      <span className="text-center flex justify-center items-center gap-x-3">
+                        <b className="text-lg">
+                          {ganador.pk_id_sub} - {ganador.nombre_tipo_vari}
+                        </b>
+                        <div
+                          className={`w-auto rounded-lg border
+                            ${ganador.estado_sub === "abierta"? "bg-green-500 border-green-600 text-green-50": ""}
+                            ${ganador.estado_sub === "proceso"? "bg-orange-500 border-orange-600 text-orange-50": ""}
+                            ${ganador.estado_sub === "espera"? "bg-blue-500 border-blue-600 text-blue-50": ""}
+                            ${ganador.estado_sub === "cerrada"? "bg-red-400 border-red-600 text-red-50": ""} 
+                          `}
+                        >
+                          <p className="text-sm text-default-50 p-1">
+                            {ganador.estado_sub}
+                          </p>
+                        </div>
+                      </span>
+                      <CardBody className="flex items-center">
+                        <Image
+                          shadow="sm"
+                          radius="md"
+                          alt={ganador.imagen_sub}
+                          className="w-[250px] object-cover h-[200px]"
+                          src={`http://localhost:4000/img/subasta/${ganador.imagen_sub}`}
+                        />
+                        <div className="grid gap-x-2 py-2 px-2 text-sm">
+                          <div className="flex flex-col">
+                            <div className="flex w-full gap-x-2">
+                              <p className="font-semibold">Apertura:</p>
+                              <p>{new Date( ganador.fecha_inicio_sub).toLocaleString("es-ES", {year: "numeric",month: "numeric",day: "numeric",hour: "numeric",minute: "numeric",second: "numeric",})}</p>
+                            </div>
+                            <div className="flex w-full gap-x-2">
+                              <p className="font-semibold">Cierre:</p>
+                              <p>{new Date( ganador.fecha_fin_sub).toLocaleString("es-ES", {year: "numeric",month: "numeric",day: "numeric",hour: "numeric",minute: "numeric",second: "numeric",})}</p>
+                            </div>
+                            <div className="flex w-full gap-x-2">
+                              <p className="font-semibold">Ubicación:</p>
+                              <p>{ganador.nombre_vere} -{ganador.nombre_muni} -{ganador.nombre_depar}</p>
+                            </div>
+                            <div className="flex w-full gap-x-2">
+                              <p className="font-semibold">Cantidad:</p>
+                              <p>{ganador.cantidad_sub}{ganador.cantidad_sub > 0? ganador.unidad_peso_sub + "s": ganador.unidad_peso_sub}</p>
+                            </div>
+                            <div className="flex w-full gap-x-2">
+                              <p className="font-semibold">Tipo Variedad:</p>
+                              <p>{ganador.nombre_tipo_vari}</p>
+                            </div>
+                            <div className="flex w-full gap-x-2">
+                              <p className="font-semibold">Certificado:</p>
+                              <p className="underline cursor-pointer">{ganador.certificado_sub}</p>
+                            </div>
+                            <div className="flex gap-x-2">
+                              <p className="font-semibold">Descripción:</p>
+                              <p>{ganador.descripcion_sub}</p>
+                            </div>
+                            <div className="flex gap-x-2">
+                              <p className="font-semibold">Precio base:</p>
+                              <p>${Number( ganador.precio_inicial_sub ).toLocaleString("es-ES")}</p>
+                            </div>
+                            {ganador.estado_sub === "cerrada" ? (
+                              <div className="flex gap-x-2">
+                                <p className="font-semibold text-[#a1653d]">Precio Final:</p>
+                                <p className="text-[#009100] font-semibold">${Number(ganador.precio_final_sub).toLocaleString("es-ES")}</p>
+                              </div>
+                            ) : (
+                              <div className="flex gap-x-2">
+                                <p className="font-semibold text-[#a1653d]">Precio Final:</p>
+                                <p className="text-[#009100] font-semibold">{ganador.precio_final_sub ? ganador.precio_final_sub : "Desconocido"}</p>
+                              </div>
+                            )}
+                            <div className="flex gap-x-2">
+                              <p className="font-semibold text-[#a1653d]">Vendedor:</p>
+                              <p className="text-[#009100] font-semibold">{ganador.propietario_nombre ? ganador.propietario_nombre : "Desconocido"}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardBody>
+                    </CardBody>
+                  </Card>
+                )): (
+                  <div className="flex">
+                    <p className="w-full">No tiene ninguna subasta ganada</p>
+                  </div>
+                )}
               </div>
             )}
           </div>

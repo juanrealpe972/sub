@@ -66,7 +66,7 @@ function SubastaPage() {
   }, [currentIndex]);
 
   return (
-    <div className="px-auto pb-8">
+    <div className="pb-8">
       <ImageSlider />
       {users.rol_user !== "admin" && (
         <div className="px-16">
@@ -74,9 +74,9 @@ function SubastaPage() {
           {Object.entries(groupedSubastas).map(([tipoVari, subastas]) => (
             <div key={tipoVari}>
               <p className="pl-4 text-xl">{tipoVari}</p>
-              <div className="flex overflow-x-auto p-6 max-w-[1530px] overflow-hidden">
+              <div className="flex overflow-x-auto py-6 min-w-[980px] ">
                 {subastas.map((subasta) => (
-                  <Card key={subasta.pk_id_sub} className="max-w-[380px] h-[540px] p-2 mr-4 shrink-0 shadow-small">
+                  <Card key={subasta.pk_id_sub} className="max-w-[310px] h-[540px] p-2 mr-4 shrink-0 shadow-small">
                     <CardHeader className="justify-between">
                       <div className="flex gap-x-3">
                         <Avatar

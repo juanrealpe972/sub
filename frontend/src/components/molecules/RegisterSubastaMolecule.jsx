@@ -244,7 +244,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             <option value="" hidden>
               Seleccionar variedad
             </option>
-            {variedadForuser.length > 0 ? (
+            {variedadForuser ? (
               variedadForuser.map(({pk_id_vari, nombre_tipo_vari}) => (
                 <option value={pk_id_vari} key={pk_id_vari}>
                   {nombre_tipo_vari}

@@ -32,8 +32,8 @@ function ImageSlider() {
   }, [currentIndex]);
 
   return (
-    <div className="px-64">
-      <div className="max-w-[1600px] h-auto w-full m-auto pt-10 p-4 relative">
+    <div className="px-3">
+      <div className="max-w-[1000px] h-auto w-full m-auto pt-10 p-4 relative">
         <div className="relative w-full h-[450px] rounded-2xl overflow-hidden">
           <div
             className="w-full h-full bg-center bg-cover duration-500"
