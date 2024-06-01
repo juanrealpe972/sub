@@ -48,22 +48,22 @@ function SubastaPage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const prevSlide = () => {
-    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
-    setCurrentIndex(newIndex);
-  };
+  // const prevSlide = () => {
+  //   const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+  //   setCurrentIndex(newIndex);
+  // };
 
-  const nextSlide = () => {
-    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
-    setCurrentIndex(newIndex);
-  };
+  // const nextSlide = () => {
+  //   const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+  //   setCurrentIndex(newIndex);
+  // };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      nextSlide();
-    }, 10000);
-    return () => clearInterval(intervalId);
-  }, [currentIndex]);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     nextSlide();
+  //   }, 10000);
+  //   return () => clearInterval(intervalId);
+  // }, [currentIndex]);
 
   return (
     <div className="pb-8">

@@ -120,9 +120,7 @@ export const SubastaProvider = ({ children }) => {
 
   const desactivarSubs = async (id, user) => {
     try {
-      const response = await updateSubastaDesact(id);
-      setMensaje(response.data.message);
-      setModalMessage(true);
+      await updateSubastaDesact(id);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -131,9 +129,7 @@ export const SubastaProvider = ({ children }) => {
 
   const activarSubs = async (id, user) => {
     try {
-      const response = await updateSubastaActivar(id);
-      setMensaje(response.data.message);
-      setModalMessage(true);
+      await updateSubastaActivar(id);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -149,9 +145,9 @@ export const SubastaProvider = ({ children }) => {
     }
   };
 
-  const ProcesoSubs = async (id) => {
+  const ProcesoSubs = async (id, user) => {
     try {
-      await updateSubastaProceso(id);
+      await updateSubastaProceso(id, user);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
