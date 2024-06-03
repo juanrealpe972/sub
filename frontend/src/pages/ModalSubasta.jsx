@@ -114,7 +114,7 @@ function ModalSubasta({ onClose }) {
             />
           </div>
           <div className="shadow text-sm rounded-lg w-80 max-h-[300px]">
-            <div className="bg-[#009100] p-2 rounded-t-lg">
+            <div className="bg-[#00684a] p-2 rounded-t-lg">
               <p className="text-xl text-white font-semibold text-center"> Datos de la subasta </p>
             </div>
             <div className="flex flex-col items-center">
@@ -142,7 +142,7 @@ function ModalSubasta({ onClose }) {
             </div>
             <div className="flex flex-col items-center">
               <p className="font-semibold text-[#a1653d]">PRECIO BASE:</p>
-              <p className="text-[#009100] font-semibold text-lg -mt-2"> ${Number(subasta.precio_inicial_sub).toLocaleString("es-ES")} </p>
+              <p className="text-[#00684a] font-semibold text-lg -mt-2"> ${Number(subasta.precio_inicial_sub).toLocaleString("es-ES")} </p>
             </div>
           </div>
         </div>

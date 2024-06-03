@@ -28,6 +28,7 @@ export const validationRegisterUser = [
   check("rol_user", "El rol es obligatorio")
     .not()
     .isEmpty()
+    .optional()
     .custom((values) => {
       const rol_user = ["vendedor", "comprador", "admin"];
       if (!rol_user.includes(values)) {

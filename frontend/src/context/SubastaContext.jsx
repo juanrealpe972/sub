@@ -147,7 +147,7 @@ export const SubastaProvider = ({ children }) => {
 
   const ProcesoSubs = async (id, user) => {
     try {
-      await updateSubastaProceso(id, user);
+      await updateSubastaProceso(id);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);

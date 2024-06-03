@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Avatar, Image, Button, Slider } from "@nextui-org/react";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+
 import { useSubastaContext } from "../context/SubastaContext";
 import { usePostulantesContext } from "../context/PostulantesContext";
 import { useOfertasContext } from "../context/OfertasContext";
 import { useAuthContext } from "../context/AuthContext";
 import { useCalificacionesContext } from "../context/CalificacionesContext";
-import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const colors = {
   orange: "#FFBA5A",
@@ -143,10 +144,8 @@ function SubastaUser() {
   };
 
   return (
-    <div className="px-16 pt-4">
-      <p className="font-bold p-1 text-xl items-center flex">
-        {subasta.pk_id_sub} - {subasta.nombre_tipo_vari} <span className="text-xs mx-4 px-2 py-1 rounded-lg bg-[#009100] text-white">{subasta.estado_sub}</span>
-      </p>
+    <div className="px-16 pt-4 mb-10">
+      <p className="font-bold p-1 text-xl items-center flex">{subasta.pk_id_sub} - {subasta.nombre_tipo_vari} <span className="text-xs mx-4 px-2 py-1 rounded-lg bg-[#009100] text-white">{subasta.estado_sub}</span></p>
       <div className="flex gap-3 w-full">
         <div className="bg-[#e0e0e0] rounded-xl w-full p-4 h-full">
           <div className="grid gap-1">
@@ -232,7 +231,7 @@ function SubastaUser() {
                             src={`http://localhost:4000/img/${oferta.imagen_user}`}
                             alt="User Avatar"
                             className="w-12 h-12 mx-2 rounded-full"
-                            />
+                          />
                         </div>
                       </div>)
                     }
@@ -271,17 +270,11 @@ function SubastaUser() {
           <div className="bg-[#e0e0e0] w-64 rounded-xl p-2 items-center flex flex-col">
             <h3 className="text-lg font-semibold text-[#a1653d]">Vendedor</h3>
             <Avatar
-              src={
-                subasta.imagen_user && subasta.imagen_user.length > 0
-                  ? `http://localhost:4000/img/${subasta.imagen_user}`
-                  : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
-              }
+              src={subasta.imagen_user && subasta.imagen_user.length > 0? `http://localhost:4000/img/${subasta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
               className="w-28 h-28"
             />
             <div className="flex items-center">
-              <Link className="text-center hover:underline" to={(`/profile/${subasta.pk_cedula_user}`)}>
-                {subasta.nombre_user}
-              </Link>
+              <Link className="text-center hover:underline" to={(`/profile/${subasta.pk_cedula_user}`)}>{subasta.nombre_user}</Link>
             </div>
             <p className="text-center">{subasta.email_user}</p>
             <p className="text-center">{subasta.telefono_user}</p>

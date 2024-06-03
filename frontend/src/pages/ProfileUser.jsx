@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Button, Card, CardBody, Image } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 import UserRol from "../nextui/UserRol";
 import GmailIcon from "../nextui/GmailIcon";
 import Phone from "../nextui/Phone";
-import FormUser from "../components/templates/FormUser";
-import { useAuthContext } from "../context/AuthContext";
-import FormUserPassword from "../components/templates/FormUserPassword";
-import { useSubastaContext } from "../context/SubastaContext";
-import FormCalificaion from "../components/templates/FormCalificaion";
-import { useCalificacionesContext } from "../context/CalificacionesContext";
-import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { ChevronDownIcon } from "../nextui/ChevronDownIcon";
+
+import FormUser from "../components/templates/FormUser";
+import FormUserPassword from "../components/templates/FormUserPassword";
+import FormCalificaion from "../components/templates/FormCalificaion";
+
+import { useAuthContext } from "../context/AuthContext";
+import { useSubastaContext } from "../context/SubastaContext";
+import { useCalificacionesContext } from "../context/CalificacionesContext";
 
 const colors = {
   orange: "#FFBA5A",
@@ -108,11 +110,7 @@ function ProfileUser() {
         <div className="flex py-4 items-center gap-x-4">
           <div className="flex flex-col justify-center">
             <Avatar
-              src={
-                user.imagen_user && user.imagen_user.length > 0
-                  ? `http://localhost:4000/img/${user.imagen_user}`
-                  : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
-              }
+              src={user.imagen_user && user.imagen_user.length > 0? `http://localhost:4000/img/${user.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
               className="w-56 h-56"
             />
             {user.pk_cedula_user === localUser.pk_cedula_user && (
@@ -139,9 +137,7 @@ function ProfileUser() {
             )}
           </div>
           <div className="flex flex-col">
-            <span className="text-4xl font-semibold my-2">
-              {user.nombre_user}
-            </span>
+            <span className="text-4xl font-semibold my-2">{user.nombre_user}</span>
             <span className="text-sm text-gray-600 flex items-center">
               <Phone />
               <div>
@@ -208,18 +204,14 @@ function ProfileUser() {
           <div>
             {user.rol_user !== "comprador" && activeTab === "creadas" && (
               <div>
-                <h2 className="text-lg font-semibold mb-4 text-center">
-                  Subastas Creadas
-                </h2>
-                <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-2 sm:grid-cols-1" : "" } justify-center items-center`} >
+                <h2 className="text-lg font-semibold mb-4 text-center">Subastas Creadas</h2>
+                <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-y-4 sm:grid-cols-1" : "" } justify-center items-center`} >
                   {subastaForuser ? (
                     subastaForuser.map((subasta) => (
-                      <Card key={subasta.pk_id_sub} className="max-w-[350px] max-h-[520px] p-2" >
+                      <Card key={subasta.pk_id_sub} className="max-w-[350px] max-h-[510px] p-2" >
                         <CardBody className="items-center w-full">
                           <span className="text-center flex justify-center items-center gap-x-3">
-                            <b className="text-lg">
-                              {subasta.pk_id_sub} - {subasta.nombre_tipo_vari}
-                            </b>
+                            <b className="text-lg">{subasta.pk_id_sub} - {subasta.nombre_tipo_vari}</b>
                             <div
                               className={`w-auto rounded-lg border
                                 ${subasta.estado_sub === "abierta"? "bg-green-500 border-green-600 text-green-50": ""}
@@ -228,9 +220,7 @@ function ProfileUser() {
                                 ${subasta.estado_sub === "cerrada"? "bg-red-400 border-red-600 text-red-50": ""} 
                               `}
                             >
-                              <p className="text-sm text-default-50 p-1">
-                                {subasta.estado_sub}
-                              </p>
+                              <p className="text-sm text-default-50 p-1">{subasta.estado_sub}</p>
                             </div>
                           </span>
                           <CardBody className="flex items-center">
@@ -241,7 +231,7 @@ function ProfileUser() {
                               className="w-[250px] object-cover h-[200px]"
                               src={`http://localhost:4000/img/subasta/${subasta.imagen_sub}`}
                             />
-                            <div className="grid gap-x-2 py-2 px-2 text-sm">
+                            <div className="grid gap-x-2 py-2 px-2 text-sm max-h-[400px] overflow-y-auto">
                               <div className="flex flex-col">
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Apertura:</p>
@@ -302,12 +292,10 @@ function ProfileUser() {
               <div>
                 <h2 className="text-lg font-semibold mb-4 text-center">Subastas Ganadas</h2>
                 {subastaGanador.length > 0 ? subastaGanador.map((ganador) => (
-                  <Card key={ganador.pk_id_sub} className="max-w-[350px] max-h-[520px] p-2" >
+                  <Card key={ganador.pk_id_sub} className="max-w-[370px] max-h-[520px] p-2" >
                     <CardBody className="items-center w-full">
                       <span className="text-center flex justify-center items-center gap-x-3">
-                        <b className="text-lg">
-                          {ganador.pk_id_sub} - {ganador.nombre_tipo_vari}
-                        </b>
+                        <b className="text-lg">{ganador.pk_id_sub} - {ganador.nombre_tipo_vari}</b>
                         <div
                           className={`w-auto rounded-lg border
                             ${ganador.estado_sub === "abierta"? "bg-green-500 border-green-600 text-green-50": ""}
@@ -316,9 +304,7 @@ function ProfileUser() {
                             ${ganador.estado_sub === "cerrada"? "bg-red-400 border-red-600 text-red-50": ""} 
                           `}
                         >
-                          <p className="text-sm text-default-50 p-1">
-                            {ganador.estado_sub}
-                          </p>
+                          <p className="text-sm text-default-50 p-1">{ganador.estado_sub}</p>
                         </div>
                       </span>
                       <CardBody className="flex items-center">
@@ -329,7 +315,7 @@ function ProfileUser() {
                           className="w-[250px] object-cover h-[200px]"
                           src={`http://localhost:4000/img/subasta/${ganador.imagen_sub}`}
                         />
-                        <div className="grid gap-x-2 py-2 px-2 text-sm">
+                        <div className="grid gap-x-2 py-2 px-2 text-sm max-h-[400px] overflow-y-auto">
                           <div className="flex flex-col">
                             <div className="flex w-full gap-x-2">
                               <p className="font-semibold">Apertura:</p>
