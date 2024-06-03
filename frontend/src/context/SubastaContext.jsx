@@ -36,7 +36,7 @@ export const SubastaProvider = ({ children }) => {
   const [subastasActivas, setSubastasActivas] = useState([])
   const [subasta, setSubasta] = useState([])
   const [subastaGanador, setSubastaGanador] = useState([])
-  const [cerrarModal, serCerrarModal] = useState(false)
+  const [cerrarModal, setCerrarModal] = useState(false)
 
 
   const getSubs = async () => {
@@ -99,7 +99,7 @@ export const SubastaProvider = ({ children }) => {
       const response = await createSubasta(data);
       getSubForUser(user);
       setMensaje(response.data.message);
-      serCerrarModal(true)
+      setCerrarModal(true)
       setModalMessage(true);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -111,7 +111,7 @@ export const SubastaProvider = ({ children }) => {
       const response = await updateSubasta(id, data);
       getSubForUser(user)
       setMensaje(response.data.message);
-      serCerrarModal(true)
+      setCerrarModal(true)
       setModalMessage(true);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -186,7 +186,7 @@ export const SubastaProvider = ({ children }) => {
         subastasActivas,
         getSubsMenoCerradas,
         cerrarModal, 
-        serCerrarModal,
+        setCerrarModal,
 
         getSubGanador,
         subastaGanador,
