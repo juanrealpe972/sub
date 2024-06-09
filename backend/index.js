@@ -1,11 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cors from 'cors';
+
 import rutNotificaciones from "./src/routes/notificaciones.routes.js";
 import routerChat from "./src/routes/chat.routes.js";
 import rutasSubastas from "./src/routes/subasta.routes.js";
 import postulantesRoutes from "./src/routes/postulantes.routes.js";
 import autenticacionRouter from "./src/routes/autenticacion.routes.js";
-import cors from 'cors';
 
 import routerUser from "./src/routes/user.routes.js";
 import routerVereda from "./src/routes/veredas.routes.js";
@@ -15,6 +16,7 @@ import routerFinca from "./src/routes/finca.routes.js"
 import routerVariedad from "./src/routes/variedad.routes.js"
 import routertipovari from "./src/routes/tipovariedad.routes.js"
 import ofertasRoutes from "./src/routes/ofertas.routes.js";
+import routesCalificaciones from "./src/routes/calificaciones.routes.js";
 
 const app = express();
 app.use(cors());
@@ -33,10 +35,11 @@ app.use("/v1", routerFinca);
 app.use("/v1", routertipovari);
 app.use("/v1", routerVariedad);
 app.use("/v1", rutasSubastas);
-app.use("/user", routerChat);
+app.use("/v1", routerChat);
 app.use("/v1", rutNotificaciones);
 app.use("/v1", postulantesRoutes);
 app.use("/v1", ofertasRoutes);
+app.use("/v1", routesCalificaciones);
 
 app.set("view engine", "ejs");
 

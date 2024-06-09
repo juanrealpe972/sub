@@ -16,22 +16,43 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
     descripcion_sub: "",
     certificado_sub: "",
     variedad: "",
-    finca: ""
+    finca: "",
   });
 
-  const { idSubasta, createSubs, updateSubs } = useSubastaContext();
-  const { getFincaUser, fincas = [] } = useFincaContext();  // Inicializar fincas como un array vacío
-  const { variedadForuser = [], getVariForUser } = useVariedadUserContext();  // Inicializar variedadForuser como un array vacío
+  const { idSubasta, createSubs, updateSubs, errors } = useSubastaContext();
+  const { getFincaUserActivas, fincasActivas } = useFincaContext();
+  const { variedadForuser, getVariForUser } = useVariedadUserContext();
   const usuario = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    getFincaUser(usuario.pk_cedula_user);
-  }, [usuario.pk_cedula_user, getFincaUser]);
+    getFincaUserActivas(usuario.pk_cedula_user);
+  }, [usuario.pk_cedula_user, getFincaUserActivas]);
 
-  const handleFincaChange = (e) => {
-    const finca = e.target.value;
+  useEffect(() => {
+    if (mode === "update" && idSubasta) {
+      try {
+        setFormData({
+          fecha_inicio: idSubasta.fecha_inicio_sub ? new Date(idSubasta.fecha_inicio_sub).toISOString().slice(0, 16) : "",
+          fecha_fin: idSubasta.fecha_fin_sub ? new Date(idSubasta.fecha_fin_sub).toISOString().slice(0, 16) : "",
+          unidadPeso: idSubasta.unidad_peso_sub,
+          precioInicial: idSubasta.precio_inicial_sub,
+          cantidad: idSubasta.cantidad_sub,
+          imagen_sub: idSubasta.imagen_sub,
+          descripcion_sub: idSubasta.descripcion_sub,
+          variedad: idSubasta.fk_variedad,
+          finca: idSubasta.fk_finca,
+          certificado_sub: idSubasta.certificado_sub || "",
+        });
+        getVariForUser(idSubasta.fk_finca);
+      } catch (error) {
+        console.error("Error en el sistema:", error);
+      }
+    }
+  }, [mode, idSubasta]);
+
+  const handleFincaChange = async (finca) => {
     setFormData(prevData => ({ ...prevData, finca, variedad: "" }));
-    getVariForUser(usuario.pk_cedula_user, finca);
+    getVariForUser(finca);
   };
 
   const handleVariedadChange = (e) => {
@@ -39,32 +60,8 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
     setFormData(prevData => ({ ...prevData, variedad: selectedVariedad }));
   };
 
-  useEffect(() => {
-    if (mode === "update" && idSubasta) {
-      try {
-        setFormData({
-          fecha_inicio: idSubasta.fecha_inicio_sub,
-          fecha_fin: idSubasta.fecha_fin_sub,
-          unidadPeso: idSubasta.unidad_peso_sub,
-          precioInicial: idSubasta.precio_inicial_sub,
-          cantidad: idSubasta.cantidad_sub,
-          imagen_sub: idSubasta.imagen_sub,
-          descripcion_sub: idSubasta.descripcion_sub,
-          variedad: idSubasta.fk_variedad,
-          finca: idSubasta.fk_finca, 
-          certificado_sub: idSubasta.certificado_sub || "",
-        });
-        // Cargar variedades correspondientes a la finca
-        getVariForUser(usuario.pk_cedula_user, idSubasta.fk_finca);
-      } catch (error) {
-        console.error("Error en el sistema:", error);
-      }
-    }
-  }, [mode, idSubasta, usuario.pk_cedula_user, getVariForUser]);
-
   const onSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const data = new FormData();
       data.append("fecha_inicio_sub", formData.fecha_inicio);
@@ -76,12 +73,11 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
       data.append("certificado_sub", formData.certificado_sub);
       data.append("descripcion_sub", formData.descripcion_sub);
       data.append("fk_variedad", formData.variedad);
-      data.append("fk_finca", formData.finca); // Asegúrate de enviar la finca seleccionada
-
+      data.append("fk_finca", formData.finca);
       if (mode === "create") {
         createSubs(data, usuario.pk_cedula_user);
       } else if (mode === "update") {
-        updateSubs(data, idSubasta.pk_id_sub, usuario.pk_cedula_user);
+        updateSubs(idSubasta.pk_id_sub, data, usuario.pk_cedula_user);
       }
     } catch (error) {
       console.error("Error en el sistema: " + error.message);
@@ -89,7 +85,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, type, value, files } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "file" ? files[0] : value,
@@ -97,7 +93,14 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 px-4">
+    <form onSubmit={onSubmit} className="space-y-4 px-4 -mt-4">
+      {
+        errors.map((error, i) => (
+          <div className='bg-red-500 p-2 text-white text-center my-2' key={i}>
+            {error}
+          </div>
+        ))
+      }
       <div className="grid">
         <div className="flex w-full justify-center rounded-full">
           <input
@@ -116,31 +119,14 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
               <div className="relative">
                 <button
                   type="button"
-                  className="absolute -top-2 -right-2 p-1 bg-gray-300 rounded-xl"
+                  className="absolute -top-2 -right-2 p-2 bg-gray-300 rounded-xl"
                   onClick={() => setFormData({ ...formData, imagen_sub: "" })}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-gray-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <icono.iconoCambiar />
                 </button>
-                {mode === "update" ? (
+                {mode === "update" && typeof formData.imagen_sub === "string" ? (
                   <img
-                    src={
-                      typeof formData.imagen_sub === "string"
-                        ? `http://localhost:4000/subasta/${formData.imagen_sub}`
-                        : URL.createObjectURL(formData.imagen_sub)
-                    }
+                    src={`http://localhost:4000/img/subasta/${formData.imagen_sub}`}
                     alt="user"
                     className="h-28 w-40 object-cover rounded-xl mx-auto"
                   />
@@ -164,10 +150,11 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           </label>
         </div>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-x-2">
         <Input
           placeholder="Fecha de Inicio"
-          isRequired
+          required
+          label="Fecha de Inicio"
           variant="bordered"
           type="datetime-local"
           name="fecha_inicio"
@@ -177,7 +164,8 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         />
         <Input
           placeholder="Fecha Fin"
-          isRequired
+          required
+          label="Fecha final"
           variant="bordered"
           type="datetime-local"
           name="fecha_fin"
@@ -192,40 +180,63 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           aria-label="Precio Inicial"
           startContent={<icono.iconoPrice />}
           placeholder="Precio Inicial"
-          isRequired
           variant="bordered"
+          required
           type="number"
           name="precioInicial"
           value={formData.precioInicial}
           onChange={handleChange}
         />
-        <input type="file" name="" id="" />
+        <div className="relative flex justify-center">
+          <input
+            placeholder="Certificado de la subasta"
+            type="file"
+            name="certificado_sub"
+            className="hidden"
+            id="certificado_sub"
+            onChange={handleChange}
+          />
+          <label
+            htmlFor="certificado_sub"
+            className="cursor-pointer items-center w-[345px] flex bg-transparent border-2 rounded-xl border-gray-200"
+          >
+            <div className="flex items-center h-5 transition duration-300">
+              <span className="text-gray-500 w-full ml-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-[210px]">
+                {formData.certificado_sub ? (
+                  typeof formData.certificado_sub === "string" ? (
+                    formData.certificado_sub
+                  ) : (
+                    formData.certificado_sub.name
+                  )
+                ) : (
+                  "Seleccionar certificado"
+                )}
+              </span>
+            </div>
+          </label>
+        </div>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-x-2">
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
-            {<icono.iconoQuantity />}
+            {<icono.iconoFlor />}
           </span>
           <select
             name="finca"
             value={formData.finca}
-            onChange={handleFincaChange}
-            required
+            required={true}
+            onChange={(e) => handleFincaChange(e.target.value)}
             className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           >
             <option value="" hidden>
               Seleccionar Finca
             </option>
-            {fincas.length > 0 ? fincas.filter((finca) => finca.estado_fin === "activo").map((finca) => (
-              <option value={finca.pk_id_fin} key={finca.pk_id_fin}>
-                {finca.nombre_fin}
-              </option>
-            )): (
-
-            <option value="" className="text-gray-600">
-              No has registrado ninguna finca
-            </option> 
-            )}
+            {fincasActivas.map(({pk_id_fin, nombre_fin}) => (
+                <option value={pk_id_fin} key={pk_id_fin}>
+                  {nombre_fin}
+                </option>
+              ))
+            }
           </select>
         </div>
         <div className="relative">
@@ -233,28 +244,30 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             {<icono.iconoQuantity />}
           </span>
           <select
-            name="variedad"
+            name="variedadRef"
             value={formData.variedad}
             onChange={handleVariedadChange}
-            required
+            required={true}
             className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           >
             <option value="" hidden>
               Seleccionar variedad
             </option>
-            {variedadForuser.length > 0 ? variedadForuser.filter((variedad) => variedad.estado_vari === "activo").map((variedad) => (
-              <option value={variedad.pk_id_vari} key={variedad.pk_id_vari}>
-                {variedad.nombre_tipo_vari}
+            {variedadForuser ? (
+              variedadForuser.map(({pk_id_vari, nombre_tipo_vari}) => (
+                <option value={pk_id_vari} key={pk_id_vari}>
+                  {nombre_tipo_vari}
+                </option>
+              ))
+            ) : (
+              <option value="" className="text-gray-600">
+                Seleccionar finca.
               </option>
-            )): 
-            <option value="" className="text-gray-600">
-              Seleccionar finca o Finca sin variedades
-            </option> 
-            }
+            )}
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-x-2">
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
             {<icono.iconoQuantity />}
@@ -263,7 +276,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             name="unidadPeso"
             value={formData.unidadPeso}
             onChange={handleChange}
-            required
+            required={true}
             className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           >
             <option value="" hidden>
@@ -277,11 +290,11 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         </div>
         <Input
           label=""
+          required
           aria-label="Cantidad"
           variant="bordered"
           startContent={<icono.iconoQuantity />}
           placeholder="Cantidad"
-          isRequired
           name="cantidad"
           type="number"
           value={formData.cantidad}
@@ -290,12 +303,11 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
       </div>
       <Textarea
         label=""
+        required
         aria-label="Descripción de la subasta"
         startContent={<icono.iconoDescript />}
         variant="bordered"
         placeholder="Ingresa la descripción de la subasta"
-        disableAnimation
-        disableAutosize
         classNames={{
           base: "w-full",
           input: "resize-y min-h-[40px]",
@@ -305,7 +317,10 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         name="descripcion_sub"
       />
       <ModalFooter className="flex justify-center">
-        <Button type="submit" className="bg-gray-600 text-white">
+        <Button
+          type="submit"
+          className="px-4 bg-[#001e2b] text-white font-semibold rounded-md"
+        >
           {titleBtn}
         </Button>
       </ModalFooter>

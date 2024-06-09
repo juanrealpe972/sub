@@ -1,82 +1,75 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  User,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownTrigger,
-  Autocomplete,
-  AutocompleteItem,
-  Avatar,
-  Button,
-} from "@nextui-org/react";
-import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+  import React, { useEffect, useState } from "react";
+  import {
+    User,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
+    DropdownTrigger,
+    Autocomplete,
+    AutocompleteItem,
+    Avatar,
+    Button,
+  } from "@nextui-org/react";
+  import { Link, useNavigate } from "react-router-dom";
+  import Swal from "sweetalert2";
 
-import { useAuthContext } from "../../context/AuthContext";
+  import { useAuthContext } from "../../context/AuthContext";
 
-import { icono } from "../atoms/IconsAtom";
-import AvatarAtom from "../atoms/AvatarAtom";
-import ModalMessaAndNoti from "../molecules/ModalMessaAndNoti";
-import { SearchIcon } from "../../nextui/SearchIcon";
-import FormLogin from "../templates/FormLogin";
+  import { icono } from "../atoms/IconsAtom";
+  import AvatarAtom from "../atoms/AvatarAtom";
+  import { SearchIcon } from "../../nextui/SearchIcon";
+  import FormLogin from "../templates/FormLogin";
 
-function HeaderOrganism() {
-  const [abrirBell, setAbrirBell] = useState(false);
-  const [isMoonSelected, setIsMoonSelected] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
-  const localUser = JSON.parse(localStorage.getItem("user"));
+  function HeaderOrganism() {
+    const [isMoonSelected, setIsMoonSelected] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const localUser = JSON.parse(localStorage.getItem("user"));
 
-  const { getUsers, isAuthenticated, logout, users } = useAuthContext();
+    const { getUsers, logout, users } = useAuthContext();
 
-  const handleLogout = () => {
-    Swal.fire({
-      text: "¿Estás seguro de cerrar sesión?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Sí",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        logout();
-        navigate("/");
-        Swal.fire({
-          text: "Cierre de sesión éxitoso",
-          icon: "success",
-        });
+    const handleLogout = () => {
+      Swal.fire({
+        text: "¿Estás seguro de cerrar sesión?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          logout();
+          navigate("/");
+          Swal.fire({
+            text: "Cierre de sesión éxitoso",
+            icon: "success",
+          });
+        }
+      });
+    };
+
+    const toggleTheme = () => {
+      setIsMoonSelected((prevValue) => !prevValue);
+    };
+
+    useEffect(() => {
+      if (localUser) {
+        getUsers();
       }
-    });
-  };
+    }, []);
 
-  const toggleAbrirBell = () => {
-    setAbrirBell(!abrirBell);
-  };
-
-  const toggleTheme = () => {
-    setIsMoonSelected((prevValue) => !prevValue);
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getUsers();
-    }
-  }, []);
-
-  return (
-    <>
-      {localUser ? (
-        <nav className="flex justify-between items-center bg-[#009100] p-4 shadow-sm">
-          <div className="flex flex-col">
-            <Link to="/" className="text-gray-200 text-2xl font-semibold">
-              Bienvenido
-            </Link>
-          </div>
-          <div>
+    return (
+      <>
+        {localUser ? (
+          <nav className="flex justify-between items-center bg-[#00684a] p-4 shadow-sm">
+            <div className="flex flex-col">
+              <Link to={`${localUser.rol_user !== "admin" ? "/": "/users"}`} className="text-gray-200 text-2xl font-semibold">
+                Bienvenido
+              </Link>
+            </div>
             <Autocomplete
               classNames={{
-                base: "w-96",
-                listboxWrapper: "max-h-[320px]",
+                base: "w-80",
+                listboxWrapper: "max-h-[280px]",
                 selectorButton: "text-default-500",
               }}
               defaultItems={users}
@@ -135,8 +128,8 @@ function HeaderOrganism() {
                           size="sm"
                           src={
                             user.imagen_user && user.imagen_user.length > 0
-                              ? `http://localhost:4000/img/${user.imagen_user}`
-                              : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
+                            ? `http://localhost:4000/usuarios/${user.imagen_user}`
+                            : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
                           }
                         />
                         <div className="flex flex-col">
@@ -151,108 +144,87 @@ function HeaderOrganism() {
                 </AutocompleteItem>
               )}
             </Autocomplete>
-          </div>
-          <div className="flex gap-x-3 items-center">
-            {isMoonSelected ? (
-              <icono.iconoLuna
-                onClick={toggleTheme}
-                className="text-white cursor-pointer"
-              />
-            ) : (
-              <icono.iconoSol
-                onClick={toggleTheme}
-                className="text-white cursor-pointer"
-              />
-            )}
-            <div className="flex items-center gap-4">
-              <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
-                <DropdownTrigger>
-                  <User
-                    as="button"
-                    avatarProps={{
-                      src: `${
-                        localUser.imagen_user &&
-                        localUser.imagen_user.length > 0
-                          ? `http://localhost:4000/img/${localUser.imagen_user}`
-                          : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
-                      }`,
-                    }}
-                    className="transition-transform text-gray-200"
-                    description={`${localUser.rol_user}`}
-                    name={`${localUser.nombre_user}`}
-                  />
-                </DropdownTrigger>
-                <DropdownMenu aria-label="User Actions" variant="flat">
-                  <DropdownItem
-                    key="profile"
-                    onClick={() =>
-                      navigate(`/profile/${localUser.pk_cedula_user}`)
-                    }
-                    className="text-center border border-gray-400 hover:bg-gray-200 text-black"
-                    color="success"
-                  >
-                    Perfil
-                  </DropdownItem>
-                  <DropdownItem
-                    key="logout"
-                    onPress={handleLogout}
-                    className="text-center bg-gray-400 text-black"
-                    color="danger"
-                  >
-                    Cerrar sesión
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </div>
-          {abrirBell && (
-            <div className="absolute top-16 right-32 flex justify-center items-center">
-              <div className="bg-blanco rounded-xl w-80">
-                <ModalMessaAndNoti onClose={toggleAbrirBell} />
+            <div className="flex gap-x-3 items-center">
+              {isMoonSelected ? (
+                <icono.iconoLuna
+                  onClick={toggleTheme}
+                  className="text-white cursor-pointer"
+                />
+              ) : (
+                <icono.iconoSol
+                  onClick={toggleTheme}
+                  className="text-white cursor-pointer"
+                />
+              )}
+              <div className="flex items-center gap-4">
+                <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
+                  <DropdownTrigger>
+                    <User
+                      as="button"
+                      avatarProps={{
+                        src: `${
+                          localUser.imagen_user && localUser.imagen_user.length > 0
+                            ? `http://localhost:4000/usuarios/${localUser.imagen_user}`
+                            : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
+                        }`,
+                      }}
+                      className="transition-transform text-gray-200"
+                      description={`${localUser.rol_user}`}
+                      name={`${localUser.nombre_user}`}
+                    />
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="User Actions" variant="flat">
+                    <DropdownItem
+                      key="profile"
+                      onClick={() =>
+                        navigate(`/profile/${localUser.pk_cedula_user}`)
+                      }
+                      className="text-center text-[#001e2b] hover:bg-[#00684a] hover:text-white"
+                      color="bg-[#00684a]"
+                    >
+                      Perfil
+                    </DropdownItem>
+                    <DropdownItem
+                      key="logout"
+                      onPress={handleLogout}
+                      className="text-center text-red-600 hover:bg-[#da3939] hover:text-white"
+                      color="bg-[#da3939]"
+                    >
+                      Cerrar sesión
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
-            </div>
-          )}
-        </nav>
-      ) : (
-        <>
-          <nav className="flex justify-between items-center bg-[#009100] fixed w-full m-0 top-0 p-4 shadow-sm z-20">
-            <div className="flex items-center">
-              <AvatarAtom img="isotipo-SubCoffee.png" />
-              <Link to="/" className="text-gray-200 text-2xl font-semibold">
-                SubCoffee
-              </Link>
-            </div>
-            <div className="flex items-center gap-x-3">
-              <div className="cursor-pointer">
-                {isMoonSelected ? (
-                  <icono.iconoLuna
-                    onClick={toggleTheme}
-                    className="text-white"
-                  />
-                ) : (
-                  <icono.iconoSol
-                    onClick={toggleTheme}
-                    className="text-white"
-                  />
-                )}
-              </div>
-              <Button
-                onClick={() => setModalOpen(true)}
-                className="border-2 border-[#009100] bg-gray-100 text-[#009100] font-bold rounded-lg shadow-lg hover:bg-[#f0fff0] hover:text-[#006600] hover:border-[#006600] hover:shadow-xl hover:scale-105 transform duration-300 transition-all ease-in-out"
-              >
-                Iniciar sesión
-              </Button>
             </div>
           </nav>
-          <FormLogin
-            open={modalOpen}
-            title="Iniciar sesión"
-            onClose={() => setModalOpen(false)}
-          />
-        </>
-      )}
-    </>
-  );
-}
+        ) : (
+          <>
+            <nav className="flex justify-between items-center bg-[#00684a] fixed w-full  h-20 m-0 top-0 p-4 shadow-sm z-20">
+              <div className="flex items-center">
+                <AvatarAtom img="isotipo-SubCoffee.png" />
+                <Link to="/" className="text-gray-200 text-2xl font-bold">
+                  SubCoffee
+                </Link>
+              </div>
+              <div className="flex items-center gap-x-3">
+                <Button
+                  onClick={() => setModalOpen(true)}
+                  className="py-2 px-4 bg-[#001e2b] text-white font-semibold rounded-md"
+                >
+                  Iniciar sesión
+                </Button>
+              </div>
+            </nav>
+            <FormLogin
+              className="bg-[#00684a] text-white"
+              open={modalOpen}
+              title="Iniciar sesión"
+              onClose={() => setModalOpen(false)}
+            />
+          </>
+        )}
+      </>
+    );
+  }
 
-export default HeaderOrganism;
+  export default HeaderOrganism;

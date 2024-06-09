@@ -14,9 +14,12 @@ export const validationRegisterUser = [
   check("email_user", "El email es obligatorio, max 50 caracteres")
     .isEmail()
     .isLength({ max: 50 }),
+  check("imagen_user", "La imagen no es tan obligatoria, min 6 caracteres")
+    .optional(),
   check("password_user", "La contraseña es obligatoria, min 6 caracteres")
     .not()
     .isEmpty()
+    .optional()
     .isLength({ max: 50, min: 6 }),
   check("telefono_user", "El Telefono es obligatorio, max 10 caracteres")
     .not()
@@ -27,6 +30,7 @@ export const validationRegisterUser = [
   check("rol_user", "El rol es obligatorio")
     .not()
     .isEmpty()
+    .optional()
     .custom((values) => {
       const rol_user = ["vendedor", "comprador", "admin"];
       if (!rol_user.includes(values)) {

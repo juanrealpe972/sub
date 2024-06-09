@@ -125,7 +125,10 @@ const RegisterVeredaMolecule = ({ mode, titleBtn }) => {
         onChange={(e) => setFormData(prevData => ({ ...prevData, nombre: e.target.value }))}
       />
       <ModalFooter className="flex justify-center">
-        <Button type="submit" className="bg-gray-600 text-white">
+        <Button
+          type="submit"
+          className="px-4 bg-[#001e2b] text-white font-semibold rounded-md"
+        >
           {titleBtn}
         </Button>
       </ModalFooter>

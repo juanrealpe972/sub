@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -23,7 +23,7 @@ import { EditIcon } from "../../nextui/EditIcon.jsx";
 import ActivarIcon from "../../nextui/ActivarIcon.jsx";
 import DesactivarIcon from "../../nextui/DesactivarIcon.jsx";
 import FormUser from "../templates/FormUser.jsx";
-import AuthContext from "../../context/AuthContext.jsx";
+import { useAuthContext } from "../../context/AuthContext.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -40,7 +40,7 @@ export default function UsersTable() {
   });
   const [page, setPage] = useState(1);
 
-  const { getUsers, users, updateUserActive, updateUserDesactive, setIdUser } = useContext(AuthContext)
+  const { getUsers, users, updateUserActive, updateUserDesactive, setIdUser } = useAuthContext()
 
   const [abrirModal, setAbrirModal] = useState(false);
   const [mode, setMode] = useState("create");
@@ -52,7 +52,6 @@ export default function UsersTable() {
   const data = [
     { uid: "nombre_user", name: "Usuario", sortable: true },
     { uid: "pk_cedula_user", name: "Cedula", sortable: true },
-    // { uid: "descripcion_user", name: "Descripción", sortable: true },
     { uid: "telefono_user", name: "Telefono", sortable: true },
     { uid: "rol_user", name: "Rol", sortable: true },
     { uid: "estado_user", name: "Estado", sortable: true },
@@ -128,7 +127,7 @@ export default function UsersTable() {
             avatarProps={{ radius: "full",                       
             src: `${
               user.imagen_user && user.imagen_user.length > 0
-                ? `http://localhost:4000/img/${user.imagen_user}`
+                ? `http://localhost:4000/usuarios/${user.imagen_user}`
                 : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}`, 
             }}
             description={user.email_user}
@@ -246,15 +245,12 @@ export default function UsersTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="bg-slate-400 text-white" endContent={<PlusIcon />} onClick={() => handleToggle("create")} >
+            <Button className="bg-[#00684a] text-white" endContent={<PlusIcon />} onClick={() => handleToggle("create")} >
               Registrar
             </Button>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {users && users.length} usuarios
-          </span>
+        <div className="flex justify-center items-center">
           <label className="flex items-center text-default-400 text-small">
             Columnas por páginas:
             <select
@@ -281,11 +277,16 @@ export default function UsersTable() {
   const bottomContent = useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center m-4">
+        <span>
+          {`Total ${
+            filteredItems.length
+          } Usuarios`}
+        </span>
         <Pagination
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="default"
           page={page}
           total={pages}
           onChange={setPage}

@@ -8,7 +8,9 @@ import { AuthProvider } from "./AuthContext";
 import { VariedadUserProvider } from "./VariedadUserContext";
 import { SubastaProvider } from "./SubastaContext";
 import { PostulantesProvider } from "./PostulantesContext";
-
+import { OfertaProvider } from "./OfertasContext";
+import { CalifiProvider } from "./CalificacionesContext";
+import { NotificacionesProvider } from "./NotificacionesContext";
 export const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
@@ -25,7 +27,13 @@ const GlobalProvider = ({ children }) => {
                   <VariedadUserProvider> 
                     <SubastaProvider>
                       <PostulantesProvider>
-                        {children}
+                        <OfertaProvider>
+                          <CalifiProvider>
+                            <NotificacionesProvider>
+                            {children}
+                            </NotificacionesProvider>
+                          </CalifiProvider>
+                        </OfertaProvider>
                       </PostulantesProvider>
                     </SubastaProvider>
                   </VariedadUserProvider>
