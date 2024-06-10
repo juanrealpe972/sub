@@ -1,4 +1,4 @@
-import { Modal, ModalContent, Avatar } from "@nextui-org/react";
+import { Modal, ModalContent, Avatar, Button } from "@nextui-org/react";
 import React, { useEffect } from "react";
 import { useSubastaContext } from "../context/SubastaContext";
 import { useOfertasContext } from "../context/OfertasContext";
@@ -22,21 +22,14 @@ function ModalContact({ onClose, id, open }) {
 
   const renderAvatar = (imageUrl, altText) => (
     <Avatar
-      src={`http://localhost:4000/img/${imageUrl}`}
+      src={imageUrl ? `http://localhost:4000/usuarios/${imageUrl}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
       alt={altText}
       className="w-40 h-40 mt-4"
     />
   );
 
   return (
-    <Modal
-      isOpen={open}
-      size="3xl"
-      onClose={onClose}
-      isDismissable={false}
-      placement="top-center"
-      className="p-6"
-    >
+    <Modal isOpen={open} size="3xl" onClose={onClose} isDismissable={false} placement="top-center" className="p-6" >
       <ModalContent>
         <h2 className="text-center text-2xl font-bold mb-4">Contactar</h2>
         <div className="flex justify-between gap-8">
@@ -63,6 +56,14 @@ function ModalContact({ onClose, id, open }) {
               <p>No hay una mayor puja</p>
             )}
           </div>
+        </div>
+        <div className="w-full flex justify-center">
+          <Button
+            className="py-2 mt-2 px-4 bg-[#00684a] w-auto text-white font-semibold rounded-lg"
+            size="lg"
+            >
+            Establecer a {ofertasMayor.nombre_user} como ganador
+          </Button>
         </div>
       </ModalContent>
     </Modal>

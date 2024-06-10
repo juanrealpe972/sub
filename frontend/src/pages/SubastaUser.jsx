@@ -69,20 +69,17 @@ function SubastaUser() {
     if (!subasta || subasta.length === 0) return;
 
     const intervalId = setInterval(() => {
-      subasta.forEach((subasta) => {
-        const { pk_id_sub } = subasta;
-        const { pk_cedula_user } = user;
-        const tiempo = calcularDiferencia(subasta.fecha_inicio_sub, subasta.fecha_fin_sub);
-
-        if (tiempo.includes("La subasta terminará en")) {
-          Swal.fire({
-            text: "A la subasta le quedan menos de 18 minutos para finalizar.",
-            icon: "info",
-          });
-        } else if (tiempo.includes("La subasta empezará dentro de")) {
-          EsperaSubs(pk_id_sub, pk_cedula_user);
-        }
-      });
+      const { pk_id_sub } = subasta;
+      const { pk_cedula_user } = user;
+      const tiempo = calcularDiferencia(subasta.fecha_inicio_sub, subasta.fecha_fin_sub);
+      if (tiempo.includes("La subasta terminará en")) {
+        Swal.fire({
+          text: "A la subasta le quedan menos de 18 minutos para finalizar.",
+          icon: "info",
+        });
+      } else if (tiempo.includes("La subasta empezará dentro de")) {
+        EsperaSubs(pk_id_sub, pk_cedula_user);
+      }
     }, 1000);
 
     return () => clearInterval(intervalId);
@@ -263,11 +260,11 @@ function SubastaUser() {
                       <div className="flex items-center justify-start">
                         <div className="flex items-center bg-gray-100 py-1 pr-12 rounded-2xl">
                           <img
-                            src={`http://localhost:4000/img/${oferta.imagen_user}`}
+                            src={subasta.imagen_user && subasta.imagen_user.length > 0? `http://localhost:4000/usuarios/${subasta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
                             alt="User Avatar"
-                            className="w-12 h-12 mx-2 rounded-full"
+                            className="h-12 rounded-full mr-2"
                           />
-                          <div>
+                          <div className="-ml-4">
                             <p className="font-semibold -mb-2">{oferta.nombre_user}</p>
                             <p>$ {oferta.oferta_ofer.toLocaleString()}</p>
                             <p className="text-xs -mt-1">{new Date(oferta.fecha_ofer).toLocaleString()}</p>
@@ -276,16 +273,16 @@ function SubastaUser() {
                       </div>
                     ) : (                    
                       <div className="flex items-center justify-end">
-                        <div className="flex items-center bg-slate-100 py-1 pl-12 rounded-2xl">
-                          <div className="flex text-end flex-col">
+                        <div className="flex items-center bg-slate-100 py-1 pl-8 rounded-2xl">
+                          <div className="flex text-end flex-col -mr-4">
                             <p className="font-semibold -mb-2">{oferta.nombre_user}</p>
                             <p>$ {oferta.oferta_ofer.toLocaleString()}</p>
                             <p className="text-xs -mt-1">{new Date(oferta.fecha_ofer).toLocaleString()}</p>
                           </div>
                           <img
-                            src={`http://localhost:4000/img/${oferta.imagen_user}`}
+                            src={subasta.imagen_user && subasta.imagen_user.length > 0? `http://localhost:4000/usuarios/${subasta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
                             alt="User Avatar"
-                            className="w-12 h-12 mx-2 rounded-full"
+                            className="h-12 ml-2 rounded-full"
                           />
                         </div>
                       </div>)
@@ -302,7 +299,7 @@ function SubastaUser() {
               <p className="text-center">Precio actual: ${precioActual.toLocaleString()}</p>
               <form onSubmit={handleSubmitOferta} className="w-full flex flex-col items-center">
               <Slider
-                label="Añadir Puja"
+                label="Añadir A La Puja"
                 step={20000}
                 value={oferta}
                 onChange={(value) => setOferta(value)}
@@ -358,7 +355,7 @@ function SubastaUser() {
           <div className="bg-[#e0e0e0] w-64 rounded-xl p-2 items-center flex flex-col">
             <h3 className="text-lg font-semibold text-[#a1653d]">Vendedor</h3>
             <Avatar
-              src={subasta.imagen_user && subasta.imagen_user.length > 0? `http://localhost:4000/img/${subasta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+              src={subasta.imagen_user && subasta.imagen_user.length > 0? `http://localhost:4000/usuarios/${subasta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
               className="w-28 h-28"
             />
             <div className="flex items-center">
@@ -385,7 +382,7 @@ function SubastaUser() {
                 postsActivos.map((postulante, i) => (
                   <div key={i} className="rounded-xl w-52 gap-x-1 h-10 flex px-2 items-center overflow-y-auto">
                     <Avatar
-                      src={postulante.imagen_user && postulante.imagen_user.length > 0 ? `http://localhost:4000/img/${postulante.imagen_user}` : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+                      src={postulante.imagen_user && postulante.imagen_user.length > 0 ? `http://localhost:4000/usuarios/${postulante.imagen_user}` : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
                       className="w-8 h-8"
                     />
                     <div className="flex flex-col">

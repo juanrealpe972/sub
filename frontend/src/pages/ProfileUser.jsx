@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Button, Card, CardBody, Image, Link } from "@nextui-org/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 import UserRol from "../nextui/UserRol";
@@ -25,7 +25,6 @@ const colors = {
 function ProfileUser() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("creadas");
-  const localUser = JSON.parse(localStorage.getItem("user"));
   const [abrirModal, setAbrirModal] = useState(false);
   const [abrirModalCalificacion, setAbrirModalCalificacion] = useState(false);
   const [abrirModalPassword, setAbrirModalPassword] = useState(false);
@@ -33,7 +32,9 @@ function ProfileUser() {
   const { getUserID, user, setIdUser, getUsers } = useAuthContext();
   const { getSubForUser, subastaForuser, getSubGanador, subastaGanador, setIdSubasta } = useSubastaContext();
   const { getCalificacionesUser, stats } = useCalificacionesContext();
-
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate()
+  
   useEffect(() => {
     getCalificacionesUser(id);
   }, [id, getCalificacionesUser]);
@@ -95,17 +96,11 @@ function ProfileUser() {
   const [hoveredLinks, setHoveredLinks] = useState({});
 
   const handleMouseEnter = (id, type) => {
-    setHoveredLinks((prevState) => ({
-      ...prevState,
-      [`${id}_${type}`]: true,
-    }));
+    setHoveredLinks((prevState) => ({...prevState,[`${id}_${type}`]: true,}));
   };
   
   const handleMouseLeave = (id, type) => {
-    setHoveredLinks((prevState) => ({
-      ...prevState,
-      [`${id}_${type}`]: false,
-    }));
+    setHoveredLinks((prevState) => ({...prevState,[`${id}_${type}`]: false,}));
   };
 
   const [abrirModalSub, setAbrirModalSub] = useState(false);
@@ -282,10 +277,7 @@ function ProfileUser() {
                                     onMouseLeave={() => handleMouseLeave(subasta.pk_id_sub, 'certificado')}
                                   >
                                     <p className={`cursor-pointer hover:underline scroll-text ${ hoveredLinks[`${subasta.pk_id_sub}_certificado`] ? 'scroll-active' : '' }`}>
-                                      <a
-                                        href={`http://localhost:4000/subastas/${subasta.certificado_sub}`}
-                                        download={subasta.certificado_sub}
-                                      >
+                                      <a href={`http://localhost:4000/subastas/${subasta.certificado_sub}`} download={subasta.certificado_sub} >
                                         {subasta.certificado_sub}
                                       </a>
                                     </p>
@@ -313,7 +305,7 @@ function ProfileUser() {
                                     </div>
                                     <div className="flex gap-x-2">
                                       <p className="font-semibold text-[#c29b81]">Vendedor:</p>
-                                      <p className="text-[#009100] font-semibold">{subasta.ganador_sub ? subasta.ganador_sub : "Desconocido"}</p>
+                                      <p className="text-[#009100] font-semibold cursor-pointer" onClick={() => navigate(`/profile/${subasta.ganador_sub}`)}>{subasta.ganador_sub ? subasta.ganador_nombre : "Desconocido"}</p>
                                     </div>
                                   </>
                                 ): (
@@ -340,22 +332,20 @@ function ProfileUser() {
               </div>
             )}
             {activeTab === "ganadas" && (
-              <div className="flex w-full flex-col items-center">
+              <div className="flex w-full flex-col items-center mb-8">
                 {subastaGanador.length > 0 ? subastaGanador.map((ganador) => (
-                  <Card key={ganador.pk_id_sub} className="max-w-[340px] max-h-[520px] p-2" >
+                  <Card key={ganador.pk_id_sub} className="max-w-[340px] max-h-[530px] p-2" >
                     <CardBody className="w-full">
                       <span className="text-center flex justify-center items-end gap-x-3">
                         <b className="text-lg">{ganador.pk_id_sub} - {ganador.nombre_tipo_vari}</b>
-                        <div
-                          className={`w-auto rounded-lg border
-                            ${ganador.estado_sub === "abierta"? "bg-green-500 border-green-600 text-green-50": ""}
-                            ${ganador.estado_sub === "proceso"? "bg-orange-500 border-orange-600 text-orange-50": ""}
-                            ${ganador.estado_sub === "espera"? "bg-blue-500 border-blue-600 text-blue-50": ""}
-                            ${ganador.estado_sub === "cerrada"? "bg-red-400 border-red-600 text-red-50": ""} 
-                          `}
-                        >
-                          <p className="text-sm text-default-50 p-1">{ganador.estado_sub}</p>
-                        </div>
+                        <p className={`text-sm py-1 rounded-lg px-2 capitalize 
+                          ${ganador.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}
+                          ${ganador.estado_sub === "proceso"? "bg-orange-100 text-orange-500": ""}
+                          ${ganador.estado_sub === "espera"? "bg-blue-100 text-blue-500": ""}
+                          ${ganador.estado_sub === "cerrada"? "bg-[#fdd0df] text-[#f31263]": ""} 
+                        `}>
+                          {ganador.estado_sub}
+                        </p>
                       </span>
                       <CardBody className="flex items-center">
                         <Image
@@ -363,9 +353,9 @@ function ProfileUser() {
                           radius="md"
                           alt={ganador.imagen_sub}
                           className="w-[250px] object-cover h-[200px]"
-                          src={`http://localhost:4000/img/subasta/${ganador.imagen_sub}`}
+                          src={`http://localhost:4000/subastas/${ganador.imagen_sub}`}
                         />
-                        <div className="grid gap-x-2 py-2 px-2 text-sm max-h-[400px] overflow-y-auto">
+                        <div className="grid gap-x-2 pt-2 px-2 text-sm max-h-[400px] overflow-y-auto">
                           <div className="flex flex-col">
                             <div className="flex w-full gap-x-2">
                               <p className="font-semibold">Apertura:</p>
@@ -384,16 +374,28 @@ function ProfileUser() {
                               <p>{ganador.cantidad_sub}{ganador.cantidad_sub > 0? ganador.unidad_peso_sub + "s": ganador.unidad_peso_sub}</p>
                             </div>
                             <div className="flex w-full gap-x-2">
+                              <p className="font-semibold">Certificado:</p>
+                              <div
+                                className="scroll-container"
+                                onMouseEnter={() => handleMouseEnter(ganador.pk_id_sub, 'certificado')}
+                                onMouseLeave={() => handleMouseLeave(ganador.pk_id_sub, 'certificado')}
+                              >
+                                <p className={`cursor-pointer hover:underline scroll-text ${ hoveredLinks[`${ganador.pk_id_sub}_certificado`] ? 'scroll-active' : '' }`}>
+                                  <a href={`http://localhost:4000/subastas/${ganador.certificado_sub}`} download={ganador.certificado_sub} >
+                                    {ganador.certificado_sub}
+                                  </a>
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex w-full gap-x-2">
                               <p className="font-semibold">Tipo Variedad:</p>
                               <p>{ganador.nombre_tipo_vari}</p>
                             </div>
-                            <div className="flex w-full gap-x-2">
-                              <p className="font-semibold">Certificado:</p>
-                              <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">{ganador.certificado_sub}</p>
-                            </div>
                             <div className="flex gap-x-2">
                               <p className="font-semibold">Descripción:</p>
-                              <p>{ganador.descripcion_sub}</p>
+                              <div className="scroll-container" onMouseEnter={() => handleMouseEnter(ganador.pk_id_sub, 'descripcion')} onMouseLeave={() => handleMouseLeave(ganador.pk_id_sub, 'descripcion')}>
+                                <p className={`scroll-text ${hoveredLinks[`${ganador.pk_id_sub}_descripcion`] ? 'scroll-active' : ''}`}>{ganador.descripcion_sub}</p>
+                              </div>
                             </div>
                             <div className="flex gap-x-2">
                               <p className="font-semibold">Precio base:</p>
@@ -407,7 +409,7 @@ function ProfileUser() {
                                 </div>
                                 <div className="flex gap-x-2">
                                   <p className="font-semibold text-[#c29b81]">Vendedor:</p>
-                                  <p className="text-[#009100] font-semibold">{ganador.propietario_nombre ? ganador.propietario_nombre : "Desconocido"}</p>
+                                  <p className="text-[#009100] font-semibold cursor-pointer" onClick={() => navigate(`/profile/${ganador.propietario_cedula}`)}>{ganador.propietario_nombre ? ganador.propietario_nombre : "Desconocido"}</p>
                                 </div>
                               </>
                             )}
