@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 
 import SubastaIcon from "../nextui/SubastaIcon";
 import FincaIcon from "../nextui/FincaIcon";
 import FincaTable from "../components/Guard/FincaTable";
 import SubastaTable from "../components/Guard/SubastaTable";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function MiSubastaT() {
+<<<<<<< HEAD
     
   return (
     <div className="w-full flex flex-col px-6 bg-gray-50">
+=======
+  const { getUsers } = useAuthContext()
+  useEffect(() => {
+      getUsers()
+    }, []);
+    
+  return (
+    <div className="w-full flex flex-col items-center px-8">
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       <div className="pb-2">
          <p className="pl-2 text-xl my-2 text-gray-500 mt-8"> Para crear una subasta primero debes crear una finca. Luego, agregas las variedades que tienes en tu finca y ya por fin puedes agregar una subasta </p>
       </div>

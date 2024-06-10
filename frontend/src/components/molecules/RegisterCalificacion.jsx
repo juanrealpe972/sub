@@ -28,7 +28,11 @@ function RegisterCalificacion({ titleBtn, fk_user, mode }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+<<<<<<< HEAD
     if (name === "opiniones" && value.length > 100) {
+=======
+    if (name === "opiniones" && value.length > 100) { // Cambia 100 por el máximo deseado
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       return;
     }
     
@@ -94,6 +98,10 @@ function RegisterCalificacion({ titleBtn, fk_user, mode }) {
         label="Opinión"
         max={5}
         minLength={10}
+<<<<<<< HEAD
+=======
+        maxRows={5}
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
         variant="bordered"
         placeholder="Escribe tu opinión"
         className="max-w-96 mb-4"

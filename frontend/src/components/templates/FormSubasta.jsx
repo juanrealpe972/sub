@@ -4,13 +4,17 @@ import { useSubastaContext } from "../../context/SubastaContext";
 import { ModalFormXl } from "../organisms/ModalFormXl";
 
 function FormSubasta ({ open, onClose, title, titleBtn, mode }) {
+<<<<<<< HEAD
   const { cerrarModal, serCerrarModal } = useSubastaContext()
+=======
+  const { cerrarModal, setCerrarModal } = useSubastaContext()
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
   useEffect(() => {
     if (cerrarModal) {
       onClose();
-      serCerrarModal(false);
+      setCerrarModal(false);
     }
-  }, [cerrarModal, onClose, serCerrarModal]);
+  }, [cerrarModal, onClose, setCerrarModal]);
 
   return (
     <>

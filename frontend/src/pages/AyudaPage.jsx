@@ -14,6 +14,11 @@ function AyudaPage() {
   const infoRolesRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [texto, setTexto] = useState("");
+  
+  const { getUsers } = useAuthContext()
+  useEffect(() => {
+      getUsers()
+    }, []);
 
   const { getUsers } = useAuthContext();
   useEffect(() => {

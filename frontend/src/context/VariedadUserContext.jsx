@@ -43,7 +43,11 @@ export const VariedadUserProvider = ({ children }) => {
       const response = await createVariedad(data);
       setMensaje(response.data.message);
       getTipoVariedadesActivas(id, id_finca)
+<<<<<<< HEAD
       getVariForUser(id_finca)
+=======
+      getVariForUser(id, id_finca)
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       setModalMessage(true);
     } catch (error) {
       setErrors([error.response.data.message]);

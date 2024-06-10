@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+<<<<<<< HEAD
 import { Avatar, Button, Image, Modal, ModalBody, ModalContent, Slider } from "@nextui-org/react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+=======
+import { Avatar, Image, Button, Slider } from "@nextui-org/react";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 import { useSubastaContext } from "../context/SubastaContext";
 import { usePostulantesContext } from "../context/PostulantesContext";
 import { useOfertasContext } from "../context/OfertasContext";
 import { useAuthContext } from "../context/AuthContext";
 import { useCalificacionesContext } from "../context/CalificacionesContext";
+<<<<<<< HEAD
 import Swal from "sweetalert2";
 import ModalContact from "./ModalContact";
+=======
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
 const colors = {
   orange: "#FFBA5A",
@@ -18,19 +27,36 @@ const colors = {
 function SubastaUser() {
   const { id } = useParams();
   const [oferta, setOferta] = useState(0);
+<<<<<<< HEAD
   const { getSub, subasta, EsperaSubs } = useSubastaContext();
   const { getPostsActivos, postsActivos, desactivarPosts } = usePostulantesContext();
   const { createOfert, ofertas, getOfertForSub, eliminarOfertas } = useOfertasContext();
   const { getCalificacionesUser, stats } = useCalificacionesContext();
   const { getUsers } = useAuthContext();
   const [precioActual, setPrecioActual] = useState(0);
+=======
+  const [tiempoRestante, setTiempoRestante] = useState("");
+  const { getSub, subasta } = useSubastaContext();
+  const { getPostsActivos, postsActivos, desactivarPosts } = usePostulantesContext();
+  const { createOfert, ofertas, getOfertForSub } = useOfertasContext();
+  const { getCalificacionesUser, stats } = useCalificacionesContext();
+  const { getUsers } = useAuthContext()
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
   const user = JSON.parse(localStorage.getItem("user"));
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     getUsers();
   }, [getUsers]);
+
+  useEffect(() => {
+    getOfertForSub(id);
+  }, [id, getOfertForSub]);
+
+  useEffect(() => {
+    getUsers()
+  }, []);
 
   useEffect(() => {
     getOfertForSub(id);
@@ -57,6 +83,7 @@ function SubastaUser() {
       const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
       const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
 
+<<<<<<< HEAD
       if (dias === 0 && horas === 1 && minutos < 8) {
         return `A la subasta le quedan, ${horas} horas, ${minutos} minutos y ${segundos} segundos`;
       } else {
@@ -64,6 +91,14 @@ function SubastaUser() {
       }
     }
   };
+=======
+    const dias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+    const horas = Math.floor(
+      (diferenciaMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutos = Math.floor((diferenciaMs % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diferenciaMs % (1000 * 60)) / 1000);
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
   useEffect(() => {
     if (!subasta || subasta.length === 0) return;
@@ -99,6 +134,7 @@ function SubastaUser() {
 
   const handleSubmitOferta = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     const totalOferta = precioActual + oferta;
     if (totalOferta === precioActual) {
       Swal.fire({
@@ -110,11 +146,21 @@ function SubastaUser() {
     try {
       const data = {
         oferta_ofer: totalOferta,
+=======
+    try {
+      const data = {
+        oferta_ofer: oferta,
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
         fk_id_usuario: user.pk_cedula_user,
         fk_id_subasta: id,
       };
       await createOfert(data, id);
+<<<<<<< HEAD
       setOferta(0);
+=======
+      setOferta("");
+      console.log("Oferta enviada:", data);
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
     } catch (error) {
       console.error("Error al enviar la oferta:", error);
     }
@@ -152,18 +198,35 @@ function SubastaUser() {
     }
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     const nuevoPrecioActual =
       Array.isArray(ofertas) && ofertas.length > 0
         ? Math.max(...ofertas.map((oferta) => oferta.oferta_ofer), 0)
         : Number(subasta.precio_inicial_sub);
+=======
+  const [precioActual, setPrecioActual] = useState(
+    Number(subasta.precio_inicial_sub)
+  );
+
+  useEffect(() => {
+    const nuevoPrecioActual =
+      Number(subasta.precio_inicial_sub) +
+      (Array.isArray(ofertas) && ofertas.length > 0
+        ? Math.max(...ofertas.map((oferta) => oferta.oferta_ofer), 0)
+        : 0);
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
     setPrecioActual(nuevoPrecioActual);
   }, [subasta.precio_inicial_sub, ofertas]);
 
   useEffect(() => {
+<<<<<<< HEAD
     if (subasta && subasta.pk_cedula_user) {
       getCalificacionesUser(subasta.pk_cedula_user);
     }
+=======
+    getCalificacionesUser(subasta.pk_cedula_user);
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
   }, [subasta.pk_cedula_user, getCalificacionesUser]);
 
   const renderAverageStars = (average) => {
@@ -172,7 +235,16 @@ function SubastaUser() {
     return (
       <div className="flex items-center">
         {Array.from({ length: fullStars }, (_, index) => (
+<<<<<<< HEAD
           <FaStar key={index} size={14} color={colors.orange} className="mr-1" />
+=======
+          <FaStar
+            key={index}
+            size={14}
+            color={colors.orange}
+            className="mr-1"
+          />
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
         ))}
         {hasHalfStar && (
           <FaStarHalfAlt size={24} color={colors.orange} className="mr-1" />
@@ -180,7 +252,16 @@ function SubastaUser() {
         {Array.from(
           { length: 5 - fullStars - (hasHalfStar ? 1 : 0) },
           (_, index) => (
+<<<<<<< HEAD
             <FaStar key={index + fullStars + 1} size={12} color={colors.grey} className="mr-1" />
+=======
+            <FaStar
+              key={index + fullStars + 1}
+              size={12}
+              color={colors.grey}
+              className="mr-1"
+            />
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
           )
         )}
       </div>
@@ -189,6 +270,7 @@ function SubastaUser() {
 
   return (
     <div className="px-16 pt-4 mb-10">
+<<<<<<< HEAD
       <div className="font-bold p-1 text-xl items-center flex">{subasta.pk_id_sub} - {subasta.nombre_tipo_vari}                         
         <p className={`text-sm py-1 rounded-lg px-2 ml-2 
           ${subasta.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}
@@ -199,6 +281,9 @@ function SubastaUser() {
           {subasta.estado_sub}
         </p>
       </div>
+=======
+      <p className="font-bold p-1 text-xl items-center flex">{subasta.pk_id_sub} - {subasta.nombre_tipo_vari} <span className="text-xs mx-4 px-2 py-1 rounded-lg bg-[#009100] text-white">{subasta.estado_sub}</span></p>
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       <div className="flex gap-3 w-full">
         <div className="bg-[#e0e0e0] rounded-xl w-full p-4 h-full">
           <div className="grid gap-1">
@@ -208,16 +293,28 @@ function SubastaUser() {
                 shadow="sm"
                 alt={subasta.imagen_sub}
                 className="object-cover w-[400px] h-[258px]"
+<<<<<<< HEAD
                 src={`http://localhost:4000/subastas/${subasta.imagen_sub}`}
               />
             </div>
             <div className="shadow text-sm rounded-lg py-1">
               <div className="bg-[#00684a] p-2 rounded-t-lg">
+=======
+                src={`http://localhost:4000/img/subasta/${subasta.imagen_sub}`}
+              />
+            </div>
+            <div className="shadow text-sm rounded-lg py-1">
+              <div className="bg-[#009100] p-2 rounded-t-lg">
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
                 <p className="text-xl text-white font-semibold text-center">Datos de la subasta</p>
               </div>
               <div className="flex flex-col items-center">
                 <p className="font-semibold text-[#a1653d]">Fecha fin de la subasta:</p>
+<<<<<<< HEAD
                 <p className="text-[#00684a] font-semibold text-[16px] -mt-1">{calcularDiferencia(subasta.fecha_inicio_sub,subasta.fecha_fin_sub)}</p>
+=======
+                <p className="text-[#009100] font-semibold text-[16px] -mt-1">{tiempoRestante}</p>
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
               </div>
               <div className="grid grid-cols-2 gap-x-2 py-2 px-2">
                 <div className="items-end flex flex-col">
@@ -232,18 +329,29 @@ function SubastaUser() {
                 <div>
                   <p> {new Date(subasta.fecha_inicio_sub).toLocaleString( "es-ES", { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", } )} </p>
                   <p> {new Date(subasta.fecha_fin_sub).toLocaleString("es-ES", { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", })}</p>
+<<<<<<< HEAD
                   <p className="flex overflow-hidden text-ellipsis whitespace-nowrap w-44"> {subasta.nombre_vere} - {subasta.nombre_muni} - {subasta.nombre_depar}</p>
                   <p> {subasta.cantidad_sub} {subasta.cantidad_sub > 1 ? subasta.unidad_peso_sub + "s" : subasta.unidad_peso_sub} </p>
                   <p>{subasta.nombre_tipo_vari}</p>
                   <a href={`http://localhost:4000/subastas/${subasta.certificado_sub}`} download={subasta.certificado_sub} className="flex underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-44">
                     {subasta.certificado_sub}
                   </a>
+=======
+                  <p> {subasta.nombre_vere} - {subasta.nombre_muni} - {subasta.nombre_depar}</p>
+                  <p> {subasta.cantidad_sub} {subasta.unidad_peso_sub > 1 ? subasta.unidad_peso_sub + "s" : subasta.unidad_peso_sub} </p>
+                  <p>{subasta.nombre_tipo_vari}</p>
+                  <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-auto"> {subasta.certificado_sub} </p>
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
                   <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-auto">{subasta.descripcion_sub}</p>
                 </div>
               </div>
               <div className="flex flex-col items-center">
                 <p className="font-semibold text-[#a1653d]">PRECIO BASE:</p>
+<<<<<<< HEAD
                 <p className="text-[#00684a] font-semibold text-lg -mt-2">${Number(subasta.precio_inicial_sub).toLocaleString("es-ES")}</p>
+=======
+                <p className="text-[#009100] font-semibold text-lg -mt-2">${Number(subasta.precio_inicial_sub).toLocaleString("es-ES")}</p>
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
               </div>
             </div>
           </div>
@@ -251,7 +359,11 @@ function SubastaUser() {
         <div className="w-full flex flex-col h-auto">
           <div className="flex-grow bg-[#e0e0e0] rounded-xl p-4 overflow-y-auto">
             <h3 className="text-lg font-semibold text-center">Ofertas</h3>
+<<<<<<< HEAD
             <div className={`overflow-y-auto  ${subasta.pk_cedula_user !== user.pk_cedula_user ? "max-h-[350px]" : "max-full" }`}>
+=======
+            <div className="overflow-y-auto max-h-[350px]">
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
               {Array.isArray(ofertas) && ofertas.length > 0 ? (
                 ofertas.map((oferta) => (
                   <div
@@ -269,7 +381,11 @@ function SubastaUser() {
                           />
                           <div>
                             <p className="font-semibold -mb-2">{oferta.nombre_user}</p>
+<<<<<<< HEAD
                             <p>$ {oferta.oferta_ofer.toLocaleString()}</p>
+=======
+                            <p>$ {oferta.oferta_ofer}</p>
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
                             <p className="text-xs -mt-1">{new Date(oferta.fecha_ofer).toLocaleString()}</p>
                           </div>
                         </div>
@@ -279,7 +395,11 @@ function SubastaUser() {
                         <div className="flex items-center bg-slate-100 py-1 pl-12 rounded-2xl">
                           <div className="flex text-end flex-col">
                             <p className="font-semibold -mb-2">{oferta.nombre_user}</p>
+<<<<<<< HEAD
                             <p>$ {oferta.oferta_ofer.toLocaleString()}</p>
+=======
+                            <p>$ {oferta.oferta_ofer}</p>
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
                             <p className="text-xs -mt-1">{new Date(oferta.fecha_ofer).toLocaleString()}</p>
                           </div>
                           <img
@@ -299,6 +419,7 @@ function SubastaUser() {
           </div>
           {subasta.pk_cedula_user !== user.pk_cedula_user && (
             <div className="bg-[#e0e0e0] rounded-xl p-4 mt-2 w-full">
+<<<<<<< HEAD
               <p className="text-center">Precio actual: ${precioActual.toLocaleString()}</p>
               <form onSubmit={handleSubmitOferta} className="w-full flex flex-col items-center">
               <Slider
@@ -351,6 +472,27 @@ function SubastaUser() {
               />
               <Button type="submit">Realizar Oferta</Button>
             </form>
+=======
+              <p className="text-center">Precio actual: ${precioActual}</p>
+              <form onSubmit={handleSubmitOferta} className="w-full flex flex-col items-center">
+                <Slider
+                  label="Añadir Puja"
+                  step={100}
+                  value={oferta}
+                  onChange={(value) => setOferta(value)}
+                  maxValue={1000}
+                  minValue={0}
+                  showSteps={true}
+                  showTooltip={true}
+                  showOutline={true}
+                  disableThumbScale={true}
+                  formatOptions={{ style: "currency", currency: "USD" }}
+                  tooltipValueFormatOptions={{style: "currency",currency: "USD",maximumFractionDigits: 0,}}
+                  classNames={{base: "w-full",filler: "bg-gradient-to-r from-primary-500 to-secondary-400",labelWrapper: "mb-2",label: "font-medium text-default-700 text-medium",value: "font-medium text-default-500 text-small",thumb: ["transition-size","bg-gradient-to-r from-secondary-400 to-primary-500","data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20","data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6",],step: "data-[in-range=true]:bg-black/30 dark:data-[in-range=true]:bg-white/50",}}
+                  tooltipProps={{ offset: 10, placement: "bottom", classNames: { base: ["before:bg-gradient-to-r before:from-secondary-400 before:to-primary-500"], content: ["py-2 shadow-xl text-white bg-gradient-to-r from-secondary-400 to-primary-500"], }, }} />
+                <Button type="submit">Realizar Oferta</Button>
+              </form>
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
             </div>
           )}
         </div>
@@ -398,7 +540,11 @@ function SubastaUser() {
                 <p>No hay postulantes activos.</p>
               )}
             </div>
+<<<<<<< HEAD
             <div className="flex justify-center mb-3 mt-3 gap-x-1">
+=======
+            <div className="flex justify-center mb-3 mt-3">
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
               <Button
                 onClick={handlePostulantesClick}
                 className="bg-red-600 text-white rounded-xl"

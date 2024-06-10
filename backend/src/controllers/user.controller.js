@@ -39,7 +39,11 @@ export const createUser = async (req, res) => {
     const bcryptPassword = bcrypt.hashSync(password_user, 12);
     let imagen_user = req.file ? req.file.originalname : "";
 
+<<<<<<< HEAD
     // Verifica si ya existe un usuario con la misma cédula o correo
+=======
+    // Verificar si ya existe un usuario con la misma cédula o correo
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
     const checkSqlCedula = `SELECT * FROM usuarios WHERE pk_cedula_user = '${pk_cedula_user}'`;
     const [existingCedula] = await pool.query(checkSqlCedula);
 
@@ -53,6 +57,7 @@ export const createUser = async (req, res) => {
     if (existingEmail.length > 0) {
       return res.status(400).json({ message: "Ya existe un usuario con ese correo" });
     }
+<<<<<<< HEAD
 
     let sql = `INSERT INTO usuarios (pk_cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, rol_user, estado_user`;
 
@@ -65,6 +70,11 @@ export const createUser = async (req, res) => {
     sql += ` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const [result] = await pool.query(sql, params);
+=======
+    
+    let sql = `INSERT INTO usuarios (pk_cedula_user, nombre_user, email_user, password_user, descripcion_user, imagen_user, telefono_user, rol_user, estado_user) VALUES ('${pk_cedula_user}', '${nombre_user}','${email_user}','${bcryptPassword}', '${descripcion_user}', '${imagen_user}', '${telefono_user}', '${rol_user}', 'activo')`;
+    const [result] = await pool.query(sql);
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
     if (result.affectedRows > 0) {
       res.status(200).json({ status: 200, message: "Usuario creado exitosamente" });
     } else {
@@ -123,6 +133,7 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ message: "Error del servidor al actualizar el usuario" });
   }
 };
+
 
 export const getUser = async (req, res) => {
   try {

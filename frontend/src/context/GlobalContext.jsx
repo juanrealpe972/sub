@@ -10,7 +10,11 @@ import { SubastaProvider } from "./SubastaContext";
 import { PostulantesProvider } from "./PostulantesContext";
 import { OfertaProvider } from "./OfertasContext";
 import { CalifiProvider } from "./CalificacionesContext";
+<<<<<<< HEAD
 import { NotificacionesProvider } from "./NotificacionesContext";
+=======
+
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 export const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
@@ -29,9 +33,13 @@ const GlobalProvider = ({ children }) => {
                       <PostulantesProvider>
                         <OfertaProvider>
                           <CalifiProvider>
+<<<<<<< HEAD
                             <NotificacionesProvider>
                             {children}
                             </NotificacionesProvider>
+=======
+                            {children}
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
                           </CalifiProvider>
                         </OfertaProvider>
                       </PostulantesProvider>

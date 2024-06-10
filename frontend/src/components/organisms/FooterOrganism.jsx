@@ -8,9 +8,15 @@ import YoutubeIcon from "../../nextui/YoutubeIcon";
 
 const FooterOrganism = () => {
   return (
+<<<<<<< HEAD
     <footer className="py-8 pt-12 sm:pb-4 bg-[#00684a]">
       <div className="mx-auto w-full px-4 lg:px-8 max-w-7xl">
         <div className="grid items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 lg:gap-8">
+=======
+    <footer className="py-8 pt-12 sm:pb-4 bg-[#e0e0e0]">
+      <div className="mx-auto px-4 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-4 lg:gap-8">
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
           <div className="sm:col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
             <div className="flex items-center gap-x-1">
               <Link to="/" className="cursor-pointer"><img src="./src/assets/isotipo-SubCoffee.png" alt="Logo SubCoffee" className="w-9"/></Link>

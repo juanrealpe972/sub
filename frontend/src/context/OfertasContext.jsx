@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { createContext, useCallback, useContext, useState } from "react";
 import { createOferta, deleteOfertasForSub, getOfertas, getOfertasForSub, getOfertaMayor } from "../api/api.ofertas";
+=======
+import React, { createContext, useContext, useState } from "react";
+import { createOferta, getOfertas, getOfertasForSub } from "../api/api.ofertas";
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 import ModalMessage from "../nextui/ModalMessage";
 
 const OfertasContext = createContext();
@@ -15,7 +20,10 @@ export const OfertaProvider = ({ children }) => {
   const [modalMessage, setModalMessage] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [ofertas, setOfertas] = useState([])
+<<<<<<< HEAD
   const [ofertasMayor, setOfertaMayor] = useState([])
+=======
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
   const getOferts = async () => {
     try {
@@ -36,6 +44,7 @@ export const OfertaProvider = ({ children }) => {
     }
   }
 
+<<<<<<< HEAD
   const getOfertMayor = useCallback(async(id) => {
     try {
       getOfertaMayor(id).then((response) => {
@@ -46,6 +55,8 @@ export const OfertaProvider = ({ children }) => {
     }
   }, [])
 
+=======
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
   const createOfert = async (data, id) => {
     try {
       const response = await createOferta(data)
@@ -58,6 +69,7 @@ export const OfertaProvider = ({ children }) => {
     }
   }
 
+<<<<<<< HEAD
   const eliminarOfertas = async (id, user) => {
     try {
       await deleteOfertasForSub(id, user)
@@ -67,16 +79,22 @@ export const OfertaProvider = ({ children }) => {
     }
   }
 
+=======
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
   return (
     <OfertasContext.Provider
       value={{
         ofertas,
         getOferts,
         createOfert,
+<<<<<<< HEAD
         getOfertForSub,
         eliminarOfertas,
         getOfertMayor,
         ofertasMayor
+=======
+        getOfertForSub
+>>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       }}
     >
       <ModalMessage
