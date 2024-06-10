@@ -92,12 +92,8 @@ const RegisterFincaMolecule = ({ mode, titleBtn }) => {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 px-4">
-<<<<<<< HEAD
       {
         errors.map((error, i) => (
-=======
-      {errors.map((error, i) => (
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
           <div className='bg-red-500 p-2 text-white text-center my-2' key={i}>
             {error}
           </div>

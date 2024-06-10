@@ -56,11 +56,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
     try {
       if (mode === "update") {
         await updateUsers(idUser.pk_cedula_user, datosAEnviar);
-<<<<<<< HEAD
         } else {
-=======
-      } else {
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
         datosAEnviar.append("rol_user", formData.rol_user);
         datosAEnviar.append("password_user", formData.password_user);
         await createUsers(datosAEnviar);
@@ -153,11 +149,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
       />
       <Input
         placeholder="Correo"
-<<<<<<< HEAD
         required
-=======
-        isRequired
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
         type="email"
         variant="bordered"
         name="email_user"
@@ -190,15 +182,11 @@ const RegisterUser = ({ mode, titleBtn }) => {
         />
       </div>
       {mode !== "update" && (
-<<<<<<< HEAD
         <div
           className={`grid ${
             mode !== "update" ? "grid-cols-2" : "grid-cols-1"
           } items-center gap-x-2`}
         >
-=======
-        <div className={`grid ${mode !== "update" ? "grid-cols-2" : "grid-cols-1"} items-center gap-x-2`}>
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
           <div className="relative">
             <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
               {<icono.iconoRol />}

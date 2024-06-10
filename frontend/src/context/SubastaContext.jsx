@@ -14,11 +14,8 @@ import {
   updateSubastafecha,
   getSubastasActivasMenosCerradas,
   getSubastaGanador,
-<<<<<<< HEAD
   subastaGanadorAsingar,
   subastaGanadorDesingar
-=======
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 } from "../api/api.subasta";
 
 const SubastaContext = createContext();
@@ -41,11 +38,7 @@ export const SubastaProvider = ({ children }) => {
   const [subastasActivas, setSubastasActivas] = useState([])
   const [subasta, setSubasta] = useState([])
   const [subastaGanador, setSubastaGanador] = useState([])
-<<<<<<< HEAD
   const [cerrarModal, serCerrarModal] = useState(false)
-=======
-  const [cerrarModal, setCerrarModal] = useState(false)
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
   const getSubs = async () => {
     try {
@@ -134,7 +127,7 @@ export const SubastaProvider = ({ children }) => {
       const response = await createSubasta(data);
       getSubForUser(user);
       setMensaje(response.data.message);
-      setCerrarModal(true)
+      serCerrarModal(true)
       setModalMessage(true);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -146,7 +139,7 @@ export const SubastaProvider = ({ children }) => {
       const response = await updateSubasta(id, data);
       getSubForUser(user)
       setMensaje(response.data.message);
-      setCerrarModal(true)
+      serCerrarModal(true)
       setModalMessage(true);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -221,18 +214,11 @@ export const SubastaProvider = ({ children }) => {
         subastasActivas,
         getSubsMenoCerradas,
         cerrarModal, 
-<<<<<<< HEAD
         serCerrarModal,
         establecerGanador,
         getSubGanador,
         subastaGanador,
         destablecerGanador
-=======
-        setCerrarModal,
-
-        getSubGanador,
-        subastaGanador,
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       }}
     >
       <ModalMessage

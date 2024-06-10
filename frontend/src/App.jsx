@@ -19,10 +19,6 @@ import ListarNotificaciones from "./pages/Notificaciones";
 
 const users = JSON.parse(localStorage.getItem("user"));
 
-const users = JSON.parse(localStorage.getItem("user"));
-const isVendedor = users?.rol_user === "vendedor"
-const isAdmin = users?.rol_user === "admin"
-
 function App() {
 
   return (

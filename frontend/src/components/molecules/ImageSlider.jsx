@@ -20,7 +20,7 @@ function ImageSlider() {
   };
 
   const nextSlide = () => {
-    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+    const newIndex = (currentIndex + 1) % slides.length;
     setCurrentIndex(newIndex);
   };
 
@@ -32,48 +32,21 @@ function ImageSlider() {
   }, [currentIndex]);
 
   return (
-<<<<<<< HEAD
     <div>
       <div className="h-auto w-full m-auto pt-10 p-4">
         <div className="relative lg:w-full h-[450px] rounded-2xl overflow-hidden">
-=======
-    <div className="px-3">
-      <div className="max-w-[1000px] h-auto w-full m-auto pt-10 p-4 relative">
-        <div className="relative w-full h-[450px] rounded-2xl overflow-hidden">
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
           <div
             className="w-full h-full bg-center bg-cover duration-500"
             style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
           ></div>
-<<<<<<< HEAD
         <div className="absolute inset-0 flex items-center justify-center text-center bg-[#061621] bg-opacity-60 p-8">
           <div>
             <h2 className="text-4xl font-bold text-white mb-4">¡Bienvenido a Subcoffee!</h2>
             <p className="text-2xl text-white font-semibold leading-relaxed">
               Descubre la mejor plataforma online para subastar por cafés especiales. ¡No pierdas la oportunidad de obtener un café de alta calidad!
             </p>
-=======
-          <div className="absolute inset-0 flex items-center justify-center text-center bg-black bg-opacity-50 p-8">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-4">¡Bienvenido a Subcoffee!</h2>
-              <p className="text-2xl text-white font-semibold leading-relaxed">
-                Descubre la mejor plataforma online para subastar por cafés especiales. ¡No pierdas la oportunidad de obtener un café de alta calidad!
-              </p>
-            </div>
           </div>
-          <div className="absolute top-1/2 transform -translate-y-1/2 left-2 flex items-center">
-            <FaChevronLeft
-              className="text-[#e0e0e0] text-3xl cursor-pointer"
-              onClick={prevSlide}
-            />
-          </div>
-          <div className="absolute top-1/2 transform -translate-y-1/2 right-2 flex items-center">
-            <FaChevronRight
-              className="text-[#e0e0e0] text-3xl cursor-pointer"
-              onClick={nextSlide}
-            />
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
-          </div>
+        </div>
         </div>
         <div className="flex justify-center mt-4 ">
           <div className="flex justify-center items-center transition duration-300 ">

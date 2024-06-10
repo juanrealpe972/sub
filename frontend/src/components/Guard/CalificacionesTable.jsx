@@ -88,15 +88,9 @@ function CalificacionesTable({ titleBtn, fk_user }) {
     <div className="flex flex-col items-center px-4 pb-4">
       <div className="w-full flex items-center gap-x-2 -mt-5">
         {stats.promedio == null || isNaN(stats.promedio) ? (
-<<<<<<< HEAD
           <div className="flex w-full justify-center">
             <p className="pl-4 text-xl my-2 text-gray-400 font-semibold">Usuario sin calificaciones.</p>
           </div>
-=======
-          <p className="text-center w-full text-red-600 -mt-1">
-            Usuario sin calificaciones
-          </p>
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
         ) : (
           <>
             <div className="flex flex-col items-start">

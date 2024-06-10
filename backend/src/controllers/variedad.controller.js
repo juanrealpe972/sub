@@ -31,11 +31,7 @@ export const getVariedadUser = async (req, res) => {
       JOIN finca f ON u.pk_cedula_user = f.fk_id_usuario
       JOIN variedad v ON f.pk_id_fin = v.fk_finca
       JOIN tipo_variedad t ON v.fk_tipo_variedad = t.pk_id_tipo_vari
-<<<<<<< HEAD
       WHERE v.fk_finca = '${id_finca}';
-=======
-      WHERE v.fk_finca = ${id_finca};
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
     `;
     const [result] = await pool.query(sql);
     if (result.length > 0) {

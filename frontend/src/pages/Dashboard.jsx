@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
-import HeaderOrganism from "./HeaderOrganism";
-import FooterOrganism from "./FooterOrganism";
-import SidebarOrganims from  "./SidebarOrganims"
-import { useAuthContext } from "../../context/AuthContext";
+import HeaderOrganism from "../components/organisms/HeaderOrganism";
+import FooterOrganism from "../components/organisms/FooterOrganism";
+import SidebarOrganims from  "../components/organisms/SidebarOrganims"
+import AuthContext from "../context/AuthContext";
 
 const Dashboard = () => {
   const auth = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
-  const { isAuthenticated } = useAuthContext()
+  const { isAuthenticated } = useContext(AuthContext)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -27,9 +27,9 @@ const Dashboard = () => {
   ) : (
     <div className="flex-auto h-auto bg-gray-50">
       <HeaderOrganism />
-      <div className="grow">
+      <main className="grow mt-16">
         <Outlet />
-      </div>
+      </main>
       <FooterOrganism />
     </div>
   );

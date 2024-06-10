@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Input, ModalFooter } from "@nextui-org/react";
-=======
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Input, ModalFooter } from "@nextui-org/react";
-
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
 import { icono } from "../atoms/IconsAtom";
@@ -48,7 +41,6 @@ const LoginFormMolecule = () => {
   }, [isAuthenticated]);
 
   return (
-<<<<<<< HEAD
     <form onSubmit={onSubmit} className="space-y-4 px-4 ">
       {
         errors.map((error, i) => (
@@ -57,9 +49,6 @@ const LoginFormMolecule = () => {
           </div>
         ))
       }
-=======
-    <form onSubmit={onSubmit} className="space-y-4 px-4">
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       <FormRecuperarPassword
         open={abrirModalPassword}
         onClose={() => setAbrirModalPassword(false)}
@@ -102,20 +91,12 @@ const LoginFormMolecule = () => {
       <a
         href="#RecuperarPassword"
         onClick={() => setAbrirModalPassword(true)}
-<<<<<<< HEAD
         className={`cursor-pointer text-xs underline hover:text-gray-600`}
-=======
-        className={`cursor-pointer text-xs underline hover:text-[#009100] text-black`}
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       >
         ¿Olvidaste tu contraseña?
       </a>
       <ModalFooter className="flex justify-center">
-<<<<<<< HEAD
         <Button type="submit" className="py-2 px-4 bg-[#001e2b] text-white font-semibold rounded-md"> 
-=======
-        <Button type="submit" className="bg-gray-600 text-white"> 
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
           Iniciar Sesión
         </Button>
       </ModalFooter>

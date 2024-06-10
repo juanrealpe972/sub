@@ -109,11 +109,7 @@ export const listarSubsActivas = async (req, res) => {
       INNER JOIN tipo_variedad t ON v.fk_tipo_variedad = t.pk_id_tipo_vari 
       INNER JOIN usuarios u ON f.fk_id_usuario = u.pk_cedula_user
       WHERE s.estado_sub IN ('abierta', 'proceso', 'espera')
-<<<<<<< HEAD
       ORDER BY s.pk_id_sub
-=======
-      ORDER BY t.nombre_tipo_vari
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
     `);
 
     if (resultado.length > 0) {
@@ -167,11 +163,7 @@ export const actualizar = async (req, res) => {
     }
 
     const { id } = req.params;
-<<<<<<< HEAD
     const { fecha_inicio_sub, fecha_fin_sub, precio_inicial_sub, unidad_peso_sub, cantidad_sub, descripcion_sub, fk_variedad, } = req.body;
-=======
-    const { fecha_inicio_sub, fecha_fin_sub, precio_inicial_sub, precio_final_sub, unidad_peso_sub, cantidad_sub, descripcion_sub, fk_variedad, } = req.body;
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
     const imagen_sub = req.files && req.files.imagen_sub ? req.files.imagen_sub[0].originalname : null;
     const certificado_sub = req.files && req.files.certificado_sub ? req.files.certificado_sub[0].originalname : null;
@@ -181,20 +173,12 @@ export const actualizar = async (req, res) => {
       fecha_inicio_sub = IFNULL(?, fecha_inicio_sub),
       fecha_fin_sub = IFNULL(?, fecha_fin_sub),
       precio_inicial_sub = IFNULL(?, precio_inicial_sub),
-<<<<<<< HEAD
-=======
-      precio_final_sub = IFNULL(?, precio_final_sub),
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
       unidad_peso_sub = IFNULL(?, unidad_peso_sub),
       cantidad_sub = IFNULL(?, cantidad_sub),
       descripcion_sub = IFNULL(?, descripcion_sub),
       fk_variedad = IFNULL(?, fk_variedad)
     `;
-<<<<<<< HEAD
     const params = [ fecha_inicio_sub, fecha_fin_sub, precio_inicial_sub, unidad_peso_sub, cantidad_sub, descripcion_sub, fk_variedad, ];
-=======
-    const params = [ fecha_inicio_sub, fecha_fin_sub, precio_inicial_sub, precio_final_sub, unidad_peso_sub, cantidad_sub, descripcion_sub, fk_variedad, ];
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
     if (imagen_sub) {
       sql += `, imagen_sub = ?`;
@@ -217,10 +201,6 @@ export const actualizar = async (req, res) => {
       res.status(404).json({ message: "No se encontró ninguna subasta con el id proporcionado" });
     }
   } catch (error) {
-<<<<<<< HEAD
-=======
-    console.error("Error en el sistema:", error); // Agrega un log del error para debug
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
     res.status(500).json({ message: "Error interno del servidor" });
   }
 };

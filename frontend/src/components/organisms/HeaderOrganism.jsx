@@ -1,4 +1,3 @@
-<<<<<<< HEAD
   import React, { useEffect, useState } from "react";
   import {
     User,
@@ -13,26 +12,9 @@
   } from "@nextui-org/react";
   import { Link, useNavigate } from "react-router-dom";
   import Swal from "sweetalert2";
-=======
-import React, { useEffect, useState } from "react";
-import {
-  User,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownTrigger,
-  Autocomplete,
-  AutocompleteItem,
-  Avatar,
-  Button,
-} from "@nextui-org/react";
-import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
   import { useAuthContext } from "../../context/AuthContext";
 
-<<<<<<< HEAD
   import { icono } from "../atoms/IconsAtom";
   import AvatarAtom from "../atoms/AvatarAtom";
   import { SearchIcon } from "../../nextui/SearchIcon";
@@ -43,18 +25,6 @@ import Swal from "sweetalert2";
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
     const localUser = JSON.parse(localStorage.getItem("user"));
-=======
-import { icono } from "../atoms/IconsAtom";
-import AvatarAtom from "../atoms/AvatarAtom";
-import { SearchIcon } from "../../nextui/SearchIcon";
-import FormLogin from "../templates/FormLogin";
-
-function HeaderOrganism() {
-  const [isMoonSelected, setIsMoonSelected] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
-  const localUser = JSON.parse(localStorage.getItem("user"));
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
     const { getUsers, logout, users } = useAuthContext();
 
@@ -87,7 +57,6 @@ function HeaderOrganism() {
       }
     }, []);
 
-<<<<<<< HEAD
     return (
       <>
         {localUser ? (
@@ -97,28 +66,6 @@ function HeaderOrganism() {
                 Bienvenido
               </Link>
             </div>
-=======
-  const toggleTheme = () => {
-    setIsMoonSelected((prevValue) => !prevValue);
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getUsers();
-    }
-  }, []);
-
-  return (
-    <>
-      {localUser ? (
-        <nav className="flex justify-between items-center bg-[#009100] p-4 shadow-sm">
-          <div className="flex flex-col">
-            <Link to="/" className="text-gray-200 text-2xl font-semibold">
-              Bienvenido
-            </Link>
-          </div>
-          <div>
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
             <Autocomplete
               classNames={{
                 base: "w-80",
@@ -197,7 +144,6 @@ function HeaderOrganism() {
                 </AutocompleteItem>
               )}
             </Autocomplete>
-<<<<<<< HEAD
             <div className="flex gap-x-3 items-center">
               {isMoonSelected ? (
                 <icono.iconoLuna
@@ -249,92 +195,6 @@ function HeaderOrganism() {
                   </DropdownMenu>
                 </Dropdown>
               </div>
-=======
-          </div>
-          <div className="flex gap-x-3 items-center">
-            {isMoonSelected ? (
-              <icono.iconoLuna
-                onClick={toggleTheme}
-                className="text-white cursor-pointer"
-              />
-            ) : (
-              <icono.iconoSol
-                onClick={toggleTheme}
-                className="text-white cursor-pointer"
-              />
-            )}
-            <div className="flex items-center gap-4">
-              <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
-                <DropdownTrigger>
-                  <User
-                    as="button"
-                    avatarProps={{
-                      src: `${
-                        localUser.imagen_user &&
-                        localUser.imagen_user.length > 0
-                          ? `http://localhost:4000/img/${localUser.imagen_user}`
-                          : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
-                      }`,
-                    }}
-                    className="transition-transform text-gray-200"
-                    description={`${localUser.rol_user}`}
-                    name={`${localUser.nombre_user}`}
-                  />
-                </DropdownTrigger>
-                <DropdownMenu aria-label="User Actions" variant="flat">
-                  <DropdownItem
-                    key="profile"
-                    onClick={() =>
-                      navigate(`/profile/${localUser.pk_cedula_user}`)
-                    }
-                    className="text-center text-[#009100] hover:bg-[#009100] hover:text-white"
-                    color="bg-[#009100]"
-                  >
-                    Perfil
-                  </DropdownItem>
-                  <DropdownItem
-                    key="logout"
-                    onPress={handleLogout}
-                    className="text-center text-red-600 hover:bg-[#da3939] hover:text-white"
-                    color="bg-[#da3939]"
-                  >
-                    Cerrar sesión
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </div>
-        </nav>
-      ) : (
-        <>
-          <nav className="flex justify-between items-center bg-[#009100] fixed w-full m-0 top-0 p-4 shadow-sm z-20">
-            <div className="flex items-center">
-              <AvatarAtom img="isotipo-SubCoffee.png" />
-              <Link to="/" className="text-gray-200 text-2xl font-semibold">
-                SubCoffee
-              </Link>
-            </div>
-            <div className="flex items-center gap-x-3">
-              <div className="cursor-pointer">
-                {isMoonSelected ? (
-                  <icono.iconoLuna
-                    onClick={toggleTheme}
-                    className="text-white"
-                  />
-                ) : (
-                  <icono.iconoSol
-                    onClick={toggleTheme}
-                    className="text-white"
-                  />
-                )}
-              </div>
-              <Button
-                onClick={() => setModalOpen(true)}
-                className="border-2 border-[#009100] bg-gray-100 text-[#009100] font-bold rounded-lg shadow-lg hover:bg-[#f0fff0] hover:text-[#006600] hover:border-[#006600] hover:shadow-xl hover:scale-105 transform duration-300 transition-all ease-in-out"
-              >
-                Iniciar sesión
-              </Button>
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
             </div>
           </nav>
         ) : (

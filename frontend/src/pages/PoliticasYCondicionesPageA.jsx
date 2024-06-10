@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import logo from "../assets/isotipo-SubCoffee.png";
 
@@ -24,21 +23,6 @@ function PoliticasYCondicionesPageA() {
               y de los servicios ofrecidos por SubCoffe (en adelante, los
               "Servicios").
             </p>
-=======
-import React, { useEffect } from 'react';
-import { useAuthContext } from '../context/AuthContext';
-
-function PoliticasYCondicionesPageA() {
-    const { getUsers } = useAuthContext()
-    useEffect(() => {
-        getUsers()
-      }, []);
-
-    return (
-        <div className="px-44 py-8">
-            <h1 className="text-3xl font-bold text-center mb-8">Política de Privacidad y Uso de Datos</h1>
-            <p className="mb-4">Bienvenido/a a la plataforma de subastas de café en línea. En esta página, nos preocupamos profundamente por la privacidad y seguridad de nuestros usuarios. Por ello, hemos desarrollado esta política detallada que explica cómo recopilamos, usamos, compartimos y protegemos la información personal que usted nos proporciona. Al utilizar nuestros servicios, usted acepta los términos descritos a continuación.</p>
->>>>>>> 6a995bdc65b3e7472963d69ab005d8d423b4cb55
 
             <p className="text-lg">
               Por favor, lea estos Términos cuidadosamente antes de acceder o

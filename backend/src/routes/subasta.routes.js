@@ -13,6 +13,9 @@ import {
   buscarSubastaForUser,
   actualizarFechaFin,
   listarSubsActivas,
+  getSubGanador,
+  updateSubGanador,
+  designarDatos,
 } from "../controllers/subasta.controllers.js";
 import { validarSubasta, } from "../validations/subasta.validation.js";
 import { verificarUserToken } from "../controllers/autenticacionController.js";
