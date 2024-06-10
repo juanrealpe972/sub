@@ -109,7 +109,7 @@ export const listarSubsActivas = async (req, res) => {
       INNER JOIN tipo_variedad t ON v.fk_tipo_variedad = t.pk_id_tipo_vari 
       INNER JOIN usuarios u ON f.fk_id_usuario = u.pk_cedula_user
       WHERE s.estado_sub IN ('abierta', 'proceso', 'espera')
-      ORDER BY t.nombre_tipo_vari
+      ORDER BY s.pk_id_sub
     `);
 
     if (resultado.length > 0) {

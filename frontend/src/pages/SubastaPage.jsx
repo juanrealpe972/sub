@@ -52,9 +52,9 @@ function SubastaPage() {
           <p className="pl-4 text-2xl text-[#a1653d] text-center">Subastas</p>
           <div className="flex flex-col overflow-x-auto py-6 overflow-hidden">
             {subastasActivas.length > 0 ? (
-              <div className="flex flex-wrap">
+              <div className="flex flex-wrap ml-6 gap-x-7">
                 {subastasActivas.slice(startIndex, startIndex + 3).map((subasta) => (
-                  <Card key={subasta.pk_id_sub} className="max-w-[380px] h-[540px] p-2 mr-4 mb-4 shadow-small">
+                  <Card key={subasta.pk_id_sub} className="max-w-[380px] h-[540px] p-2 mb-4 shadow-small">
                     <CardHeader className="justify-between">
                       <div className="flex gap-x-3">
                         <Avatar
@@ -85,14 +85,14 @@ function SubastaPage() {
                     <CardBody className="items-start w-full -mt-3">
                       <span className="flex justify-center items-center gap-x-3">
                         <b className="ml-5"> {subasta.pk_id_sub} - {subasta.nombre_tipo_vari} </b>
-                        <div className={`rounded-lg border
-                          ${subasta.estado_sub === "abierta" ? "bg-green-500 border-green-600 text-green-50" : ""}
-                          ${subasta.estado_sub === "proceso" ? "bg-orange-500 border-orange-600 text-orange-50" : ""}
-                          ${subasta.estado_sub === "espera" ? "bg-blue-500 border-blue-600 text-blue-50" : ""}
-                          ${subasta.estado_sub === "cerrada" ? "bg-red-400 border-red-600 text-red-50" : ""}  `}
-                        >
-                          <p className="text-sm text-default-50 p-0 px-1"> {subasta.estado_sub} </p>
-                        </div>
+                        <p className={`text-sm py-1 rounded-lg px-2 capitalize 
+                          ${subasta.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}
+                          ${subasta.estado_sub === "proceso"? "bg-orange-100 text-orange-500": ""}
+                          ${subasta.estado_sub === "espera"? "bg-blue-100 text-blue-500": ""}
+                          ${subasta.estado_sub === "cerrada"? "bg-[#fdd0df] text-[#f31263]": ""} 
+                        `}>
+                          {subasta.estado_sub}
+                        </p>
                       </span>
                       <CardBody className="flex">
                         <Image
@@ -126,9 +126,7 @@ function SubastaPage() {
                             </div>
                             <div className="flex w-full gap-x-2">
                               <p className="font-semibold">Certificado:</p>
-                              <a href={`http://localhost:4000/subastas/${subasta.certificado_sub}`} download={subasta.certificado_sub} className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-52">
-                                {subasta.certificado_sub}
-                              </a>
+                              <a href={`http://localhost:4000/subastas/${subasta.certificado_sub}`} download={subasta.certificado_sub} className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-52">{subasta.certificado_sub}</a>
                             </div>
                           </div>
                         </div>
@@ -152,16 +150,12 @@ function SubastaPage() {
               </div>
             )}
             <div className="flex justify-between mt-4">
-              {startIndex > 0 && (
-                <button className="bg-gray-300 px-3 py-1 mr-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-400" onClick={showPrevSubastas}>
-                  Anterior
-                </button>
-              )}
-              {(startIndex + 3) < subastasActivas.length && (
-                <button className="bg-gray-300 px-3 py-1 ml-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-400" onClick={showNextSubastas}>
-                  Siguiente
-                </button>
-              )}
+              <Button auto className="mr-2" onClick={showPrevSubastas} startContent={<FaChevronLeft/>} isDisabled={startIndex <= 0} >
+                Anterior
+              </Button>
+              <Button auto className="ml-2" onClick={showNextSubastas} endContent={<FaChevronRight/>} isDisabled={(startIndex + 3) >= subastasActivas.length} >
+                Siguiente
+              </Button>
             </div>
           </div>
           <ModalSubCoffee
@@ -171,9 +165,7 @@ function SubastaPage() {
         </div>
       )}
     </div>
-  );
-  
+  ); 
 }
-
 
 export default SubastaPage;
