@@ -190,14 +190,15 @@ function SubastaUser() {
   return (
     <div className="px-16 pt-4 mb-10">
       <div className="font-bold p-1 text-xl items-center flex">{subasta.pk_id_sub} - {subasta.nombre_tipo_vari}                         
-      <div className={`rounded-lg border ml-2
-        ${subasta.estado_sub === "abierta" ? "bg-green-500 border-green-600 text-green-50" : ""}
-        ${subasta.estado_sub === "proceso" ? "bg-orange-500 border-orange-600 text-orange-50" : ""}
-        ${subasta.estado_sub === "espera" ? "bg-blue-500 border-blue-600 text-blue-50" : ""}
-        ${subasta.estado_sub === "cerrada" ? "bg-red-400 border-red-600 text-red-50" : ""}`}
-      >
-        <p className="text-sm text-default-50 p-0 px-1">{subasta.estado_sub}</p>
-      </div></div>
+        <p className={`text-sm py-1 rounded-lg px-2 ml-2 
+          ${subasta.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}
+          ${subasta.estado_sub === "proceso"? "bg-orange-100 text-orange-500": ""}
+          ${subasta.estado_sub === "espera"? "bg-blue-100 text-blue-500": ""}
+          ${subasta.estado_sub === "cerrada"? "bg-[#fdd0df] text-[#f31263]": ""} 
+        `}>
+          {subasta.estado_sub}
+        </p>
+      </div>
       <div className="flex gap-3 w-full">
         <div className="bg-[#e0e0e0] rounded-xl w-full p-4 h-full">
           <div className="grid gap-1">

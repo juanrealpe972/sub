@@ -14,9 +14,9 @@ export default function SubastaTable() {
   const [abrirModal, setAbrirModal] = useState(false);
   const [abrirModalSub, setAbrirModalSub] = useState(false);
   const [mode, setMode] = useState("create");
-  const [alertShown, setAlertShown] = useState({});
+  const [alertShown, setAlertShown] = useState([]);
 
-  const { getSubForUser, setIdSubasta, subastaForuser, desactivarSubs, activarSubs, ProcesoSubs, EsperaSubs } = useSubastaContext();
+  const { getSubForUser, setIdSubasta, subastaForuser, desactivarSubs, activarSubs, destablecerGanador, ProcesoSubs, EsperaSubs, establecerGanador } = useSubastaContext();
   const usuario = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -34,45 +34,65 @@ export default function SubastaTable() {
   }
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (subastaForuser) {
-        subastaForuser.forEach((subasta) => {
-          const { pk_id_sub, nombre_tipo_vari, precio_final_sub, ganador_nombre, fecha_inicio_sub, fecha_fin_sub } = subasta; 
-
-          const tiempo = calcularDiferencia(fecha_inicio_sub, fecha_fin_sub);
-
-          if (tiempo.includes("Subasta terminada") && !precio_final_sub && !ganador_nombre&& !alertShown[pk_id_sub]) {
-            setAlertShown((prevAlerts) => ({
-              ...prevAlerts,
-              [pk_id_sub]: true
-            }));
-            Swal.fire({
-              text: `La subasta ${pk_id_sub} - ${nombre_tipo_vari} ya finalizó. Ingresa a la subasta y escoge al mayor pujador.`,
-              icon: "info",
-            });
-            EsperaSubs(pk_id_sub, usuario.pk_cedula_user);
-          } else if(tiempo.includes("La subasta empezará dentro de")) {
-            activarSubs(pk_id_sub, usuario.pk_cedula_user)
-          } else if (tiempo.includes("La subasta terminará en")) {
-            ProcesoSubs(pk_id_sub, usuario.pk_cedula_user);
-          } else if (tiempo.includes("A la subasta le quedan") && !alertShown[pk_id_sub]) {
-            setAlertShown((prevAlerts) => ({
-              ...prevAlerts,
-              [pk_id_sub]: true
-            }));
-            Swal.fire({
-              text: `A la subasta ${pk_id_sub} - ${nombre_tipo_vari} le quedan menos de 10 minutos para finalizar. Es hora de ponerse en contacto con el dueño de la mayor puja.`,
-              icon: "info",
-            });
-            EsperaSubs(pk_id_sub, usuario.pk_cedula_user);
-          } else if (tiempo.includes("Subasta terminada") && precio_final_sub && ganador_nombre ) {
-            desactivarSubs(pk_id_sub, usuario.pk_cedula_user)
-          }
+    if (!subastaForuser) return;
+  
+    const handleSubastaState = (subasta) => {
+      const { pk_id_sub, nombre_tipo_vari, precio_final_sub, ganador_sub, fecha_inicio_sub, fecha_fin_sub, estado_sub } = subasta;
+      const tiempo = calcularDiferencia(fecha_inicio_sub, fecha_fin_sub);
+  
+      if (tiempo.includes("Subasta terminada") && !alertShown.includes(pk_id_sub)) {
+        setAlertShown((date) => [...date, pk_id_sub]);
+        Swal.fire({
+          text: `La subasta ${pk_id_sub} - ${nombre_tipo_vari} ya finalizó. Ingresa a la subasta y escoge al mayor pujador.`,
+          icon: "info",
         });
+        EsperaSubs(pk_id_sub, usuario.pk_cedula_user);
+      } else if (tiempo.includes("La subasta empezará dentro de") && estado_sub !== "cerrada") {
+        activarSubs(pk_id_sub, usuario.pk_cedula_user);
+      } else if (tiempo.includes("La subasta terminará en")) {
+        ProcesoSubs(pk_id_sub, usuario.pk_cedula_user);
+      } else if (tiempo.includes("A la subasta le quedan menos de 10 minutos") && !alertShown.includes(pk_id_sub)) {
+        setAlertShown((date) => [...date, pk_id_sub]);
+        Swal.fire({
+          text: `A la subasta ${pk_id_sub} - ${nombre_tipo_vari} le quedan menos de 10 minutos para finalizar. Es hora de ponerse en contacto con el dueño de la mayor puja.`,
+          icon: "info",
+        });
+        EsperaSubs(pk_id_sub, usuario.pk_cedula_user);
+      } else if (tiempo.includes("Subasta terminada") && precio_final_sub !== null && ganador_sub !== null) {
+        desactivarSubs(pk_id_sub, usuario.pk_cedula_user);
       }
+    };
+  
+    subastaForuser.forEach(handleSubastaState);
+  
+    const intervalId = setInterval(() => {
+      subastaForuser.forEach(handleSubastaState);
     }, 1000);
+  
     return () => clearInterval(intervalId);
   }, [subastaForuser, alertShown, usuario]);
+  
+
+  const confirmDesactivarSubasta = (subasta) => {
+    const { pk_id_sub, nombre_tipo_vari } = subasta;
+    const data = {
+      "precio_final_sub": 0, 
+      "ganador_sub": 0
+    }
+
+    Swal.fire({
+      text: `¿Desea desactivar la subasta ${pk_id_sub} - ${nombre_tipo_vari}? Se establecerá un precio final de 0 y ningún ganador.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Sí, desactivar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        establecerGanador(pk_id_sub, data);
+        desactivarSubs(pk_id_sub, usuario.pk_cedula_user);
+      }
+    });
+  };
 
   const calcularDiferencia = (fechaInicio, fechaFin) => {
     const inicio = new Date(fechaInicio);
@@ -137,10 +157,10 @@ export default function SubastaTable() {
               <CardBody>
                 <span className="text-center flex items-center justify-center w-full gap-3">
                   {subasta.pk_id_sub} - {subasta.nombre_tipo_vari}
-                    <p className={`text-sm py-1 rounded-lg px-2
+                    <p className={`text-sm py-1 rounded-lg px-2 capitalize 
                       ${subasta.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}
-                      ${subasta.estado_sub === "proceso"? "bg-orange-50 text-orange-500": ""}
-                      ${subasta.estado_sub === "espera"? "bg-blue-50 text-blue-500": ""}
+                      ${subasta.estado_sub === "proceso"? "bg-orange-100 text-orange-500": ""}
+                      ${subasta.estado_sub === "espera"? "bg-blue-100 text-blue-500": ""}
                       ${subasta.estado_sub === "cerrada"? "bg-[#fdd0df] text-[#f31263]": ""} 
                     `}>
                       {subasta.estado_sub}
@@ -153,17 +173,17 @@ export default function SubastaTable() {
                               <VerticalDotsIcon className="text-default-400" />
                             </Button>
                           </DropdownTrigger>
-                          <DropdownMenu aria-label="Example" disabledKeys={[subasta.estado_sub === "abierta" ? "" : "edit"]}>
+                          <DropdownMenu aria-label="Example" disabledKeys={subasta.estado_sub === "abierta" ? [] : subasta.estado_sub === "cerrada" && (subasta.ganador_sub || subasta.precio_final_sub)? ["activar", "edit"]: ["edit", "desactivar"]}>
                             <DropdownItem key="edit" onPress={() => {
                               handleToggle("update");
                               setIdSubasta(subasta);
                             }}>
                               Editar
                             </DropdownItem>
-                            {subasta.estado_sub === "abierta" || subasta.estado_sub === "proceso" || subasta.estado_sub === "espera" ? (
-                                <DropdownItem key="desactivar" className="text-danger" color="danger" variant="solid" onPress={() => desactivarSubs(subasta.pk_id_sub,usuario.pk_cedula_user)}>Desactivar Subasta</DropdownItem>                             
+                            {subasta.estado_sub !== "cerrada" ? (
+                                <DropdownItem key="desactivar" className="text-danger" color="danger" variant="solid" onPress={() => confirmDesactivarSubasta(subasta)}>Desactivar Subasta</DropdownItem>                             
                               ): (
-                                <DropdownItem key="activar" className="text-green-500" color="success" variant="solid" onPress={() => activarSubs(subasta.pk_id_sub, usuario.pk_cedula_user)}>Activar Subasta</DropdownItem>                             
+                                <DropdownItem key="activar" className="text-green-500" color="success" variant="solid" onPress={() => destablecerGanador(subasta.pk_id_sub, usuario.pk_cedula_user)}>Activar Subasta</DropdownItem>                             
                             )}
                           </DropdownMenu>
                         </Dropdown>
@@ -175,7 +195,7 @@ export default function SubastaTable() {
                     shadow="sm"
                     radius="md"
                     alt={subasta.imagen_sub}
-                    className="w-[300px] object-cover h-[200px]"
+                    className="w-[250px] object-cover h-[200px]"
                     src={`http://localhost:4000/subastas/${subasta.imagen_sub}`}
                   />
                   <div className="grid gap-x-2 py-2 px-2 text-sm max-h-[300px] overflow-y-auto">
@@ -221,7 +241,7 @@ export default function SubastaTable() {
                           </div>
                           <div className="flex gap-x-2">
                             <p className="font-semibold">Ganador:</p>
-                            <p>{subasta.ganador_nombre}</p>
+                            <p>{subasta.ganador_sub ? subasta.ganador_nombre : "Sin ganador"}</p>
                           </div>
                         </>
                       )}

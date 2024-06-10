@@ -19,7 +19,6 @@ function ModalSubasta({ onClose }) {
 
   const [tiempoRestante, setTiempoRestante] = useState("");
   const [subastaIniciada, setSubastaIniciada] = useState(false);
-  const [subastaTerminada, setSubastaTerminada] = useState(false);
 
   const handleIniciarPuja = async () => {
     try {
@@ -50,15 +49,15 @@ function ModalSubasta({ onClose }) {
   
       if (ahora < inicio) {
         setSubastaIniciada(false);
-        setSubastaTerminada(false);
         return `La subasta empezará dentro de ${calcularTiempoRestante(ahora, inicio)}`;
-      } else if (ahora > fin) {
+      } else if (ahora > fin && !subasta.ganador_sub) {
         setSubastaIniciada(true);
-        setSubastaTerminada(true);
-        return "Subasta terminada";
+        return "Subasta terminada, falta escoger ganador";
+      }  else if (ahora > fin) {
+        setSubastaIniciada(false);
+        return "Subasta terminadaaa";
       } else {
         setSubastaIniciada(true);
-        setSubastaTerminada(false);
         const diferenciaMs = fin - ahora;
         const segundos = Math.floor((diferenciaMs / 1000) % 60);
         const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
@@ -116,7 +115,7 @@ function ModalSubasta({ onClose }) {
               <p className="text-xl text-white font-semibold text-center"> Datos de la subasta </p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="font-semibold text-[#a1653d] text-center"> {subastaTerminada ? "Subasta terminada" : tiempoRestante} </p>
+              <p className="font-semibold text-[#a1653d] text-center"> {tiempoRestante} </p>
             </div>
             <div className="grid grid-cols-2 gap-x-2 py-2 px-2">
               <div className="items-end flex flex-col ">

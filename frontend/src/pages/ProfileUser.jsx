@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, Card, CardBody, Image } from "@nextui-org/react";
+import { Avatar, Button, Card, CardBody, Image, Link } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 import UserRol from "../nextui/UserRol";
 import GmailIcon from "../nextui/GmailIcon";
 import Phone from "../nextui/Phone";
-import { ChevronDownIcon } from "../nextui/ChevronDownIcon";
+import "./scroll.css"
 
 import FormUser from "../components/templates/FormUser";
 import FormUserPassword from "../components/templates/FormUserPassword";
@@ -15,6 +15,7 @@ import FormCalificaion from "../components/templates/FormCalificaion";
 import { useAuthContext } from "../context/AuthContext";
 import { useSubastaContext } from "../context/SubastaContext";
 import { useCalificacionesContext } from "../context/CalificacionesContext";
+import ModalSubCoffee from "../components/templates/ModalSubCoffee";
 
 const colors = {
   orange: "#FFBA5A",
@@ -30,7 +31,7 @@ function ProfileUser() {
   const [abrirModalPassword, setAbrirModalPassword] = useState(false);
   const [mode, setMode] = useState("create");
   const { getUserID, user, setIdUser, getUsers } = useAuthContext();
-  const { getSubForUser, subastaForuser, getSubGanador, subastaGanador } = useSubastaContext();
+  const { getSubForUser, subastaForuser, getSubGanador, subastaGanador, setIdSubasta } = useSubastaContext();
   const { getCalificacionesUser, stats } = useCalificacionesContext();
 
   useEffect(() => {
@@ -91,8 +92,35 @@ function ProfileUser() {
     );
   };
 
+  const [hoveredLinks, setHoveredLinks] = useState({});
+
+  const handleMouseEnter = (id, type) => {
+    setHoveredLinks((prevState) => ({
+      ...prevState,
+      [`${id}_${type}`]: true,
+    }));
+  };
+  
+  const handleMouseLeave = (id, type) => {
+    setHoveredLinks((prevState) => ({
+      ...prevState,
+      [`${id}_${type}`]: false,
+    }));
+  };
+
+  const [abrirModalSub, setAbrirModalSub] = useState(false);
+
+  const handdleModaSub = (id) => {
+    setAbrirModalSub(true);
+    setIdSubasta(id);
+  };
+
   return (
     <div className="px-16">
+      <ModalSubCoffee
+        open={abrirModalSub}
+        onClose={() => setAbrirModalSub(false)}
+      />
       <FormUser
         open={abrirModal}
         onClose={() => setAbrirModal(false)}
@@ -116,10 +144,7 @@ function ProfileUser() {
             {user.pk_cedula_user === localUser.pk_cedula_user && (
               <Button
                 className="mt-2 py-2 px-4 bg-[#00684a] text-white font-semibold rounded-md"
-                onClick={() => {
-                  handleToggle("update");
-                  setIdUser(user);
-                }}
+                onClick={() => {handleToggle("update"); setIdUser(user); }}
               >
                 Editar perfil
               </Button>
@@ -127,10 +152,7 @@ function ProfileUser() {
             {user.pk_cedula_user === localUser.pk_cedula_user && (
               <Button
                 className="py-2 px-4 bg-[#001e2b] text-white font-semibold rounded-md mt-2"
-                onClick={() => {
-                  setAbrirModalPassword(true);
-                  setIdUser(user);
-                }}
+                onClick={() => {setAbrirModalPassword(true); setIdUser(user); }}
               >
                 Cambiar contraseña
               </Button>
@@ -166,16 +188,18 @@ function ProfileUser() {
                     {stats && stats.promedio != null && !isNaN(stats.promedio) ? (
                       <div className="flex gap-x-2">
                         <div className="text-2xl font-bold">{parseFloat(stats.promedio).toFixed(1)}</div>
-                        {renderAverageStars(stats.promedio)}
+                        <p>{renderAverageStars(stats.promedio)}</p>
                       </div>
                     ) : (
-                      "Usuario sin calificaciones"
+                      <div className="flex w-full justify-center">
+                        <p className="text-xl my-2 text-gray-400 font-semibold">Usuario sin calificaciones.</p>
+                      </div>
                     )}
                   </div>
                 </div>
-                <Button className="bg-transparent p-0 m-0 hover:underline -mt-2" onClick={() => setAbrirModalCalificacion(true)} endContent={<ChevronDownIcon/>}>
+                <Link onClick={() => setAbrirModalCalificacion(true)} showAnchorIcon className="cursor-pointer hover:underline text-black">
                   Calificaciones y opiniones
-                </Button>
+                </Link>
               </>
             )}
           </div>
@@ -205,26 +229,24 @@ function ProfileUser() {
           <div className="flex w-full flex-col items-center">
             {user.rol_user !== "comprador" && activeTab === "creadas" && (
               <div>
-                <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-x-2 sm:grid-cols-1" : "" } justify-center`} >
+                <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10" : "" } justify-center`} >
                   {subastaForuser ? (
                     subastaForuser.map((subasta) => (
                       <Card
                         key={subasta.pk_id_sub}
-                        className="max-w-[320px] m-2"
+                        className="max-w-[340px] m-2"
                       >
-                        <CardBody className="items-center w-full h-[485px]">
+                        <CardBody className="items-center w-full h-[510px]">
                           <span className="text-center flex justify-center items-center gap-x-3">
                             <b className="text-lg">{subasta.pk_id_sub} - {subasta.nombre_tipo_vari}</b>
-                            <div
-                              className={`w-auto rounded-lg border
-                                ${subasta.estado_sub === "abierta"? "bg-green-500 border-green-600 text-green-50": ""}
-                                ${subasta.estado_sub === "proceso"? "bg-orange-500 border-orange-600 text-orange-50": ""}
-                                ${subasta.estado_sub === "espera"? "bg-blue-500 border-blue-600 text-blue-50": ""}
-                                ${subasta.estado_sub === "cerrada"? "bg-red-400 border-red-600 text-red-50": ""} 
-                              `}
-                            >
-                              <p className="text-sm text-default-50 p-1">{subasta.estado_sub}</p>
-                            </div>
+                            <p className={`text-sm py-1 rounded-lg px-2 capitalize 
+                              ${subasta.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}
+                              ${subasta.estado_sub === "proceso"? "bg-orange-100 text-orange-500": ""}
+                              ${subasta.estado_sub === "espera"? "bg-blue-100 text-blue-500": ""}
+                              ${subasta.estado_sub === "cerrada"? "bg-[#fdd0df] text-[#f31263]": ""} 
+                            `}>
+                              {subasta.estado_sub}
+                            </p>
                           </span>
                           <CardBody className="flex items-center">
                             <Image
@@ -232,9 +254,9 @@ function ProfileUser() {
                               radius="md"
                               alt={subasta.imagen_sub}
                               className="w-[250px] object-cover h-[200px]"
-                              src={`http://localhost:4000/img/subasta/${subasta.imagen_sub}`}
+                              src={`http://localhost:4000/subastas/${subasta.imagen_sub}`}
                             />
-                            <div className="grid gap-x-2 py-2 px-2 text-sm max-h-[400px] overflow-y-auto">
+                            <div className="grid gap-x-2 py-2 px-2 text-sm h-[430px] overflow-y-auto">
                               <div className="flex flex-col">
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Apertura:</p>
@@ -253,22 +275,37 @@ function ProfileUser() {
                                   <p>{subasta.cantidad_sub}{subasta.cantidad_sub > 0? subasta.unidad_peso_sub + "s": subasta.unidad_peso_sub}</p>
                                 </div>
                                 <div className="flex w-full gap-x-2">
+                                  <p className="font-semibold">Certificado:</p>
+                                  <div
+                                    className="scroll-container"
+                                    onMouseEnter={() => handleMouseEnter(subasta.pk_id_sub, 'certificado')}
+                                    onMouseLeave={() => handleMouseLeave(subasta.pk_id_sub, 'certificado')}
+                                  >
+                                    <p className={`cursor-pointer hover:underline scroll-text ${ hoveredLinks[`${subasta.pk_id_sub}_certificado`] ? 'scroll-active' : '' }`}>
+                                      <a
+                                        href={`http://localhost:4000/subastas/${subasta.certificado_sub}`}
+                                        download={subasta.certificado_sub}
+                                      >
+                                        {subasta.certificado_sub}
+                                      </a>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Tipo Variedad:</p>
                                   <p>{subasta.nombre_tipo_vari}</p>
                                 </div>
-                                <div className="flex w-full gap-x-2">
-                                  <p className="font-semibold">Certificado:</p>
-                                  <p className="underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">{subasta.certificado_sub}</p>
-                                </div>
                                 <div className="flex gap-x-2">
                                   <p className="font-semibold">Descripción:</p>
-                                  <p>{subasta.descripcion_sub}</p>
+                                  <div className="scroll-container" onMouseEnter={() => handleMouseEnter(subasta.pk_id_sub, 'descripcion')} onMouseLeave={() => handleMouseLeave(subasta.pk_id_sub, 'descripcion')}>
+                                    <p className={`scroll-text ${hoveredLinks[`${subasta.pk_id_sub}_descripcion`] ? 'scroll-active' : ''}`}>{subasta.descripcion_sub}</p>
+                                  </div>
                                 </div>
                                 <div className="flex gap-x-2">
                                   <p className="font-semibold">Precio base:</p>
                                   <p>${Number( subasta.precio_inicial_sub ).toLocaleString("es-ES")}</p>
                                 </div>
-                                {subasta.estado_sub === "cerrada" && (
+                                {subasta.estado_sub === "cerrada" ? (
                                   <>
                                     <div className="flex gap-x-2">
                                       <p className="font-semibold text-[#c29b81]">Precio Final:</p>
@@ -279,6 +316,14 @@ function ProfileUser() {
                                       <p className="text-[#009100] font-semibold">{subasta.ganador_sub ? subasta.ganador_sub : "Desconocido"}</p>
                                     </div>
                                   </>
+                                ): (
+                                  <Button
+                                    className="py-2 mt-2 px-4 bg-[#00684a] text-white font-semibold rounded-lg"
+                                    size="lg"
+                                    onClick={() => handdleModaSub(subasta.pk_id_sub)}
+                                  >
+                                    Ver subasta
+                                  </Button>
                                 )}
                               </div>
                             </div>
