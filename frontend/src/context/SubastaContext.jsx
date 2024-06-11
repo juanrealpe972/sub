@@ -68,11 +68,12 @@ export const SubastaProvider = ({ children }) => {
     }
   }
 
-  const establecerGanador = async(id, data, user) => {
+  const establecerGanador = async(id, data) => {
     try {
       await subastaGanadorAsingar(id, data).then((response) => {
         getSub(id)
-        activarSubs(id, user)
+        getSubs()
+        getSubsMenoCerradas()
         setMensaje(response.data.message);
         serCerrarModal(true)
         setModalMessage(true);

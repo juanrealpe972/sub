@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Avatar, Button, Image, Modal, ModalBody, ModalContent, Slider } from "@nextui-org/react";
+import { Avatar, Button, Image, Slider } from "@nextui-org/react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
+
 import { useSubastaContext } from "../context/SubastaContext";
 import { usePostulantesContext } from "../context/PostulantesContext";
 import { useOfertasContext } from "../context/OfertasContext";
 import { useAuthContext } from "../context/AuthContext";
 import { useCalificacionesContext } from "../context/CalificacionesContext";
-import Swal from "sweetalert2";
-import ModalContact from "./ModalContact";
+
+import FormGanador from "../components/templates/FormGanador";
+import "./scroll.css"
 
 const colors = {
   orange: "#FFBA5A",
@@ -18,14 +21,17 @@ const colors = {
 function SubastaUser() {
   const { id } = useParams();
   const [oferta, setOferta] = useState(0);
-  const { getSub, subasta, EsperaSubs } = useSubastaContext();
+  const { getSub, subasta, EsperaSubs, activarSubs, ProcesoSubs } = useSubastaContext();
   const { getPostsActivos, postsActivos, desactivarPosts } = usePostulantesContext();
-  const { createOfert, ofertas, getOfertForSub, eliminarOfertas } = useOfertasContext();
+  const { createOfert, ofertas, getOfertForSub, eliminarOfertas, getOfertMayor, ofertasMayor } = useOfertasContext();
   const { getCalificacionesUser, stats } = useCalificacionesContext();
+  const [hoveredLinks, setHoveredLinks] = useState({});
   const { getUsers } = useAuthContext();
   const [precioActual, setPrecioActual] = useState(0);
   const user = JSON.parse(localStorage.getItem("user"));
   const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [tiempoRestante, setTiempoRestante] = useState("");
+  const [subastaIniciada, setSubastaIniciada] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,58 +47,61 @@ function SubastaUser() {
     getPostsActivos(id);
   }, [id, getSub, getPostsActivos]);
 
-  const calcularDiferencia = (fechaInicio, fechaFin) => {
-    const inicio = new Date(fechaInicio);
-    const fin = new Date(fechaFin);
-    const ahora = new Date();
-
-    if (ahora < inicio) {
-      return `La subasta empezará dentro de ${calcularTiempoRestante(ahora, inicio)}`;
-    } else if (ahora > fin) {
-      return "Subasta terminada";
-    } else {
-      const diferenciaMs = fin - ahora;
+  useEffect(() => {
+    const calcularDiferencia = (fechaInicio, fechaFin) => {
+      const inicio = new Date(fechaInicio);
+      const fin = new Date(fechaFin);
+      const ahora = new Date();
+  
+      if (ahora < inicio) {
+        activarSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        setSubastaIniciada(false);
+        return `La subasta empezará dentro de ${calcularTiempoRestante(ahora, inicio)}`;
+      } else if (ahora > fin && !subasta.ganador_sub) {
+        EsperaSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        setSubastaIniciada(true);
+        return "Subasta terminada, falta escoger ganador";
+      }  else if (ahora > fin) {
+        EsperaSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        setSubastaIniciada(false);
+        return "Subasta terminadaaa";
+        } else {
+        setSubastaIniciada(false);
+        ProcesoSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        const diferenciaMs = fin - ahora;
+        const segundos = Math.floor((diferenciaMs / 1000) % 60);
+        const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
+        const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
+        const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
+        return `La subasta terminará en: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+      }
+    };
+  
+    const calcularTiempoRestante = (inicio, fin) => {
+      const diferenciaMs = fin - inicio;
       const segundos = Math.floor((diferenciaMs / 1000) % 60);
       const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
       const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
       const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
-
-      if (dias === 0 && horas === 1 && minutos < 8) {
-        return `A la subasta le quedan, ${horas} horas, ${minutos} minutos y ${segundos} segundos`;
-      } else {
-        return `La subasta terminará en: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-      }
-    }
-  };
+      return `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+    };
+  
+    const actualizarTiempo = () => {
+      setTiempoRestante(
+        calcularDiferencia(subasta.fecha_inicio_sub, subasta.fecha_fin_sub)
+      );
+    };
+  
+    const intervalId = setInterval(actualizarTiempo, 1000);
+    actualizarTiempo(); // Para calcular el tiempo restante inmediatamente
+    return () => clearInterval(intervalId);
+  }, [subasta.fecha_inicio_sub, subasta.fecha_fin_sub]);
 
   useEffect(() => {
-    if (!subasta || subasta.length === 0) return;
-
-    const intervalId = setInterval(() => {
-      const { pk_id_sub } = subasta;
-      const { pk_cedula_user } = user;
-      const tiempo = calcularDiferencia(subasta.fecha_inicio_sub, subasta.fecha_fin_sub);
-      if (tiempo.includes("La subasta terminará en")) {
-        Swal.fire({
-          text: "A la subasta le quedan menos de 18 minutos para finalizar.",
-          icon: "info",
-        });
-      } else if (tiempo.includes("La subasta empezará dentro de")) {
-        EsperaSubs(pk_id_sub, pk_cedula_user);
-      }
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [subasta, user, EsperaSubs]);
-
-  const calcularTiempoRestante = (inicio, fin) => {
-    const diferenciaMs = fin - inicio;
-    const segundos = Math.floor((diferenciaMs / 1000) % 60);
-    const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
-    const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
-    const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
-    return `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-  };
+    if (subasta && subastaIniciada && !subasta.ganador_sub) {
+      getOfertMayor(id);
+    }
+  }, [subasta, getOfertMayor, id]);
 
   const handleSubmitOferta = async (e) => {
     e.preventDefault();
@@ -125,6 +134,13 @@ function SubastaUser() {
       };
       if (user.pk_cedula_user === subasta.pk_cedula_user) {
         navigate(`/subcoffee`);
+      } else if (subastaIniciada) {
+        desactivarPosts(data, id);
+        navigate(`/subcoffee`);
+        Swal.fire({
+          text: "¡Salida de subasta exitosa!",
+          icon: "success",
+        });
       } else {
         Swal.fire({
           text: "¿Estás seguro de salir de la subasta? Si es así, se eliminarán las ofertas que hayas creado.",
@@ -150,19 +166,26 @@ function SubastaUser() {
   };
 
   useEffect(() => {
-    const nuevoPrecioActual =
-      Array.isArray(ofertas) && ofertas.length > 0
-        ? Math.max(...ofertas.map((oferta) => oferta.oferta_ofer), 0)
-        : Number(subasta.precio_inicial_sub);
+    const nuevoPrecioActual = Array.isArray(ofertas) && ofertas.length > 0
+      ? Math.max(...ofertas.map((oferta) => oferta.oferta_ofer), 0)
+      : Number(subasta.precio_inicial_sub);
     setPrecioActual(nuevoPrecioActual);
   }, [subasta.precio_inicial_sub, ofertas]);
+  
+  const handleMouseEnter = (id) => {
+    setHoveredLinks({ ...hoveredLinks, [id]: true });
+  };
+
+  const handleMouseLeave = (id) => {
+    setHoveredLinks({ ...hoveredLinks, [id]: false });
+  };
 
   useEffect(() => {
     if (subasta && subasta.pk_cedula_user) {
       getCalificacionesUser(subasta.pk_cedula_user);
     }
   }, [subasta.pk_cedula_user, getCalificacionesUser]);
-
+  
   const renderAverageStars = (average) => {
     const fullStars = Math.floor(average);
     const hasHalfStar = average % 1 !== 0;
@@ -214,7 +237,7 @@ function SubastaUser() {
               </div>
               <div className="flex flex-col items-center">
                 <p className="font-semibold text-[#a1653d]">Fecha fin de la subasta:</p>
-                <p className="text-[#00684a] font-semibold text-[16px] -mt-1">{calcularDiferencia(subasta.fecha_inicio_sub,subasta.fecha_fin_sub)}</p>
+                <p className="font-semibold text-[#00684a] text-center"> {tiempoRestante} </p>
               </div>
               <div className="grid grid-cols-2 gap-x-2 py-2 px-2">
                 <div className="items-end flex flex-col">
@@ -231,11 +254,13 @@ function SubastaUser() {
                   <p> {new Date(subasta.fecha_fin_sub).toLocaleString("es-ES", { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", })}</p>
                   <p className="flex overflow-hidden text-ellipsis whitespace-nowrap w-44"> {subasta.nombre_vere} - {subasta.nombre_muni} - {subasta.nombre_depar}</p>
                   <p> {subasta.cantidad_sub} {subasta.cantidad_sub > 1 ? subasta.unidad_peso_sub + "s" : subasta.unidad_peso_sub} </p>
+                  <div className="scroll-container w-full" onMouseEnter={() => handleMouseEnter('certificado')} onMouseLeave={() => handleMouseLeave('certificado')}>
+                    <p className={`scroll-text ${hoveredLinks['certificado'] ? 'scroll-active' : 'cursor-pointer underline overflow-hidden text-ellipsis whitespace-nowrap w-44'}`}><a href={`http://localhost:4000/subastas/${subasta.certificado_sub}`} download={subasta.certificado_sub}>{subasta.certificado_sub}</a></p>
+                  </div>
                   <p>{subasta.nombre_tipo_vari}</p>
-                  <a href={`http://localhost:4000/subastas/${subasta.certificado_sub}`} download={subasta.certificado_sub} className="flex underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-44">
-                    {subasta.certificado_sub}
-                  </a>
-                  <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-auto">{subasta.descripcion_sub}</p>
+                  <div className="scroll-container w-full" onMouseEnter={() => handleMouseEnter('descripcion')} onMouseLeave={() => handleMouseLeave('descripcion')}>
+                    <p className={`scroll-text ${hoveredLinks['descripcion'] ? 'scroll-active' : 'overflow-hidden text-ellipsis whitespace-nowrap w-44'}`}>{subasta.descripcion_sub}</p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col items-center">
@@ -251,20 +276,17 @@ function SubastaUser() {
             <div className={`overflow-y-auto  ${subasta.pk_cedula_user !== user.pk_cedula_user ? "max-h-[350px]" : "max-full" }`}>
               {Array.isArray(ofertas) && ofertas.length > 0 ? (
                 ofertas.map((oferta) => (
-                  <div
-                    key={oferta.pk_id_ofer}
-                    className={`p-1`}
-                  >
+                  <div key={oferta.pk_id_ofer} className={`p-1`} >
                     { oferta.fk_id_usuario === user.pk_cedula_user
                       ? (                    
                       <div className="flex items-center justify-start">
                         <div className="flex items-center bg-gray-100 py-1 pr-12 rounded-2xl">
                           <img
-                            src={subasta.imagen_user && subasta.imagen_user.length > 0? `http://localhost:4000/usuarios/${subasta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+                            src={oferta.imagen_user && oferta.imagen_user.length > 0 ? `http://localhost:4000/usuarios/${oferta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
                             alt="User Avatar"
-                            className="h-12 rounded-full mr-2"
+                            className="h-12 rounded-full mx-2"
                           />
-                          <div className="-ml-4">
+                          <div className="-ml-1">
                             <p className="font-semibold -mb-2">{oferta.nombre_user}</p>
                             <p>$ {oferta.oferta_ofer.toLocaleString()}</p>
                             <p className="text-xs -mt-1">{new Date(oferta.fecha_ofer).toLocaleString()}</p>
@@ -274,15 +296,15 @@ function SubastaUser() {
                     ) : (                    
                       <div className="flex items-center justify-end">
                         <div className="flex items-center bg-slate-100 py-1 pl-8 rounded-2xl">
-                          <div className="flex text-end flex-col -mr-4">
+                          <div className="flex text-end flex-col -mr-1">
                             <p className="font-semibold -mb-2">{oferta.nombre_user}</p>
                             <p>$ {oferta.oferta_ofer.toLocaleString()}</p>
                             <p className="text-xs -mt-1">{new Date(oferta.fecha_ofer).toLocaleString()}</p>
                           </div>
                           <img
-                            src={subasta.imagen_user && subasta.imagen_user.length > 0? `http://localhost:4000/usuarios/${subasta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+                            src={oferta.imagen_user && oferta.imagen_user.length > 0? `http://localhost:4000/usuarios/${oferta.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
                             alt="User Avatar"
-                            className="h-12 ml-2 rounded-full"
+                            className="h-12 mx-2 rounded-full"
                           />
                         </div>
                       </div>)
@@ -294,61 +316,73 @@ function SubastaUser() {
               )}
             </div>
           </div>
-          {subasta.pk_cedula_user !== user.pk_cedula_user && (
+          {subasta.estado_sub === "proceso" && subasta.pk_cedula_user !== user.pk_cedula_user ? (
             <div className="bg-[#e0e0e0] rounded-xl p-4 mt-2 w-full">
               <p className="text-center">Precio actual: ${precioActual.toLocaleString()}</p>
               <form onSubmit={handleSubmitOferta} className="w-full flex flex-col items-center">
-              <Slider
-                label="Añadir A La Puja"
-                step={20000}
-                value={oferta}
-                onChange={(value) => setOferta(value)}
-                maxValue={500000} 
-                minValue={0}
-                showSteps={true}
-                showTooltip={true}
-                showOutline={true}
-                disableThumbScale={true}
-                formatOptions={{
-                  style: "currency",
-                  currency: "COP",
-                  currencyDisplay: "symbol",
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                }}
-                tooltipValueFormatOptions={{
-                  style: "currency",
-                  currency: "COP",
-                  currencyDisplay: "symbol",
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                }}
-                classNames={{
-                  base: "w-full",
-                  filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
-                  labelWrapper: "mb-2",
-                  label: "font-medium text-default-700 text-medium",
-                  value: "font-medium text-default-500 text-small",
-                  thumb: [
-                    "transition-size",
-                    "bg-gradient-to-r from-secondary-400 to-primary-500",
-                    "data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20",
-                    "data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6",
-                  ],
-                  step: "data-[in-range=true]:bg-black/30 dark:data-[in-range=true]:bg-white/50",
-                }}
-                tooltipProps={{
-                  offset: 10,
-                  placement: "bottom",
-                  classNames: {
-                    base: ["before:bg-gradient-to-r before:from-secondary-400 before:to-primary-500"],
-                    content: ["py-2 shadow-xl text-white bg-gradient-to-r from-secondary-400 to-primary-500"],
-                  },
-                }}
-              />
-              <Button type="submit">Realizar Oferta</Button>
-            </form>
+                <Slider
+                  label="Añadir A La Puja"
+                  step={20000}
+                  value={oferta}
+                  onChange={(value) => setOferta(value)}
+                  maxValue={500000} 
+                  minValue={0}
+                  showSteps={true}
+                  showTooltip={true}
+                  showOutline={true}
+                  disableThumbScale={true}
+                  formatOptions={{
+                    style: "currency",
+                    currency: "COP",
+                    currencyDisplay: "symbol",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }}
+                  tooltipValueFormatOptions={{
+                    style: "currency",
+                    currency: "COP",
+                    currencyDisplay: "symbol",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }}
+                  classNames={{
+                    base: "w-full",
+                    filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
+                    labelWrapper: "mb-2",
+                    label: "font-medium text-default-700 text-medium",
+                    value: "font-medium text-default-500 text-small",
+                    thumb: [
+                      "transition-size",
+                      "bg-gradient-to-r from-secondary-400 to-primary-500",
+                      "data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20",
+                      "data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6",
+                    ],
+                    step: "data-[in-range=true]:bg-black/30 dark:data-[in-range=true]:bg-white/50",
+                  }}
+                  tooltipProps={{
+                    offset: 10,
+                    placement: "bottom",
+                    classNames: {
+                      base: ["before:bg-gradient-to-r before:from-secondary-400 before:to-primary-500"],
+                      content: ["py-2 shadow-xl text-white bg-gradient-to-r from-secondary-400 to-primary-500"],
+                    },
+                  }}
+                />
+                <Button type="submit">Realizar Oferta</Button>
+              </form>
             </div>
+          ) : (
+            <>
+              {subasta.pk_cedula_user === user.pk_cedula_user ? (
+                ''
+              ) : (
+                <div className="bg-[#e0e0e0] rounded-lg p-4 mt-2 w-full text-center">
+                  <p className="text-gray-800 font-medium">
+                    Ya no se pueden realizar ofertas porque el tiempo ha finalizado.                    
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </div>
         <div className="grid grid-rows-2 gap-y-2">
@@ -396,17 +430,25 @@ function SubastaUser() {
               )}
             </div>
             <div className="flex justify-center mb-3 mt-3 gap-x-1">
-              <Button
-                onClick={handlePostulantesClick}
-                className="bg-red-600 text-white rounded-xl"
-              >
-                Salir de la subasta
-              </Button>
-              <Button auto color="primary" onClick={() => setIsModalOpen(true)}>
-                Contactar
-              </Button>
+              {subastaIniciada && user.pk_cedula_user === subasta.pk_cedula_user || ofertasMayor.pk_cedula_user === user.pk_cedula_user ? (
+                <Button auto color="primary" onClick={() => setIsModalOpen(true)}>
+                  Contactar
+                </Button>
+              ):(
+                <Button
+                  onClick={handlePostulantesClick}
+                  className="bg-red-600 text-white rounded-xl"
+                >
+                  Salir de la subasta
+                </Button>
+              )}
             </div>
-            <ModalContact open={isModalOpen} onClose={() => setIsModalOpen(false)} id={id} />
+            <FormGanador
+              open={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              title={"Contactar"}
+              id={id}
+            />
           </div>
         </div>
       </div>

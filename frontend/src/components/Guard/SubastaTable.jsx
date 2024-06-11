@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, CardFooter, Button, Image, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 import { PlusIcon } from "../../nextui/PlusIcon";
+import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon";
 
 import { useSubastaContext } from "../../context/SubastaContext";
 
 import FormSubasta from "../templates/FormSubasta";
 import ModalSubCoffee from "../templates/ModalSubCoffee";
-import { VerticalDotsIcon } from "../../nextui/VerticalDotsIcon";
 
 export default function SubastaTable() {
   const [abrirModal, setAbrirModal] = useState(false);
   const [abrirModalSub, setAbrirModalSub] = useState(false);
   const [mode, setMode] = useState("create");
   const [alertShown, setAlertShown] = useState([]);
+  const navigate = useNavigate()
 
   const { getSubForUser, setIdSubasta, subastaForuser, desactivarSubs, activarSubs, destablecerGanador, ProcesoSubs, EsperaSubs, establecerGanador } = useSubastaContext();
   const usuario = JSON.parse(localStorage.getItem("user"));
@@ -40,7 +42,7 @@ export default function SubastaTable() {
       const { pk_id_sub, nombre_tipo_vari, precio_final_sub, ganador_sub, fecha_inicio_sub, fecha_fin_sub, estado_sub } = subasta;
       const tiempo = calcularDiferencia(fecha_inicio_sub, fecha_fin_sub);
   
-      if (tiempo.includes("Subasta terminada") && !alertShown.includes(pk_id_sub)) {
+      if (tiempo.includes("Subasta terminada") && !alertShown.includes(pk_id_sub) && !ganador_sub) {
         setAlertShown((date) => [...date, pk_id_sub]);
         Swal.fire({
           text: `La subasta ${pk_id_sub} - ${nombre_tipo_vari} ya finalizó. Ingresa a la subasta y escoge al mayor pujador.`,
@@ -71,28 +73,6 @@ export default function SubastaTable() {
   
     return () => clearInterval(intervalId);
   }, [subastaForuser, alertShown, usuario]);
-  
-
-  const confirmDesactivarSubasta = (subasta) => {
-    const { pk_id_sub, nombre_tipo_vari } = subasta;
-    const data = {
-      "precio_final_sub": 0, 
-      "ganador_sub": 0
-    }
-
-    Swal.fire({
-      text: `¿Desea desactivar la subasta ${pk_id_sub} - ${nombre_tipo_vari}? Se establecerá un precio final de 0 y ningún ganador.`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: 'Sí, desactivar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        establecerGanador(pk_id_sub, data);
-        desactivarSubs(pk_id_sub, usuario.pk_cedula_user);
-      }
-    });
-  };
 
   const calcularDiferencia = (fechaInicio, fechaFin) => {
     const inicio = new Date(fechaInicio);
@@ -125,6 +105,27 @@ export default function SubastaTable() {
     const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
     const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
     return `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+  };
+
+  const confirmDesactivarSubasta = (subasta) => {
+    const { pk_id_sub, nombre_tipo_vari } = subasta;
+    const data = {
+      "precio_final_sub": 0, 
+      "ganador_sub": 0
+    }
+
+    Swal.fire({
+      text: `¿Desea desactivar la subasta ${pk_id_sub} - ${nombre_tipo_vari}? Se establecerá un precio final de 0 y ningún ganador.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Sí, desactivar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        establecerGanador(pk_id_sub, data);
+        desactivarSubs(pk_id_sub, usuario.pk_cedula_user);
+      }
+    });
   };
 
   return (
@@ -236,12 +237,12 @@ export default function SubastaTable() {
                       {subasta.estado_sub === "cerrada" && (
                         <>
                           <div className="flex gap-x-2">
-                            <p className="font-semibold">Precio final:</p>
-                            <p>${Number(subasta.precio_final_sub).toLocaleString("es-ES")}</p>
+                            <p className="font-semibold text-[#c29b81]">Precio Final:</p>
+                            <p className="text-[#009100] font-semibold">${Number(subasta.precio_final_sub).toLocaleString("es-ES")}</p>
                           </div>
                           <div className="flex gap-x-2">
-                            <p className="font-semibold">Ganador:</p>
-                            <p>{subasta.ganador_sub ? subasta.ganador_nombre : "Sin ganador"}</p>
+                            <p className="font-semibold text-[#c29b81]">Vendedor:</p>
+                            <p className="text-[#009100] font-semibold cursor-pointer" onClick={() => navigate(`/profile/${subasta.ganador_cedula}`)}>{subasta.ganador_nombre ? subasta.ganador_nombre : "Desconocido"}</p>
                           </div>
                         </>
                       )}

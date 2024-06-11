@@ -70,20 +70,20 @@ function ProfileUser() {
         {Array.from({ length: fullStars }, (_, index) => (
           <FaStar
             key={index}
-            size={14}
+            size={20}
             color={colors.orange}
             className="mr-1"
           />
         ))}
         {hasHalfStar && (
-          <FaStarHalfAlt size={24} color={colors.orange} className="mr-1" />
+          <FaStarHalfAlt size={20} color={colors.orange} className="mr-1" />
         )}
         {Array.from(
           { length: 5 - fullStars - (hasHalfStar ? 1 : 0) },
           (_, index) => (
             <FaStar
               key={index + fullStars + 1}
-              size={12}
+              size={20}
               color={colors.grey}
               className="mr-1"
             />
@@ -133,7 +133,7 @@ function ProfileUser() {
         <div className="flex py-4 items-center gap-x-4">
           <div className="flex flex-col justify-center">
             <Avatar
-              src={user.imagen_user && user.imagen_user.length > 0? `http://localhost:4000/img/${user.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+              src={user.imagen_user && user.imagen_user.length > 0? `http://localhost:4000/usuarios/${user.imagen_user}`: "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
               className="w-56 h-56"
             />
             {user.pk_cedula_user === localUser.pk_cedula_user && (
@@ -183,7 +183,7 @@ function ProfileUser() {
                     {stats && stats.promedio != null && !isNaN(stats.promedio) ? (
                       <div className="flex gap-x-2">
                         <div className="text-2xl font-bold">{parseFloat(stats.promedio).toFixed(1)}</div>
-                        <p>{renderAverageStars(stats.promedio)}</p>
+                        {renderAverageStars(stats.promedio)}
                       </div>
                     ) : (
                       <div className="flex w-full justify-center">
@@ -224,7 +224,7 @@ function ProfileUser() {
           <div className="flex w-full flex-col items-center">
             {user.rol_user !== "comprador" && activeTab === "creadas" && (
               <div>
-                <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10" : "" } justify-center`} >
+                <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10" : "" } justify-center`}>
                   {subastaForuser ? (
                     subastaForuser.map((subasta) => (
                       <Card
@@ -332,9 +332,9 @@ function ProfileUser() {
               </div>
             )}
             {activeTab === "ganadas" && (
-              <div className="flex w-full flex-col items-center mb-8">
+              <div className={`grid ${ activeTab ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10" : "" } justify-center`} >
                 {subastaGanador.length > 0 ? subastaGanador.map((ganador) => (
-                  <Card key={ganador.pk_id_sub} className="max-w-[340px] max-h-[530px] p-2" >
+                  <Card key={ganador.pk_id_sub} className="max-w-[340px] max-h-[530px] p-2 mb-3">
                     <CardBody className="w-full">
                       <span className="text-center flex justify-center items-end gap-x-3">
                         <b className="text-lg">{ganador.pk_id_sub} - {ganador.nombre_tipo_vari}</b>
