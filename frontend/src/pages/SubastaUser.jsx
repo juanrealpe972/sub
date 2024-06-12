@@ -54,20 +54,20 @@ function SubastaUser() {
       const ahora = new Date();
   
       if (ahora < inicio) {
-        activarSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        activarSubs(id, user.pk_cedula_user)
         setSubastaIniciada(false);
         return `La subasta empezará dentro de ${calcularTiempoRestante(ahora, inicio)}`;
       } else if (ahora > fin && !subasta.ganador_sub) {
-        EsperaSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        EsperaSubs(id, user.pk_cedula_user)
         setSubastaIniciada(true);
         return "Subasta terminada, falta escoger ganador";
       }  else if (ahora > fin) {
-        EsperaSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        EsperaSubs(id, user.pk_cedula_user)
         setSubastaIniciada(false);
         return "Subasta terminadaaa";
         } else {
         setSubastaIniciada(false);
-        ProcesoSubs(subasta.pk_id_sub, user.pk_cedula_user)
+        ProcesoSubs(id, user.pk_cedula_user)
         const diferenciaMs = fin - ahora;
         const segundos = Math.floor((diferenciaMs / 1000) % 60);
         const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
@@ -98,10 +98,18 @@ function SubastaUser() {
   }, [subasta.fecha_inicio_sub, subasta.fecha_fin_sub]);
 
   useEffect(() => {
+    // Verifica que subasta esté definida y que no haya ganador aún
     if (subasta && subastaIniciada && !subasta.ganador_sub) {
-      getOfertMayor(id);
+      // Verifica que ofertas esté definido y no esté vacío
+      if (ofertas && ofertas.length === 0) {
+        // Ejecuta la función para obtener la oferta mayor
+        getOfertMayor(id);
+      } else {
+        console.log("No hay ofertas en esta subasta.");
+      }
     }
-  }, [subasta, getOfertMayor, id]);
+  }, []);
+  
 
   const handleSubmitOferta = async (e) => {
     e.preventDefault();
@@ -430,7 +438,7 @@ function SubastaUser() {
               )}
             </div>
             <div className="flex justify-center mb-3 mt-3 gap-x-1">
-              {subastaIniciada && user.pk_cedula_user === subasta.pk_cedula_user || ofertasMayor.pk_cedula_user === user.pk_cedula_user ? (
+              {subastaIniciada && ofertasMayor && ofertas && user.pk_cedula_user === subasta.pk_cedula_user || ofertasMayor.pk_cedula_user === user.pk_cedula_user ? (
                 <Button auto color="primary" onClick={() => setIsModalOpen(true)}>
                   Contactar
                 </Button>

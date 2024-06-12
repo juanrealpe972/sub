@@ -1,4 +1,4 @@
-import { Avatar, Button, dataFocusVisibleClasses } from "@nextui-org/react";
+import { Avatar, Button } from "@nextui-org/react";
 import React, { useEffect } from "react";
 
 import { useSubastaContext } from "../../context/SubastaContext";
@@ -6,7 +6,7 @@ import { useOfertasContext } from "../../context/OfertasContext";
 import { useNavigate } from "react-router-dom";
 
 function ModalContact({ id }) {
-  const { getSub, subasta, establecerGanador, desactivarSubs } = useSubastaContext();
+  const { getSub, subasta, establecerGanador, getSubs, desactivarSubs, getSubForUser } = useSubastaContext();
   const { getOfertMayor, ofertasMayor } = useOfertasContext();
   const user = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate()
@@ -24,6 +24,8 @@ function ModalContact({ id }) {
 
     if (ofertasMayor && user) {
       establecerGanador(id, data);
+      getSubs()
+      getSubForUser(user.pk_cedula_user)
       desactivarSubs(id, user.pk_cedula_user)
       navigate("/subcoffee")
     }
