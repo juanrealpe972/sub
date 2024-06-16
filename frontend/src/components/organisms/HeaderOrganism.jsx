@@ -140,7 +140,7 @@ function HeaderOrganism() {
               ))}
             </AutocompleteSection>
             <AutocompleteSection title="Subastas">
-              {subastasActivas.map((subasta) => (
+              {subastasActivas.length > 0 ? subastasActivas.map((subasta) => (
                 <AutocompleteItem key={subasta.pk_id_sub} textValue={subasta.nombre_tipo_vari}>
                   <Link to={`/subasta/${subasta.pk_id_sub}`}>
                     <div className="flex justify-between items-center">
@@ -159,7 +159,9 @@ function HeaderOrganism() {
                     </div>
                   </Link>
                 </AutocompleteItem>
-              ))}
+              )) : (
+                <AutocompleteItem textValue="">No hay subastas activas</AutocompleteItem>
+              )}
             </AutocompleteSection>
           </Autocomplete>
           <div className="flex gap-x-3 items-center">

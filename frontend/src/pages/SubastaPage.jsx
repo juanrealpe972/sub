@@ -63,8 +63,9 @@ function SubastaPage() {
         desactivarSubs(pk_id_sub, users.pk_cedula_user);
       }
     };
-  
-    subastasActivas.forEach(handleSubastaState);
+    if (subastasActivas.length > 0) {
+      subastasActivas.forEach(handleSubastaState);
+    }
   
     const intervalId = setInterval(() => {
       subastasActivas.forEach(handleSubastaState);
