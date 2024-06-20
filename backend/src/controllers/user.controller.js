@@ -117,7 +117,7 @@ export const updateUser = async (req, res) => {
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Usuario actualizado con éxito" });
     } else {
-      res.status(404).json({ message: "No se pudo actualizar el usuario, usuario no encontrado" });
+      res.status(404).json({ message: "Error con el ID al actualizar el usuario" });
     }
   } catch (error) {
     res.status(500).json({ message: "Error del servidor al actualizar el usuario" });
