@@ -42,12 +42,8 @@
       <tr>
         <td>PETICION BODY</td>
         <td>
-          { 
-            "fk_tipo_variedad": "1", 
-            "descripcion_vari": "Un café amargo y rico", 
-            "fk_finca": 9, 
-            "img":"variedad.jpg"
-          }
+          { "fk_tipo_variedad": "1", "descripcion_vari": "Un café amargo y
+          rico", "fk_finca": 9, "img":"variedad.jpg" }
         </td>
       </tr>
       <tr>
@@ -55,8 +51,7 @@
         <td>
           Correcto: Status:200 json: { message:"Variedad creada con exito" }
           Incorrecto: Status:404 body:{ message:"Error al crear la variedad" }
-          Error: Status:500 body:{ message:'Error en el servidor' + error
-          }
+          Error: Status:500 body:{ message:'Error en el servidor' + error }
         </td>
       </tr>
       <tr>
@@ -107,20 +102,13 @@
       <tr>
         <td>RESPUESTA JSON</td>
         <td>
-          Correcto: Status:200 json: {
-            "message": "Variedades encontradas",
-            "data": [
-                {
-                    "pk_id_vari": 7,
-                    "descripcion_vari": "Borbon",
-                    "imagen_vari": null,
-                    "estado_vari": "activo",
-                    "fk_tipo_variedad": 1,
-                    "fk_finca": 10,
-                    "nombre_finca": "Casa blanca Diamont",
-                    "nombre_tipo_variedad": "Tipica"
-                },] }  <br>
-          Incorrecto: Status:404 body:{ message:" 'Error al buscar las variedades" } <br>
+          Correcto: Status:200 json: { "message": "Variedades encontradas",
+          "data": [ { "pk_id_vari": 7, "descripcion_vari": "Borbon",
+          "imagen_vari": null, "estado_vari": "activo", "fk_tipo_variedad": 1,
+          "fk_finca": 10, "nombre_finca": "Casa blanca Diamont",
+          "nombre_tipo_variedad": "Tipica" },] } <br />
+          Incorrecto: Status:404 body:{ message:" 'Error al buscar las
+          variedades" } <br />
           Error: Status:500 body:{ message:'Error en el servidor'+ error }
         </td>
       </tr>
@@ -170,19 +158,17 @@
       <tr>
         <td>PETICION BODY</td>
         <td>
-            { 
-                "fk_tipo_variedad": "1", 
-                "descripcion_vari": "Un café amargo y rico", 
-                "fk_finca": 9, 
-                "img":"variedad.jpg"
-            }
+          { "fk_tipo_variedad": "1", "descripcion_vari": "Un café amargo y
+          rico", "fk_finca": 9, "img":"variedad.jpg" }
         </td>
       </tr>
       <tr>
         <td>RESPUESTA JSON</td>
         <td>
-          Correcto: Status:200 json: { message: 'Variedad actualizada con exito' } <br> 
-          Incorrecto: Status:404 body:{ message: "Error al actualizar la variedad con ese ID" } <br> 
+          Correcto: Status:200 json: { message: 'Variedad actualizada con exito'
+          } <br />
+          Incorrecto: Status:404 body:{ message: "Error al actualizar la
+          variedad con ese ID" } <br />
           Error: Status:500 body:{ message: "Error en el servidor" + error }
         </td>
       </tr>
@@ -236,23 +222,14 @@
       <tr>
         <td>RESPUESTA JSON</td>
         <td>
-          Correcto: Status:200 json: {
-            "message": "Variedades encontradas",
-            "data": [
-                {
-                    "pk_id_vari": 11,
-                    "descripcion_vari": "Un café amargo y rico",
-                    "imagen_vari": "variedad.jpg",
-                    "estado_vari": "activo",
-                    "fk_tipo_variedad": 1,
-                    "fk_finca": 9,
-                    "nombre_finca": "Casa blanca Diamonte",
-                    "nombre_tipo_variedad": "Tipica"
-                }
-            ]
-        } <br> 
-        Incorrecto: Status:404 body:{ message: 'Error al buscar la variedad con ese ID' } <br> 
-        Error: Status:500 body:{ message: "Error en el servidor" + error }
+          Correcto: Status:200 json: { "message": "Variedades encontradas",
+          "data": [ { "pk_id_vari": 11, "descripcion_vari": "Un café amargo y
+          rico", "imagen_vari": "variedad.jpg", "estado_vari": "activo",
+          "fk_tipo_variedad": 1, "fk_finca": 9, "nombre_finca": "Casa blanca
+          Diamonte", "nombre_tipo_variedad": "Tipica" } ] } <br />
+          Incorrecto: Status:404 body:{ message: 'Error al buscar la variedad
+          con ese ID' } <br />
+          Error: Status:500 body:{ message: "Error en el servidor" + error }
         </td>
       </tr>
       <tr>
@@ -305,8 +282,10 @@
       <tr>
         <td>RESPUESTA JSON</td>
         <td>
-          Correcto: Status:200 json: { message: "Variedad eliminada con exito" } <br> 
-          Incorrecto: Status:404 body:{ message: 'Error al eliminar la variedad con ese ID' } <br> 
+          Correcto: Status:200 json: { message: "Variedad eliminada con exito" }
+          <br />
+          Incorrecto: Status:404 body:{ message: 'Error al eliminar la variedad
+          con ese ID' } <br />
           Error: Status:500 body:{ message: "Error en el servidor" + error }
           <tr>
             <td>Desarrollador:</td>
@@ -360,8 +339,10 @@
       <tr>
         <td>RESPUESTA JSON</td>
         <td>
-          Correcto: Status:200 json: { message: "Variedad desactivada exitosamente" } <br> 
-          Incorrecto: Status:404 body:{ message: 'No se encontró ninguna Variedad con el ID ${id}' } <br> 
+          Correcto: Status:200 json: { message: "Variedad desactivada
+          exitosamente" } <br />
+          Incorrecto: Status:404 body:{ message: 'No se encontró ninguna
+          Variedad con el ID ${id}' } <br />
           Error: Status:500 body:{ message: "Error en el servidor" + error }
           <tr>
             <td>Desarrollador:</td>
@@ -415,8 +396,10 @@
       <tr>
         <td>RESPUESTA JSON</td>
         <td>
-          Correcto: Status:200 json: { message: "Variedad activada exitosamente" } <br> 
-          Incorrecto: Status:404 body:{ message: 'No se encontró ninguna Variedad con el ID ${id}' } <br> 
+          Correcto: Status:200 json: { message: "Variedad activada exitosamente"
+          } <br />
+          Incorrecto: Status:404 body:{ message: 'No se encontró ninguna
+          Variedad con el ID ${id}' } <br />
           Error: Status:500 body:{ message: "Error en el servidor" + error }
           <tr>
             <td>Desarrollador:</td>

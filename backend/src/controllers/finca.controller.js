@@ -42,13 +42,13 @@ export const getFinca = async (req, res) => {
       INNER JOIN veredas v ON f.fk_vereda = v.pk_id_vere
       INNER JOIN municipio m ON v.fk_municipio = m.pk_codigo_muni
       INNER JOIN departamento d ON m.fk_departamento = d.pk_codigo_depar
-      WHERE f.fk_id_usuario = '${id}';
+      WHERE pk_id_fin = '${id}';
     `;
     const [result] = await pool.query(sql);
     if (result.length > 0) {
       res.status(200).json({ message: "Finca encontrada", data: result });
     } else {
-      res.status(204).json({ message: "No se encontraron fincas para el usuario" });
+      res.status(204).json({ message: "No se encontraro la finca con ese ID" });
     }
   } catch (error) {
      res.status(500).json({ message: "Error en el servidor" + error });
@@ -162,7 +162,7 @@ export const activarFinca = async (req, res) => {
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Finca activada exitosamente" });
     } else {
-      res.status(404).json({ message: `No se encontró ninguna Finca con el ID ${id}` });
+      res.status(404).json({ message: `No se encontró ninguna Finca con el ID` });
     }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" + error });
@@ -176,7 +176,7 @@ export const desactivarFinca = async (req, res) => {
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Finca desactivada exitosamente" });
     } else {
-      res.status(404).json({ message: `No se encontró ninguna Finca con el ID ${id}` });
+      res.status(404).json({ message: `No se encontró ninguna Finca con el ID` });
     }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" + error });
