@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validarGuardarPostulante } from "../validations/postulantes.validation.js";
+import { validarPostulante } from "../validations/postulantes.validation.js";
 import { verificarUserToken } from "../controllers/autenticacionController.js";
 import {
   deletePostulante,
@@ -13,7 +13,7 @@ import {
 const postulantesRoutes = Router();
 
 postulantesRoutes.get("/postulantes_sub/:id", verificarUserToken, getPostulantes);
-postulantesRoutes.post("/postulantes", verificarUserToken, validarGuardarPostulante, guardarPostulantes);
+postulantesRoutes.post("/postulantes", verificarUserToken, validarPostulante, guardarPostulantes);
 postulantesRoutes.get("/postulantes_activos/:id", verificarUserToken, getPostulanteesActivos);
 postulantesRoutes.delete("/postulantes/:id",verificarUserToken, deletePostulante);
 
