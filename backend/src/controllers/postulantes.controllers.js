@@ -133,7 +133,7 @@ export const postulacionInactiva = async (req, res) => {
     if (result.affectedRows > 0) {
       res.status(200).json({ message: "Postulante desactivado exitosamente" });
     } else {
-      res.status(404).json({ message: `No se encontró ningun con el ID` });
+      res.status(404).json({ message: `No se encontró ningun postulante con el ID` });
     }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor " + error });
