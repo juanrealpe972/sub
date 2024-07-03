@@ -6,6 +6,7 @@ import {
   updateVeredas,
   updateVeredaActivar,
   updateVeredaDesact,
+  getVeredasActivas
 } from "../api/api.veredas";
 import ModalMessage from "../nextui/ModalMessage";
 
@@ -27,6 +28,7 @@ export const VeredaProvider = ({ children }) => {
   const [idVereda, setIdVereda] = useState(0)
   const [veredasForMuni, setVeredasForMuni] = useState([])
 
+  const [municipiosActivos, setMunicipiosActivos] = useState([]);
   const [cerrarModal, setCerrarModal] = useState(false)
 
   const getVeres = async () => {
@@ -35,6 +37,15 @@ export const VeredaProvider = ({ children }) => {
       setVeredas(res.data.data);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const getVeresForMuniActivas = async (municipio) => {
+    try {
+      const res = await getVeredasActivas(municipio);
+      setMunicipiosActivos(res.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -123,8 +134,10 @@ export const VeredaProvider = ({ children }) => {
         desactivarVeres,
         activarVeres,
 
+        getVeresForMuniActivas,
         cerrarModal, 
         setCerrarModal,
+        municipiosActivos,
       }}
     >
       <ModalMessage
