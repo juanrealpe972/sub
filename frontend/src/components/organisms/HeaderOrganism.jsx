@@ -25,7 +25,6 @@ function HeaderOrganism() {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const localUser = JSON.parse(localStorage.getItem("user"));
-
   const { getUsers, logout, users } = useAuthContext();
   const { getSubsMenoCerradas, subastasActivas } = useSubastaContext();
 
@@ -61,10 +60,11 @@ function HeaderOrganism() {
 
   return (
     <>
-      {localUser ? (
-        <nav className="grid grid-cols-6 gap-5 bg-[#4A9F1F] p-4 shadow-sm">
-          <div className="col-span-4 flex justify-center  item-center">
-            <Autocomplete
+      {localUser ?  (
+        <nav className="grid grid-cols-6 gap-5 bg-[#4A9F1F] p-4 shadow-sm"> 
+    <div className="col-span-4 flex justify-center  item-center">
+    {(localUser.rol_user === "comprador" || localUser.rol_user === "vendedor") && (
+       <Autocomplete
               classNames={{
                 base: "w-full max-w-md",
                 listboxWrapper: "max-h-[280px]",
@@ -112,7 +112,7 @@ function HeaderOrganism() {
               }
               radius="full"
               variant="faded"
-            >
+            >  
               <AutocompleteSection title="Usuarios">
                 {users.map((user) => (
                   <AutocompleteItem
@@ -125,7 +125,7 @@ function HeaderOrganism() {
                           <User
                             as="button"
                             avatarProps={{
-                              src: user.imagen_user 
+                              src : user.imagen_user 
                                 ? `http://localhost:4000/usuarios/${user.imagen_user}`
                                 : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
                             }}
@@ -180,8 +180,12 @@ function HeaderOrganism() {
                   </AutocompleteItem>
                 )}
               </AutocompleteSection>
-            </Autocomplete>
+            </Autocomplete>) }
+           
           </div>
+   
+          
+
           <div className="flex justify-end col-span-2">
             <div className="flex items-center gap-4">
               <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
@@ -227,8 +231,8 @@ function HeaderOrganism() {
           <nav className="flex justify-between items-center  fixed w-full h-24 m-0 top-0 p-4 shadow-sm z-20 bg-[#FDFBF6] px-20">
             <div className="flex items-center">
               <AvatarAtom img="isotipo-SubCoffee.png" />
-              <Link to="/" className="text-[#323232] text-2xl font-bold">
-                Sub<span className=" text-[#39A800]">Coffee</span>
+              <Link to="/" className="text-[#39A800] text-2xl font-bold">
+                SubCoffee
               </Link>
             </div>
             <div className="flex items-center gap-x-3 font-medium text-base">
