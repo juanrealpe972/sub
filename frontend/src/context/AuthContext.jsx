@@ -193,7 +193,6 @@ export const AuthProvider = ({ children }) => {
         updatePasswordLogin
       }}
     >
-   
       {children}
     </AuthContext.Provider>
   );

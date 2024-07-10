@@ -18,10 +18,7 @@ import GlobalProvider from "./context/GlobalContext";
 import ListarNotificaciones from "./pages/Notificaciones";
 import QueremosLograr from "./pages/lograr";
 
-const users = JSON.parse(localStorage.getItem("user"));
-
 function App() {
-
   return (
     <>
       <NextUIProvider>

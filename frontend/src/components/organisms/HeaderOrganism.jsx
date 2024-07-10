@@ -8,13 +8,11 @@ import {
   Autocomplete,
   AutocompleteItem,
   Avatar,
-  Button,
   AutocompleteSection,
 } from "@nextui-org/react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useAuthContext } from "../../context/AuthContext";
-import { icono } from "../atoms/IconsAtom";
 import AvatarAtom from "../atoms/AvatarAtom";
 import { SearchIcon } from "../../nextui/SearchIcon";
 import FormLogin from "../templates/FormLogin";
