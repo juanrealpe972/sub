@@ -148,6 +148,26 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const tokenPassword = async (data) => {
+    try {
+      const response = await restartTokenPassword(data)
+      setMensaje(response.data.message)
+      setModalMessage(true)
+    } catch (error) {
+      setErrors([error.response.data.message])
+    }
+  }
+
+  const updatePasswordFinish = async (data) => {
+    try {
+      const response = await restartPassword(data)
+      setMensaje(response.data.message)
+      setModalMessage(true)
+    } catch (error) {
+      setErrors([error.response.data.message])
+    }
+  }
+
   const logout = () => {
     try {
       localStorage.clear();
@@ -190,7 +210,9 @@ export const AuthProvider = ({ children }) => {
         setUsers,
         cerrarModal,
         setCerrarModal,
-        updatePasswordLogin
+        updatePasswordLogin,
+        tokenPassword,
+        updatePasswordFinish
       }}
     >
       {children}

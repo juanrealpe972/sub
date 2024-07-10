@@ -56,13 +56,13 @@ export const createUser = async (req, res) => {
 
     let sql = `INSERT INTO usuarios (pk_cedula_user, nombre_user, email_user, password_user, descripcion_user, telefono_user, rol_user, estado_user`;
 
-    const params = [pk_cedula_user, nombre_user,email_user, bcryptPassword, descripcion_user, telefono_user, rol_user, "activo"]
+    const params = [pk_cedula_user, nombre_user, email_user, bcryptPassword, descripcion_user, telefono_user, rol_user, "activo"]
 
     if (imagen_user) {
       sql += `, imagen_user`;
       params.push(imagen_user);
     }
-    sql += ` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    sql += ` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const [result] = await pool.query(sql, params);
     if (result.affectedRows > 0) {

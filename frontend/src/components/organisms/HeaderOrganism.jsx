@@ -179,11 +179,7 @@ function HeaderOrganism() {
                 )}
               </AutocompleteSection>
             </Autocomplete>) }
-           
-          </div>
-   
-          
-
+          </div>   
           <div className="flex justify-end col-span-2">
             <div className="flex items-center gap-4">
               <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
