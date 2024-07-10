@@ -1,15 +1,12 @@
-/* CssTablas.css */
-
 /* Asegúrate de que el contenedor del mapa tenga un tamaño fijo */
 #map-container {
   display: flex;
   align-items: center; /* Centrar verticalmente */
   justify-content: center; /* Centrar horizontalmente */
-  height: 600px;
+  height: 330px;
   width: 100%; /* Cambié esto a 100% para que ocupe todo el ancho del contenedor padre */
-  max-width: 70%; /* Opcional: puedes ajustar esto según tus necesidades */
+  max-width: 99%; /* Opcional: puedes ajustar esto según tus necesidades */
   margin: 0 auto; /* Centrar el mapa horizontalmente */
-  padding-top: 50px; /* Añade un padding superior para bajarlo un poco */
 }
 
 /* Añadir cualquier estilo adicional que necesites para los marcadores o el popup */
