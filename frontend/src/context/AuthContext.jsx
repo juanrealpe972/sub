@@ -9,7 +9,10 @@ import {
   loginUser,
   updatePasswordUser,
   updatePasswordUserLogin,
+  restartTokenPassword,
+  restartPassword
 } from "../api/api.users";
+import ModalMessage from "../nextui/ModalMessage";
 
 const AuthContext = createContext();
 
@@ -31,6 +34,9 @@ export const AuthProvider = ({ children }) => {
   const [idUser, setIdUser] = useState([])
   const [onClose, setOnClose] = useState(false)
   const [cerrarModal, setCerrarModal] = useState(false)
+
+  const [back, setBack] = useState(false);
+
 
   const getUsers = async () => {
     try {
@@ -153,8 +159,9 @@ export const AuthProvider = ({ children }) => {
       const response = await restartTokenPassword(data)
       setMensaje(response.data.message)
       setModalMessage(true)
+      setBack(true)
     } catch (error) {
-      setErrors([error.response.data.message])
+      setErrors([error.response?.data?.message || "Error al procesar la solicitud"]);
     }
   }
 
@@ -195,6 +202,8 @@ export const AuthProvider = ({ children }) => {
         idUser,
         user,
         onClose,
+        back, 
+        setBack,
         logout,
         setUser,
         setIdUser,
@@ -215,6 +224,11 @@ export const AuthProvider = ({ children }) => {
         updatePasswordFinish
       }}
     >
+      <ModalMessage
+        isOpen={modalMessage}
+        onClose={() => setModalMessage(false)}
+        label={mensaje}
+      />
       {children}
     </AuthContext.Provider>
   );

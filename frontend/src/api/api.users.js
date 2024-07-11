@@ -10,5 +10,5 @@ export const updatePasswordUserLogin = (data) => axiosClient.put(`/v1/recuperarp
 export const activarUser = (id) => axiosClient.put(`/v1/usersac/${id}`)
 export const desactivarUser = (id) => axiosClient.put(`/v1/usersdes/${id}`)
 export const restartPassword = (data) => axios.put('http://localhost:4000/auth/cambiar', data)
-export const restartTokenPassword = (data) => axios.post('http://localhost:4000/auth/recuperar', data)
+export const restartTokenPassword = async (data) => await axios.post('http://localhost:4000/auth/recuperar', data)
 export const loginUser = (data) => axios.post("http://localhost:4000/auth/login", data)

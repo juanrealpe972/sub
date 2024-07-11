@@ -44,67 +44,65 @@ export const verificarUserToken = async (req, res, next) => {
     }
 };
 
-export const tokenPassword = async (peticion, res) => {
+export const tokenPassword = async (req, res) => {
     try {
-        const { email } = peticion.body;
-        const sql = "SELECT * FROM usuarios WHERE email_user = ?";
-        const [user] = await pool.query(sql, [email]);
+        const { email } = req.body;
+        const sql = `SELECT * FROM usuarios WHERE email_user = '${email}'`;
+        const [user] = await pool.query(sql);
         
-        if (user.length > 0) {
-            console.log(user[0].pk_cedula_user);
+        if (!user[0].email_user) {
+            return res.status(400).json({ message: "Correo del usuario no definido" });
+        }else if (user.length > 0) {
+            const token = jwt.sign({ pk_cedula_user: user[0].pk_cedula_user }, "estemensajedebeserlargoyseguro", { expiresIn: "2h" });
+            console.log(token);
+
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "subcoffee1s@gmail.com",
+                    pass: "alkp fmcf kcxx rhca" 
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+
+            const mailOptions = {
+                from: "subcoffee1s@gmail.com",
+                to: user[0].email_user,
+                subject: "Restablecer Contraseña SubCoffee",
+                html: `
+                    <p>Querido Usuario,</p>
+                    <p>Para restablecer tu contraseña, haz clic en el siguiente botón:</p>
+                    <a href="http://localhost:5173/reset-password?token=${token}" style="background-color: #39A900; color: white;
+                    padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;">Restablecer Contraseña</a>
+                    <p>Si no solicitaste un cambio de contraseña, por favor ignora este correo.</p>
+                    <p>Saludos,<br>El equipo de SubCoffee</p>
+                    <br>
+                    <img src="cid:isotipo-SubCoffee" alt="SUBCOFFEE" style="width: 100px; height: auto;">
+                    <img src="cid:logo_sena" alt="SENA" style="width: 100px; height: auto;">
+                `,
+                attachments: [{
+                    filename: 'isotipo-SubCoffee.png',
+                    path: './public/isotipo-SubCoffee.png',
+                    cid: 'isotipo-SubCoffee'
+                }, {
+                    filename: 'logo_sena.png',
+                    path: './public/logo_sena.png',
+                    cid: 'logo_sena'
+                }]};
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(500).json({ message: "No se pudo enviar el Correo" });
+                }
+                res.send({
+                    message: "Hemos enviado una notificación a tu cuenta de Gmail. Por favor, revisa tu bandeja de entrada y sigue las instrucciones proporcionadas para restablecer tu contraseña."
+                });
+            });
         } else {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
-
-        const token = jwt.sign({ pk_cedula_user: user[0].pk_cedula_user }, "estemensajedebeserlargoyseguro", { expiresIn: "2h" });
-        console.log(token);
-
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "subcoffee1s@gmail.com",
-                pass: "alkp fmcf kcxx rhca" 
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        });
-
-        // Verifica si el correo del usuario está definido y no es una cadena vacía
-        if (!user[0].email_user) {
-            return res.status(400).json({ message: "Correo del usuario no definido" });
-        }
-
-        const mailOptions = {
-            from: "subcoffee1s@gmail.com",
-            to: user[0].email_user,
-            subject: "Restablecer Contraseña SubCoffee",
-            html: `
-                <p>Querido Usuario,</p>
-                <p>Para restablecer tu contraseña, haz clic en el siguiente botón:</p>
-                <a href="http://localhost:5173/reset-password?token=${token}" style="background-color: #39A900; color: white;
-                padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;">Restablecer Contraseña</a>
-                <p>Si no solicitaste un cambio de contraseña, por favor ignora este correo.</p>
-                <p>Saludos,<br>El equipo de SubCoffee</p>
-                <br>
-                <img src="cid:senaLogo" alt="SENA" style="width: 100px; height: auto;">
-            `,
-            attachments: [{
-                filename: 'finca.jpg',
-                path: './public/fincas/finca.jpg',
-                cid: 'senaLogo'
-            }]
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-                return res.status(500).json({ message: "No se pudo enviar el Correo" });
-            }
-            res.send({
-                message: "Correo enviado Exitosamente"
-            });
-        });
     } catch (error) {
         res.status(500);
         res.send(error.message);

@@ -14,6 +14,7 @@ const ResetPassword = () => {
         newPassword: "",
         confirmPassword: "",
     });
+
     const [error, setError] = useState("");
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -60,17 +61,17 @@ const ResetPassword = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-[#39A800] p-8 rounded-lg shadow-lg w-full max-w-md relative z-10">
-                <div className="flex justify-center mb-6 items-center">
-                    <img
-                        src="./src/assets/isotipo-SubCoffee.png"
-                        alt="Placeholder Image"
-                        className="w-16 h-16 mr-2"
-                    />
-                    <span className="text-white font-bold text-4xl">SubCoffee</span>
-                </div>
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-5">
+        <div className="flex items-center flex-col justify-center min-h-screen bg-[#F0F4F8] relative">
+            <div className="absolute top-8 left-8 flex items-center">
+                <img
+                    src="./src/assets/isotipo-SubCoffee.png"
+                    alt="Placeholder Image"
+                    className="w-12 h-12 mr-2"
+                />
+                <span className="text-[#39A800] font-bold text-3xl">SubCoffee</span>
+            </div>
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md z-10">
+                <form onSubmit={handleSubmit} className="space-y-5">
                     <h2 className="text-2xl font-bold mb-6 text-[#39A800] text-center">Restablecer Contraseña</h2>
                     <Input
                         label=""
@@ -127,7 +128,7 @@ const ResetPassword = () => {
                         <Button
                             type="submit"
                             className="text-[#FDFBF6] bg-[#39A800] h-10 px-8 rounded-lg font-bold flex justify-center items-center border-[#FDFBF6]"
-                            >
+                        >
                             Restablecer Contraseña
                         </Button>
                     </div>
