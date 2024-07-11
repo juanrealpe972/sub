@@ -8,7 +8,6 @@ import {
   desactivarUser,
   loginUser,
   updatePasswordUser,
-  updatePasswordUserLogin,
   restartTokenPassword,
   restartPassword
 } from "../api/api.users";
@@ -34,9 +33,7 @@ export const AuthProvider = ({ children }) => {
   const [idUser, setIdUser] = useState([])
   const [onClose, setOnClose] = useState(false)
   const [cerrarModal, setCerrarModal] = useState(false)
-
   const [back, setBack] = useState(false);
-
 
   const getUsers = async () => {
     try {
@@ -108,21 +105,6 @@ export const AuthProvider = ({ children }) => {
         getUsers()
         setMensaje(response.data.message)
         getUserID(id)
-        setModalMessage(true)
-        setOnClose(true)
-        setCerrarModal(true)
-      }
-    } catch (error) {
-      setErrors([error.response.data.message])
-    }
-  }
-
-  const updatePasswordLogin = async (data) => {
-    try {
-      const response = await updatePasswordUserLogin(data)
-      if(response.status === 200) {
-        getUsers()
-        setMensaje(response.data.message)
         setModalMessage(true)
         setOnClose(true)
         setCerrarModal(true)
@@ -219,7 +201,6 @@ export const AuthProvider = ({ children }) => {
         setUsers,
         cerrarModal,
         setCerrarModal,
-        updatePasswordLogin,
         tokenPassword,
         updatePasswordFinish
       }}

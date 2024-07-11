@@ -51,7 +51,7 @@ export const tokenPassword = async (req, res) => {
         const [user] = await pool.query(sql);
         
         if (!user[0].email_user) {
-            return res.status(400).json({ message: "Correo del usuario no definido" });
+            return res.status(404).json({ message: "Correo del usuario no definido" });
         }else if (user.length > 0) {
             const token = jwt.sign({ pk_cedula_user: user[0].pk_cedula_user }, "estemensajedebeserlargoyseguro", { expiresIn: "2h" });
             console.log(token);
@@ -104,8 +104,7 @@ export const tokenPassword = async (req, res) => {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        res.status(500).json({ message: "Error en el servidor" + error });
     }
 };
 
@@ -122,9 +121,7 @@ export const resetPassword = async (req, res) => {
         const [usuario] = await pool.query(sql, [userId]);
 
         if (usuario.length === 0) {
-            return res.status(404).json({
-                message: "Usuario no encontrado"
-            });
+            return res.status(404).json({ message: "Usuario no encontrado" });
         }
 
         const saltRounds = 10;
@@ -136,10 +133,9 @@ export const resetPassword = async (req, res) => {
         if (actualizar.affectedRows > 0) {
             return res.status(200).json({ message: "Contraseña actualizada" });
         } else {
-            return res.status(400).json({ message: "No se pudo actualizar la contraseña" });
+            return res.status(404).json({ message: "No se pudo actualizar la contraseña" });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error al restablecer la contraseña" });
+        res.status(500).json({ message: "Error en el servidor" + error });
     }
 };

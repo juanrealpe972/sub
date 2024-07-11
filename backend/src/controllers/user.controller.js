@@ -172,34 +172,6 @@ export const updatePasswordUser = async (req, res) => {
   }
 }
 
-export const updatePasswordUserLogin = async (req, res) => {
-  try {
-    const { email_user, newPassword, confirmPassword } = req.body
-
-    const [rows] = await pool.query(`SELECT * FROM usuarios WHERE email_user = '${email_user}'`);
-    
-    if (rows.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-
-    if(newPassword !== confirmPassword){
-      res.status(404).json({ message: "La nueva contraseña no coincide con la de confirmar contraseña" });
-    }
-    
-    const bcryptPassword = bcrypt.hashSync(newPassword, 12);
-
-    let sql = `UPDATE usuarios SET password_user = '${bcryptPassword}' WHERE email_user = '${email_user}'`
-    const [result] = await pool.query(sql);
-    if (result.affectedRows > 0) {
-      res.status(200).json({ message: "Se registro la nueva contraseña con exito" });
-    } else {
-      res.status(404).json({ message: "Error con el ID del usuario al cambiar la contraseña" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Error en el servidor" + error });
-  }
-}
-
 export const deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
