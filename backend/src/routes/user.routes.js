@@ -8,7 +8,7 @@ const routerUser = Router();
 routerUser.get("/users", verificarUserToken, getUsers);
 routerUser.get("/users/:id", verificarUserToken, getUser);
 routerUser.post("/users", verificarUserToken, cargarImagen, validationUser, createUser);
-routerUser.put("/users/:id", verificarUserToken, cargarImagen, validationUser, updateUser);
+routerUser.put("/users/:id", verificarUserToken, cargarImagen, updateUser);
 routerUser.delete("/users/:id", verificarUserToken, deleteUser);
 routerUser.put("/users-password/:id", verificarUserToken, updatePasswordUser);
 routerUser.put("/usersac/:id", verificarUserToken, activarUsuario);
