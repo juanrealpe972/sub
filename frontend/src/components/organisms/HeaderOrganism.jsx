@@ -60,9 +60,9 @@ function HeaderOrganism() {
     <>
       {localUser ?  (
         <nav className="grid grid-cols-6 gap-5 bg-[#4A9F1F] p-4 shadow-sm"> 
-    <div className="col-span-4 flex justify-center  item-center">
-    {(localUser.rol_user === "comprador" || localUser.rol_user === "vendedor") && (
-       <Autocomplete
+          <div className="col-span-4 flex justify-center  item-center">
+          {(localUser.rol_user === "comprador" || localUser.rol_user === "vendedor") && (
+            <Autocomplete
               classNames={{
                 base: "w-full max-w-md",
                 listboxWrapper: "max-h-[280px]",
@@ -130,12 +130,8 @@ function HeaderOrganism() {
                             className="transition-transform text-gray-200"
                           />
                           <div className="flex flex-col">
-                            <span className="text-small">
-                              {user.nombre_user}
-                            </span>
-                            <span className="text-tiny text-default-400">
-                              {user.email_user}
-                            </span>
+                            <span className="text-small">{user.nombre_user}</span>
+                            <span className="text-tiny text-default-400">{user.email_user}</span>
                           </div>
                         </div>
                       </div>
@@ -179,7 +175,7 @@ function HeaderOrganism() {
                 )}
               </AutocompleteSection>
             </Autocomplete>) }
-          </div>   
+          </div>
           <div className="flex justify-end col-span-2">
             <div className="flex items-center gap-4">
               <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
@@ -232,21 +228,11 @@ function HeaderOrganism() {
             <div className="flex items-center gap-x-3 font-medium text-base">
               <div className="flex justify-between items-center p-6 ">
                 <div className="flex space-x-12 text-[#323232]">
-                  <a href="#inicio" className=" hover:text-[#39A800]">
-                    Inicio
-                  </a>
-                  <a href="#quienessomos" className=" hover:text-[#39A800]">
-                    Quienes Somos
-                  </a>
-                  <a href="#quequeremos" className=" hover:text-[#39A800]">
-                    Que queremos
-                  </a>
-                  <a href="#beneficios" className=" hover:text-[#39A800]">
-                    Beneficios
-                  </a>
-                  <a href="#contacto" className=" hover:text-[#39A800]">
-                    Contacto
-                  </a>
+                  <a href="#inicio" className=" hover:text-[#39A800]">Inicio</a>
+                  <a href="#quienessomos" className=" hover:text-[#39A800]">Quienes Somos</a>
+                  <a href="#quequeremos" className=" hover:text-[#39A800]">Que queremos</a>
+                  <a href="#beneficios" className=" hover:text-[#39A800]">Beneficios</a>
+                  <a href="#contacto" className=" hover:text-[#39A800]">Contacto</a>
                 </div>
               </div>
               <button
