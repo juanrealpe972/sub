@@ -32,18 +32,12 @@ export const registrar = async (req, res) => {
 
     const userId = req.params.id;
 
-    console.log("UserId obtenido:", userId); 
-
     const [resultado] = await pool.query("INSERT INTO subasta (fecha_inicio_sub, fecha_fin_sub, imagen_sub, precio_inicial_sub, unidad_peso_sub, cantidad_sub, estado_sub, certificado_sub, descripcion_sub, fk_variedad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [ fecha_inicio_sub, fecha_fin_sub, imagen_sub, precio_inicial_sub, unidad_peso_sub, cantidad_sub, "abierta", certificado_sub, descripcion_sub, fk_variedad ]);
-
     if (resultado.affectedRows > 0) {
       const subastaId = resultado.insertId;
-
       if (userId && !isNaN(userId)) {
         const tipoNotificacion = "mensaje";
-
         const [resultadoNotif] = await pool.query("INSERT INTO notificaciones (tipo_not, texto_not, fk_id_subasta, fk_id_usuario) VALUES (?, ?, ?, ?)", [tipoNotificacion, "Nueva subasta creada", subastaId, userId ]);
-
         if (resultadoNotif.affectedRows > 0) {
           res.status(200).json({ message: "Subasta creada con éxito y notificación enviada" });
         } else {
@@ -368,5 +362,97 @@ export const SubastaProceso = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor " + error });
+  }
+};
+
+export const listAllDatesSub = async (req, res) => {
+  try {
+    const sql1 = `
+      SELECT 
+        COUNT(pk_id_sub) AS todas_las_subastas,
+        COUNT(CASE WHEN estado_sub = 'abierta' THEN 1 END) AS subastas_abiertas,
+        COUNT(CASE WHEN estado_sub = 'espera' THEN 1 END) AS subastas_en_espera,
+        COUNT(CASE WHEN estado_sub = 'cerrada' THEN 1 END) AS subastas_cerradas,
+        COUNT(CASE WHEN estado_sub = 'proceso' THEN 1 END) AS subastas_en_proceso
+      FROM subasta
+    `;
+
+    const sql2 = `
+      SELECT COUNT(*) AS subastas_con_ganador_y_precio
+      FROM subasta
+      WHERE ganador_sub IS NOT NULL AND precio_final_sub IS NOT NULL
+    `;
+
+    const sql3 = `
+      SELECT COUNT(*) AS subastas_sin_ganador_o_precio_inactivas
+      FROM subasta
+      WHERE (ganador_sub IS NULL OR precio_final_sub IS NULL) AND estado_sub = 'cerrada'
+    `;
+
+    const sql4 = `
+      SELECT COUNT(*) AS subastas_no_terminadas
+      FROM subasta
+      WHERE estado_sub != 'cerrada'
+    `;
+
+    const sql5 = `
+      SELECT 
+        MONTH(fecha_fin_sub) AS mes, 
+        COUNT(pk_id_sub) AS subastas_terminadas
+      FROM subasta
+      WHERE estado_sub = 'cerrada'
+      GROUP BY MONTH(fecha_fin_sub)
+    `;
+
+    const sql6 = `
+      SELECT 
+        YEAR(fecha_fin_sub) AS año, 
+        COUNT(pk_id_sub) AS subastas_por_año
+      FROM subasta
+      GROUP BY YEAR(fecha_fin_sub)
+    `;
+
+    const sql7 = `
+      SELECT 
+        AVG(precio_final_sub) AS precio_promedio,
+        MAX(precio_final_sub) AS precio_maximo,
+        MIN(precio_final_sub) AS precio_minimo
+      FROM subasta
+      WHERE estado_sub = 'cerrada'
+    `;
+
+    const sql8 = `
+      SELECT 
+        tv.nombre_tipo_vari AS variedad, 
+        COUNT(s.pk_id_sub) AS subastas_por_variedad
+      FROM subasta s
+      JOIN variedad v ON s.fk_variedad = v.pk_id_vari
+      JOIN tipo_variedad tv ON v.fk_tipo_variedad = tv.pk_id_tipo_vari
+      GROUP BY tv.nombre_tipo_vari
+    `;
+
+    const [result1] = await pool.query(sql1);
+    const [result2] = await pool.query(sql2);
+    const [result3] = await pool.query(sql3);
+    const [result4] = await pool.query(sql4);
+    const [result5] = await pool.query(sql5);
+    const [result6] = await pool.query(sql6);
+    const [result7] = await pool.query(sql7);
+    const [result8] = await pool.query(sql8);
+
+    res.status(200).json({
+      resumen_subastas: result1,
+      estadisticas_subastas: {
+        subastas_con_ganador_y_precio: result2[0].subastas_con_ganador_y_precio,
+        subastas_sin_ganador_o_precio_inactivas: result3[0].subastas_sin_ganador_o_precio_inactivas,
+        subastas_no_terminadas: result4[0].subastas_no_terminadas
+      },
+      subastas_por_mes: result5,
+      subastas_por_año: result6,
+      estadisticas_precios: result7,
+      subastas_por_variedad: result8,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor: " + error });
   }
 };

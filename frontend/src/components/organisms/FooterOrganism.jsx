@@ -43,30 +43,30 @@ const FooterOrganism = () => {
           <div className="flex flex-col justify-center h-60 font-normal text-x1 text-[#919190]">
             <p className="font-medium text-lg text-[#FDFBF6] text-center">Redes</p>
             <div className="grid grid-cols-3 gap-y-9 text-[#FDFBF6] text-3xl mt-5 px-8">
-              <div className="flex flex-col items-center justify-center ">
+              <div className="flex flex-col items-center justify-center">
                 <a href="https://www.facebook.com/profile.php?id=61561697909286" target="_blank" rel="noopener noreferrer">
                 <FaFacebookSquare />
                 </a>
               </div>
-              <div className="flex flex-col items-center justify-center ">
+              <div className="flex flex-col items-center justify-center">
                 <a href="https://www.instagram.com/subcoffee1s?igsh=MXI0aTc5cXFsOWU0Mw==" target="_blank" rel="noopener noreferrer" >
                   <RiInstagramFill />
                 </a>
               </div>
-              <div className="flex flex-col items-center justify-center ">
+              <div className="flex flex-col items-center justify-center">
                 <a href="https://www.linkedin.com/in/subcoffee-sena-3660b1317?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" >
                   <FaLinkedin />
                 </a>
               </div>
-              <div className="flex flex-col items-center justify-center ">      
+              <div className="flex flex-col items-center justify-center">      
                 <SiGmail />
               </div>
-              <div className="flex flex-col items-center justify-center ">
+              <div className="flex flex-col items-center justify-center">
                 <a href="https://youtube.com/@subcoffee-k3f?si=K8iQRmlS-bTEWB4k " target="_blank" rel="noopener noreferrer">
                   <FaYoutube />
                 </a>
               </div>
-              <div className="flex flex-col items-center justify-center ">
+              <div className="flex flex-col items-center justify-center">
                 <a href="https://www.tiktok.com/@subcoffee1?_t=8nc0mwsl15Z&_r=1 " target="_blank" rel="noopener noreferrer">
                   <FaTiktok />
                 </a>

@@ -230,7 +230,7 @@ function HeaderOrganism() {
                 <div className="flex space-x-12 text-[#323232]">
                   <a href="#inicio" className=" hover:text-[#39A800]">Inicio</a>
                   <a href="#quienessomos" className=" hover:text-[#39A800]">Quienes Somos</a>
-                  <a href="#quequeremos" className=" hover:text-[#39A800]">Que queremos</a>
+                  <a href="#quequeremos" className=" hover:text-[#39A800]">Que Queremos</a>
                   <a href="#beneficios" className=" hover:text-[#39A800]">Beneficios</a>
                   <a href="#contacto" className=" hover:text-[#39A800]">Contacto</a>
                 </div>
