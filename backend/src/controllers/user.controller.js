@@ -84,8 +84,14 @@ export const updateUser = async (req, res) => {
     const { id } = req.params;
     const { pk_cedula_user, nombre_user, email_user, descripcion_user, telefono_user } = req.body;
     const imagen_user = req.file ? req.file.originalname : "";
-
-    let sql = `UPDATE usuarios SET pk_cedula_user = IFNULL(?, pk_cedula_user), nombre_user = IFNULL(?, nombre_user), email_user = IFNULL(?, email_user), descripcion_user = IFNULL(?, descripcion_user), telefono_user = IFNULL(?, telefono_user)`;
+    let sql = `
+      UPDATE usuarios SET 
+      pk_cedula_user = IFNULL(?, pk_cedula_user), 
+      nombre_user = IFNULL(?, nombre_user), 
+      email_user = IFNULL(?, email_user), 
+      descripcion_user = IFNULL(?, descripcion_user), 
+      telefono_user = IFNULL(?, telefono_user)
+    `;
     const params = [pk_cedula_user, nombre_user, email_user, descripcion_user, telefono_user];
 
     const checkSqlCedula = `SELECT * FROM usuarios WHERE pk_cedula_user = ? AND pk_cedula_user != ?`;

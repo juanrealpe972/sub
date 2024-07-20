@@ -54,8 +54,15 @@ const RegisterUser = ({ mode, titleBtn }) => {
     datosAEnviar.append("imagen_user", formData.imagen_user);
     try {
       if (mode === "update") {
-        await updateUsers(idUser.pk_cedula_user, datosAEnviar);
-        } else {
+        const response = await updateUsers(idUser.pk_cedula_user, datosAEnviar);
+        if (response.success) {
+          const updatedUser = {
+            ...JSON.parse(localStorage.getItem("user")),
+            imagen_user: response.data.imagen_user,
+          };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        }
+      } else {
         datosAEnviar.append("pk_cedula_user", formData.pk_cedula_user); 
         datosAEnviar.append("rol_user", formData.rol_user);
         datosAEnviar.append("password_user", formData.password_user);
@@ -157,41 +164,36 @@ const RegisterUser = ({ mode, titleBtn }) => {
         onChange={handleChange}
         startContent={<icono.iconoGmail />}
       />
-
-     
-        <Input
-          placeholder="Teléfono"
-          required
-          type="number"
-          variant="bordered"
-          min={0}
-          name="telefono_user"
-          value={formData.telefono_user}
-          onChange={handleChange}
-          startContent={<icono.iconoCelular />}
-        />
-
+      <Input
+        placeholder="Teléfono"
+        required
+        type="number"
+        variant="bordered"
+        min={0}
+        name="telefono_user"
+        value={formData.telefono_user}
+        onChange={handleChange}
+        startContent={<icono.iconoCelular />}
+      />
       {mode !== "update" && (
-        
         <div
           className={`grid ${
             mode !== "update" ? "grid-cols-2" : "grid-cols-1"
           } items-center gap-x-2`}
         >
-          <div className=" col-span-2 pb-2">
-                  <Input
-          placeholder="Cédula"
-          required
-          type="number"
-          variant="bordered"
-          min={0}
-          name="pk_cedula_user"
-          value={formData.pk_cedula_user}
-          onChange={handleChange}
-          startContent={<icono.iconoCedula />}
-        />
+          <div className="col-span-2 pb-2">
+            <Input
+              placeholder="Cédula"
+              required
+              type="number"
+              variant="bordered"
+              min={0}
+              name="pk_cedula_user"
+              value={formData.pk_cedula_user}
+              onChange={handleChange}
+              startContent={<icono.iconoCedula />}
+            />
           </div>
-          
           <div className="relative">
             <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
               {<icono.iconoRol />}

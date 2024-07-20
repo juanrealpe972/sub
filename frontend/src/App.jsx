@@ -34,8 +34,8 @@ function App() {
                 <Route path="queremoslograr" element={<QueremosLograr />} />
                 <Route path="ayuda" element={<AyudaPage />} />
                 <Route element={<ProtectedRoute />}>
-                  <Route path="notificaciones" element={<ListarNotificaciones />} />
                   <Route path="subcoffee" element={<SubastaPage />} />
+                  <Route path="notificaciones" element={<ListarNotificaciones />} />
                   <Route path="profile/:id" element={<ProfileUser />} />
                   <Route path="subasta/:id" element={<SubastaUser />} />
                   <Route path="users" element={<UsersTable />} />
