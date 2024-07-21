@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, ModalFooter } from "@nextui-org/react";
+import { Button, Input, ModalFooter } from "@nextui-org/react";
 
 import { useDepartContext } from "../../context/DeparContext";
 import { useMunicipioContext } from "../../context/MunicipioContext";
 import { useVeredaContext } from "../../context/VeredaContext";
 import { icono } from "../atoms/IconsAtom";
-import { TextInput } from "@tremor/react";
 
 const RegisterVeredaMolecule = ({ mode, titleBtn }) => {
   const [formData, setFormData] = useState({ 
@@ -115,10 +114,10 @@ const RegisterVeredaMolecule = ({ mode, titleBtn }) => {
         }
         </select>
       </div>
-      <TextInput
+      <Input
         label=""
         aria-label="Nombre de la vereda"
-        icon={icono.iconoReName}
+        startContent={<icono.iconoReName />}
         variant="bordered"
         placeholder="Nombre de la Vereda"
         isRequired
@@ -128,7 +127,7 @@ const RegisterVeredaMolecule = ({ mode, titleBtn }) => {
       <ModalFooter className="flex justify-center">
         <Button
           type="submit"
-          className="text-white bg-[#39A800] h-10 w-36 rounded-lg font-bold flex justify-center items-center"
+     className="text-white bg-[#39A800] h-10 w-36 rounded-lg font-bold flex justify-center items-center"
         >
           {titleBtn}
         </Button>

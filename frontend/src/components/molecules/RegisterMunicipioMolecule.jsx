@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  Input,
   ModalFooter,
 } from "@nextui-org/react";
 
 import { icono } from "../atoms/IconsAtom";
 import { useDepartContext } from "../../context/DeparContext";
 import { useMunicipioContext } from "../../context/MunicipioContext";
-import { TextInput } from "@tremor/react";
 
 const RegisterMunicipioMolecule = ({ mode, titleBtn }) => {
   const [pkCodigoMuni, setPkCodigoMuni] = useState("");
@@ -81,26 +81,27 @@ const RegisterMunicipioMolecule = ({ mode, titleBtn }) => {
             ))}
         </select>
       </div>
-      <TextInput
+      <Input
         label=""
         aria-label="Codigo del Municipio"
         variant="bordered"
-        icon={icono.iconoNumber}
+        startContent={<icono.iconoNumber />}
         placeholder="Codigo del Municipio"
         required
         value={pkCodigoMuni}
         onChange={(e) => setPkCodigoMuni(e.target.value)}
       />
-      <TextInput
+      <Input
         label=""
         aria-label="Nombre del Municipio"
         variant="bordered"
-        icon={icono.iconoReName}
+        startContent={<icono.iconoReName />}
         placeholder="Nombre del Municipio"
         required
         value={nombreMuni}
         onChange={(e) => setNombreMuni(e.target.value)}
       />
+
       <ModalFooter className="flex justify-center">
         <Button
           type="submit"

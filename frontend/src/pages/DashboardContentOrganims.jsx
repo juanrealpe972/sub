@@ -39,7 +39,7 @@ function DashboardContentOrganims() {
                     <p className=" py-4">
                       Una plataforma online donde te podrás conectar con
                       diferentes usuarios para subastar y pujar por café de alta
-                      calidad. Solicita tu registro a esta gran familia. ¡Ya!
+                      calidad. Solicita tu registro a esta gran familia ya
                     </p>
                   </div>
                 </div>
@@ -56,7 +56,7 @@ function DashboardContentOrganims() {
               <div className="flex flex-col items-center justify-center">
                 <div className="grid grid-rows-3 gap-2">
                   <div className="flex justify-center items-center">
-                    <h2 className="font-semibold text-3xl">¿Quienes Somos?</h2>
+                    <h2 className="font-semibold text-3xl">Quienes Somos?</h2>
                   </div>
                   <div>
                     <p className="font-normal text-lg text-[#919190] text-center">
@@ -102,7 +102,7 @@ function DashboardContentOrganims() {
                 <div className="grid grid-rows-3 gap-4">
                   <div className=" flex justify-center items-center">
                     <h2 className="font-semibold text-3xl">
-                      ¡Que Queremos Lograr!
+                      Que queremos lograr !
                     </h2>
                   </div>
                   <div>

@@ -4,19 +4,24 @@ import { useNavigate } from "react-router-dom";
 import ImageSlider from "../components/molecules/ImageSlider";
 import { useSubastaContext } from "../context/SubastaContext";
 import ModalSubCoffee from "../components/templates/ModalSubCoffee";
+import { useAuthContext } from "../context/AuthContext";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 
 function SubastaPage() {
   const navigate = useNavigate();
   const { getSubsMenoCerradas, subastasActivas = [], setIdSubasta, EsperaSubs, activarSubs, desactivarSubs, ProcesoSubs } = useSubastaContext();
+  const { getUsers } = useAuthContext();
   const [abrirModal, setAbrirModal] = useState(false);
   const [startIndex, setStartIndex] = useState(0); 
-  const users = JSON.parse(localStorage.getItem('user'));
+  const [users, setUsers] = useState({});
 
   useEffect(() => {
+    const users = JSON.parse(localStorage.getItem('user'));
+    setUsers(users);
     getSubsMenoCerradas();
-  }, [getSubsMenoCerradas]);
+    getUsers();
+  }, [getSubsMenoCerradas, getUsers]);
 
   const handdleModaSub = useCallback((id) => {
     setAbrirModal(true);

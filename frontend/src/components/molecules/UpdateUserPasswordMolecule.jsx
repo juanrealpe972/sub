@@ -1,11 +1,10 @@
-import { Button, ModalFooter } from "@nextui-org/react";
+import { Button, Input, ModalFooter } from "@nextui-org/react";
 import React, { useState } from "react";
 
 import { icono } from "../atoms/IconsAtom";
 import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
 import { useAuthContext } from "../../context/AuthContext";
-import { TextInput } from "@tremor/react";
 
 function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
   const [isVisibleOld, setIsVisibleOld] = useState(false);
@@ -53,12 +52,12 @@ function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
           </div>
         ))
       }  
-      <TextInput
+      <Input
         label=""
         aria-label="Contraseña anterior"
         variant="bordered"
         placeholder="Contraseña anterior"
-        icon={icono.iconoContraseña}
+        startContent={<icono.iconoContraseña />}
         endContent={
           <button
             type="button"
@@ -77,12 +76,12 @@ function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
         name="oldPassword"
         onChange={handleChange}
       />
-      <TextInput
+      <Input
         label=""
         aria-label="Nueva Contraseña"
         variant="bordered"
         placeholder="Nueva Contraseña"
-        icon={icono.iconoContraseña}
+        startContent={<icono.iconoContraseña />}
         endContent={
           <button
             type="button"
@@ -101,12 +100,12 @@ function UpdateUserPasswordMolecule({ titleBtn, onClose }) {
         name="newPassword"
         onChange={handleChange}
       />
-      <TextInput
+      <Input
         label=""
         aria-label="Confirmar Contraseña"
         variant="bordered"
         placeholder="Confirmar Contraseña"
-        icon={icono.iconoContraseña}
+        startContent={<icono.iconoContraseña />}
         endContent={
           <button
             type="button"

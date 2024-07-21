@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@nextui-org/react";
+import { Button, Input, ModalFooter, Textarea } from "@nextui-org/react";
 import { useVariedadUserContext } from "../../context/VariedadUserContext";
 import { useSubastaContext } from "../../context/SubastaContext";
 import { icono } from "../atoms/IconsAtom";
 import { useFincaContext } from "../../context/FincaContext";
-import { TextInput, Textarea } from "@tremor/react";
 
 const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
   const [formData, setFormData] = useState({
@@ -152,7 +151,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-x-2">
-        <TextInput
+        <Input
           placeholder="Fecha de Inicio"
           required
           label="Fecha de Inicio"
@@ -161,9 +160,9 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           name="fecha_inicio"
           value={formData.fecha_inicio}
           onChange={handleChange}
-          icon={icono.iconoFecha}
+          startContent={<icono.iconoFecha />}
         />
-        <TextInput
+        <Input
           placeholder="Fecha Fin"
           required
           label="Fecha final"
@@ -172,14 +171,14 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
           name="fecha_fin"
           value={formData.fecha_fin}
           onChange={handleChange}
-          icon={icono.iconoFecha}
+          startContent={<icono.iconoFecha />}
         />
       </div>
       <div className="grid grid-cols-2 gap-x-2">
-        <TextInput
+        <Input
           label=""
           aria-label="Precio Inicial"
-          icon={icono.iconoPrice}
+          startContent={<icono.iconoPrice />}
           placeholder="Precio Inicial"
           variant="bordered"
           required
@@ -289,12 +288,12 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
             <option value="Tonelada">Tonelada</option>
           </select>
         </div>
-        <TextInput
+        <Input
           label=""
           required
           aria-label="Cantidad"
           variant="bordered"
-          icon={icono.iconoQuantity}
+          startContent={<icono.iconoQuantity />}
           placeholder="Cantidad"
           name="cantidad"
           type="number"
@@ -306,6 +305,7 @@ const RegisterSubastaMolecule = ({ mode, titleBtn }) => {
         label=""
         required
         aria-label="Descripción de la subasta"
+        startContent={<icono.iconoDescript />}
         variant="bordered"
         placeholder="Ingresa la descripción de la subasta"
         classNames={{

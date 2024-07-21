@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@nextui-org/react";
+import { Button, Textarea } from "@nextui-org/react";
 import { FaStar } from "react-icons/fa";
 import { useCalificacionesContext } from "../../context/CalificacionesContext";
-import { Textarea } from "@tremor/react";
 
 const colors = {
   orange: "#FFBA5A",

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, ModalFooter } from "@nextui-org/react";
+import { Button, ModalFooter, Input, Textarea } from "@nextui-org/react";
 
 import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
 import { icono } from "../atoms/IconsAtom";
 import { useAuthContext } from "../../context/AuthContext";
-import { TextInput, Textarea } from "@tremor/react";
 
 const RegisterUser = ({ mode, titleBtn }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -55,15 +54,8 @@ const RegisterUser = ({ mode, titleBtn }) => {
     datosAEnviar.append("imagen_user", formData.imagen_user);
     try {
       if (mode === "update") {
-        const response = await updateUsers(idUser.pk_cedula_user, datosAEnviar);
-        if (response.success) {
-          const updatedUser = {
-            ...JSON.parse(localStorage.getItem("user")),
-            imagen_user: response.data.imagen_user,
-          };
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-        }
-      } else {
+        await updateUsers(idUser.pk_cedula_user, datosAEnviar);
+        } else {
         datosAEnviar.append("pk_cedula_user", formData.pk_cedula_user); 
         datosAEnviar.append("rol_user", formData.rol_user);
         datosAEnviar.append("password_user", formData.password_user);
@@ -145,7 +137,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
           )}
         </label>
       </div>
-      <TextInput
+      <Input
         placeholder="Nombre Completo"
         required
         type="text"
@@ -153,9 +145,9 @@ const RegisterUser = ({ mode, titleBtn }) => {
         variant="bordered"
         value={formData.nombre_user}
         onChange={handleChange}
-        icon={icono.iconoUser}
+        startContent={<icono.iconoUser />}
       />
-      <TextInput
+      <Input
         placeholder="Correo"
         required
         type="email"
@@ -163,38 +155,43 @@ const RegisterUser = ({ mode, titleBtn }) => {
         name="email_user"
         value={formData.email_user}
         onChange={handleChange}
-        icon={icono.iconoGmail}
+        startContent={<icono.iconoGmail />}
       />
-      <TextInput
-        placeholder="Teléfono"
-        required
-        type="number"
-        variant="bordered"
-        min={0}
-        name="telefono_user"
-        value={formData.telefono_user}
-        onChange={handleChange}
-        icon={icono.iconoCelular}
-      />
+
+     
+        <Input
+          placeholder="Teléfono"
+          required
+          type="number"
+          variant="bordered"
+          min={0}
+          name="telefono_user"
+          value={formData.telefono_user}
+          onChange={handleChange}
+          startContent={<icono.iconoCelular />}
+        />
+
       {mode !== "update" && (
+        
         <div
           className={`grid ${
             mode !== "update" ? "grid-cols-2" : "grid-cols-1"
           } items-center gap-x-2`}
         >
-          <div className="col-span-2 pb-2">
-            <TextInput
-              placeholder="Cédula"
-              required
-              type="number"
-              variant="bordered"
-              min={0}
-              name="pk_cedula_user"
-              value={formData.pk_cedula_user}
-              onChange={handleChange}
-              icon={icono.iconoCedula}
-            />
+          <div className=" col-span-2 pb-2">
+                  <Input
+          placeholder="Cédula"
+          required
+          type="number"
+          variant="bordered"
+          min={0}
+          name="pk_cedula_user"
+          value={formData.pk_cedula_user}
+          onChange={handleChange}
+          startContent={<icono.iconoCedula />}
+        />
           </div>
+          
           <div className="relative">
             <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
               {<icono.iconoRol />}
@@ -216,13 +213,13 @@ const RegisterUser = ({ mode, titleBtn }) => {
               <option value="vendedor">Vendedor</option>
             </select>
           </div>
-          <TextInput
+          <Input
             label=""
             aria-label="Contraseña"
             variant="bordered"
             required
             placeholder="Contraseña"
-            icon={icono.iconoContraseña}
+            startContent={<icono.iconoContraseña />}
             endContent={
               <button
                 type="button"
@@ -246,6 +243,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
       <Textarea
         label=""
         aria-label="Descripción de usuario"
+        startContent={<icono.iconoDescript />}
         variant="bordered"
         placeholder="Ingresa la descripción de usuario"
         classNames={{

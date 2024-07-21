@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { icono } from "../atoms/IconsAtom";
-import { TextInput } from '@tremor/react';
 
 function RecuperarPasswordUserLogin() {
   const navigate = useNavigate();
@@ -51,12 +50,12 @@ function RecuperarPasswordUserLogin() {
             </div>
           )}
           <h2 className="text-2xl font-bold mb-6 text-[#39A800] text-center">Restablecer Contraseña</h2>
-          <TextInput
+          <Input
             label=""
             aria-label="Email de usuario"
             variant="bordered"
             placeholder="Email de usuario"
-            icon={icono?.iconoGmail ? icono.iconoGmail : null}
+            startContent={icono?.iconoGmail ? <icono.iconoGmail /> : null}
             isRequired
             isClearable
             type="email"

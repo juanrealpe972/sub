@@ -50,7 +50,7 @@ function ModalSubasta({ onClose }) {
       if (ahora < inicio) {
         setSubastaIniciada(false);
         return `La subasta empezará dentro de ${calcularTiempoRestante(ahora, inicio)}`;
-      } else if (ahora > fin && subasta.ganador_sub === "Nadie") {
+      } else if (ahora > fin && !subasta.ganador_sub) {
         setSubastaIniciada(true);
         return "Subasta terminada, falta escoger ganador";
       }  else if (ahora > fin) {

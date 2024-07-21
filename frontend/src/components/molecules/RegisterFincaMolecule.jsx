@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, ModalFooter } from "@nextui-org/react";
+import { Button, ModalFooter, Input } from "@nextui-org/react";
+
 import { useFincaContext } from "../../context/FincaContext";
 import { useDepartContext } from "../../context/DeparContext";
 import { icono } from "../atoms/IconsAtom";
 import { useMunicipioContext } from "../../context/MunicipioContext";
 import { useVeredaContext } from "../../context/VeredaContext";
-import { SearchSelect, TextInput, SearchSelectItem } from "@tremor/react";
 
 const RegisterFincaMolecule = ({ mode, titleBtn }) => {
   const [formData, setFormData] = useState({
@@ -54,13 +54,14 @@ const RegisterFincaMolecule = ({ mode, titleBtn }) => {
     getMunisForDeparActivos(departamento);
   };
 
-  const handleMunicipioChange = (municipio) => {
+  const handleMunicipioChange = (e) => {
+    const selectedMunicipio = e.target.value;
     setFormData((prevData) => ({
       ...prevData,
-      municipio,
+      municipio: selectedMunicipio,
       vereda: "",
     }));
-    getVeresForMuni(municipio);
+    getVeresForMuni(selectedMunicipio);
   };
 
   const handleChange = (e) => {
@@ -113,6 +114,13 @@ const RegisterFincaMolecule = ({ mode, titleBtn }) => {
         >
           {formData.imagen_fin ? (
             <div className="relative">
+              <button
+                type="button"
+                className="absolute -top-3 -right-3 p-2 bg-gray-300 rounded-full"
+                onClick={() => setFormData({ ...formData, imagen_fin: "" })}
+              >
+                <icono.iconoCambiar/>
+              </button>
               {mode === "update" ? (
                 <img
                   src={
@@ -142,10 +150,10 @@ const RegisterFincaMolecule = ({ mode, titleBtn }) => {
           )}
         </label>
       </div>
-      <TextInput
+      <Input
         label=""
         aria-label="Nombre de la Finca"
-        icon={icono.iconoNamePropiedad}
+        startContent={<icono.iconoNamePropiedad />}
         placeholder="Nombre de la Finca"
         variant="bordered"
         required
@@ -154,51 +162,81 @@ const RegisterFincaMolecule = ({ mode, titleBtn }) => {
         value={formData.nombre_fin}
         onChange={handleChange}
       />
-      <SearchSelect
-        name="departamento"
-        placeholder="Seleccionar departamento"
-        value={formData.departamento}
-        className="cursor-pointer"
-        icon={icono.iconoDepar}
-        onChange={handleDepartamentoChange}
-        required
-      >
-        {departamentos.map(({ pk_codigo_depar, nombre_depar }) => (
-          <SearchSelectItem key={pk_codigo_depar} className="cursor-pointer" value={pk_codigo_depar}>
-            {nombre_depar}
-          </SearchSelectItem>
-        ))}
-      </SearchSelect>
-      <SearchSelect
-        name="municipio"
-        placeholder="Seleccionar municipio"
-        value={formData.municipio}
-        className="cursor-pointer"
-        icon={icono.iconoMuni}
-        onChange={handleMunicipioChange}
-        required
-      >
-        {municipiosActivos.map(({ pk_codigo_muni, nombre_muni }) => (
-          <SearchSelectItem key={pk_codigo_muni} className="cursor-pointer" value={pk_codigo_muni}>
-            {nombre_muni}
-          </SearchSelectItem>
-        ))}
-      </SearchSelect>
-      <SearchSelect
-        name="vereda"
-        placeholder="Seleccionar vereda"
-        value={formData.vereda}
-        className="cursor-pointer"
-        icon={icono.iconoMuni}
-        onChange={(value) => setFormData((prevData) => ({ ...prevData, vereda: value }))}
-        required
-      >
-        {veredasForMuni.map(({ pk_id_vere, nombre_vere }) => (
-          <SearchSelectItem key={pk_id_vere} className="cursor-pointer" value={pk_id_vere}>
-            {nombre_vere}
-          </SearchSelectItem>
-        ))}
-      </SearchSelect>
+      <div className="relative">
+        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+          {<icono.iconoDepar />}
+        </span>
+        <select
+          name="departamento"
+          value={formData.departamento}
+          onChange={(e) => handleDepartamentoChange(e.target.value)}
+          required
+          className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="" hidden className="text-gray-400">
+            Seleccionar Departamento
+          </option>
+          {departamentos.map(({ pk_codigo_depar, nombre_depar }) => (
+            <option key={pk_codigo_depar} value={pk_codigo_depar}>
+              {nombre_depar}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="relative">
+        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+          {<icono.iconoMuni />}
+        </span>
+        <select
+          name="municipio"
+          value={formData.municipio}
+          onChange={handleMunicipioChange}
+          required
+          className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="" hidden className="text-gray-600">
+            Seleccionar Municipio
+          </option>
+          {municipiosActivos.length > 0 ? (
+            municipiosActivos.map(({ pk_codigo_muni, nombre_muni }) => (
+              <option key={pk_codigo_muni} value={pk_codigo_muni}>
+                {nombre_muni}
+              </option>
+            ))
+          ) : (
+            <option value="" className="text-gray-600">
+              Por favor seleccionar un departamento
+            </option>
+          )}
+        </select>
+      </div>
+      <div className="relative">
+        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+          {<icono.iconoMuni />}
+        </span>
+        <select
+          name="vereda"
+          value={formData.vereda}
+          onChange={handleChange}
+          required
+          className="pl-8 pr-4 py-2 w-full text-sm border-2 rounded-xl border-gray-200 hover:border-gray-400 shadow-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="" hidden className="text-gray-600">
+            Seleccionar Vereda
+          </option>
+          {veredasForMuni.length > 0 ? (
+            veredasForMuni.map(({ pk_id_vere, nombre_vere }) => (
+              <option key={pk_id_vere} value={pk_id_vere}>
+                {nombre_vere}
+              </option>
+            ))
+          ) : (
+            <option value="" className="text-gray-600">
+              Por favor seleccionar un municipio
+            </option>
+          )}
+        </select>
+      </div>
       <ModalFooter className="flex justify-center">
         <Button
           type="submit"

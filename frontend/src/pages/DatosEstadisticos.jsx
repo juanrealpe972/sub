@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { BadgeDelta, Card, Title, Flex, Grid, BarChart, LineChart, DonutChart, Legend } from '@tremor/react';
+import { Bar, Line, Doughnut } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
 import { useSubastaContext } from '../context/SubastaContext';
+
+Chart.register(...registerables);
 
 function DatosEstadisticos() {
     const { 
@@ -22,119 +25,105 @@ function DatosEstadisticos() {
         ListAllDatesSub();
     }, [ListAllDatesSub]);
 
-    const donutData = [
-        { name: 'Terminadas Exitosamente', value: subastasConGanadorYPrecio },
-        { name: 'Sin Establecer Ganador', value: subastasSinGanadorOPrecioInactivas },
-        { name: 'Aún No Terminadas', value: subastasNoTerminadas }
-    ];
+    const colors = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 
+                    'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)',
+                    'rgba(199, 199, 199, 0.2)'];
+
+    const borderColors = ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 
+                            'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)',
+                            'rgba(199, 199, 199, 1)'];
+
+    const donutData = {
+        labels: ['Terminadas Exitosamente', 'Sin Establecer Ganador', 'Aún No Terminadas'],
+        datasets: [{
+            data: [subastasConGanadorYPrecio, subastasSinGanadorOPrecioInactivas, subastasNoTerminadas],
+            backgroundColor: colors,
+            borderColor: borderColors,
+            borderWidth: 1
+        }]
+    };
+
+    const lineDataMes = {
+        labels: subastasPorMes.map(item => item.mes),
+        datasets: [{
+            label: 'Subastas',
+            data: subastasPorMes.map(item => item.subastas),
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        }]
+    };
+
+    const lineDataAno = {
+        labels: subastasPorAno.map(item => item.año),
+        datasets: [{
+            label: 'Subastas por Año',
+            data: subastasPorAno.map(item => item.subastas_por_año),
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        }]
+    };
+
+    const barDataVariedad = {
+        labels: subastasPorVariedad.map(item => item.variedad),
+        datasets: [{
+            label: 'Subastas',
+            data: subastasPorVariedad.map(item => item.subastas_por_variedad),
+            backgroundColor: colors,
+            borderColor: borderColors,
+            borderWidth: 1
+        }]
+    };
 
     return (
         <div className="p-4">
-            <Card className='mx-auto max-w-4xl'>
-                <Flex justify="between" align="center">
-                    <Title>Resumen de Subastas</Title>
-                    <BadgeDelta
-                        deltaType="moderateIncrease"
-                        isIncreasePositive={true}
-                        size="xs"
-                    >
+            <div className='mx-auto max-w-4xl p-4 border rounded shadow'>
+                <div className="flex justify-between items-center">
+                    <h2>Resumen de Subastas</h2>
+                    <span className="bg-green-200 text-green-800 py-1 px-2 rounded">
                         Todas las subastas: {todasLasSubastas}
-                    </BadgeDelta>
-                </Flex>
-                <div className='flex mt-3'>
-                    <Card className="mx-auto max-w-48">
-                        <div className="flex items-center justify-between">
-                            <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">Subastas abiertas:</h4>
-                        </div>
-                        <p className="text-tremor-metric text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">{subastasAbiertas}</p>
-                    </Card>
-                    <Card className="mx-auto max-w-48">
-                        <div className="flex items-center justify-between">
-                            <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">Subastas en proceso:</h4>
-                        </div>
-                        <p className="text-tremor-metric text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">{subastasEnProceso}</p>
-                    </Card>
-                    <Card className="mx-auto max-w-48">
-                        <div className="flex items-center justify-between">
-                            <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">Subastas en espera:</h4>
-                        </div>
-                        <p className="text-tremor-metric text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">{subastasEnEspera}</p>
-                    </Card>
-                    <Card className="mx-auto max-w-48">
-                        <div className="flex items-center justify-between">
-                            <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">Subastas cerradas:</h4>
-                        </div>
-                        <p className="text-tremor-metric text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">{subastasCerradas}</p>
-                    </Card>
+                    </span>
                 </div>
-            </Card>
+                <div className='flex mt-3 space-x-4'>
+                    <div className="p-4 border rounded shadow flex-1">
+                        <h4>Subastas abiertas:</h4>
+                        <p className="font-semibold">{subastasAbiertas}</p>
+                    </div>
+                    <div className="p-4 border rounded shadow flex-1">
+                        <h4>Subastas en proceso:</h4>
+                        <p className="font-semibold">{subastasEnProceso}</p>
+                    </div>
+                    <div className="p-4 border rounded shadow flex-1">
+                        <h4>Subastas en espera:</h4>
+                        <p className="font-semibold">{subastasEnEspera}</p>
+                    </div>
+                    <div className="p-4 border rounded shadow flex-1">
+                        <h4>Subastas cerradas:</h4>
+                        <p className="font-semibold">{subastasCerradas}</p>
+                    </div>
+                </div>
+            </div>
 
-            <Grid numCols={2} className="mt-6 gap-4 flex">
-                <Card className="max-w-sm justify-center items-center flex flex-col">
-                    <Title>Estadísticas de Subastas</Title>
-                    <DonutChart
-                        data={donutData}
-                        variant="pie"
-                        valueFormatter={(value) => `subastas: ${value}`}
-                        colors={['cyan', 'red', 'orange']}
-                        className="max-w-xs"
-                    />
-                    <Legend
-                        categories={[
-                            `Terminadas Exitosamente ${(subastasConGanadorYPrecio / todasLasSubastas * 100).toFixed(2)}%`,
-                            `Sin Establecer Ganador ${(subastasSinGanadorOPrecioInactivas / todasLasSubastas * 100).toFixed(2)}%`,
-                            `Aún No Terminadas ${(subastasNoTerminadas / todasLasSubastas * 100).toFixed(2)}%`
-                        ]}
-                        colors={['cyan', 'red', 'orange']}
-                        className="max-w-xs"
-                    />
-                </Card>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+                <div className="max-w-sm mx-auto p-4 border rounded shadow">
+                    <h3>Estadísticas de Subastas</h3>
+                    <Doughnut data={donutData} />
+                </div>
+                <div className="p-4 border rounded shadow">
+                    <h3>Subastas por Mes</h3>
+                    <Line data={lineDataMes} />
+                </div>
+            </div>
 
-                <Card>
-                    <Title>Subastas por Mes</Title>
-                    <LineChart
-                        data={subastasPorMes}
-                        index="mes"
-                        categories={['subastas']}
-                        colors={['cyan']}
-                        yAxisWidth={30}
-                        xAxisLabel="Meses del año"
-                        yAxisLabel="Cantidad de subastas (N°)"
-                        className='max-h-64'
-                    />
-                </Card>
-            </Grid>
-
-            <Grid numCols={2} className="mt-4 gap-4 flex">
-                <Card className="max-w-sm">
-                    <Title>Mejores Variedades de Café</Title>
-                    <BarChart
-                        data={subastasPorVariedad.map(item => ({
-                            name: item.variedad,
-                            subastas: item.subastas_por_variedad
-                        }))}
-                        index="name"
-                        categories={['subastas']}
-                        colors={['cyan']}
-                        yAxisWidth={44}
-                        onValueChange={(v) => console.log(v)}
-                        className='max-h-64'
-                    />
-                </Card>
-                <Card>
-                    <Title>Subastas por Año</Title>
-                    <LineChart
-                        data={subastasPorAno}
-                        index="año"
-                        categories={['subastas_por_año']}
-                        colors={['cyan']}
-                        yAxisWidth={48}
-                        xAxisLabel="Años"
-                        yAxisLabel="Cantidad de subastas (N°)"
-                        className='max-h-64'
-                    />
-                </Card>
-            </Grid>
+            <div className="mt-4 grid grid-cols-2 gap-4">
+                <div className="max-w-sm mx-auto p-4 border rounded shadow">
+                    <h3>Mejores Variedades de Café</h3>
+                    <Bar data={barDataVariedad} />
+                </div>
+                <div className="p-4 border rounded shadow">
+                    <h3>Subastas por Año</h3>
+                    <Line data={lineDataAno} />
+                </div>
+            </div>
         </div>
     );
 }

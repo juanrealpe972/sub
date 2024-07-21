@@ -70,35 +70,37 @@ export default function SubastaTable() {
     return () => clearInterval(intervalId);
   }, [subastaForuser, alertShown, usuario]);
 
+  const calcularDiferencia = (fechaInicio, fechaFin) => {
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+    const ahora = new Date();
+
+    if (ahora < inicio) {
+      return `La subasta empezará dentro de ${calcularTiempoRestante(ahora, inicio)}`;
+    } else if (ahora > fin) {
+      return "Subasta terminada";
+    } else {
+      const diferenciaMs = fin - ahora;
+      const segundos = Math.floor((diferenciaMs / 1000) % 60);
+      const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
+      const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
+      const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
+
+      if (dias === 0 && horas === 0 && minutos < 10) {
+        return `A la subasta le quedan ${minutos} minutos y ${segundos} segundos`;
+      } else {
+        return `La subasta terminará en: ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+      }
+    }
+  };
+
   const calcularTiempoRestante = (inicio, fin) => {
     const diferenciaMs = fin - inicio;
     const segundos = Math.floor((diferenciaMs / 1000) % 60);
     const minutos = Math.floor((diferenciaMs / 1000 / 60) % 60);
     const horas = Math.floor((diferenciaMs / 1000 / 60 / 60) % 24);
     const dias = Math.floor(diferenciaMs / 1000 / 60 / 60 / 24);
-  
-    return { dias, horas, minutos, segundos };
-  };
-  
-  const calcularDiferencia = (fechaInicio, fechaFin) => {
-    const inicio = new Date(fechaInicio);
-    const fin = new Date(fechaFin);
-    const ahora = new Date();
-  
-    if (ahora < inicio) {
-      const tiempoRestante = calcularTiempoRestante(ahora, inicio);
-      return `La subasta empezará dentro de ${tiempoRestante.dias} días, ${tiempoRestante.horas} horas, ${tiempoRestante.minutos} minutos, ${tiempoRestante.segundos} segundos`;
-    } else if (ahora > fin) {
-      return "Subasta terminada";
-    } else {
-      const tiempoRestante = calcularTiempoRestante(ahora, fin);
-  
-      if (tiempoRestante.dias === 0 && tiempoRestante.horas === 0 && tiempoRestante.minutos < 10) {
-        return `A la subasta le quedan ${tiempoRestante.minutos} minutos y ${tiempoRestante.segundos} segundos`;
-      } else {
-        return `La subasta terminará en: ${tiempoRestante.dias} días, ${tiempoRestante.horas} horas, ${tiempoRestante.minutos} minutos, ${tiempoRestante.segundos} segundos`;
-      }
-    }
+    return `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
   };
 
   const confirmDesactivarSubasta = (subasta) => {
@@ -235,13 +237,8 @@ export default function SubastaTable() {
                             <p className="text-[#009100] font-semibold">${Number(subasta.precio_final_sub).toLocaleString("es-ES")}</p>
                           </div>
                           <div className="flex gap-x-2">
-                            <p className="font-semibold text-[#c29b81]">Comprador:</p>
-                            {subasta.ganador_nombre ?
-                             (
-                               <p className="text-[#009100] font-semibold cursor-pointer" onClick={() => navigate(`/profile/${subasta.ganador_cedula}`)}>{subasta.ganador_nombre}</p>
-                              ) : (
-                               <p className="text-[#009100] font-semibold" >{"Nadie"}</p>
-                             )}
+                            <p className="font-semibold text-[#c29b81]">Vendedor:</p>
+                            <p className="text-[#009100] font-semibold cursor-pointer" onClick={() => navigate(`/profile/${subasta.ganador_cedula}`)}>{subasta.ganador_nombre ? subasta.ganador_nombre : "Desconocido"}</p>
                           </div>
                         </>
                       )}
