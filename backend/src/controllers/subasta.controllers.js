@@ -396,32 +396,70 @@ export const listAllDatesSub = async (req, res) => {
     `;
 
     const sql5 = `
+      WITH meses AS (
+        SELECT 1 AS mes UNION ALL
+        SELECT 2 UNION ALL
+        SELECT 3 UNION ALL
+        SELECT 4 UNION ALL
+        SELECT 5 UNION ALL
+        SELECT 6 UNION ALL
+        SELECT 7 UNION ALL
+        SELECT 8 UNION ALL
+        SELECT 9 UNION ALL
+        SELECT 10 UNION ALL
+        SELECT 11 UNION ALL
+        SELECT 12
+      )
       SELECT 
-        MONTH(fecha_fin_sub) AS mes, 
-        COUNT(pk_id_sub) AS subastas_terminadas
-      FROM subasta
-      WHERE estado_sub = 'cerrada'
-      GROUP BY MONTH(fecha_fin_sub)
+        CASE meses.mes
+          WHEN 1 THEN 'Enero'
+          WHEN 2 THEN 'Febrero'
+          WHEN 3 THEN 'Marzo'
+          WHEN 4 THEN 'Abril'
+          WHEN 5 THEN 'Mayo'
+          WHEN 6 THEN 'Junio'
+          WHEN 7 THEN 'Julio'
+          WHEN 8 THEN 'Agosto'
+          WHEN 9 THEN 'Septiembre'
+          WHEN 10 THEN 'Octubre'
+          WHEN 11 THEN 'Noviembre'
+          WHEN 12 THEN 'Diciembre'
+        END AS mes,
+        COALESCE(COUNT(subasta.pk_id_sub), 0) AS subastas
+      FROM 
+        meses
+      LEFT JOIN 
+        subasta ON MONTH(subasta.fecha_fin_sub) = meses.mes
+      GROUP BY 
+        meses.mes
+      ORDER BY 
+        meses.mes;
     `;
 
     const sql6 = `
       SELECT 
-        YEAR(fecha_fin_sub) AS año, 
-        COUNT(pk_id_sub) AS subastas_por_año
-      FROM subasta
-      GROUP BY YEAR(fecha_fin_sub)
+        years.año AS año,
+        COALESCE(COUNT(subasta.pk_id_sub), 0) AS subastas_por_año
+      FROM (
+        SELECT YEAR(CURDATE()) - 4 AS año
+        UNION ALL
+        SELECT YEAR(CURDATE()) - 3
+        UNION ALL
+        SELECT YEAR(CURDATE()) - 2
+        UNION ALL
+        SELECT YEAR(CURDATE()) - 1
+        UNION ALL
+        SELECT YEAR(CURDATE())
+        UNION ALL
+        SELECT YEAR(CURDATE()) + 1
+      ) AS years
+      LEFT JOIN subasta ON YEAR(subasta.fecha_fin_sub) = years.año
+      GROUP BY years.año
+      ORDER BY years.año;
     `;
 
+    
     const sql7 = `
-      SELECT 
-        AVG(precio_final_sub) AS precio_promedio,
-        MAX(precio_final_sub) AS precio_maximo,
-        MIN(precio_final_sub) AS precio_minimo
-      FROM subasta
-      WHERE estado_sub = 'cerrada'
-    `;
-
-    const sql8 = `
       SELECT 
         tv.nombre_tipo_vari AS variedad, 
         COUNT(s.pk_id_sub) AS subastas_por_variedad
@@ -429,6 +467,15 @@ export const listAllDatesSub = async (req, res) => {
       JOIN variedad v ON s.fk_variedad = v.pk_id_vari
       JOIN tipo_variedad tv ON v.fk_tipo_variedad = tv.pk_id_tipo_vari
       GROUP BY tv.nombre_tipo_vari
+    `;
+
+    const sql8 = `
+      SELECT 
+        AVG(precio_final_sub) AS precio_promedio,
+        MAX(precio_final_sub) AS precio_maximo,
+        MIN(precio_final_sub) AS precio_minimo
+      FROM subasta
+      WHERE estado_sub = 'cerrada'
     `;
 
     const [result1] = await pool.query(sql1);
@@ -449,8 +496,8 @@ export const listAllDatesSub = async (req, res) => {
       },
       subastas_por_mes: result5,
       subastas_por_año: result6,
-      estadisticas_precios: result7,
-      subastas_por_variedad: result8,
+      subastas_por_variedad: result7,
+      promedio_precio: result8,
     });
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor: " + error });

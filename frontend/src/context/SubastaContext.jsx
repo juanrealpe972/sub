@@ -53,7 +53,6 @@ export const SubastaProvider = ({ children }) => {
   const [subastasNoTerminadas, setSubastasNoTerminadas] = useState(0);
   const [subastasPorMes, setSubastasPorMes] = useState([]);
   const [subastasPorAno, setSubastasPorAno] = useState([]);
-  const [estadisticasPrecios, setEstadisticasPrecios] = useState({});
   const [subastasPorVariedad, setSubastasPorVariedad] = useState([]);
 
   const getSubs = async () => {
@@ -205,38 +204,36 @@ export const SubastaProvider = ({ children }) => {
     }
   };
 
-  const ListAllDatesSub = async () => {
+  const ListAllDatesSub = useCallback(async () => {
     try {
-      const response = await listDatesSubs();
-  
-      if (response) {
-        const resumenSubastas = response.resumen_subastas ? response.resumen_subastas[0] : {};
-        const estadisticasSubastas = response.estadisticas_subastas || {};
-        const subastasPorMes = response.subastas_por_mes || [];
-        const subastasPorAno = response.subastas_por_año || [];
-        const estadisticasPrecios = response.estadisticas_precios ? response.estadisticas_precios[0] : {};
-        const subastasPorVariedad = response.subastas_por_variedad || [];
-  
-        setTodasLasSubastas(resumenSubastas.todas_las_subastas || 0);
-        setSubastasAbiertas(resumenSubastas.subastas_abiertas || 0);
-        setSubastasEnEspera(resumenSubastas.subastas_en_espera || 0);
-        setSubastasCerradas(resumenSubastas.subastas_cerradas || 0);
-        setSubastasEnProceso(resumenSubastas.subastas_en_proceso || 0);
-  
-        setSubastasConGanadorYPrecio(estadisticasSubastas.subastas_con_ganador_y_precio || 0);
-        setSubastasSinGanadorOPrecioInactivas(estadisticasSubastas.subastas_sin_ganador_o_precio_inactivas || 0);
-        setSubastasNoTerminadas(estadisticasSubastas.subastas_no_terminadas || 0);
-  
-        setSubastasPorMes(subastasPorMes);
-        setSubastasPorAno(subastasPorAno);
-  
-        setEstadisticasPrecios(estadisticasPrecios);
-        setSubastasPorVariedad(subastasPorVariedad);
-      }
+        const response = await listDatesSubs();
+    
+        if (response.data) {
+          const resumenSubastas = response.data.resumen_subastas ? response.data.resumen_subastas[0] : {};
+          const estadisticasSubastas = response.data.estadisticas_subastas || {};
+          const subastasPorMes = response.data.subastas_por_mes || [];
+          const subastasPorAno = response.data.subastas_por_año || [];
+          const subastasPorVariedad = response.data.subastas_por_variedad || [];
+          
+          setTodasLasSubastas(resumenSubastas.todas_las_subastas || 0);
+          setSubastasAbiertas(resumenSubastas.subastas_abiertas || 0);
+          setSubastasEnEspera(resumenSubastas.subastas_en_espera || 0);
+          setSubastasCerradas(resumenSubastas.subastas_cerradas || 0);
+          setSubastasEnProceso(resumenSubastas.subastas_en_proceso || 0);
+          
+          setSubastasConGanadorYPrecio(estadisticasSubastas.subastas_con_ganador_y_precio || 0);
+          setSubastasSinGanadorOPrecioInactivas(estadisticasSubastas.subastas_sin_ganador_o_precio_inactivas || 0);
+          setSubastasNoTerminadas(estadisticasSubastas.subastas_no_terminadas || 0);
+          
+          setSubastasPorMes(subastasPorMes);
+          setSubastasPorAno(subastasPorAno);
+          
+          setSubastasPorVariedad(subastasPorVariedad);
+        }
     } catch (error) {
-      console.error('Error al listar las estadisticas:', error);
+        console.error('Error al listar las estadisticas:', error);
     }
-  };
+}, []); 
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -289,7 +286,6 @@ export const SubastaProvider = ({ children }) => {
         subastasNoTerminadas,
         subastasPorMes,
         subastasPorAno,
-        estadisticasPrecios,
         subastasPorVariedad,
       }}
     >
