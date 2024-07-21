@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { icono } from "../atoms/IconsAtom";
-import { Button, Input, ModalFooter } from "@nextui-org/react";
+import { Button, ModalFooter } from "@nextui-org/react";
 import { useTipoVariContext } from "../../context/TipoVariContext";
+import { TextInput } from "@tremor/react";
 
 const RegisterTipoVariMolecule = ({ mode, titleBtn }) => {
   const [formData, setFormData] = useState({
@@ -52,10 +53,10 @@ const RegisterTipoVariMolecule = ({ mode, titleBtn }) => {
           </div>
         ))
       }  
-      <Input
+      <TextInput
         label=""
         aria-label="Nombre de la Variedad"
-        startContent={<icono.iconoReName />}
+        icon={icono.iconoReName}
         placeholder="Nombre de la Variedad"
         variant="bordered"
         required
@@ -67,7 +68,7 @@ const RegisterTipoVariMolecule = ({ mode, titleBtn }) => {
       <ModalFooter className="flex justify-center">
         <Button
           type="submit"
-    className="text-white bg-[#39A800] h-10 w-36 rounded-lg font-bold flex justify-center items-center"
+          className="text-white bg-[#39A800] h-10 w-36 rounded-lg font-bold flex justify-center items-center"
         >
           {titleBtn}
         </Button>

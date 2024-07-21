@@ -486,19 +486,22 @@ export const listAllDatesSub = async (req, res) => {
     const [result6] = await pool.query(sql6);
     const [result7] = await pool.query(sql7);
     const [result8] = await pool.query(sql8);
-
-    res.status(200).json({
-      resumen_subastas: result1,
-      estadisticas_subastas: {
-        subastas_con_ganador_y_precio: result2[0].subastas_con_ganador_y_precio,
-        subastas_sin_ganador_o_precio_inactivas: result3[0].subastas_sin_ganador_o_precio_inactivas,
-        subastas_no_terminadas: result4[0].subastas_no_terminadas
-      },
-      subastas_por_mes: result5,
-      subastas_por_año: result6,
-      subastas_por_variedad: result7,
-      promedio_precio: result8,
-    });
+    if (result1, result2, result3, result4, result5, result6, result7, result8) {
+      res.status(200).json({ message: "Estadisticas obtenidas exitosamente",
+        resumen_subastas: result1,
+        estadisticas_subastas: {
+          subastas_con_ganador_y_precio: result2[0].subastas_con_ganador_y_precio,
+          subastas_sin_ganador_o_precio_inactivas: result3[0].subastas_sin_ganador_o_precio_inactivas,
+          subastas_no_terminadas: result4[0].subastas_no_terminadas
+        },
+        subastas_por_mes: result5,
+        subastas_por_año: result6,
+        subastas_por_variedad: result7,
+        promedio_precio: result8,
+      });
+    } else {
+      res.status(404).json({ message: "Error al obtener las estadisticas datos" });
+    }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor: " + error });
   }

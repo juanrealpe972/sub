@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, ModalFooter, Input, Textarea } from "@nextui-org/react";
+import { Button, ModalFooter } from "@nextui-org/react";
 
 import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
 import { icono } from "../atoms/IconsAtom";
 import { useAuthContext } from "../../context/AuthContext";
+import { TextInput, Textarea } from "@tremor/react";
 
 const RegisterUser = ({ mode, titleBtn }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -144,7 +145,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
           )}
         </label>
       </div>
-      <Input
+      <TextInput
         placeholder="Nombre Completo"
         required
         type="text"
@@ -152,9 +153,9 @@ const RegisterUser = ({ mode, titleBtn }) => {
         variant="bordered"
         value={formData.nombre_user}
         onChange={handleChange}
-        startContent={<icono.iconoUser />}
+        icon={icono.iconoUser}
       />
-      <Input
+      <TextInput
         placeholder="Correo"
         required
         type="email"
@@ -162,9 +163,9 @@ const RegisterUser = ({ mode, titleBtn }) => {
         name="email_user"
         value={formData.email_user}
         onChange={handleChange}
-        startContent={<icono.iconoGmail />}
+        icon={icono.iconoGmail}
       />
-      <Input
+      <TextInput
         placeholder="Teléfono"
         required
         type="number"
@@ -173,7 +174,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
         name="telefono_user"
         value={formData.telefono_user}
         onChange={handleChange}
-        startContent={<icono.iconoCelular />}
+        icon={icono.iconoCelular}
       />
       {mode !== "update" && (
         <div
@@ -182,7 +183,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
           } items-center gap-x-2`}
         >
           <div className="col-span-2 pb-2">
-            <Input
+            <TextInput
               placeholder="Cédula"
               required
               type="number"
@@ -191,7 +192,7 @@ const RegisterUser = ({ mode, titleBtn }) => {
               name="pk_cedula_user"
               value={formData.pk_cedula_user}
               onChange={handleChange}
-              startContent={<icono.iconoCedula />}
+              icon={icono.iconoCedula}
             />
           </div>
           <div className="relative">
@@ -215,13 +216,13 @@ const RegisterUser = ({ mode, titleBtn }) => {
               <option value="vendedor">Vendedor</option>
             </select>
           </div>
-          <Input
+          <TextInput
             label=""
             aria-label="Contraseña"
             variant="bordered"
             required
             placeholder="Contraseña"
-            startContent={<icono.iconoContraseña />}
+            icon={icono.iconoContraseña}
             endContent={
               <button
                 type="button"
@@ -245,7 +246,6 @@ const RegisterUser = ({ mode, titleBtn }) => {
       <Textarea
         label=""
         aria-label="Descripción de usuario"
-        startContent={<icono.iconoDescript />}
         variant="bordered"
         placeholder="Ingresa la descripción de usuario"
         classNames={{

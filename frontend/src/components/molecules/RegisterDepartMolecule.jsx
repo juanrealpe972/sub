@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, ModalFooter } from "@nextui-org/react";
+import { Button, ModalFooter } from "@nextui-org/react";
 
 import { icono } from "../atoms/IconsAtom";
 import { useDepartContext } from "../../context/DeparContext";
+import { TextInput } from "@tremor/react";
 
 const RegisterDepartMolecule = ({ mode, titleBtn }) => {
   const [formData, setFormData] = useState({
@@ -49,22 +50,22 @@ const RegisterDepartMolecule = ({ mode, titleBtn }) => {
           </div>
         ))
       }
-      <Input
+      <TextInput
         type="number"
         name="pk_codigo_depar"
         placeholder="Código del Departamento"
         labelPlacement="outside"
-        startContent={<icono.iconoNumber />}
+        icon={icono.iconoNumber}
         variant="bordered"
         min={0}
         required
         value={formData.pk_codigo_depar}
         onChange={handleChange}
       />
-      <Input
+      <TextInput
         name="nombre_depar"
         labelPlacement="outside"
-        startContent={<icono.iconoDepar />}
+        icon={icono.iconoDepar}
         variant="bordered"
         required
         type="text"

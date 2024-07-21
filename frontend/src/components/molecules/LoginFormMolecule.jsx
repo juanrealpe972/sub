@@ -5,6 +5,7 @@ import { EyeSlashFilledIcon } from "../../nextui/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "../../nextui/EyeFilledIcon";
 import { icono } from "../atoms/IconsAtom";
 import { useAuthContext } from "../../context/AuthContext";
+import { TextInput } from "@tremor/react";
 
 const LoginFormMolecule = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -47,7 +48,7 @@ const LoginFormMolecule = () => {
           </div>
         ))
       }
-      <Input
+      <TextInput
         type="email"
         name="email"
         value={email}
@@ -56,17 +57,17 @@ const LoginFormMolecule = () => {
         placeholder="Correo electrónico"
         labelPlacement="outside"
         color={isInvalid ? "danger" : "default"}
-        startContent={<icono.iconoGmail />}
+        icon={icono.iconoGmail}
         variant="bordered"
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Input
+      <TextInput
         label=""
         aria-label="Contraseña"
         variant="bordered"
         required
         placeholder="Contraseña"
-        startContent={<icono.iconoContraseña />}
+        icon={icono.iconoContraseña}
         endContent={
           <button type="button" onClick={toggleVisibility}>
             {isVisible ? (
