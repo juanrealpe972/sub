@@ -1,17 +1,19 @@
-import { Avatar, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { useCalificacionesContext } from "../../context/CalificacionesContext";
 import FormRegisCalificacion from "../templates/FormRegisCalificacion";
+import { useAuthContext } from "../../context/AuthContext";
 
 const colors = {
   orange: "#FFBA5A",
   grey: "#a9a9a9",
 };
 
-function CalificacionesTable({ titleBtn, fk_user }) {
+function CalificacionesTable({ titleBtn, fk_user, modeCali }) {
   const [abrirModalCalificacion, setAbrirModalCalificacion] = useState(false);
-  const { getCalificacionesUser, calificaciones, stats = {}, setIdCalificacion } = useCalificacionesContext();
+  const { validado } = useAuthContext()
+  const { getCalificacionesUser, calificaciones, stats = {} } = useCalificacionesContext();
   const [mode, setMode] = useState("create");
   const userlocal = JSON.parse(localStorage.getItem("user"));
 
@@ -110,7 +112,7 @@ function CalificacionesTable({ titleBtn, fk_user }) {
           </>
         )}
       </div>
-      {calificaciones && calificaciones.some((calificacion) => calificacion.id_usuario_cali === userlocal.pk_cedula_user) || fk_user === userlocal.pk_cedula_user || userlocal.rol_user === "admin" ? (
+      {calificaciones && calificaciones.some((calificacion) => calificacion.id_usuario_cali === userlocal.pk_cedula_user) || fk_user === userlocal.pk_cedula_user || userlocal.rol_user === "admin" || modeCali !== 'create' ? (
         ""
       ) : (
         <Button className="mt-2" onClick={() => handleCalif("create")}>
@@ -133,16 +135,10 @@ function CalificacionesTable({ titleBtn, fk_user }) {
             <div key={calificacion.pk_id_cali} className="shadow-small p-2 rounded-xl mb-2">
               <div className="flex gap-x-2 justify-between">
                 <div className="flex items-center gap-x-2">
-                  <Avatar
-                    alt={calificacion.nombre_user}
-                    className="flex-shrink-0"
-                    size="sm"
-                    src={
-                      calificacion.imagen_user &&
-                      calificacion.imagen_user.length > 0
-                        ? `http://localhost:4000/usuarios/${calificacion.imagen_user}`
-                        : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
-                    }
+                  <img
+                    src={calificacion.imagen_user && calificacion.imagen_user.length > 0 ? `http://localhost:4000/usuarios/${calificacion.imagen_user}` : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+                    alt="User"
+                    className="rounded-full w-8 h-8 object-cover"
                   />
                   <div className="flex flex-col">
                     <span className="">{calificacion.nombre_user}</span>
@@ -154,13 +150,13 @@ function CalificacionesTable({ titleBtn, fk_user }) {
                     </div>
                   </div>
                 </div>
-                <div>
+                {/* <div>
                   {calificacion.id_usuario_cali === userlocal.pk_cedula_user && (
                     <Button className="bg-[#e0e0e0] text-[#009100]" onClick={() => { handleCalif("update"); setIdCalificacion(calificacion); }}>
                       Editar
                     </Button>
                   )}
-                </div>
+                </div> */}
               </div>
               <p>{calificacion.opiniones_cali}</p>
             </div>

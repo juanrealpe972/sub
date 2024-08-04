@@ -1,23 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 import ModalMessage from "../nextui/ModalMessage";
-import {
-  createSubasta,
-  getSubasta,
-  getSubastaForUser,
-  getSubastas,
-  updateSubasta,
-  updateSubastaActivar,
-  updateSubastaDesact,
-  updateSubastaEspera,
-  updateSubastaProceso,
-  updateSubastafecha,
-  getSubastasActivasMenosCerradas,
-  getSubastaGanador,
-  subastaGanadorAsingar,
-  subastaGanadorDesingar,
-  listDatesSubs
-} from "../api/api.subasta";
+import axiosClient from "../api/axios";
 
 const SubastaContext = createContext();
 
@@ -55,37 +39,27 @@ export const SubastaProvider = ({ children }) => {
   const [subastasPorAno, setSubastasPorAno] = useState([]);
   const [subastasPorVariedad, setSubastasPorVariedad] = useState([]);
 
-  const getSubs = async () => {
+  const getSubs = useCallback(async () => {
     try {
-      const response = await getSubastas()
+      const response = await axiosClient.get('/v1/subasta')
       setSubastas(response.data)
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [])
 
-  const getSubsMenoCerradas = async () => {
+  const getSubsMenoCerradas = useCallback(async () => {
     try {
-      const reponse = await getSubastasActivasMenosCerradas()
+      const reponse = await axiosClient.get('/v1/subastasActivasMenosCerradas');
       setSubastasActivas(reponse.data)
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [])
 
-  const updateDate = (id, data) => {
+  const establecerGanador = useCallback(async(id, data) => {
     try {
-      const response = updateSubastafecha(id, data)
-      getSubs()
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const establecerGanador = async(id, data) => {
-    try {
-      await subastaGanadorAsingar(id, data).then((response) => {
+      await axiosClient.put(`/v1/subastaganador/${id}`, data).then((response) => {
         getSub(id)
         getSubs()
         getSubsMenoCerradas()
@@ -96,12 +70,11 @@ export const SubastaProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [])
 
-  const destablecerGanador = async(id, user) => {
+  const destablecerGanador = useCallback(async(id, user) => {
     try {
-      await subastaGanadorDesingar(id).then((response) => {
-        activarSubs(id, user)
+      await axiosClient.put(`/v1/eliminardatos/${id}`).then((response) => {
         setMensaje(response.data.message);
         serCerrarModal(true)
         setModalMessage(true);
@@ -109,30 +82,30 @@ export const SubastaProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [])
 
   const getSub = useCallback(async (id) => {
     try {
-      const response = await getSubasta(id);
+      const response = await axiosClient.get(`/v1/buscar/${id}`);
       setSubasta(response.data.data)
     } catch (error) {
       console.error(error);
     }
   }, [])
 
-  const getSubForUser = async (user) => {
+  const getSubForUser = useCallback(async (id) => {
     try {
-      const response = await getSubastaForUser(user);
+      const response = await axiosClient.get(`/v1/buscarsubforuser/${id}`);
       setSubastaForUser(response.data.data);
       setTotalDeSubastas(response.data.total_subastas)
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
-  const getSubGanador = async (user) => {
+  const getSubGanador = useCallback(async (id) => {
     try {
-      const response = await getSubastaGanador(user)
+      const response = await axiosClient.get(`/v1/subastaganador/${id}`);
       setSubastaGanador(response.data.data)
       if(response.data.total_subastas_ganadas) {
         setTotalDeSubastasGanadas(response.data.total_subastas_ganadas)
@@ -142,11 +115,11 @@ export const SubastaProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [])
 
-  const createSubs = async (data, user) => {
+  const createSubs = useCallback(async (data, user) => {
     try {
-      const response = await createSubasta(data , user);
+      const response = await axiosClient.post(`/v1/subasta/${user}`, data);
       getSubForUser(user);
       setMensaje(response.data.message);
       serCerrarModal(true)
@@ -154,11 +127,11 @@ export const SubastaProvider = ({ children }) => {
     } catch (error) {
       setErrors([error.response.data.message]);
     }
-  };
+  }, [])
 
-  const updateSubs = async (id, data, user) => {
+  const updateSubs = useCallback(async (id, data, user) => {
     try {
-      const response = await updateSubasta(id, data);
+      const response = await axiosClient.put(`/v1/subasta/${id}`, data);
       getSubForUser(user)
       setMensaje(response.data.message);
       serCerrarModal(true)
@@ -166,47 +139,47 @@ export const SubastaProvider = ({ children }) => {
     } catch (error) {
       setErrors([error.response.data.message]);
     }
-  };
+  }, [])
 
-  const desactivarSubs = async (id, user) => {
+  const desactivarSubs = useCallback(async (id, user) => {
     try {
-      await updateSubastaDesact(id);
+      await axiosClient.put(`/v1/subastades/${id}`);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
-  };
+  }, []);
 
-  const activarSubs = async (id, user) => {
+  const activarSubs = useCallback(async (id, user) => {
     try {
-      await updateSubastaActivar(id);
+      await axiosClient.put(`/v1/subastaac/${id}`);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
-  };
+  }, []);
 
-  const EsperaSubs = async (id, user) => {
+  const EsperaSubs = useCallback(async (id, user) => {
     try {
-      await updateSubastaEspera(id);
+      await axiosClient.put(`/v1/espera/${id}`);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
-  };
+  }, []);
 
-  const ProcesoSubs = async (id, user) => {
+  const ProcesoSubs = useCallback(async (id, user) => {
     try {
-      await updateSubastaProceso(id);
+      await axiosClient.put(`/v1/proceso/${id}`);
       getSubForUser(user);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
-  };
+  }, []);
 
   const ListAllDatesSub = useCallback(async () => {
     try {
-        const response = await listDatesSubs();
+        const response = await axiosClient.get('/v1/subastaAll')
     
         if (response.data) {
           const resumenSubastas = response.data.resumen_subastas ? response.data.resumen_subastas[0] : {};
@@ -263,7 +236,6 @@ export const SubastaProvider = ({ children }) => {
         activarSubs,
         EsperaSubs,
         ProcesoSubs,
-        updateDate,
         subastasActivas,
         getSubsMenoCerradas,
         cerrarModal, 

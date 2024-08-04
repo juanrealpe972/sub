@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, Card, CardBody, Image, Link } from "@nextui-org/react";
+import { Button, Card, CardBody, Image, Link } from "@nextui-org/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-
 import "./scroll.css";
 
 import FormUser from "../components/templates/FormUser";
 import FormUserPassword from "../components/templates/FormUserPassword";
-import FormCalificaion from "../components/templates/FormCalificaion";
+import FormCalificacion from "../components/templates/FormCalificacion";
 
 import { useAuthContext } from "../context/AuthContext";
 import { useSubastaContext } from "../context/SubastaContext";
 import { useCalificacionesContext } from "../context/CalificacionesContext";
-import ModalSubCoffee from "../components/templates/ModalSubCoffee";
+import ModalSubCoffee from "../components/organisms/ModalSubCoffee";
 
 const colors = {
   orange: "#FFBA5A",
@@ -26,7 +25,7 @@ function ProfileUser() {
   const [abrirModalCalificacion, setAbrirModalCalificacion] = useState(false);
   const [abrirModalPassword, setAbrirModalPassword] = useState(false);
   const [mode, setMode] = useState("create");
-  const { getUserID, user, setIdUser, getUsers } = useAuthContext();
+  const { getUserID, user, setIdUser, setValidado } = useAuthContext();
   const {
     getSubForUser,
     subastaForuser,
@@ -39,16 +38,9 @@ function ProfileUser() {
   const { getCalificacionesUser, stats } = useCalificacionesContext();
   const localUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     getCalificacionesUser(id);
-  }, [id, getCalificacionesUser]);
-
-  useEffect(() => {
-    getUsers();
-  }, []);
-
-  useEffect(() => {
     getSubForUser(id);
     getUserID(id);
     getSubGanador(id);
@@ -62,8 +54,14 @@ function ProfileUser() {
   useEffect(() => {
     if (user.rol_user === "comprador") {
       setActiveTab("ganadas");
-    } else if (user.rol_user !== "admin") {
+    } else if (user.rol_user === "vendedor") {
       setActiveTab("creadas");
+      if (subastaForuser && subastaForuser.length > 0) {
+        const ganadores = subastaForuser.map(subasta => subasta.ganador_sub);
+        setValidado(ganadores); 
+      }else {
+        setValidado(0); 
+      }
     }
   }, [user]);
 
@@ -139,14 +137,11 @@ function ProfileUser() {
       />
       <div className="grid grid-cols-2 gap-1 mt-5 bg-white shadow-md rounded-lg overflow-hidden p-10">
         <div className="flex">
-          <div className="flex justify-center items-center col-span-1">
-            <Avatar
-              src={
-                user.imagen_user && user.imagen_user.length > 0
-                  ? `http://localhost:4000/usuarios/${user.imagen_user}`
-                  : "http://localhost:4000/usuarios/imagen_de_usuario.webp"
-              }
-              className="w-56 h-56"
+          <div className="flex justify-center items-center w-72">
+            <img
+              src={user.imagen_user ? `http://localhost:4000/usuarios/${user.imagen_user}` : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+              alt="User"
+              className="rounded-full w-56 h-56 object-cover"
             />
           </div>
           <div className="flex justify-start items-center col-span-1 ml-4">
@@ -182,9 +177,7 @@ function ProfileUser() {
                 <div className="flex flex-col items-center">
                   {stats && stats.promedio != null && !isNaN(stats.promedio) ? (
                     <div className="flex gap-x-2 flex-col items-center">
-                      <div className="text-6xl font-bold mx-2">
-                        {parseFloat(stats.promedio).toFixed(1)}
-                      </div>
+                      <div className="text-6xl font-bold mx-2">{parseFloat(stats.promedio).toFixed(1)}</div>
                       {renderAverageStars(stats.promedio)}
                     </div>
                   ) : (
@@ -229,12 +222,13 @@ function ProfileUser() {
           </div>
         </div>
       </div>
-      <FormCalificaion
+      <FormCalificacion
         open={abrirModalCalificacion}
         onClose={() => setAbrirModalCalificacion(false)}
         fk_user={user.pk_cedula_user}
         title={"Calificaciones de usuario"}
         titleBtn={"Registrar calificación"}
+        modeCali={Array.isArray(subastaForuser) && subastaForuser.some(subasta => subasta.ganador_sub === localUser.pk_cedula_user) ? 'create' : ''}
       />
       {user.rol_user !== "admin" && (
         <>
@@ -250,7 +244,7 @@ function ProfileUser() {
                   }`}
                   onClick={() => setActiveTab("creadas")}
                 >
-                  Subastas Creadas. ({totalDeSubastas ? totalDeSubastas : ""})
+                  Subastas Creadas. ({totalDeSubastas ? totalDeSubastas : "0"})
                 </button>
               )}
               <button
@@ -267,13 +261,7 @@ function ProfileUser() {
             <div className="flex w-full flex-col items-center">
               {user.rol_user !== "comprador" && activeTab === "creadas" && (
                 <div>
-                  <div
-                    className={`grid ${
-                      subastaForuser
-                        ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10"
-                        : ""
-                    } justify-center`}
-                  >
+                  <div className={`grid ${ subastaForuser ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10" : "" } justify-center`} >
                     {subastaForuser ? (
                       subastaForuser.map((subasta) => (
                         <Card
@@ -283,12 +271,7 @@ function ProfileUser() {
                           <CardBody className="items-center w-full h-[510px]">
                             <span className="text-center flex justify-center items-center gap-x-3">
                               <b className="text-lg"> {subasta.pk_id_sub} - {subasta.nombre_tipo_vari} </b>
-                              <p className={`text-sm py-1 rounded-lg px-2 capitalize 
-                                ${ subasta.estado_sub === "abierta" ? "bg-[#d1f4e0] text-[#14a150]" : "" }
-                                ${ subasta.estado_sub === "proceso" ? "bg-orange-100 text-orange-500" : "" }
-                                ${ subasta.estado_sub === "espera" ? "bg-blue-100 text-blue-500" : "" }
-                                ${ subasta.estado_sub === "cerrada" ? "bg-[#fdd0df] text-[#f31263]" : "" }  `}
-                              >
+                              <p className={`text-sm py-1 rounded-lg px-2 capitalize ${ subasta.estado_sub === "abierta" ? "bg-[#d1f4e0] text-[#14a150]" : "" }${ subasta.estado_sub === "proceso" ? "bg-orange-100 text-orange-500" : "" }${ subasta.estado_sub === "espera" ? "bg-blue-100 text-blue-500" : "" }${ subasta.estado_sub === "cerrada" ? "bg-[#fdd0df] text-[#f31263]" : "" }  `}>
                                 {subasta.estado_sub}
                               </p>
                             </span>
@@ -304,27 +287,11 @@ function ProfileUser() {
                                 <div className="flex flex-col">
                                   <div className="flex w-full gap-x-2">
                                     <p className="font-semibold">Apertura:</p>
-                                    <p>
-                                      {new Date(
-                                        subasta.fecha_inicio_sub
-                                      ).toLocaleString("es-ES", {
-                                        year: "numeric", month: "numeric",
-                                        day: "numeric", hour: "numeric",
-                                        minute: "numeric", second: "numeric",
-                                      })}
-                                    </p>
+                                    <p>{new Date(subasta.fecha_inicio_sub).toLocaleString("es-ES", {year: "numeric", month: "numeric",day: "numeric", hour: "numeric",minute: "numeric", second: "numeric",})}</p>
                                   </div>
                                   <div className="flex w-full gap-x-2">
                                     <p className="font-semibold">Cierre:</p>
-                                    <p>
-                                      {new Date(
-                                        subasta.fecha_fin_sub
-                                      ).toLocaleString("es-ES", {
-                                        year: "numeric", month: "numeric",
-                                        day: "numeric", hour: "numeric",
-                                        minute: "numeric", second: "numeric",
-                                      })}
-                                    </p>
+                                    <p>{new Date(subasta.fecha_fin_sub).toLocaleString("es-ES", {year: "numeric", month: "numeric",day: "numeric", hour: "numeric",minute: "numeric", second: "numeric",})}</p>
                                   </div>
                                   <div className="flex w-full gap-x-2">
                                     <p className="font-semibold">Ubicación:</p>
@@ -341,38 +308,27 @@ function ProfileUser() {
                                       onMouseEnter={() => handleMouseEnter(subasta.pk_id_sub,"certificado")}
                                       onMouseLeave={() => handleMouseLeave(subasta.pk_id_sub,"certificado")}
                                     >
-                                      <p className={`cursor-pointer hover:underline scroll-text ${
-                                        hoveredLinks[ `${subasta.pk_id_sub}_certificado` ] ? "scroll-active" : "" }`}
-                                      >
-                                        <a
-                                          href={`http://localhost:4000/subastas/${subasta.certificado_sub}`}
-                                          download={subasta.certificado_sub}
-                                        >
-                                          {subasta.certificado_sub}
-                                        </a>
+                                      <p className={`cursor-pointer hover:underline scroll-text ${hoveredLinks[ `${subasta.pk_id_sub}_certificado` ] ? "scroll-active" : "" }`}>
+                                        <a href={`http://localhost:4000/subastas/${subasta.certificado_sub}`} download={subasta.certificado_sub} >{subasta.certificado_sub}</a>
                                       </p>
                                     </div>
                                   </div>
                                   <div className="flex w-full gap-x-2">
-                                    <p className="font-semibold"> Tipo Variedad: </p>
+                                    <p className="font-semibold">Tipo Variedad: </p>
                                     <p>{subasta.nombre_tipo_vari}</p>
                                   </div>
                                   <div className="flex gap-x-2">
-                                    <p className="font-semibold"> Descripción: </p>
+                                    <p className="font-semibold">Descripción: </p>
                                     <div
                                       className="scroll-container"
                                       onMouseEnter={() => handleMouseEnter( subasta.pk_id_sub, "descripcion" ) }
                                       onMouseLeave={() => handleMouseLeave( subasta.pk_id_sub, "descripcion" ) }
                                     >
-                                      <p className={`scroll-text ${
-                                        hoveredLinks[ `${subasta.pk_id_sub}_descripcion` ] ? "scroll-active" : "" }`}
-                                      >
-                                        {subasta.descripcion_sub}
-                                      </p>
+                                      <p className={`scroll-text ${ hoveredLinks[ `${subasta.pk_id_sub}_descripcion` ] ? "scroll-active" : "" }`} > {subasta.descripcion_sub} </p>
                                     </div>
                                   </div>
                                   <div className="flex gap-x-2">
-                                    <p className="font-semibold"> Precio base:</p>
+                                    <p className="font-semibold">Precio base:</p>
                                     <p> ${Number(subasta.precio_inicial_sub).toLocaleString("es-ES")}</p>
                                   </div>
                                   {subasta.estado_sub === "cerrada" ? (
@@ -383,12 +339,7 @@ function ProfileUser() {
                                       </div>
                                       <div className="flex gap-x-2">
                                         <p className="font-semibold text-[#c29b81]">Vendedor:</p>
-                                        <p
-                                          className="text-[#009100] font-semibold cursor-pointer"
-                                          onClick={() => navigate(`/profile/${subasta.ganador_sub}`)}
-                                        >
-                                          {subasta.ganador_sub ? subasta.ganador_nombre : "Desconocido"}
-                                        </p>
+                                        <p className="text-[#009100] font-semibold cursor-pointer" onClick={() => navigate(`/profile/${subasta.ganador_sub}`)} >{subasta.ganador_sub ? subasta.ganador_nombre : "Desconocido"}</p>
                                       </div>
                                     </>
                                   ) : (
@@ -417,13 +368,7 @@ function ProfileUser() {
                 </div>
               )}
               {activeTab === "ganadas" && (
-                <div
-                  className={`grid ${
-                    activeTab
-                      ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10"
-                      : ""
-                  } justify-center`}
-                >
+                <div className={`grid ${ activeTab ? "md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-2 sm:grid-cols-1 mb-10" : "" } justify-center`} >
                   {subastaGanador && subastaGanador.length > 0 ? (
                     subastaGanador.map((ganador) => (
                       <Card
@@ -432,17 +377,8 @@ function ProfileUser() {
                       >
                         <CardBody className="w-full">
                           <span className="text-center flex justify-center items-end gap-x-3">
-                            <b className="text-lg">
-                              {ganador.pk_id_sub} - {ganador.nombre_tipo_vari}
-                            </b>
-                            <p className={`text-sm py-1 rounded-lg px-2 capitalize 
-                              ${ganador.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}
-                              ${ganador.estado_sub === "proceso"? "bg-orange-100 text-orange-500": ""}
-                              ${ganador.estado_sub === "espera"? "bg-blue-100 text-blue-500": ""}
-                              ${ganador.estado_sub === "cerrada"? "bg-[#fdd0df] text-[#f31263]": ""} `}
-                            >
-                              {ganador.estado_sub}
-                            </p>
+                            <b className="text-lg">{ganador.pk_id_sub} - {ganador.nombre_tipo_vari}</b>
+                            <p className={`text-sm py-1 rounded-lg px-2 capitalize ${ganador.estado_sub === "abierta"? "bg-[#d1f4e0] text-[#14a150]": ""}${ganador.estado_sub === "proceso"? "bg-orange-100 text-orange-500": ""}${ganador.estado_sub === "espera"? "bg-blue-100 text-blue-500": ""}${ganador.estado_sub === "cerrada"? "bg-[#fdd0df] text-[#f31263]": ""} `}>{ganador.estado_sub}</p>
                           </span>
                           <CardBody className="flex items-center">
                             <Image
@@ -456,27 +392,11 @@ function ProfileUser() {
                               <div className="flex flex-col">
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Apertura:</p>
-                                  <p>
-                                    {new Date(
-                                      ganador.fecha_inicio_sub
-                                    ).toLocaleString("es-ES", {
-                                      year: "numeric", month: "numeric",
-                                      day: "numeric", hour: "numeric",
-                                      minute: "numeric", second: "numeric",
-                                    })}
-                                  </p>
+                                  <p>{new Date(ganador.fecha_inicio_sub).toLocaleString("es-ES", {year: "numeric", month: "numeric",day: "numeric", hour: "numeric",minute: "numeric", second: "numeric",})}</p>
                                 </div>
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Cierre:</p>
-                                  <p>
-                                    {new Date(
-                                      ganador.fecha_fin_sub
-                                    ).toLocaleString("es-ES", {
-                                      year: "numeric", month: "numeric",
-                                      day: "numeric", hour: "numeric",
-                                      minute: "numeric", second: "numeric",
-                                    })}
-                                  </p>
+                                  <p>{new Date(ganador.fecha_fin_sub).toLocaleString("es-ES", {year: "numeric", month: "numeric",day: "numeric", hour: "numeric",minute: "numeric", second: "numeric",})}</p>
                                 </div>
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Ubicación:</p>
@@ -484,12 +404,7 @@ function ProfileUser() {
                                 </div>
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Cantidad:</p>
-                                  <p>
-                                    {ganador.cantidad_sub}
-                                    {ganador.cantidad_sub > 0
-                                      ? ganador.unidad_peso_sub + "s"
-                                      : ganador.unidad_peso_sub}
-                                  </p>
+                                  <p> {ganador.cantidad_sub} {ganador.cantidad_sub > 0 ? ganador.unidad_peso_sub + "s" : ganador.unidad_peso_sub} </p>
                                 </div>
                                 <div className="flex w-full gap-x-2">
                                   <p className="font-semibold">Certificado:</p>
@@ -498,15 +413,8 @@ function ProfileUser() {
                                     onMouseEnter={() =>handleMouseEnter(ganador.pk_id_sub,"certificado")}
                                     onMouseLeave={() =>handleMouseLeave(ganador.pk_id_sub,"certificado")}
                                   >
-                                    <p className={`cursor-pointer hover:underline scroll-text ${
-                                      hoveredLinks[ `${ganador.pk_id_sub}_certificado` ] ? "scroll-active" : "" }`}
-                                    >
-                                      <a
-                                        href={`http://localhost:4000/subastas/${ganador.certificado_sub}`}
-                                        download={ganador.certificado_sub}
-                                      >
-                                        {ganador.certificado_sub}
-                                      </a>
+                                    <p className={`cursor-pointer hover:underline scroll-text ${ hoveredLinks[ `${ganador.pk_id_sub}_certificado` ] ? "scroll-active" : "" }`} >
+                                      <a href={`http://localhost:4000/subastas/${ganador.certificado_sub}`} download={ganador.certificado_sub} > {ganador.certificado_sub} </a>
                                     </p>
                                   </div>
                                 </div>
@@ -521,11 +429,7 @@ function ProfileUser() {
                                     onMouseEnter={() => handleMouseEnter( ganador.pk_id_sub, "descripcion" ) }
                                     onMouseLeave={() => handleMouseLeave( ganador.pk_id_sub, "descripcion" ) }
                                   >
-                                    <p className={`scroll-text ${
-                                      hoveredLinks[ `${ganador.pk_id_sub}_descripcion` ] ? "scroll-active" : "" }`}
-                                    >
-                                      {ganador.descripcion_sub}
-                                    </p>
+                                    <p className={`scroll-text ${ hoveredLinks[ `${ganador.pk_id_sub}_descripcion` ] ? "scroll-active" : "" }`} >{ganador.descripcion_sub}</p>
                                   </div>
                                 </div>
                                 <div className="flex gap-x-2">
@@ -540,12 +444,7 @@ function ProfileUser() {
                                     </div>
                                     <div className="flex gap-x-2">
                                       <p className="font-semibold text-[#c29b81]">Vendedor:</p>
-                                      <p
-                                        className="text-[#009100] font-semibold cursor-pointer"
-                                        onClick={() => navigate( `/profile/${ganador.propietario_cedula}` ) }
-                                      > 
-                                        {ganador.propietario_nombre ? ganador.propietario_nombre : "Desconocido"} 
-                                      </p>
+                                      <p className="text-[#009100] font-semibold cursor-pointer" onClick={() => navigate( `/profile/${ganador.propietario_cedula}` ) } > {ganador.propietario_nombre ? ganador.propietario_nombre : "Desconocido"} </p>
                                     </div>
                                   </>
                                 )}

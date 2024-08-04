@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { ModalFooter, Button, Image } from "@nextui-org/react";
+import { 
+  ModalFooter, 
+  Button, 
+  Image 
+} from "@nextui-org/react";
 
 import { useTipoVariContext } from "../../context/TipoVariContext";
 import { useVariedadUserContext } from "../../context/VariedadUserContext";
@@ -8,7 +12,6 @@ import { icono } from "../atoms/IconsAtom";
 import DesactivarIcon from "../../nextui/DesactivarIcon";
 import ActivarIcon from "../../nextui/ActivarIcon";
 import { useFincaContext } from "../../context/FincaContext";
-import Map from "../../pages/Map";
 
 export default function VariedadUserTable({ titleBtn, pkFinca }) {
   const user = JSON.parse(localStorage.getItem("user"));

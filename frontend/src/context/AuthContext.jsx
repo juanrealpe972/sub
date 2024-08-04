@@ -1,17 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import {
-  getUser,
-  getUserForId,
-  createUser,
-  updateUser,
-  activarUser,
-  desactivarUser,
-  loginUser,
-  updatePasswordUser,
-  restartTokenPassword,
-  restartPassword
-} from "../api/api.users";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import ModalMessage from "../nextui/ModalMessage";
+import axiosClient from "../api/axios";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -34,19 +24,20 @@ export const AuthProvider = ({ children }) => {
   const [onClose, setOnClose] = useState(false)
   const [cerrarModal, setCerrarModal] = useState(false)
   const [back, setBack] = useState(false);
+  const [validado, setValidado] = useState([])
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     try {
-      const response = await getUser();
+      const response = await axiosClient.get("/v1/users");
       setUsers(response.data.data);
     } catch (error) {
       setErrors([error.response.data.message]);
     }
-  }
+  }, [])
 
   const getUserID = async (id) => {
     try {
-      const response = await getUserForId(id)
+      const response = await axiosClient.get(`/v1/users/${id}`)
       setUser(response.data.data[0]);
     } catch (error) {
       setErrors([error.response.data.message]);
@@ -55,13 +46,13 @@ export const AuthProvider = ({ children }) => {
 
   const loginUsers = async (dataForm) => {
     try {
-      const response = await loginUser(dataForm)
+      const response = await axios.post("http://localhost:4000/auth/login", dataForm)
       const { token, user } = response.data;
       setIsAuthenticated(true)
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("token", token);
       setMensaje(response.data.message)
-      setModalMessage(true)
+      setModalMessage(false)
     } catch (error) {
       setErrors([error.response.data.message]);
     }
@@ -69,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   const createUsers = async (data) => {
     try {
-      const response = await createUser(data)
+      const response = await axiosClient.post("/v1/users", data)
       if(response.status === 200) {
         getUsers()
         setMensaje(response.data.message)
@@ -84,7 +75,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateUsers = async (id, data) => {
     try {
-      const response = await updateUser(id, data)
+      const response = await axiosClient.put(`/v1/users/${id}`, data)
       if(response.status === 200) {
         getUsers()
         setMensaje(response.data.message)
@@ -100,7 +91,7 @@ export const AuthProvider = ({ children }) => {
 
   const updatePassword = async (id, data) => {
     try {
-      const response = await updatePasswordUser(id, data)
+      const response = await axiosClient.put(`/v1/users-password/${id}`, data)
       if(response.status === 200) {
         getUsers()
         setMensaje(response.data.message)
@@ -116,7 +107,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateUserActive = async (id) => {
     try {
-      const response = await activarUser(id)
+      const response = await axiosClient.put(`/v1/usersac/${id}`)
       getUsers()
       setMensaje(response.data.message)
       setModalMessage(true)
@@ -127,7 +118,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateUserDesactive = async (id) => {
     try {
-      const response = await desactivarUser(id)
+      const response = await axiosClient.put(`/v1/usersdes/${id}`)
       getUsers()
       setMensaje(response.data.message)
       setModalMessage(true)
@@ -138,7 +129,7 @@ export const AuthProvider = ({ children }) => {
 
   const tokenPassword = async (data) => {
     try {
-      const response = await restartTokenPassword(data)
+      const response = await axios.post('http://localhost:4000/auth/recuperar', data)
       setMensaje(response.data.message)
       setModalMessage(true)
       setBack(true)
@@ -149,7 +140,7 @@ export const AuthProvider = ({ children }) => {
 
   const updatePasswordFinish = async (data) => {
     try {
-      const response = await restartPassword(data)
+      const response = await axios.put('http://localhost:4000/auth/cambiar', data)
       setMensaje(response.data.message)
       setModalMessage(true)
     } catch (error) {
@@ -202,7 +193,9 @@ export const AuthProvider = ({ children }) => {
         cerrarModal,
         setCerrarModal,
         tokenPassword,
-        updatePasswordFinish
+        updatePasswordFinish,
+        validado, 
+        setValidado
       }}
     >
       <ModalMessage

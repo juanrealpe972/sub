@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
-  User,
   Dropdown,
   DropdownMenu,
   DropdownItem,
   DropdownTrigger,
   Autocomplete,
   AutocompleteItem,
-  Avatar,
   AutocompleteSection,
   Button,
 } from "@nextui-org/react";
@@ -19,17 +17,12 @@ import { SearchIcon } from "../../nextui/SearchIcon";
 import FormLogin from "../templates/FormLogin";
 import { useSubastaContext } from "../../context/SubastaContext";
 
-const USER_IMAGE_URL = "http://localhost:4000/usuarios/";
-const SUBASTA_IMAGE_URL = "http://localhost:4000/subastas/";
-const DEFAULT_USER_IMAGE = `${USER_IMAGE_URL}imagen_de_usuario.webp`;
-
-// En tu componente UserDropdown
 const UserDropdown = ({ localUser, handleLogout, navigate }) => (
   <Dropdown placement="bottom-end" className="bg-[#e0e0e0]">
     <DropdownTrigger>
       <Button variant="" className="flex items-center p-2">
         <img
-          src={localUser.imagen_user.length > 0 ? `${USER_IMAGE_URL}${localUser.imagen_user}` : DEFAULT_USER_IMAGE}
+          src={localUser.imagen_user && localUser.imagen_user.length > 0 ? `http://localhost:4000/usuarios/${localUser.imagen_user}` : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
           alt="User"
           className="rounded-full w-10 h-10 object-cover"
         />
@@ -61,7 +54,6 @@ const UserDropdown = ({ localUser, handleLogout, navigate }) => (
 );
 
 function HeaderOrganism() {
-  const [isMoonSelected, setIsMoonSelected] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const localUser = JSON.parse(localStorage.getItem("user"));
@@ -87,24 +79,24 @@ function HeaderOrganism() {
     });
   }, [logout, navigate]);
 
-  const toggleTheme = useCallback(() => {
-    setIsMoonSelected((prevValue) => !prevValue);
+  useEffect(() => {
+    if (localUser) {
+      getUsers();
+    }
   }, []);
 
   useEffect(() => {
     if (localUser) {
-      getUsers();
       getSubsMenoCerradas();
     }
-  }, [localUser, getUsers, getSubsMenoCerradas]);
+  }, []);
 
   return (
     <>
       {localUser ? (
         <nav className="grid grid-cols-6 gap-5 bg-[#4A9F1F] p-4 shadow-sm">
           <div className="col-span-4 flex justify-center item-center">
-            {(localUser.rol_user === "comprador" ||
-              localUser.rol_user === "vendedor") && (
+            {localUser.rol_user !== "admin" && (
               <Autocomplete
                 classNames={{
                   base: "w-full max-w-md",
@@ -121,7 +113,7 @@ function HeaderOrganism() {
                   hideSelectedIcon: true,
                   itemClasses: {
                     base: [
-                      "w-11/12",
+                      "w-full",
                       "col-span-4",
                       "rounded-lg",
                       "text-default-500",
@@ -163,14 +155,10 @@ function HeaderOrganism() {
                       <Link to={`/profile/${user.pk_cedula_user}`}>
                         <div className="flex justify-between items-center">
                           <div className="flex gap-2 items-center">
-                            <User
-                              as="button"
-                              avatarProps={{
-                                src: user.imagen_user
-                                  ? `${USER_IMAGE_URL}${user.imagen_user}`
-                                  : DEFAULT_USER_IMAGE,
-                              }}
-                              className="transition-transform text-gray-200"
+                            <img
+                              src={user.imagen_user ? `http://localhost:4000/usuarios/${user.imagen_user}` : "http://localhost:4000/usuarios/imagen_de_usuario.webp"}
+                              alt="User"
+                              className="rounded-full w-10 h-10 object-cover"
                             />
                             <div className="flex flex-col">
                               <span className="text-small">
@@ -196,11 +184,10 @@ function HeaderOrganism() {
                         <Link to={`/subasta/${subasta.pk_id_sub}`}>
                           <div className="flex justify-between items-center">
                             <div className="flex gap-2 items-center">
-                              <Avatar
+                              <img
+                                src={`http://localhost:4000/subastas/${subasta.imagen_sub}`}
                                 alt={subasta.nombre_tipo_vari}
-                                className="flex-shrink-0"
-                                size="sm"
-                                src={`${SUBASTA_IMAGE_URL}${subasta.imagen_sub}`}
+                                className="w-8 h-8"
                               />
                               <div className="flex items-center flex-col">
                                 <span className="text-small">
